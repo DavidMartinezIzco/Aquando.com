@@ -1,0 +1,197 @@
+
+/*GENERAL*/
+
+#conPrincipal::-webkit-scrollbar {
+    height: 15px;
+}
+#conPrincipal::-webkit-scrollbar-track {
+    background-color:rgba(50, 50, 50);
+}
+#conPrincipal::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+}
+
+ul{
+    list-style: none;
+    padding: 0;
+}
+
+/*ZONA ALTA*/
+
+#estacionSup{
+    
+    width: 100%;
+    height: 30%;
+    background-color:rgb(56, 56, 56);
+    position: relative;
+    padding: 5px;
+    margin-bottom: 1%;
+}
+
+#elemGraf {
+    width: 20%;
+    height: 100%;
+    margin: 0em;
+    position: relative;
+    top: 0%;
+    left: 0%;
+    background-image: url('../logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: 2px solid rgb(1, 168, 184);
+    border-radius: 5px;
+}
+
+#sinopMedio{
+    padding-left: 1%;
+    height: 100%;
+    width: 40%;
+    position: relative;
+    bottom: 100%;
+    left: 20%;
+}
+
+#sinopMI{
+    color: black;
+    padding: 2% 5%;
+    border:2px solid darkgray;
+    border-radius: 5px;
+    background-color: white;
+    width: 50%;
+    position: relative;
+    height: 100%;
+    bottom: 0%;
+    
+    
+}
+
+#sinopMD{
+    padding: 5px;
+    width: 50%;
+    position: relative;
+    height: 100%;
+    bottom: 100%;
+    left: 50%;
+}
+.widDigital{
+    width: 90%;
+    margin-bottom: 3%;
+    padding: 2% 5%;
+    border-radius: 3px;
+    background-color: darkgray;
+}
+
+#sinopLado{
+    padding: 5px;
+    height: 100%;
+    width: 40%;
+    position: relative;
+    bottom: 200%;
+    left: 60%;
+    border-radius: 5px;
+}
+
+.widMed{
+    border-radius: 5px;
+    height: 6em;
+    position: relative;
+    border: 2px solid black;
+    background-color: darkgray;
+    margin-bottom: 3%;
+}
+.widMedDatos{
+    color: black;
+    padding: 1%;
+    width: 35%;
+    height: 100%;
+}
+
+.widMedDatos ul{
+    padding: 1%;
+    background-color: white;
+    border-radius:5px;
+    height: 100%;
+}
+
+.widMedDatos ul li{
+    margin: 1% 3%;
+}
+
+.widMedGraf{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    width: 65%;
+    padding: 2%;
+    position: relative;
+    height: 100%;
+    left: 35%;
+    bottom: 100%;
+    background-color: white;
+}
+
+
+/*ZONA MEDIA*/
+
+#estacionMedio{
+    border: 2px solid rgb(1, 168, 184);
+    border-radius: 5px;
+    padding: 5px;
+    width: 100%;
+    height: 45%;
+    background-color:rgb(56, 56, 56);
+    margin-bottom: 1%;
+}
+
+#estMedI{
+    padding: 1%;
+    position: relative;
+    width: 35%;
+    height: 100%;
+    
+}
+#estMedC{
+    padding: 1%;
+    position: relative;
+    width: 30%;
+    height: 100%;
+    left:35%;
+    bottom:100%;
+    
+    
+}
+#estMedD{
+    padding: 1%;
+    position: relative;
+    left: 65%;
+    width: 35%;
+    height: 100%;
+    bottom:200%;
+}
+
+
+/*ZONA BAJA*/
+
+#estacionBajo{  
+    width: 100%;
+    height: 20%;
+    background-color:rgb(56, 56, 56);
+}
+
+#estacionBajo table{
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: white;
+}
+
+#estacionBajo table tr {
+    height: 20%;
+    border-bottom: 1px solid black;
+}
+
+#estacionBajo table tr th{
+    border-bottom: 1px solid black;
+    background-color: lightgrey;
+}
+

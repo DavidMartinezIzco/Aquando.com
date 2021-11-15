@@ -1,0 +1,19 @@
+
+
+#formulario div input :active{
+  opacity: 100%;
+}
+
+#formulario button:hover{
+  opacity: 100%;
+}
+
+#formulario{
+  width: 50%;
+  margin: 0 25%;
+  margin-top: 5%;
+}
+
+
+/*--------------ZONA WIDGETS X AHORA------------------------*/
+

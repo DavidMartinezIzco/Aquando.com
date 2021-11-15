@@ -1,0 +1,98 @@
+/*zona superior*/
+
+#zonaOpciones{
+    margin: 1%;
+    height: 10%;
+    width: 98%;
+    padding: 1%;
+    border: 2px solid grey;
+    background-color: lightgray;
+    border-radius: 10px;
+    position: relative;
+}
+
+#filtros{
+    color: black;
+    background-color: white;
+    border: 2px solid grey;
+    width: 30%;
+    height: 100%;
+    position: relative;
+    border-radius: 5px;
+}
+
+#filtros input{
+    margin: 3.5% 5%;
+}
+
+#filtros2{
+    color: black;
+    background-color: white;
+    border: 2px solid grey;
+    width: 35%;
+    height: 100%;
+    position: relative;
+    border-radius: 5px;
+    left: 32%;
+    bottom: 100%;
+}
+
+#filtros2 input{
+    margin: 3.5% 5%;
+}
+
+#acciones{
+    width: 60%;
+    height: 100%;
+    position: relative;
+    left: 73%;
+    bottom: 200%;
+}
+
+#btnControl{
+    width: 10%;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    transition: 0.2s;
+    margin: 1% 2%;
+    height: 80%;
+}
+
+
+/*zona inferior*/
+
+#zonaAlarmas{
+    margin: 1%;
+    margin-top: 0;
+    padding-bottom: 1%;
+    overflow-y: scroll;
+    max-height: 85%;
+    border-radius: 10px;
+}
+
+#tablaAlarmas{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+}
+
+#tablaAlarmas tr th{
+    border-bottom: 1px solid black;
+    background-color: darkgray;
+    color: white;
+}
+
+#zonaAlarmas::-webkit-scrollbar {
+    height: 15px;
+    
+}
+#zonaAlarmas::-webkit-scrollbar-track {
+    background-color:rgba(50, 50, 50);
+}
+#zonaAlarmas::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+    
+}
