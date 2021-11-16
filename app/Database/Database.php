@@ -92,5 +92,35 @@ class Database{
         return false;
         //--> devolver true o false por si acaso
     }
+
+    public function obtenerAlarmasEstacion($estacion, $inicio,$fin, $desde){
+
+        //formato fecha: aaaa-mm-dd hh:mm:ss.000
+
+        if(!is_null($desde)){
+            $sql = "SELECT TOP (20) [Fecha],[Motivo],[Canal],[Dato] FROM [Zeus].[dbo].[SMS] WHERE [Estacion] = '".$estacion."' ORDER BY [N_ORDEN] DESC";
+        }
+        $consulta = sqlsrv_query($this->conexion, $sql);
+        
+        if (!$consulta ) {
+            $alarmas[] = array("Fecha"=>"error", "Motivo"=>"error", "Canal"=>"error", "Dato"=>"error");
+            return $alarmas;
+        }
+        else {
+            if(!sqlsrv_has_rows($consulta)){
+                $alarmas[] = array("Fecha"=>"error", "Motivo"=>"error", "Canal"=>"error", "Dato"=>"error");
+                return $alarmas;
+            }
+            else{
+                while($alarmasDeEstacion = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)) {
+                    $alarmas[] = $alarmasDeEstacion;
+                }
+                return $alarmas;
+            }
+        }
+
+
+    }
+
 }
 ?>

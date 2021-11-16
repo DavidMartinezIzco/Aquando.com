@@ -43,8 +43,18 @@ class Usuario{
 
     public function pruebaTag($estacion, $canal){
 
-        return $this->DB->pruebaObetenerTag($estacion, $canal);
+        $alarmas = $this->DB->pruebaObetenerTag($estacion, $canal);
+        return $alarmas;
     }
+
+
+    public function conseguirAlarmas($fechaInicio, $fechaFin, $desde){
+
+        return $this->DB->obtenerAlarmas($fechaInicio, $fechaFin, $desde);
+
+
+    }
+
 
     /**
      * Get the value of contrasena

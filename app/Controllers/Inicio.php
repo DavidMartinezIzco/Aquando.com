@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 require(APPPATH . "Database/Conexion.php");
 require(APPPATH . "Models/Usuario.php");
+require(APPPATH . "Libraries/ZeusApi.php");
 
 use Conexion;
-use Estacion;
 use Usuario;
 
 
@@ -92,20 +92,17 @@ class Inicio extends BaseController
                     echo '</script>';
                     return view('inicioSesion');
                 } else {
-
                     $_SESSION['nombre'] = $nombre;
                     $_SESSION['pwd'] = $contra;
                     $_SESSION['acc'] = $authacc;
                     $_SESSION['pass'] = $authPass;
                     return $this->index();
                 }
-
             }
             catch (\Throwable $th) {
             }
             return view('inicioSesion');
         }
-        
     }
     public function pruebaTR()
     {
@@ -167,8 +164,20 @@ class Inicio extends BaseController
     public function alarmas(){
         if(isset($_SESSION['nombre'])){
             $_SESSION['seccion'] = "alarmas";
-            return view('alarmas');
+            if (isset($_SESSION['alarmas'])) {
+                $datos['alarmas'] = $_SESSION['alarmas'];
+            }
+            else {
+                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
+                //formato fecha: aaaa-mm-dd hh:mm:ss.000
+                //alarmas desde principio de año
+                $alarmas = $this->usuario->conseguirAlarmas(null, null, "2021-01-01 00:00:01.000");
+                $datos['alarmas'] = $alarmas;
+            }
+            
+            return view('alarmas', $datos);
         }
+
         else {
             return view('inicio');
         }

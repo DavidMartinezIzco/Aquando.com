@@ -1,9 +1,9 @@
 <?php
 
 
-require (APPPATH."Database/Database.php");
+require_once (APPPATH."Database/Database.php");
 require (APPPATH."Models/Tag.php");
-require (APPPATH."Libraries/ZeusApi.php");
+
 
 
 //hay un monton de funciones que están por si en algun momento les sacamos
@@ -201,11 +201,16 @@ class Conexion{
     //Las fechas son tipo DateTimeAPI
     //$desde es opcional con valor String
     public function obtenerAlarmas($fechaInicio, $fechaFin, $desde){
-        $datos = $this->conexionAPI->GetAlarm($fechaInicio, $fechaFin, $desde);
-        if(!empty($datos)){
-            return $datos;
+        $this->conectarBDSQL();
+        $this->conectarBDAPI();
+        $estaciones = $this->mostrarEstacionesAPI();
+        foreach ($estaciones as $index => $estacion) {
+            if ($index != 0) {
+                $alarmas[] = $this->BD->obtenerAlarmasEstacion($estacion, $fechaInicio, $fechaFin, $desde);
+            }
         }
-        return array("error"=>"error");
+
+        return $alarmas;
     }
 
     //$alarmas es un array de objetos alarma
