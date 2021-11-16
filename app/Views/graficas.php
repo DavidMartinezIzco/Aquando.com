@@ -1,6 +1,7 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
 <script src='css/echarts.min.js'></script>
+<script src='css/graficas.js'></script>
 <script src='css/canvas.js'></script>
 <script src='css/canvas.min.js'></script>
 <link rel="stylesheet" type="text/css" href="css/graficas.css">
@@ -328,35 +329,10 @@
 
 
 <script>
-    
-    function limpiar(){
-        document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
-        document.getElementById();
-        setTimeout(function(){
-            document.getElementsByName('btnControlReset')[0].innerHTML = "reset";
-        }, 1000);
-    }
-
-    
-
-    option && grafico.setOption(option);
-
-    document.getElementById('contenido').onclick = function(){
-        grafico.resize();
-        cerrarMenu();
-    }
-
-    document.getElementById('conPrincipal').onmouseover = function(){
-        grafico.resize();
-    }
-
-    function imprimir() {
-        html2canvas(document.querySelector("#grafica")).then(canvas => {
-        document.body.appendChild(canvas)
-        });
+    window.onload = function () {
+        setInterval(fechaYHora, 1000);
         
     }
-
 </script>
 
 

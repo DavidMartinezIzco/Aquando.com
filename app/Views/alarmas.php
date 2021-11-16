@@ -1,6 +1,7 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
 <script src='css/echarts.min.js'></script>
+<script src='css/alarmas.js'></script>
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
 <main id="conPrincipal" style="margin-left:2.5%; height: 53em; background-color: rgb(56, 56, 56); width:100%; border-radius:10px; margin-top:1%; padding: 0.5%">
 
@@ -139,68 +140,28 @@
 
     }
 
-    function imprimir() {
-        var prtContent = document.getElementById("tablaAlarmas");
-        var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-        WinPrint.document.write(prtContent.innerHTML);
-        WinPrint.document.write('');
-        WinPrint.document.close();
-        WinPrint.focus();
-        WinPrint.print();
-        WinPrint.close();
-    }
+function actualizar() {
 
-
-    function aplicarFiltros() {
-        
-
-        var estacion = null;
-        if(document.getElementById("estaciones").value != 'all'){
-            estacion = document.getElementById("estaciones").value;
-            
-            $(document).ready(function(){
-                
-                $.ajax({
-                    type: 'GET',
-                    url: 'A_Alarmas.php?estacion=' + estacion,
-                    success: function(alarmas) {
-                        $("#tablaAlarmas").html(alarmas);
-                    }
-                });
-                
-            });
+if(document.getElementById("estaciones").value == 'all'){
+    var estacion = 'all';
+    var acc = "<?php if(isset($_SESSION['acc'])){echo $_SESSION['acc'];}else{echo "";}?>"
+    var pwd = "<?php if(isset($_SESSION['pwd'])){echo $_SESSION['pwd'];}else{echo "";}?>"
+    var pass = "<?php if(isset($_SESSION['pass'])){echo $_SESSION['pass'];}else{echo "";}?>"
+    $(document).ready(function(){
+    
+    $.ajax({
+        type: 'GET',
+        url: 'A_Alarmas.php?acc=' + acc + '&pwd= ' + pwd + '&pass=' + pass + '&estacion=' + estacion,
+        success: function(alarmas) {
+            $("#tablaAlarmas").html(alarmas);
         }
-        else{
-            actualizar();
-        }
+    });
+    
+});
+}
 
-        
-        return false
-    }
 
-    function actualizar() {
-
-        if(document.getElementById("estaciones").value == 'all'){
-            var estacion = 'all';
-            var acc = "<?php if(isset($_SESSION['acc'])){echo $_SESSION['acc'];}else{echo "";}?>"
-            var pwd = "<?php if(isset($_SESSION['pwd'])){echo $_SESSION['pwd'];}else{echo "";}?>"
-            var pass = "<?php if(isset($_SESSION['pass'])){echo $_SESSION['pass'];}else{echo "";}?>"
-            $(document).ready(function(){
-            
-            $.ajax({
-                type: 'GET',
-                url: 'A_Alarmas.php?acc=' + acc + '&pwd= ' + pwd + '&pass=' + pass + '&estacion=' + estacion,
-                success: function(alarmas) {
-                    $("#tablaAlarmas").html(alarmas);
-                }
-            });
-            
-        });
-        }
-        
-
-    }
-
+}
 
 </script>
 
