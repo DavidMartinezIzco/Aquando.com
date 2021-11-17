@@ -93,13 +93,17 @@ class Database{
         //--> devolver true o false por si acaso
     }
 
-    public function obtenerAlarmasEstacion($estacion, $inicio,$fin, $desde){
+    public function obtenerAlarmasEstacion($estacion, $inicio,$fin, $desde, $filtro){
 
         //formato fecha: aaaa-mm-dd hh:mm:ss.000
 
         if(!is_null($desde)){
-            $sql = "SELECT TOP (20) [Fecha],[Motivo],[Canal],[Dato] FROM [Zeus].[dbo].[SMS] WHERE [Estacion] = '".$estacion."' ORDER BY [N_ORDEN] DESC";
+            $sql = "SELECT TOP (20) [Fecha],[Motivo],[Canal],[Dato] FROM [Zeus].[dbo].[SMS] WHERE [Estacion] = '".$estacion."' ";
         }
+        if(isset($filtro) && !is_null($filtro)){
+            $sql .= $filtro;
+        }
+
         $consulta = sqlsrv_query($this->conexion, $sql);
         
         if (!$consulta ) {

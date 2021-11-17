@@ -35,10 +35,10 @@
 
     <div id="filtros2">
 
-        <input type="radio" name="orden">Fecha</input>
-        <input type="radio" name="orden">Importancia</input>
-        <input type="radio" name="orden">Canal</input>
-        
+        <input type="radio" id="radioFecha" name="orden" value="Fecha">Fecha</input>
+        <input type="radio" id="radioMotivo" name="orden" value="Motivo">Importancia</input>
+        <input type="radio" id="radioCanal" name="orden" value="Canal">Canal</input>
+        <input type="radio" id="radioEstacion" name="orden" value="Estacion" checked>Estacion</input>
     </div>
 
     <div id="acciones">
@@ -144,6 +144,21 @@ function actualizar() {
 
 if(document.getElementById("estaciones").value == 'all'){
     var estacion = 'all';
+    var filtro = "";
+    if (document.getElementById("radioFecha").checked) {
+        filtro = document.getElementById("radioFecha").value;
+    }
+    if (document.getElementById("radioMotivo").checked) {
+        filtro = document.getElementById("radioMotivo").value;
+    }
+    if (document.getElementById("radioCanal").checked) {
+        filtro = document.getElementById("radioCanal").value;
+    }
+    if (document.getElementById("radioEstacion").checked) {
+        filtro = document.getElementById("radioEstacion").value;
+    }
+
+
     var acc = "<?php if(isset($_SESSION['acc'])){echo $_SESSION['acc'];}else{echo "";}?>"
     var pwd = "<?php if(isset($_SESSION['pwd'])){echo $_SESSION['pwd'];}else{echo "";}?>"
     var pass = "<?php if(isset($_SESSION['pass'])){echo $_SESSION['pass'];}else{echo "";}?>"
@@ -151,7 +166,7 @@ if(document.getElementById("estaciones").value == 'all'){
     
     $.ajax({
         type: 'GET',
-        url: 'A_Alarmas.php?acc=' + acc + '&pwd= ' + pwd + '&pass=' + pass + '&estacion=' + estacion,
+        url: 'A_Alarmas.php?acc=' + acc + '&pwd= ' + pwd + '&pass=' + pass + '&estacion=' + estacion + '&filtro=' + filtro,
         success: function(alarmas) {
             $("#tablaAlarmas").html(alarmas);
         }

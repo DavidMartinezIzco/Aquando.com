@@ -50,7 +50,7 @@ class Usuario{
 
     public function conseguirAlarmas($fechaInicio, $fechaFin, $desde){
 
-        return $this->DB->obtenerAlarmas($fechaInicio, $fechaFin, $desde);
+        return $this->DB->obtenerAlarmas($fechaInicio, $fechaFin, $desde, null);
 
 
     }

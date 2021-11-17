@@ -12,7 +12,16 @@
 
 
     function aplicarFiltros() {
-        
+        var filtro = "";
+        if (document.getElementById("radioFecha").checked) {
+            filtro = document.getElementById("radioFecha").value;
+        }
+        if (document.getElementById("radioMotivo").checked) {
+            filtro = document.getElementById("radioMotivo").value;
+        }
+        if (document.getElementById("radioCanal").checked) {
+            filtro = document.getElementById("radioCanal").value;
+        }
 
         var estacion = null;
         if(document.getElementById("estaciones").value != 'all'){
@@ -22,7 +31,7 @@
                 
                 $.ajax({
                     type: 'GET',
-                    url: 'A_Alarmas.php?estacion=' + estacion,
+                    url: 'A_Alarmas.php?estacion=' + estacion + '&filtro=' + filtro,
                     success: function(alarmas) {
                         $("#tablaAlarmas").html(alarmas);
                     }

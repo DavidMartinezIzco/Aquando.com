@@ -9,7 +9,32 @@ if(isset($_GET['estacion'])){
     $estacion = $_GET['estacion'];
     $estacion = str_replace('"', '', $estacion);
     $opciones = array("Database"=>"Zeus", "Uid"=>"sa", "PWD"=>"dateando","CharacterSet"=>"UTF-8");
-    
+    $filtro = $_GET['filtro'];
+    if($filtro != ""){
+        switch ($filtro) {
+            case 'Fecha':
+                $filtro = "ORDER BY [Fecha] DESC";
+                break;
+            
+            case 'Motivo':
+                $filtro = "ORDER BY [Motivo] ASC";
+                break;
+            
+            case 'Canal':
+                $filtro = "ORDER BY [Canal] ASC";
+                break;
+
+            case 'Estacion':
+                $filtro = "ORDER BY [Estacion]";
+                break;
+                    
+            default:
+            $filtro = "";
+                break;
+        }
+    }
+
+
     //actualizar
     if ($estacion == 'all') {
     
@@ -28,7 +53,7 @@ if(isset($_GET['estacion'])){
         $desde = "2021-01-01 00:00:01.000";
         foreach ($estaciones as $index => $estacion) {
           if($index != 0){
-            $alarmas[] = $conexionDB->obtenerAlarmasEstacion($estacion, null, null, $desde);
+            $alarmas[] = $conexionDB->obtenerAlarmasEstacion($estacion, null, null, $desde, $filtro);
           }
         }
 
@@ -99,7 +124,7 @@ if(isset($_GET['estacion'])){
     }
     //filtrar
     else {
-        $sql = "SELECT [Motivo],[Canal],[Dato] FROM [Zeus].[dbo].[SMS] WHERE [Estacion] = '".$estacion."' ORDER BY [N_ORDEN] DESC";
+        $sql = "SELECT [Motivo],[Canal],[Dato] FROM [Zeus].[dbo].[SMS] WHERE [Estacion] = '".$estacion."' " . $filtro;
         if ($conexion = sqlsrv_connect("172.16.3.2", $opciones)) {
             $consulta = sqlsrv_query($conexion, $sql);
 
