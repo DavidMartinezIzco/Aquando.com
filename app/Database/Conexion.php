@@ -206,7 +206,7 @@ class Conexion{
         $estaciones = $this->mostrarEstacionesAPI();
         foreach ($estaciones as $index => $estacion) {
             if ($index != 0) {
-                $alarmas[] = $this->BD->obtenerAlarmasEstacion($estacion, $fechaInicio, $fechaFin, $desde, null);
+                $alarmas[] = $this->BD->obtenerAlarmasEstacion($estacion, $fechaInicio, $fechaFin, $desde, "ORDER BY [Fecha] DESC");
             }
         }
 

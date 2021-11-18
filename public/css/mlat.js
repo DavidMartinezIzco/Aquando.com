@@ -57,3 +57,7 @@ function cerrarMenu() {
     
     
 }
+
+function carga(){
+    document.getElementById("seccion").innerText = "Cargando..."
+}

@@ -89,7 +89,7 @@
     <button class="btn me-2 btn-block" id="btnMenuIzq" title="ocultar/mostrar menú" onclick="abrirCerrar()">☰</button>
     <div class="d-flex flex-column flex-shrink-0 text-light container-fluid" id="menuIzq" style="width: 15%;">
         <form action="<?php echo base_url(); ?>" id="contenidoMenuIzq1" method="POST">
-            <button name="btnFuncion" class="btn me-2 btn-block" value="inicio" style="width: 100%; border-radius:0px; font-size:2em; color:white; <?php if(isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio'){echo "background-color:rgb(1, 168, 184)";}?>">
+            <button name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio" style="width: 100%; border-radius:0px; font-size:2em; color:white; <?php if(isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio'){echo "background-color:rgb(1, 168, 184)";}?>">
                 Inicio
             </button>
             
@@ -114,7 +114,7 @@
                         echo
                             '<li>
                                 <form action='. base_url().'/estacion method="POST">
-                                    <button class="btn me-2 btn-block" name="" value="'.$estacion.'"
+                                    <button class="btn me-2 btn-block" name="" value="'.$estacion.'" onclick="carga()"
                                     style="padding:0.1em;width:100%; border-radius:0; color:white;">'.$estacion.'
                                     </button>
                                 </form>
@@ -130,7 +130,7 @@
         <!--demas funciones--->
         <li class="Func">
                 <form action="<?php echo base_url(); ?>/graficas" method="POST">
-                    <button class="btn me-2 btn-block" name="btnFuncion" <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> 
+                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> 
                     style="padding:1em;width:100%;border-radius:0;  color:white;"> 
                         <i class="far fa-chart-bar" style="margin-right:5%"></i>Graficas
                     </button>
@@ -138,7 +138,7 @@
         </li>
         <li class="Func">
         <form action="<?php echo base_url(); ?>/alarmas" method="POST">
-                    <button class="btn me-2 btn-block" name="btnFuncion" <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> 
+                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> 
                     style="padding:1em;width:100%;border-radius:0;  color:white;"> 
                         <i class="fas fa-bell" style="margin-right:5%"></i>Alarmas
                     </button>
@@ -146,7 +146,7 @@
         </li>
         <li class="Func">
                 <form>
-                    <button class="btn me-2 btn-block" name="btnFuncion" disabled
+                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" disabled
                     style="padding:1em;width:100%;border-radius:0;  color:white;"> 
                         <i class="fas fa-file" style="margin-right:5%"></i>Informes
                     </button>
@@ -154,7 +154,7 @@
         </li>
         <li class="Func">
                 <form>
-                    <button class="btn me-2 btn-block" name="btnFuncion" disabled
+                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" disabled
                     style="padding:1em;width:100%;border-radius:0;  color:white;"> 
                         <i class="fas fa-satellite-dish" style="margin-right:5%"></i>Comunicaciones
                     </button>
@@ -206,7 +206,7 @@
         <!---LOGIN---->
         <li class="nav-item">
             <form action="<?php echo base_url(); ?>/inicioSesion" method="POST" >
-                <button class="btn me-2" id="btnLogin" value="log-in" name="btnFuncion">
+                <button onclick="carga()" class="btn me-2" id="btnLogin" value="log-in" name="btnFuncion">
                     <?php 
                         if(!isset($_SESSION['nombre'])) {
                             echo "Iniciar sesión";

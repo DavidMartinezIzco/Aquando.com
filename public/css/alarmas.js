@@ -10,9 +10,19 @@
         WinPrint.close();
     }
 
+    function  limpiar(){
+        document.getElementById("radioDesc").checked ='checked';
+        document.getElementById("radioFecha").checked = 'checked';
+        document.getElementById("estaciones").value = 'all';
+        document.getElementsByName("btnControlReset")[0].textContent = "limpiando...";
+        setTimeout(function(){document.getElementsByName("btnControlReset")[0].textContent = "reset"},1000);
+        actualizar();
+    }
 
     function aplicarFiltros() {
         var filtro = "";
+        var orden = "";
+
         if (document.getElementById("radioFecha").checked) {
             filtro = document.getElementById("radioFecha").value;
         }
@@ -23,15 +33,24 @@
             filtro = document.getElementById("radioCanal").value;
         }
 
+        if (document.getElementById("radioAsc").checked) {
+            orden = document.getElementById("radioAsc").value;
+        }
+    
+        if (document.getElementById("radioDesc").checked) {
+            orden = document.getElementById("radioDesc").value;
+        }
+
         var estacion = null;
         if(document.getElementById("estaciones").value != 'all'){
             estacion = document.getElementById("estaciones").value;
-            
+            document.getElementsByName("btnControl")[0].textContent = "Cargando...";
+        setTimeout(function(){document.getElementsByName("btnControl")[0].textContent = "aplicar"},1000);
             $(document).ready(function(){
                 
                 $.ajax({
                     type: 'GET',
-                    url: 'A_Alarmas.php?estacion=' + estacion + '&filtro=' + filtro,
+                    url: 'A_Alarmas.php?estacion=' + estacion + '&filtro=' + filtro + '&orden=' + orden,
                     success: function(alarmas) {
                         $("#tablaAlarmas").html(alarmas);
                     }
@@ -45,6 +64,7 @@
 
         
         return false
+
     }
 
 

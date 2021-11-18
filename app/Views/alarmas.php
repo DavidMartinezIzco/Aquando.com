@@ -9,7 +9,7 @@
 <div id="zonaOpciones">
     <div id="filtros">
     <label for="estacionSel">Estación:</label>
-                    <select class="estacionSel" id="estaciones" name="estacionSel">
+                    <select class="controlSel" id="estaciones" name="estacionSel">
                     <option value="all">Todas</option>
                         <?php 
                         $estaciones = $_SESSION['estaciones'];
@@ -34,16 +34,26 @@
     </div>
 
     <div id="filtros2">
-
-        <input type="radio" id="radioFecha" name="orden" value="Fecha">Fecha</input>
-        <input type="radio" id="radioMotivo" name="orden" value="Motivo">Importancia</input>
-        <input type="radio" id="radioCanal" name="orden" value="Canal">Canal</input>
-        <input type="radio" id="radioEstacion" name="orden" value="Estacion" checked>Estacion</input>
+        <input type="radio" id="radioFecha" name="filtro" value="Fecha" checked>
+            <label for="filtro">Fecha</label>
+        <input type="radio" id="radioMotivo" name="filtro" value="Motivo">
+            <label for="filtro">Importancia</label>
+        <input type="radio" id="radioCanal" name="filtro" value="Canal">
+            <label for="filtro">Canal</label>
+        <input type="radio" id="radioEstacion" name="filtro" value="Estacion">
+            <label for="filtro">Estación</label>
+    </div>
+    <div id="orden">
+        <input type="radio" id="radioAsc" name="orden" value="ASC">
+        <label for="orden">Ascendente</label>
+        <br>
+        <input type="radio" id="radioDesc" name="orden" value="DESC" checked>
+        <label for="filtro">Descendiente</label>
     </div>
 
     <div id="acciones">
         <button id="btnControl" style="background-color: yellowgreen;" value="aplicar"onclick=aplicarFiltros() name="btnControl">aplicar</button>
-        <button id="btnControl" type="reset" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
+        <button id="btnControl" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
         <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
     </div>
 
@@ -91,7 +101,7 @@
                                     elseif ($dato == "Motivo") {
                                         switch ($info) {
                                             case 1:
-                                                echo "<script>document.getElementById('".$i."').style.backgroundColor='#fa5a5a'</script>";
+                                                echo "<script>document.getElementById('".$i."').style.backgroundColor='#f09595'</script>";
                                                 echo "<td>Alarma Alto</td>";
                                                 break;
                                             case 2:
@@ -99,7 +109,7 @@
                                                 echo "<td>Alarma Bajo</td>";
                                                 break;
                                             case 3:
-                                                echo "<script>document.getElementById('".$i."').style.backgroundColor='#f59042'</script>";
+                                                echo "<script>document.getElementById('".$i."').style.backgroundColor='#dfebe2'</script>";
                                                 echo "<td>Normal</td>";
                                                 break;
                                             default:
@@ -145,6 +155,7 @@ function actualizar() {
 if(document.getElementById("estaciones").value == 'all'){
     var estacion = 'all';
     var filtro = "";
+    var orden = "";
     if (document.getElementById("radioFecha").checked) {
         filtro = document.getElementById("radioFecha").value;
     }
@@ -158,6 +169,14 @@ if(document.getElementById("estaciones").value == 'all'){
         filtro = document.getElementById("radioEstacion").value;
     }
 
+    if (document.getElementById("radioAsc").checked) {
+        orden = document.getElementById("radioAsc").value;
+    }
+
+    if (document.getElementById("radioDesc").checked) {
+        orden = document.getElementById("radioDesc").value;
+    }
+
 
     var acc = "<?php if(isset($_SESSION['acc'])){echo $_SESSION['acc'];}else{echo "";}?>"
     var pwd = "<?php if(isset($_SESSION['pwd'])){echo $_SESSION['pwd'];}else{echo "";}?>"
@@ -166,7 +185,7 @@ if(document.getElementById("estaciones").value == 'all'){
     
     $.ajax({
         type: 'GET',
-        url: 'A_Alarmas.php?acc=' + acc + '&pwd= ' + pwd + '&pass=' + pass + '&estacion=' + estacion + '&filtro=' + filtro,
+        url: 'A_Alarmas.php?acc=' + acc + '&pwd= ' + pwd + '&pass=' + pass + '&estacion=' + estacion + '&filtro=' + filtro + '&orden=' + orden,
         success: function(alarmas) {
             $("#tablaAlarmas").html(alarmas);
         }

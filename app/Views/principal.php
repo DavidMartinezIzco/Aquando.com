@@ -3,6 +3,7 @@
 <script src='css/echarts.min.js'></script>
 <script src="css/principal.js"></script>
 
+
 <main id="conPrincipal">
     <div id="conInfo" style="overflow-y:scroll">
         <div id="resumen" style="opacity: 0%; transition: 0.5s; position: relative;">
@@ -99,6 +100,7 @@
         mostrarResumen();
         cargarDatos();
         setInterval(fechaYHora, 1000);
+        
     }
 
         

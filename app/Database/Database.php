@@ -98,7 +98,7 @@ class Database{
         //formato fecha: aaaa-mm-dd hh:mm:ss.000
 
         if(!is_null($desde)){
-            $sql = "SELECT TOP (20) [Fecha],[Motivo],[Canal],[Dato] FROM [Zeus].[dbo].[SMS] WHERE [Estacion] = '".$estacion."' ";
+            $sql = "SELECT TOP (20) [Fecha],[Motivo],[Canal],[Dato] FROM [Zeus].[dbo].[SMS] WHERE [Estacion] = '".$estacion."'";
         }
         if(isset($filtro) && !is_null($filtro)){
             $sql .= $filtro;

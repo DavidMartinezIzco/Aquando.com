@@ -10,29 +10,32 @@ if(isset($_GET['estacion'])){
     $estacion = str_replace('"', '', $estacion);
     $opciones = array("Database"=>"Zeus", "Uid"=>"sa", "PWD"=>"dateando","CharacterSet"=>"UTF-8");
     $filtro = $_GET['filtro'];
+    $orden = $_GET['orden'];
     if($filtro != ""){
         switch ($filtro) {
             case 'Fecha':
-                $filtro = "ORDER BY [Fecha] DESC";
+                $filtro = "ORDER BY [Fecha] ";
                 break;
             
             case 'Motivo':
-                $filtro = "ORDER BY [Motivo] ASC";
+                $filtro = "ORDER BY [Motivo] ";
                 break;
             
             case 'Canal':
-                $filtro = "ORDER BY [Canal] ASC";
+                $filtro = "ORDER BY [Canal] ";
                 break;
 
             case 'Estacion':
-                $filtro = "ORDER BY [Estacion]";
+                $filtro = "ORDER BY [Estacion] ";
                 break;
                     
             default:
             $filtro = "";
                 break;
         }
+        $filtro = $filtro . $orden;
     }
+
 
 
     //actualizar
@@ -85,7 +88,7 @@ if(isset($_GET['estacion'])){
                         elseif ($dato == "Motivo") {
                             switch ($info) {
                                 case 1:
-                                    echo "<script>document.getElementById('".$i."').style.backgroundColor='#fa5a5a'</script>";
+                                    echo "<script>document.getElementById('".$i."').style.backgroundColor='#f09595'</script>";
                                     echo "<td>Alarma Alto</td>";
                                     break;
                                 case 2:
@@ -93,7 +96,7 @@ if(isset($_GET['estacion'])){
                                     echo "<td>Alarma Bajo</td>";
                                     break;
                                 case 3:
-                                    echo "<script>document.getElementById('".$i."').style.backgroundColor='#f59042'</script>";
+                                    echo "<script>document.getElementById('".$i."').style.backgroundColor='#dfebe2'</script>";
                                     echo "<td>Normal</td>";
                                     break;
                                 default:
@@ -170,7 +173,7 @@ if(isset($_GET['estacion'])){
                                 elseif ($dato == "Motivo") {
                                     switch ($info) {
                                         case 1:
-                                            echo "<script>document.getElementById('".$i."').style.backgroundColor='#fa5a5a'</script>";
+                                            echo "<script>document.getElementById('".$i."').style.backgroundColor='#f09595'</script>";
                                             echo "<td>Alarma Alto</td>";
                                             break;
                                         case 2:
@@ -178,7 +181,7 @@ if(isset($_GET['estacion'])){
                                             echo "<td>Alarma Bajo</td>";
                                             break;
                                         case 3:
-                                            echo "<script>document.getElementById('".$i."').style.backgroundColor='#f59042'</script>";
+                                            echo "<script>document.getElementById('".$i."').style.backgroundColor='#dfebe2'</script>";
                                             echo "<td>Normal</td>";
                                             break;
                                         default:
