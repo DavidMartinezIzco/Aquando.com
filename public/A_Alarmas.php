@@ -4,7 +4,7 @@ require '../app/Database/Database.php';
 
 
 
-
+    //declaraciones de variables
 if(isset($_GET['estacion'])){
     $estacion = $_GET['estacion'];
     $estacion = str_replace('"', '', $estacion);
@@ -35,8 +35,6 @@ if(isset($_GET['estacion'])){
         }
         $filtro = $filtro . $orden;
     }
-
-
 
     //actualizar
     if ($estacion == 'all') {

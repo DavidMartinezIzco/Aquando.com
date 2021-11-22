@@ -74,7 +74,7 @@
                     left: "center",
                     top: "center",
                     fontSize: 15,
-                    color: '#FFFFFF'
+                    color: 'rgb(1, 168, 184)'
                 }
             },
             tooltip: {
@@ -91,11 +91,11 @@
                 detail: {
                     formatter: '{value}',
                     valueAnimation: true,
-                    color: '#FFFF',
+                    color: 'rgb(1, 168, 184)',
                 },
                 axisLabel: {
                     distance: 15,
-                    color: '#FFFF',
+                    color: 'rgb(1, 168, 184)',
                     fontSize: 15
                 },
                 axisLine: {
@@ -111,17 +111,17 @@
                 axisTick: {
                     show: true,
                     lineStyle:{
-                        color:'#ffff'
+                        color: 'rgb(1, 168, 184)'
                     }
                 },
                 splitLine: {
                     length: 10,
                     lineStyle: {
                     width: 2,
-                    color: '#FFFF'
+                    color: 'rgb(1, 168, 184)'
                     }
                 },
-                color: '#ffffff',
+                color: 'rgb(1, 168, 184)',
                 data: [
                     {
                     value: datos[widget][1]["nivel"],
@@ -142,7 +142,7 @@
                                 left: "center",
                                 top: "center",
                                 fontSize: 15,
-                                color: '#FFFFFF'
+                                color: 'rgb(1, 168, 184)'
                             }
                         },
                         tooltip: {
@@ -187,7 +187,7 @@
                                 left: "center",
                                 top: "center",
                                 fontSize: 15,
-                                color: '#FFFFFF'
+                                color: 'rgb(1, 168, 184)'
                             }
                         },
                         tooltip: {

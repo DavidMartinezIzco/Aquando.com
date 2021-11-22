@@ -101,7 +101,9 @@
     padding-bottom: 1%;
     overflow-y: scroll;
     max-height: 85%;
+    border: 2px solid grey;
     border-radius: 10px;
+    
 }
 
 #tablaAlarmas{
@@ -110,19 +112,24 @@
     text-align: center;
     background-color: white;
     border-radius: 10px;
+    
 }
-
-
 
 #zonaAlarmas::-webkit-scrollbar {
     height: 15px;
     
 }
+
 #zonaAlarmas::-webkit-scrollbar-track {
-    background-color:rgba(50, 50, 50);
+    background-color: lightgrey;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
 }
+
 #zonaAlarmas::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
     
 }
 

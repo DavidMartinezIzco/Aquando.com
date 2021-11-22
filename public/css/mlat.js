@@ -38,24 +38,50 @@ function desplegar(menu) {
 }
 
 function abrirMenu() {
-    document.getElementById("menuIzq").style.width = '15%';
-    document.getElementById("contenido").style.paddingLeft = '15%';
-    document.getElementById("btnMenuIzq").style.left = '15%';
-    document.getElementById("btnMenuIzq").style.visibility = 'hidden';
-    document.getElementById("conInfo").style.left = '16%';
-    document.getElementById("conCarrusel").style.right = '2%';
+    if(document.getElementById("menuIzq")){
+        document.getElementById("menuIzq").style.width = '15%';
+        document.getElementById("contenido").style.paddingLeft = '15%';
+        document.getElementById("btnMenuIzq").style.left = '15%';
+        document.getElementById("btnMenuIzq").style.visibility = 'hidden';
+    }
+    if(document.getElementById("conInfo")){
+        document.getElementById("conInfo").style.left = '16%';
+        document.getElementById("conCarrusel").style.right = '2%';
+    }
+
+    if(document.getElementById("logoGrande")){
+        document.getElementById("logoGrande").style.left = '39%';
+        document.getElementById("logoGrande").style.top = '15%';
+    }
+    if(document.getElementById("alarmasSur")){
+        document.getElementById("alarmasSur").style.marginLeft = '0%';
+        document.getElementById("alarmasSur").style.width = '85%';
+    }
     
 }
 
 function cerrarMenu() {
-    document.getElementById("menuIzq").style.width = "0%";
-    document.getElementById("contenido").style.paddingLeft = '3em';
-    document.getElementById("btnMenuIzq").style.visibility = 'visible';
-    document.getElementById("btnMenuIzq").style.left = '0%';
-    document.getElementById("conInfo").style.left = '8%';
-    document.getElementById("conCarrusel").style.right = '10%';
+    if(document.getElementById("menuIzq")){
+        document.getElementById("menuIzq").style.width = "0%";
+        document.getElementById("contenido").style.paddingLeft = '3em';
+        document.getElementById("btnMenuIzq").style.visibility = 'visible';
+        document.getElementById("btnMenuIzq").style.left = '0%';
+    }
+
+    if(document.getElementById("conInfo")){
+        document.getElementById("conInfo").style.left = '8%';
+        document.getElementById("conCarrusel").style.right = '10%';
+    }
     
+    if(document.getElementById("logoGrande")){
+        document.getElementById("logoGrande").style.left = '32%';
+        document.getElementById("logoGrande").style.top = '30%';
+    }
     
+    if(document.getElementById("alarmasSur")){
+        document.getElementById("alarmasSur").style.marginLeft = '-5%';
+        document.getElementById("alarmasSur").style.width = '105%';
+    }
 }
 
 function carga(){

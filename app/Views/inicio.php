@@ -13,6 +13,8 @@
     <script src="css/mlat.js"></script>
     <script src="css/reloj.js"></script>
     <script src="css/desconectado.js"></script>
+    <script src='css/sur.js'></script>
+    <link rel="stylesheet" type="text/css" href="css/sur.css">
     
     <!--cosillas de Jquery para AJAX-->
     <script src="css/jquery.js"></script>
@@ -137,7 +139,7 @@
                 </form>
         </li>
         <li class="Func">
-        <form action="<?php echo base_url(); ?>/alarmas" method="POST">
+            <form action="<?php echo base_url(); ?>/alarmas" method="POST">
                     <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> 
                     style="padding:1em;width:100%;border-radius:0;  color:white;"> 
                         <i class="fas fa-bell" style="margin-right:5%"></i>Alarmas
@@ -167,7 +169,6 @@
                 Pruebas ⚙
             </button>    
         </li>
-
         <li class="expPruebas">
             <form action="<?php echo base_url(); ?>/pruebaBD" method="POST">
                 <button class="btn me-2 btn-block"  name="btnFuncion"
@@ -239,14 +240,9 @@
             }
         ?>
     </div>
-    
-
-    <footer>
-        <!-- Alertas -->
-    </footer>
-
-    <!-- -->
 
 </body>
+
+
 
 </html>

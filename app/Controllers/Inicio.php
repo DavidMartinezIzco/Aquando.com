@@ -15,15 +15,32 @@ class Inicio extends BaseController
 
     private $usuario;
     private $sesion;
+    private $inactividadMax = 900;
+    private $vidaSesión = null;
 
     public function __construct()
     {
         $this->sesion = \Config\Services::session();
         $this->sesion->start();
+        
+    }
+
+    private function comprobarSesion(){
+        
+        if(!isset($_SESSION['timeout'])){
+            $_SESSION['timeout'] = 0;
+        }
+        $this->vidaSesión = time() - $_SESSION['timeout'];
+        if($this->vidaSesión < $this->inactividadMax) {
+            session_destroy();
+            
+         }
+         $_SESSION['timeout']=time();
     }
 
     public function index()
     {
+        
         $_SESSION['seccion'] = "inicio";
         if(isset($_SESSION['nombre'])){
             $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
@@ -38,6 +55,7 @@ class Inicio extends BaseController
     }
     public function pruebaConexion()
     {
+        $this->comprobarSesion();
         $_SESSION['seccion'] = "conexion";
         if (!empty($this->sesion->get('estaciones'))&& !empty($this->sesion->get('serverInfo'))) {
             $datos['estaciones'] = $this->sesion->get('estaciones');
@@ -106,6 +124,7 @@ class Inicio extends BaseController
     }
     public function pruebaTR()
     {
+        $this->comprobarSesion();
         $_SESSION['seccion'] = "tr";
         $conexion = null;
         
@@ -123,6 +142,7 @@ class Inicio extends BaseController
 
     public function pruebaGraficos()
     {
+        $this->comprobarSesion();
         $_SESSION['seccion'] = "graficos";
         if (!empty($this->sesion->get('nombre'))) {
             $datos["infoUser"] = array(
@@ -140,6 +160,7 @@ class Inicio extends BaseController
     // }
 
     public function estacion(){
+        
         if(isset($_SESSION['nombre'])){
             $_SESSION['seccion'] = "estacion";
             return view('estacion');
@@ -150,7 +171,7 @@ class Inicio extends BaseController
     }
 
     public function graficas(){
-
+        
         if(isset($_SESSION['nombre'])){
             $_SESSION['seccion'] = "graficos";
             return view('graficas');
@@ -162,6 +183,7 @@ class Inicio extends BaseController
     }
     
     public function alarmas(){
+        
         if(isset($_SESSION['nombre'])){
             $_SESSION['seccion'] = "alarmas";
             if (isset($_SESSION['alarmas'])) {

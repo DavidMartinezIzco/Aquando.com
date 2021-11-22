@@ -1,7 +1,7 @@
 body{
-    background: url('Dateando_Fondo_Limpio_Oscuro.png');
+    /* background: url('Dateando_Fondo_Limpio_Oscuro.png');
     background-size: cover;
-    background-attachment: fixed;
+    background-attachment: fixed; */
     overflow: hidden;
     
   }
@@ -154,7 +154,7 @@ body{
 
   #contenido{
     transition: 0.5s;
-    padding: 0 5em;
+    padding-left:5em;
     padding-top: 10%;
     padding-left: calc(15% + 3em);
   }
@@ -168,4 +168,10 @@ body{
     background-color: rgb(1, 168, 184);
     
   }
-    
+  
+/*  footer sur alarmas */
+
+footer{
+  width: 100%;
+  height: 10%;
+}

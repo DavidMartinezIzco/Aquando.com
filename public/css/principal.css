@@ -1,44 +1,41 @@
 
-#conprincipal{
 
-    border:1px solid black;
-    padding-left: 15% + 3em;
-    padding-top: 0%;
-    position: relative;
-    
-    
-    }
     #conInfo{
-      border: 3px solid rgba(50, 50, 50);
       transition: 0.5s;
       position: absolute;
       width: 30%;
-      height: 85%;
+      height: 75%;
       left: 16%;
-      top: 12%;
-      background-color:rgba(50, 50, 50);
+      top: 8%;
       border-radius:5px;
     }
     
-    #conInfo::-webkit-scrollbar {
-      height: 15px;
+    #widgetsI{
+      margin: 0;
+      padding: 0;
+      overflow-y: scroll;
+      max-height: 85%;
     }
-    #conInfo::-webkit-scrollbar-track {
-      background-color:rgba(50, 50, 50);
-    }
-    #conInfo::-webkit-scrollbar-thumb {
-      background-color: rgb(1, 168, 184);
+
+    #widgetsI::-webkit-scrollbar {
+      margin-top: 5%;
     }
     
-    #formFiltrosInfo{
+    #widgetsI::-webkit-scrollbar-thumb {
+      background-color: rgb(1, 168, 184);
+      border-radius: 10px;
+    }
+
+
+    /* #formFiltrosInfo{
       padding: 0 1em;
       margin: 0 5%;
-      background-color: lightgrey;
-      border: 2px solid darkgrey;
+      
+      
       border-radius: 5px;
       color: black;
       width: 90%;
-    }
+    } */
     
     #widgetMixto{
       position: relative;
@@ -115,17 +112,16 @@
     /*----------------CARRUSELL----------------------*/
     
     #conCarrusel{
-      border: 3px solid rgba(50, 50, 50);
+      
       transition: 0.5s;
       position: absolute;
       width: 50%;
-      height: 85%;
+      height: 75%;
       right: 2%;
-      top: 12%;
+      top: 8%;
       overflow: hidden;
-      overflow-y: scroll;
-      background-color:rgba(50, 50, 50);
       border-radius:5px;
+      
     }
     
     #conCarrusel::-webkit-scrollbar{
@@ -134,7 +130,7 @@
     
 
     
-    #conPostTabla{
+    /* #conPostTabla{
       color: black;
       height: 70%;
       max-width: 95%;
@@ -179,4 +175,4 @@
     #conPostTabla::-webkit-scrollbar-thumb {
       background-color: rgb(1, 168, 184);
     }
-    
+     */

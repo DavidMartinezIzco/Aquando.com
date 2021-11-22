@@ -4,11 +4,10 @@
 #conPrincipal::-webkit-scrollbar {
     height: 15px;
 }
-#conPrincipal::-webkit-scrollbar-track {
-    background-color:rgba(50, 50, 50);
-}
+
 #conPrincipal::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
+    border-radius: 10px;
 }
 
 ul{
@@ -22,9 +21,9 @@ ul{
     
     width: 100%;
     height: 30%;
-    background-color:rgb(56, 56, 56);
+    color: black;
     position: relative;
-    padding: 5px;
+    padding: 1%;
     margin-bottom: 1%;
 }
 
@@ -54,7 +53,7 @@ ul{
 #sinopMI{
     color: black;
     padding: 2% 5%;
-    border:2px solid darkgray;
+    border: 2px solid rgb(1, 168, 184);
     border-radius: 5px;
     background-color: white;
     width: 50%;
@@ -73,12 +72,13 @@ ul{
     bottom: 100%;
     left: 50%;
 }
+
 .widDigital{
     width: 90%;
     margin-bottom: 3%;
     padding: 2% 5%;
-    border-radius: 3px;
-    background-color: darkgray;
+    border-radius: 10px;
+    border: 2px solid rgb(1, 168, 184);
 }
 
 #sinopLado{
@@ -86,7 +86,7 @@ ul{
     height: 100%;
     width: 40%;
     position: relative;
-    bottom: 200%;
+    bottom: 204%;
     left: 60%;
     border-radius: 5px;
 }
@@ -95,9 +95,9 @@ ul{
     border-radius: 5px;
     height: 6em;
     position: relative;
-    border: 2px solid black;
-    background-color: darkgray;
+    border: 2px solid rgb(1, 168, 184);
     margin-bottom: 3%;
+    color: black;
 }
 .widMedDatos{
     color: black;
@@ -133,26 +133,29 @@ ul{
 /*ZONA MEDIA*/
 
 #estacionMedio{
-    border: 2px solid rgb(1, 168, 184);
-    border-radius: 5px;
-    padding: 5px;
+    
+    padding: 1%;
     width: 100%;
     height: 45%;
-    background-color:rgb(56, 56, 56);
     margin-bottom: 1%;
+    color: black;
 }
 
 #estMedI{
+    border: 2px solid rgb(1, 168, 184);
+    border-radius: 5px;
     padding: 1%;
     position: relative;
-    width: 35%;
+    width: 34%;
     height: 100%;
     
 }
 #estMedC{
+    border: 2px solid rgb(1, 168, 184);
+    border-radius: 5px;
     padding: 1%;
     position: relative;
-    width: 30%;
+    width: 29%;
     height: 100%;
     left:35%;
     bottom:100%;
@@ -160,10 +163,12 @@ ul{
     
 }
 #estMedD{
+    border: 2px solid rgb(1, 168, 184);
+    border-radius: 5px;
     padding: 1%;
     position: relative;
     left: 65%;
-    width: 35%;
+    width: 34%;
     height: 100%;
     bottom:200%;
 }
@@ -175,6 +180,7 @@ ul{
     width: 100%;
     height: 20%;
     background-color:rgb(56, 56, 56);
+    
 }
 
 #estacionBajo table{
@@ -183,6 +189,7 @@ ul{
     height: 100%;
     text-align: center;
     background-color: white;
+    border: 2px solid rgb(1, 168, 184);
 }
 
 #estacionBajo table tr {

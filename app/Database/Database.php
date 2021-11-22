@@ -3,8 +3,8 @@ class Database{
     private $host;
     private $opciones;
     private $conexion;
-    public function __construct()
-    {        
+
+    public function __construct(){        
         //estos parametros son provisionales (creo)
         //luego Uid y PWD dependeran del usuario (creo)
         //no son las credenciales que se usan para Zeus (creo)
@@ -13,8 +13,9 @@ class Database{
         $this->conectar();
     }
 
-    public function conectar(){
     //parametros y logica provisional
+    public function conectar(){
+    
         
         $this->conexion = sqlsrv_connect($this->host, $this->opciones);
         if($this->conexion == false){
@@ -23,7 +24,7 @@ class Database{
             echo '</script>';
         }
         return $this->conexion;
-}
+    }
 
     //la dejo de momento aunque ya no la uso
     public function pruebaSQL(){
@@ -79,9 +80,6 @@ class Database{
         //el metodo esta sin terminar aun
         $idEstacion = $tag->idEstacion;        
         $canal = $tag->canal;
-
-        
-
         $sql = "UPDATE canales_estaciones SET ultimo_valor = ? WHERE id_canal = ? AND estacion = ?;";
         $params = array($nuevoValor, $canal, $idEstacion);
         $consulta = sqlsrv_query($this->conexion, $sql, $params);
@@ -98,7 +96,7 @@ class Database{
         //formato fecha: aaaa-mm-dd hh:mm:ss.000
 
         if(!is_null($desde)){
-            $sql = "SELECT TOP (20) [Fecha],[Motivo],[Canal],[Dato] FROM [Zeus].[dbo].[SMS] WHERE [Estacion] = '".$estacion."'";
+            $sql = "SELECT TOP 20 [Fecha],[Motivo],[Canal],[Dato] FROM [Zeus].[dbo].[SMS] WHERE [Estacion] = '".$estacion."'";
         }
         if(isset($filtro) && !is_null($filtro)){
             $sql .= $filtro;

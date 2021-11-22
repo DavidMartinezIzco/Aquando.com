@@ -1,0 +1,37 @@
+#alarmasSur{
+    border-top: 5px solid rgb(1, 168, 184);
+    position: absolute;
+    width: 90%;
+    padding: 0px;
+    margin: 0px;
+    bottom: 0;
+    text-align: center;
+    transition: 0.5s;
+
+}
+
+#alarma{
+    background-color: darkred;
+    color: white;
+}
+
+#restaurada{
+    background-color: lightgreen;
+    color: black;
+}
+
+#restauradaAck{
+    background-color: darkolivegreen;
+    color: white;
+}
+
+#alarmaAcK{
+    background-color: #ff5757;
+    color: white;
+    transition: 0.5s;
+}
+
+table tr :hover{
+    /* box-shadow: 10px 5px 5px black; */
+    padding: 0.5%;
+}

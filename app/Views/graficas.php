@@ -6,7 +6,7 @@
 <script src='css/canvas.min.js'></script>
 <link rel="stylesheet" type="text/css" href="css/graficas.css">
 <main id="conPrincipal"
-    style="margin-left:2.5%; height: 53em; background-color: rgb(56, 56, 56); width:100%; border-radius:10px; margin-top:1%">
+    style="height: 53em; width:100%; border-radius:10px; margin-top:1%">
 
 
     <div id="display">
@@ -291,38 +291,34 @@
 
 
     <!---alarmas--->
-    <div id="alarmasGraficas">
-        <table>
-            <tr>
-                <th></th>
-                <th>Fecha y Hora</th>
-                <th> Origen</th>
-                <th>Estado</th>
-                <th>Etiqueta</th>
-            </tr>
-            <tr>
-                <td><input type="checkbox" disabled></td>
-                <td>patata</td>
-                <td>patata</td>
-                <td>patata</td>
-                <td>patata</td>
-            </tr>
-            <tr>
-                <td><input type="checkbox" disabled></td>
-                <td>patata</td>
-                <td>patata</td>
-                <td>patata</td>
-                <td>patata</td>
-            </tr>
-            <tr>
-                <td><input type="checkbox" disabled></td>
-                <td>patata</td>
-                <td>patata</td>
-                <td>patata</td>
-                <td>patata</td>
-            </tr>
-        </table>
-    </div>
+    <table id="alarmasSur">
+
+        <tr id="alarmaAcK">
+            <td>alarma de ejemplo</td>
+            <td>tipo 1</td>
+            <td>alerta roja latiente</td>
+        </tr>
+
+        <tr id="alarma">
+            <td>alarma de ejemplo</td>
+            <td>tipo 1 Ack</td>
+            <td>alerta rojo oscuro</td>
+        </tr>
+
+        <tr id="restaurada">
+            <td>alarma de ejemplo</td>
+            <td>tipo 3</td>
+            <td>alerta verde claro</td>
+        </tr>
+
+        <tr id="restauradaAck">
+            <td>alarma de ejemplo</td>
+            <td>tipo 3 Ack</td>
+            <td>alerta verde Oscuro</td>
+        </tr>
+    </table>
+
+
 
 
 </main>
@@ -331,7 +327,7 @@
 <script>
     window.onload = function () {
         setInterval(fechaYHora, 1000);
-        
+        setInterval(latido, 2000);
     }
 </script>
 

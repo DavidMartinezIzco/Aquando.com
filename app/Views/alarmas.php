@@ -3,7 +3,7 @@
 <script src='css/echarts.min.js'></script>
 <script src='css/alarmas.js'></script>
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
-<main id="conPrincipal" style="margin-left:2.5%; height: 53em; background-color: rgb(56, 56, 56); width:100%; border-radius:10px; margin-top:1%; padding: 0.5%">
+<main id="conPrincipal" style="margin-left:2.5%; height: 53em; width:100%; border-radius:10px; margin-top:1%; padding: 0.5%">
 
 
 <div id="zonaOpciones">
@@ -144,55 +144,55 @@
 
 <script>
 
-    window.onload = function () {
-        setInterval(fechaYHora, 1000);
-        setInterval(actualizar, 10000);
+window.onload = function () {
+    setInterval(fechaYHora, 1000);
+    setInterval(actualizar, 10000);
 
-    }
+}
 
 function actualizar() {
 
-if(document.getElementById("estaciones").value == 'all'){
-    var estacion = 'all';
-    var filtro = "";
-    var orden = "";
-    if (document.getElementById("radioFecha").checked) {
-        filtro = document.getElementById("radioFecha").value;
-    }
-    if (document.getElementById("radioMotivo").checked) {
-        filtro = document.getElementById("radioMotivo").value;
-    }
-    if (document.getElementById("radioCanal").checked) {
-        filtro = document.getElementById("radioCanal").value;
-    }
-    if (document.getElementById("radioEstacion").checked) {
-        filtro = document.getElementById("radioEstacion").value;
-    }
-
-    if (document.getElementById("radioAsc").checked) {
-        orden = document.getElementById("radioAsc").value;
-    }
-
-    if (document.getElementById("radioDesc").checked) {
-        orden = document.getElementById("radioDesc").value;
-    }
-
-
-    var acc = "<?php if(isset($_SESSION['acc'])){echo $_SESSION['acc'];}else{echo "";}?>"
-    var pwd = "<?php if(isset($_SESSION['pwd'])){echo $_SESSION['pwd'];}else{echo "";}?>"
-    var pass = "<?php if(isset($_SESSION['pass'])){echo $_SESSION['pass'];}else{echo "";}?>"
-    $(document).ready(function(){
-    
-    $.ajax({
-        type: 'GET',
-        url: 'A_Alarmas.php?acc=' + acc + '&pwd= ' + pwd + '&pass=' + pass + '&estacion=' + estacion + '&filtro=' + filtro + '&orden=' + orden,
-        success: function(alarmas) {
-            $("#tablaAlarmas").html(alarmas);
+    if(document.getElementById("estaciones").value == 'all'){
+        var estacion = 'all';
+        var filtro = "";
+        var orden = "";
+        if (document.getElementById("radioFecha").checked) {
+            filtro = document.getElementById("radioFecha").value;
         }
+        if (document.getElementById("radioMotivo").checked) {
+            filtro = document.getElementById("radioMotivo").value;
+        }
+        if (document.getElementById("radioCanal").checked) {
+            filtro = document.getElementById("radioCanal").value;
+        }
+        if (document.getElementById("radioEstacion").checked) {
+            filtro = document.getElementById("radioEstacion").value;
+        }
+
+        if (document.getElementById("radioAsc").checked) {
+            orden = document.getElementById("radioAsc").value;
+        }
+
+        if (document.getElementById("radioDesc").checked) {
+            orden = document.getElementById("radioDesc").value;
+        }
+
+
+        var acc = "<?php if(isset($_SESSION['acc'])){echo $_SESSION['acc'];}else{echo "";}?>"
+        var pwd = "<?php if(isset($_SESSION['pwd'])){echo $_SESSION['pwd'];}else{echo "";}?>"
+        var pass = "<?php if(isset($_SESSION['pass'])){echo $_SESSION['pass'];}else{echo "";}?>"
+        $(document).ready(function(){
+        
+        $.ajax({
+            type: 'GET',
+            url: 'A_Alarmas.php?acc=' + acc + '&pwd= ' + pwd + '&pass=' + pass + '&estacion=' + estacion + '&filtro=' + filtro + '&orden=' + orden,
+            success: function(alarmas) {
+                $("#tablaAlarmas").html(alarmas);
+            }
+        });
+        
     });
-    
-});
-}
+    }
 
 
 }

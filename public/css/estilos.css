@@ -1,4 +1,11 @@
 
+#logoGrande{
+  position: absolute;
+  top: 20%;
+  left: 39%;
+  transition: 0.5s;
+}
+
 
 #formulario div input :active{
   opacity: 100%;
@@ -11,9 +18,8 @@
 #formulario{
   width: 50%;
   margin: 0 25%;
-  margin-top: 5%;
+  margin-top: 20%;
 }
 
 
-/*--------------ZONA WIDGETS X AHORA------------------------*/
 

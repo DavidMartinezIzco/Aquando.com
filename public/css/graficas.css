@@ -71,13 +71,11 @@
 #zonaGraficos{
     overflow-x: scroll;
     padding: 1%;
-    background-color:rgb(56, 56, 56);
     width: 80%;
     position: relative;
     height: 100%;
     bottom: 100%;
     
-    border-radius: 10px;
 }
 
 #zonaGraficos::-webkit-scrollbar {
@@ -85,11 +83,7 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
-#zonaGraficos::-webkit-scrollbar-track {
-    background-color:rgba(50, 50, 50);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
+
 #zonaGraficos::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
 }
@@ -97,11 +91,6 @@
 #grafica{
     transition: 0.5s;
 }
-
-
-
-
-
 
 #alarmasGraficas{
     width: 99%;
