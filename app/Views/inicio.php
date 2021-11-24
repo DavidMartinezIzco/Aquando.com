@@ -229,7 +229,7 @@
         window.onload = function() {
             setInterval(fechaYHora, 1000);
             setInterval(desvanecer, 1500);
-            setInterval(comprobarTiempo, 1000);
+            
         }
         
     </script>

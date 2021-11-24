@@ -128,6 +128,7 @@
         window.onload = function() {
         setInterval(fechaYHora, 1000);
         setInterval(latido, 2000);
+        setInterval(comprobarTiempo, 1000);
     }
 </script>
 

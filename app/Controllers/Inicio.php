@@ -15,8 +15,6 @@ class Inicio extends BaseController
 
     private $usuario;
     private $sesion;
-    private $inactividadMax = 30;
-    private $vidaSesión = null;
 
     public function __construct()
     {
@@ -29,21 +27,26 @@ class Inicio extends BaseController
     {
         
         if(isset($_GET['log']) && $_GET['log'] == 'out'){
-            $_SESSION['seccion'] = "login";
-            $this->inicioSesion();
+            session_unset();
+            echo '<script language="javascript">';
+            echo 'alert("Su sesión a caducado")';
+            echo '</script>';
             return view('inicioSesion');
         }
 
-        $_SESSION['seccion'] = "inicio";
-        if(isset($_SESSION['nombre'])){
-            $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
-            $conexion = new Conexion($this->usuario->getAuthAcc(), $this->usuario->getContrasena(), $this->usuario->getAuthPass());
-            $_SESSION['estaciones'] = $conexion->mostrarOnlineAPI();
-            return view('principal');
+        else {
+            $_SESSION['seccion'] = "inicio";
+            if(isset($_SESSION['nombre'])){
+                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
+                $conexion = new Conexion($this->usuario->getAuthAcc(), $this->usuario->getContrasena(), $this->usuario->getAuthPass());
+                $_SESSION['estaciones'] = $conexion->mostrarOnlineAPI();
+                return view('principal');
+            }
+            else{
+                return view('inicio');
+            }
         }
-        else{
-            return view('inicio');
-        }
+        
         
     }
 
@@ -83,6 +86,7 @@ class Inicio extends BaseController
             }
             return view('inicioSesion');
         }
+
     }
     public function pruebaTR()
     {
