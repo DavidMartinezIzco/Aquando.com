@@ -40,12 +40,12 @@
 
 <body>
     <header class="p-1 text-white" style="width: 100%;background-color:rgb(39,45,79);position:fixed; height:4.5em; z-index:1000;">
-        <div style="width: 100%; padding-left: 1em">    
-        <img src="../public/logo.png" style="height: 3.5em; margin-left: 2%;">
+        <div style="width: 100%; padding-left: 1em">powered by
+        <img src="../public/logo.png" style="height: 3.5em; margin-left: 1%;">
             <!----zona secciones---->
             <?php
                 if(isset($_SESSION['seccion'])){
-                    echo "<div id='seccion'value=".$_SESSION['seccion'].">";
+                    echo "<div id='seccion' value=".$_SESSION['seccion'].">";
                     switch ($_SESSION['seccion']) {
                         case 'conexion':
                             echo "Pruebas > Conexión a base de datos";
@@ -220,6 +220,10 @@
                     ?>
                 </button>
             </form>
+        </li>
+        <li style="text-align: center;">
+        <h6>Tiempo restante:</h6>
+        <p id="restante">15:00</p>
         </li>
     </ul>
     </div>

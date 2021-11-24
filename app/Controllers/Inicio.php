@@ -78,6 +78,10 @@ class Inicio extends BaseController
                     $_SESSION['pwd'] = $contra;
                     $_SESSION['acc'] = $authacc;
                     $_SESSION['pass'] = $authPass;
+                    $_SESSION['seccion'] = "inicio";
+                    $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
+                    $conexion = new Conexion($this->usuario->getAuthAcc(), $this->usuario->getContrasena(), $this->usuario->getAuthPass());
+                    $_SESSION['estaciones'] = $conexion->mostrarOnlineAPI();
                     return view('principal');
                 }
             }
