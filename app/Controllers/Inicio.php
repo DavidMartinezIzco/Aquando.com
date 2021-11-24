@@ -27,11 +27,9 @@ class Inicio extends BaseController
     {
         
         if(isset($_GET['log']) && $_GET['log'] == 'out'){
-            session_unset();
-            echo '<script language="javascript">';
-            echo 'alert("Su sesión a caducado")';
-            echo '</script>';
-            return view('inicioSesion');
+            $_SESSION['seccion'] = "login";
+            return $this->inicioSesion();
+
         }
 
         else {
@@ -55,6 +53,7 @@ class Inicio extends BaseController
         $_SESSION['seccion'] = "login";
         if (isset($_SESSION['nombre'])) {
             session_unset();
+            
         }
         $nombre = "";
         $contra = "";
@@ -79,13 +78,14 @@ class Inicio extends BaseController
                     $_SESSION['pwd'] = $contra;
                     $_SESSION['acc'] = $authacc;
                     $_SESSION['pass'] = $authPass;
-                    return $this->index();
+                    return view('principal');
                 }
             }
             catch (\Throwable $th) {
             }
             return view('inicioSesion');
         }
+        return view('inicioSesion');
 
     }
     public function pruebaTR()

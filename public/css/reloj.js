@@ -10,7 +10,7 @@
         }
 
 
-        var tiempoMax = 10;  // 10 minutes of inactivity
+        var tiempoMax = 15 * 60;  // 15 mins
         var tiempoStandBy = 0;
         document.onclick = function() {
             tiempoStandBy = 0;
@@ -23,6 +23,7 @@
         if(document.getElementById("seccion").value != "login")
             tiempoStandBy++;
             if (tiempoStandBy == tiempoMax) {
+                alert("Su sesión a caducado");
                 window.location.href = "/Aquando/public/index.php?log=out";
             }
         }

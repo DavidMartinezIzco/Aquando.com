@@ -1,6 +1,16 @@
 <?= $this->extend('inicio') ?>
 
 <?= $this->section('content') ?>
+
+
+<?php
+ if(isset($_GET['log'])){
+  echo '<script language="javascript">';
+  echo 'alert("Su sesión a caducado");';
+  echo '</script>';
+ }
+?>
+
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
 <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
 <link href="/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
@@ -36,7 +46,7 @@
       <input type="text" name="txtAuthPass" class="form-control">
       <label for="floatingPassword" style="color:black">AuthPass</label>
     </div>
-    <button class="w-100 btn btn-lg " style="background-color: rgb(56, 56, 56);margin-bottom: 100em; opacity:100%; color: white" type="submit">Iniciar Sesión</button>
+    <button id="btnForm" class="w-100 btn btn-lg " style="background-color: rgb(56, 56, 56);margin-bottom: 100em; opacity:100%; color: white" type="submit">Iniciar Sesión</button>
   </form>
 </main>
 
