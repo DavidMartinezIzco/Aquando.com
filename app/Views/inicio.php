@@ -43,8 +43,9 @@
         <div style="width: 100%; padding-left: 1em">    
         <img src="../public/logo.png" style="height: 3.5em; margin-left: 2%;">
             <!----zona secciones---->
-            <div id="seccion"><?php
+            <?php
                 if(isset($_SESSION['seccion'])){
+                    echo "<div id='seccion'value=".$_SESSION['seccion'].">";
                     switch ($_SESSION['seccion']) {
                         case 'conexion':
                             echo "Pruebas > Conexión a base de datos";
@@ -71,7 +72,8 @@
                             break;
                     }
                 }
-            ?></div>
+                echo "</div>"
+            ?>
             <div id="usuario">
                 <?php if(isset($_SESSION['nombre'])){
                     echo "Usuario: " . $_SESSION['nombre'] . "<br>Empresa: ";
@@ -227,6 +229,7 @@
         window.onload = function() {
             setInterval(fechaYHora, 1000);
             setInterval(desvanecer, 1500);
+            setInterval(comprobarTiempo, 1000);
         }
         
     </script>

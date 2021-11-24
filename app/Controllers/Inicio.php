@@ -15,7 +15,7 @@ class Inicio extends BaseController
 
     private $usuario;
     private $sesion;
-    private $inactividadMax = 900;
+    private $inactividadMax = 30;
     private $vidaSesión = null;
 
     public function __construct()
@@ -25,22 +25,15 @@ class Inicio extends BaseController
         
     }
 
-    private function comprobarSesion(){
-        
-        if(!isset($_SESSION['timeout'])){
-            $_SESSION['timeout'] = 0;
-        }
-        $this->vidaSesión = time() - $_SESSION['timeout'];
-        if($this->vidaSesión < $this->inactividadMax) {
-            session_destroy();
-            
-         }
-         $_SESSION['timeout']=time();
-    }
-
     public function index()
     {
         
+        if(isset($_GET['log']) && $_GET['log'] == 'out'){
+            $_SESSION['seccion'] = "login";
+            $this->inicioSesion();
+            return view('inicioSesion');
+        }
+
         $_SESSION['seccion'] = "inicio";
         if(isset($_SESSION['nombre'])){
             $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
@@ -52,37 +45,6 @@ class Inicio extends BaseController
             return view('inicio');
         }
         
-    }
-    public function pruebaConexion()
-    {
-        $this->comprobarSesion();
-        $_SESSION['seccion'] = "conexion";
-        if (!empty($this->sesion->get('estaciones'))&& !empty($this->sesion->get('serverInfo'))) {
-            $datos['estaciones'] = $this->sesion->get('estaciones');
-            $datos['serverInfo'] = $this->sesion->get('serverInfo');
-        } 
-        else {
-            if (isset($_SESSION['nombre'])) {
-
-                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
-                $conexion = new Conexion($this->usuario->getAuthAcc(), $this->usuario->getContrasena(), $this->usuario->getAuthPass());
-                $datos["estaciones"] = $conexion->mostrarOnlineAPI();
-                $datos["serverInfo"] = $conexion->pruebaSQL();
-                $this->sesion->set($datos);
-            } else {
-                $datos = ["estaciones" => array("error" => "error")];
-            }
-        }
-        if (!empty($this->sesion->get('nombre'))) {
-            $datos["infoUser"] = array(
-                "nombre" => $this->sesion->get('nombre'),
-                "pwd" => $this->sesion->get('pwd'),
-                "acc" => $this->sesion->get('acc'),
-                "pass" => $this->sesion->get('pass')
-            );
-
-        }
-        return view('pruebaBD', $datos);
     }
 
     public function inicioSesion()
@@ -124,7 +86,7 @@ class Inicio extends BaseController
     }
     public function pruebaTR()
     {
-        $this->comprobarSesion();
+        
         $_SESSION['seccion'] = "tr";
         $conexion = null;
         
@@ -142,7 +104,7 @@ class Inicio extends BaseController
 
     public function pruebaGraficos()
     {
-        $this->comprobarSesion();
+        
         $_SESSION['seccion'] = "graficos";
         if (!empty($this->sesion->get('nombre'))) {
             $datos["infoUser"] = array(
@@ -171,7 +133,6 @@ class Inicio extends BaseController
     }
 
     public function graficas(){
-        
         if(isset($_SESSION['nombre'])){
             $_SESSION['seccion'] = "graficos";
             return view('graficas');
