@@ -109,6 +109,7 @@ body{
     position: fixed;
     margin-top: 4.5em;
     padding: 0;
+    z-index: 1000;
   }
   #menuIzq::-webkit-scrollbar{
   display: none;

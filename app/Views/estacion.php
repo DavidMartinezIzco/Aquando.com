@@ -93,41 +93,21 @@
     </div>
 </div>
 
-
-<!---zona alarmas--->
-    <table id="alarmasSur">
-
-    <tr id="alarmaAcK">
-        <td>alarma de ejemplo</td>
-        <td>tipo 1</td>
-        <td>alerta roja latiente</td>
-    </tr>
-
-    <tr id="alarma">
-        <td>alarma de ejemplo</td>
-        <td>tipo 1 Ack</td>
-        <td>alerta rojo oscuro</td>
-    </tr>
-
-    <tr id="restaurada">
-        <td>alarma de ejemplo</td>
-        <td>tipo 3</td>
-        <td>alerta verde claro</td>
-    </tr>
-
-    <tr id="restauradaAck">
-        <td>alarma de ejemplo</td>
-        <td>tipo 3 Ack</td>
-        <td>alerta verde Oscuro</td>
-    </tr>
-    </table>
-
 </main>
+<!---zona alarmas--->
+<table id="alarmasSur">
+
+</table>
+
+
 
 <script>
         window.onload = function() {
+        actualizarMini();
+        
         setInterval(fechaYHora, 1000);
-        setInterval(latido, 2000);
+        setInterval(actualizarMini, 3000);
+        
         setInterval(comprobarTiempo, 1000);
     }
 </script>

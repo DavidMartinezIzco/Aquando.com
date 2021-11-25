@@ -21,8 +21,8 @@ document.onmousemove = function() {
 
 function comprobarTiempo() {
 if(document.getElementById("seccion").value != "login")
-    tiempoStandBy++;
-    formatearTiempo(tiempoMax - tiempoStandBy);
+formatearTiempo(tiempoMax - tiempoStandBy);    
+tiempoStandBy++;
     if (tiempoStandBy == tiempoMax) {
         window.location.href = "/Aquando/public/index.php?log=out";
     }

@@ -221,21 +221,25 @@
                 </button>
             </form>
         </li>
-        <li style="text-align: center;">
-        <h6>Tiempo restante:</h6>
+        <li id="conRest" style="text-align: center;">
+        <h6>Inactividad restante:</h6>
         <p id="restante">15:00</p>
         </li>
     </ul>
     </div>
     
     <script>
-        
         window.onload = function() {
             setInterval(fechaYHora, 1000);
-            setInterval(desvanecer, 1500);
-            
+            setInterval(desvanecer, 1500);        
         }
         
+        <?php 
+        if(!isset($_SESSION['nombre'])){
+            echo 'document.getElementById("conRest").style.display ="none";';
+        }
+        ?>
+
     </script>
     
 

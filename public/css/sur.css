@@ -2,36 +2,19 @@
     border-top: 5px solid rgb(1, 168, 184);
     position: absolute;
     width: 90%;
-    padding: 0px;
     margin: 0px;
     bottom: 0;
     text-align: center;
     transition: 0.5s;
-
+    overflow-y: scroll;
+    
 }
 
-#alarma{
-    background-color: darkred;
-    color: white;
-}
-
-#restaurada{
-    background-color: lightgreen;
-    color: black;
-}
-
-#restauradaAck{
-    background-color: darkolivegreen;
-    color: white;
-}
-
-#alarmaAcK{
-    background-color: #ff5757;
-    color: white;
-    transition: 0.5s;
+#alarmasSur tr{
+    transition: 2s;
+    margin-left: 0.5%;
 }
 
 table tr :hover{
-    /* box-shadow: 10px 5px 5px black; */
     padding: 0.5%;
 }
