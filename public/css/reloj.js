@@ -11,6 +11,10 @@ function fechaYHora() {
 
 
 var tiempoMax = 15*60;  // 15 mins
+if(sessionStorage.getItem('tmax') !== null){
+    tiempoMax = sessionStorage.getItem('tmax');
+}
+
 var tiempoStandBy = 0;
 document.onclick = function() {
     tiempoStandBy = 0;
@@ -45,6 +49,7 @@ function modificarInactividad(minutos){
 
     tiempoMax = minutos * 60;
     tiempoMax--;
+    sessionStorage.setItem('tmax', tiempoMax);
     tiempoOpciones();
 
 }
