@@ -39,3 +39,12 @@ function formatearTiempo(segs) {
     if (segundos < 10) {segundos = "0"+segundos;}
     document.getElementById("restante").innerText =  minutos+':'+segundos;
 }
+
+
+function modificarInactividad(minutos){
+
+    tiempoMax = minutos * 60;
+    tiempoMax--;
+    tiempoOpciones();
+
+}

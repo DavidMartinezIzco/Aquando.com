@@ -221,11 +221,34 @@
                 </button>
             </form>
         </li>
-        <li id="conRest" style="text-align: center;">
-        <h6>Inactividad restante:</h6>
-        <p id="restante">15:00</p>
+        <li id="conRest" style="text-align: center;" onclick="tiempoOpciones()">
+            <h6>Inactividad restante:</h6>
+            <p id="restante"></p>
         </li>
-    </ul>
+        <li>
+            <ul id="amplificador">
+            <p> Opciones para modificar Inactividad</p>
+                <li>
+                    <button class="btnTiempo" value="15" onclick="modificarInactividad(this.value)">
+                    15 Minutos
+                    </button>
+                </li>
+
+            
+                <li>
+                    <button class="btnTiempo" value="30" onclick="modificarInactividad(this.value)">
+                    30 Minutos
+                    </button>
+                </li>
+
+                <li>
+                    <button class="btnTiempo" value="60" onclick="modificarInactividad(this.value)">
+                    1 Hora
+                    </button>
+                </li>
+            </ul>
+        </li>
+    
     </div>
     
     <script>

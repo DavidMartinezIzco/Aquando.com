@@ -84,6 +84,19 @@ function cerrarMenu() {
     }
 }
 
+function tiempoOpciones(){
+    if(document.getElementById("amplificador").style.height == "0px"){
+        document.getElementById("amplificador").style.height = '7em';
+        document.getElementById("amplificador").style.padding = '1%';
+        
+    }
+    else{
+        document.getElementById("amplificador").style.height = '0px';
+        document.getElementById("amplificador").style.padding = '0%';
+    }
+}
+
 function carga(){
     document.getElementById("seccion").innerText = "Cargando..."
 }
+
