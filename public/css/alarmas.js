@@ -1,14 +1,4 @@
 
-    function imprimir() {
-        var prtContent = document.getElementById("tablaAlarmas");
-        var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-        WinPrint.document.write(prtContent.innerHTML);
-        WinPrint.document.write('');
-        WinPrint.document.close();
-        WinPrint.focus();
-        WinPrint.print();
-        WinPrint.close();
-    }
 
     function  limpiar(){
         document.getElementById("radioDesc").checked ='checked';
@@ -67,4 +57,76 @@
 
     }
 
+    function filtrarPor(tipo){
 
+        if(tipo == 'Motivo'){
+            if(document.getElementById("radioMotivo").checked && document.getElementById("radioDesc").checked){
+                document.getElementById("radioAsc").checked = true;
+            }
+            else{
+                document.getElementById("radioDesc").checked = true;
+            }
+            document.getElementById("radioMotivo").checked = true;
+        }
+        if(tipo == 'Canal'){
+            if(document.getElementById("radioCanal").checked && document.getElementById("radioDesc").checked){
+                document.getElementById("radioAsc").checked = true;
+            }
+            else{
+                document.getElementById("radioDesc").checked = true;
+            }
+            document.getElementById("radioCanal").checked = true;
+        }
+        if(tipo == 'Fecha'){
+            if(document.getElementById("radioFecha").checked && document.getElementById("radioDesc").checked){
+                document.getElementById("radioAsc").checked = true;
+            }
+            else{
+                document.getElementById("radioDesc").checked = true;
+            }
+            document.getElementById("radioFecha").checked = true;
+        }
+        if(tipo == 'Estacion'){
+            if(document.getElementById("radioEstacion").checked && document.getElementById("radioDesc").checked){
+                document.getElementById("radioAsc").checked = true;
+            }
+            else{
+                document.getElementById("radioDesc").checked = true;
+            }
+            document.getElementById("radioEstacion").checked = true;
+        }
+        aplicarFiltros();
+    }
+
+    function imprimir() {
+        html2canvas(document.querySelector('#tablaAlarmas')).then(function(canvas) {
+            guardar(canvas.toDataURL(), 'alarmas.png');
+        });
+        
+    }
+
+    
+function guardar(uri, filename) {
+
+    var link = document.createElement('a');
+
+    if (typeof link.download === 'string') {
+
+        link.href = uri;
+        link.download = filename;
+
+        //Firefox requires the link to be in the body
+        document.body.appendChild(link);
+
+        //simulate click
+        link.click();
+
+        //remove the link when done
+        document.body.removeChild(link);
+
+    } else {
+
+        window.open(uri);
+
+    }
+}

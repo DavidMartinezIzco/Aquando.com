@@ -5,9 +5,6 @@
 <script src="css/reloj.js"></script>
 
 
-
-
-
 <main id="conPrincipal">
     <div id="conInfo">
         <div id="resumen" style="opacity: 0%; transition: 0.5s; height: 100%">
@@ -53,7 +50,7 @@
         </div>
     </div>
     <div id="conCarrusel">
-        <h3 style="margin: 3% 0%">Experimento</h3>
+        <h3 style="margin: 3% 0%">Mapa</h3>
             
         <iframe width="100%" height="80%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=-1.6398355364799502%2C42.753842721248496%2C-1.635463535785675%2C42.75560341523702&amp;layer=hot&amp;marker=42.75472307449567%2C-1.6376495361328125" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/?mlat=42.75472&amp;mlon=-1.63765#map=19/42.75472/-1.63765&amp;layers=HN">Ver mapa más grande</a></small>
     </div>
@@ -63,26 +60,19 @@
 </table>
 
 
-
-
 <script>
     var nwids = 0;
     var e = 1;
     var posiciones = {};
     window.onload = function() {
         actualizarMini();
-        
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
         setInterval(actualizarMini, 3000);
-        
         mostrarResumen();
         cargarDatos();
     }
 
-    
-
-        
 </script>
 
 

@@ -128,7 +128,9 @@
       display: none;
     }
     
-
+    #conCarrusel small{
+      display: none;
+    }
     
     /* #conPostTabla{
       color: black;

@@ -2,8 +2,12 @@
 <?= $this->section('content') ?>
 <script src='css/echarts.min.js'></script>
 <script src='css/alarmas.js'></script>
+<script src='css/html2canvas.js'></script>
+<script src='css/html2canvas.min.js'></script>
+<script src='css/html2canvas.esm.js'></script>
+<script src="css/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
-<main id="conPrincipal" style="margin-left:2.5%; height: 53em; width:100%; border-radius:10px; margin-top:1%; padding: 0.5%">
+<main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px; margin-top:1%; padding: 0.5%">
 
 
 <div id="zonaOpciones">
@@ -43,12 +47,21 @@
         <input type="radio" id="radioEstacion" name="filtro" value="Estacion">
             <label for="filtro">Estación</label>
     </div>
+
     <div id="orden">
         <input type="radio" id="radioAsc" name="orden" value="ASC">
         <label for="orden">Ascendente</label>
         <br>
         <input type="radio" id="radioDesc" name="orden" value="DESC" checked>
         <label for="filtro">Descendiente</label>
+    </div>
+
+    <div id="fechas">
+        
+        <input type="date" id="radioFecha" name="fechaInicio">
+        <label for="fecha">Inicio</label><br>
+        <input type="date" id="radioMotivo" name="fechaFin">
+        <label for="fecha">Fin</label>
     </div>
 
     <div id="acciones">
@@ -62,7 +75,12 @@
 <div id="zonaAlarmas">
 
     <table id="tablaAlarmas">
-    
+        <tr>
+            <th onclick="filtrarPor('Motivo')">TIPO</th>
+            <th onclick="filtrarPor('Canal')">CANAL</th>
+            <th onclick="filtrarPor('Fecha')">FECHA</th>
+            <th onclick="filtrarPor('Estacion')">MENSAJE</th>
+        </tr>
         <?php
             $estaciones = $_SESSION['estaciones'];
             $i = 0;

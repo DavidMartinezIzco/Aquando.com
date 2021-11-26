@@ -103,6 +103,7 @@ body{
     /* background-color:rgba(255, 255, 255, 0.1); */
     background-color: rgb(39,45,79);
     overflow-x: hidden;
+    overflow-y: scroll;
     transition: 0.5s;
     width: 15%;
     height:100%;
@@ -173,7 +174,6 @@ body{
   .miniEstacion{
     list-style: none;
     border: 1px solid white;
-    border-radius: 5px;
     height: 0px;
     overflow-x:hidden;
     overflow-y: scroll;

@@ -41,6 +41,8 @@ $routes->post('/inicioSesion', 'Inicio::inicioSesion');
 $routes->post('/estacion', 'Inicio::estacion');
 $routes->post('/graficas', 'Inicio::graficas');
 $routes->post('/alarmas', 'Inicio::alarmas');
+$routes->post('/informes', 'Inicio::informes');
+$routes->post('/comunicaciones', 'Inicio::comunicaciones');
 
 /*
  * --------------------------------------------------------------------

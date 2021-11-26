@@ -174,13 +174,15 @@ class Inicio extends BaseController
         }
     }
 
-    // public function informes(){
+    public function informes(){
+        $_SESSION['seccion'] = "infos";
+        return view('informes');
+    }
 
-    // }
-
-    // public function comunicaciones(){
-
-    // }
+    public function comunicaciones(){
+        $_SESSION['seccion'] = "coms";
+        return view('comunicaciones');
+    }   
 
 
 

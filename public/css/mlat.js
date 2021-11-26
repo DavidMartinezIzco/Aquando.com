@@ -28,7 +28,7 @@ function desplegar(menu) {
     
     if(menu =='estaciones'){
         if (document.getElementsByClassName('miniEstacion')[0].style.height == '0px') {
-            document.getElementsByClassName('miniEstacion')[0].style.height = '35%'; 
+            document.getElementsByClassName('miniEstacion')[0].style.height = '20%'; 
         }
         else{
             document.getElementsByClassName('miniEstacion')[0].style.height = '0px'; 
@@ -61,6 +61,7 @@ function abrirMenu() {
 }
 
 function cerrarMenu() {
+
     if(document.getElementById("menuIzq")){
         document.getElementById("menuIzq").style.width = "0%";
         document.getElementById("contenido").style.paddingLeft = '3em';
@@ -86,7 +87,7 @@ function cerrarMenu() {
 
 function tiempoOpciones(){
     if(document.getElementById("amplificador").style.height == "0px"){
-        document.getElementById("amplificador").style.height = '7em';
+        document.getElementById("amplificador").style.height = '100%';
         document.getElementById("amplificador").style.padding = '1%';
         
     }

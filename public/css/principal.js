@@ -137,7 +137,7 @@
         var grafiConex = echarts.init(chartDom2);
         var conex = {
                         title: {
-                            text: 'Calidad de Conexion',
+                            text: 'Calidad de Conexión',
                             textStyle: {
                                 left: "center",
                                 top: "center",
@@ -182,7 +182,7 @@
         var grafiMin = echarts.init(chartDom3);
         var min = {
                         title: {
-                            text: 'Minino Acumulado Nocturno',
+                            text: 'Mínino Acumulado Nocturno',
                             textStyle: {
                                 left: "center",
                                 top: "center",

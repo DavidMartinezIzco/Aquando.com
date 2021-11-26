@@ -66,7 +66,14 @@
                                 break;
                             case 'alarmas':
                                 echo "Alarmas";
-                                break;                       
+                                break; 
+                            case 'infos':
+                                echo "Informes";
+                                break;
+                            case 'coms':
+                                echo "Comunicaciones";
+                                break;    
+                            
                         default:
                             echo 'Inicio';
                             break;
@@ -149,16 +156,16 @@
                 </form>
         </li>
         <li class="Func">
-                <form>
-                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" disabled
+                <form action="<?php echo base_url(); ?>/informes" method="POST">
+                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?>
                     style="padding:1em;width:100%;border-radius:0;  color:white;"> 
                         <i class="fas fa-file" style="margin-right:5%"></i>Informes
                     </button>
                 </form>
         </li>
         <li class="Func">
-                <form>
-                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" disabled
+                <form action="<?php echo base_url(); ?>/comunicaciones" method="POST">
+                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?>
                     style="padding:1em;width:100%;border-radius:0;  color:white;"> 
                         <i class="fas fa-satellite-dish" style="margin-right:5%"></i>Comunicaciones
                     </button>
@@ -227,20 +234,20 @@
         </li>
         <li>
             <ul id="amplificador">
-            <p> Opciones para modificar Inactividad</p>
+            <p> Opciones para modificar Inactividad
+            <i class="fas fa-stopwatch"></i>
+
+            </p>
                 <li>
                     <button class="btnTiempo" value="15" onclick="modificarInactividad(this.value)">
                     15 Minutos
                     </button>
                 </li>
-
-            
                 <li>
                     <button class="btnTiempo" value="30" onclick="modificarInactividad(this.value)">
                     30 Minutos
                     </button>
                 </li>
-
                 <li>
                     <button class="btnTiempo" value="60" onclick="modificarInactividad(this.value)">
                     1 Hora

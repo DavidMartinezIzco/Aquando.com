@@ -1,5 +1,5 @@
 /*!
- * html2canvas 1.3.2 <https://html2canvas.hertzen.com>
+ * html2canvas 1.3.3 <https://html2canvas.hertzen.com>
  * Copyright (c) 2021 Niklas von Hertzen <https://hertzen.com>
  * Released under MIT License
  */
@@ -6462,6 +6462,7 @@
             container.style.fontSize = fontSize;
             container.style.margin = '0';
             container.style.padding = '0';
+            container.style.whiteSpace = 'nowrap';
             body.appendChild(container);
             img.src = SMALL_IMAGE;
             img.width = 1;

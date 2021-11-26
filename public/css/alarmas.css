@@ -23,7 +23,7 @@
     border-radius: 5px;
     padding: 0.5%;
     padding-left: 2%;
-    margin-left: 3%;
+    margin-left: 2%;
 }
 
 .controlSel{
@@ -41,7 +41,7 @@
     height: 60%;
     position: relative;
     border-radius: 5px;
-    left: 22%;
+    left: 18%;
     bottom: 60%;
     padding: 0.5%;
     
@@ -53,7 +53,6 @@
 
 }
 
-
 #orden{
     color: black;
     background-color: white;
@@ -62,7 +61,7 @@
     height: 60%;
     position: relative;
     border-radius: 5px;
-    left: 56%;
+    left: 49%;
     bottom: 120%;
     padding: 0% 0.5%;
 }
@@ -71,12 +70,32 @@
     margin: 0.5% 2%;
 }
 
+#fechas{
+    color: black;
+    background-color: white;
+    border: 2px solid grey;
+    max-width: 12%;
+    height: 80%;
+    position: relative;
+    border-radius: 5px;
+    left: 60%;
+    bottom: 190%;
+    padding: 0.2%;
+}
+
+#fechas input{
+    width: 50%;
+    height: 40%;
+    font-size: xx-small;
+    margin: 0 5%;
+}
+
 #acciones{
     max-width: 60%;
     height: 60%;
     position: relative;
     left: 73%;
-    bottom: 182%;
+    bottom: 260%;
 }
 
 
@@ -107,6 +126,7 @@
 }
 
 #tablaAlarmas{
+    transition: 0.5s;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -140,4 +160,24 @@
 #tablaAlarmas tr :hover{
     padding:1%;
 }
+
+#tablaAlarmas tr:first-of-type{
+    background-color: lightgray;
+    border-bottom: 2px solid darkgray;
+}
+
+#tablaAlarmas tr th{
+    border-right: 1px solid darkgray;
+}
+
+#tablaAlarmas tr th:hover{
+    border-right: 1px solid darkgray;
+    background-color: darkgray;
+}
+
+#tablaAlarmas tr:first-of-type :hover{
+    padding: 0px;
+}
+
+
 

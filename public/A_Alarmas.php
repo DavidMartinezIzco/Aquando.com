@@ -2,6 +2,12 @@
 require '../app/Libraries/ZeusApi.php';
 require '../app/Database/Database.php';
 
+echo "<tr>
+<th onclick=filtrarPor('Motivo')>TIPO</th>
+            <th onclick=filtrarPor('Canal')>CANAL</th>
+            <th onclick=filtrarPor('Fecha')>FECHA</th>
+            <th onclick=filtrarPor('Estacion')>MENSAJE</th>
+</tr>";
 
 
     //declaraciones de variables
