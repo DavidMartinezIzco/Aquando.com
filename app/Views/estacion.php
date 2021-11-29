@@ -104,10 +104,8 @@
 <script>
         window.onload = function() {
         actualizarMini();
-        
         setInterval(fechaYHora, 1000);
         setInterval(actualizarMini, 3000);
-        
         setInterval(comprobarTiempo, 1000);
     }
 </script>

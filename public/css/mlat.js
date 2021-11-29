@@ -57,6 +57,15 @@ function abrirMenu() {
         document.getElementById("alarmasSur").style.marginLeft = '0%';
         document.getElementById("alarmasSur").style.width = '85%';
     }
+
+    if(document.getElementById("displayComs")){
+        document.getElementById("displayComs").style.left = '20%';
+        document.getElementById("displayComs").style.width = '50%';
+        document.getElementById("seccionDetalles1").style.left = '72%';
+        document.getElementById("seccionDetalles1").style.width = '25%';
+        document.getElementById("seccionDetalles2").style.width = '25%';
+        document.getElementById("seccionDetalles2").style.left = '72%';
+    }
     
 }
 
@@ -82,6 +91,16 @@ function cerrarMenu() {
     if(document.getElementById("alarmasSur")){
         document.getElementById("alarmasSur").style.width = '105%';
         document.getElementById("alarmasSur").style.marginLeft = '-5%';
+    }
+
+    if(document.getElementById("displayComs")){
+        document.getElementById("displayComs").style.left = '5%';
+        document.getElementById("displayComs").style.width = '50%';
+        document.getElementById("seccionDetalles1").style.left = '58%';
+        document.getElementById("seccionDetalles1").style.width = '40%';
+        document.getElementById("seccionDetalles2").style.width = '40%';
+        document.getElementById("seccionDetalles2").style.left = '58%';
+
     }
 }
 

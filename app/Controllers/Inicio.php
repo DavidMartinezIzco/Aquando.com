@@ -181,7 +181,12 @@ class Inicio extends BaseController
 
     public function comunicaciones(){
         $_SESSION['seccion'] = "coms";
-        return view('comunicaciones');
+        if(isset($_SESSION['nombre'])){
+            return view('comunicaciones');
+        }
+        else {
+            return view('inicio');
+        }
     }   
 
 

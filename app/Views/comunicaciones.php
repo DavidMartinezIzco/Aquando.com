@@ -5,97 +5,116 @@
 <link rel="stylesheet" type="text/css" href="css/comunicaciones.css">
 <main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px; margin-top:1%; padding: 0.5%">
 
-    <div id="display">
+    <div id="displayComs">
+        <table style="width:100%; height:100%">
+            <tr onclick="graficoConex()" id='seccionEstacion'>
+                <td id='secNombre'>
+                    N Estacion
+                </td>
+                <td id='secEstado'>
+                    <i class="fas fa-check"></i>
+                </td>
+                <td id='secUltima'>
+                   Ultima Conexion
+                </td>
+            </tr>
 
-        <div id="seccionEstacion">
-            <div id="secNombre">
-                <h6>N Estacion</h6>
-            </div>
+            <tr onclick="graficoConex()" id='seccionEstacion'>
+                <td id='secNombre'>
+                    N Estacion
+                </td>
+                <td id='secEstado'>
+                    <i class="fas fa-check"></i>
+                </td>
+                <td id='secUltima'>
+                   Ultima Conexion
+                </td>
+            </tr>
 
-            <div id="secEstado">
-            <i class="fas fa-check"></i>
-            </div>
+            <tr onclick="graficoConex()" id="seccionEstacionProblema">
+                <td id="secNombre">
+                    N Estacion
+                </td>
 
-            <div id="secUltima">
-                <p>Ultima Conexion</p>
-            </div>
+                <td id="secProblema">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </td>
 
-        </div>
+                <td id="secUltima">
+                    Ultima Conexion
+                </td>
+            </tr>
 
-        <div id="seccionEstacion">
-            <div id="secNombre">
-                <h6>N Estacion</h6>
-            </div>
+            <tr onclick="graficoConex()"id="seccionEstacionError">
+                <td id="secNombre">
+                    N Estacion
+                </td>
 
-            <div id="secEstado">
-            <i class="fas fa-check"></i>
-            </div>
+                <td id="secError">
+                    <i class="fas fa-times-circle"></i>
 
-            <div id="secUltima">
-                <p>Ultima Conexion</p>
-            </div>
+                </td>
 
-        </div>
+                <td id="secUltima">
+                    Ultima Conexion
+                </td>
 
-        <div id="seccionEstacionProblema" >
-            <div id="secNombre">
-                <h6>N Estacion</h6>
-            </div>
+            </tr>
 
-            <div id="secProblema">
-            <i class="fas fa-exclamation-triangle"></i>
-            </div>
+            <tr onclick="graficoConex()" id='seccionEstacion'>
+                <td id='secNombre'>
+                    N Estacion
+                </td>
+                <td id='secEstado'>
+                    <i class="fas fa-check"></i>
+                </td>
+                <td id='secUltima'>
+                   Ultima Conexion
+                </td>
+            </tr>
 
-            <div id="secUltima">
-                <p>Ultima Conexion</p>
-            </div>
+            <tr onclick="graficoConex()" id="seccionEstacionProblema">
+                <td id="secNombre">
+                    N Estacion
+                </td>
 
-        </div>
+                <td id="secProblema">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </td>
 
-        <div id="seccionEstacion">
-            <div id="secNombre">
-                <h6>N Estacion</h6>
-            </div>
+                <td id="secUltima">
+                    Ultima Conexion
+                </td>
+            </tr>
 
-            <div id="secEstado">
-            <i class="fas fa-check"></i>
-            </div>
+        </table>
+        
+    </div>
 
-            <div id="secUltima">
-                <p>Ultima Conexion</p>
-            </div>
 
-        </div>
+    <div id="seccionDetalles1">
+        <div id="graficoConexion" style="width: 720px; height:350px;"></div>
+    </div>
 
-        <div id="seccionEstacionError">
-            <div id="secNombre">
-                <h6>N Estacion</h6>
-            </div>
-
-            <div id="secError">
-            <i class="fas fa-times-circle"></i>
-
-            </div>
-
-            <div id="secUltima">
-                <p>Ultima Conexion</p>
-            </div>
-
-        </div>
-
+    <div id="seccionDetalles2">
+        detalles de la estacion seleccionada (?)
     </div>
 
 </main>
 
-<script>
+<table id="alarmasSur">
+</table>
 
-window.onload = function () {
+<script>
+window.onload = function() {
+    actualizarMini();
+    graficoConex();
     setInterval(fechaYHora, 1000);
     setInterval(comprobarTiempo, 1000);
     setInterval(parpadeoProblema, 1000);
-    setInterval(parpadeoError, 400);
+    setInterval(parpadeoError, 1000);
+    setInterval(actualizarMini, 3000);
 }
-
 </script>
 
 
