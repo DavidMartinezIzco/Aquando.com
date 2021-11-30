@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/principal.css">
     <script src="css/mlat.js"></script>
     <script src="css/reloj.js"></script>
+    <script src="css/ayuda.js"></script>
     <script src="css/desconectado.js"></script>
     <script src='css/sur.js'></script>
     <link rel="stylesheet" type="text/css" href="css/sur.css">
@@ -42,6 +43,7 @@
     <header class="p-1 text-white" style="width: 100%;background-color:rgb(39,45,79);position:fixed; height:4.5em; z-index:1000;">
         <div style="width: 100%; padding-left: 1em">powered by
         <img src="../public/logo.png" style="height: 3.5em; margin-left: 1%;">
+        <i style="margin-left: 1%" class="far fa-lightbulb" id="iconoAyuda" onclick="ayuda()"></i>
             <!----zona secciones---->
             <?php
                 if(isset($_SESSION['seccion'])){
@@ -79,8 +81,10 @@
                             break;
                     }
                 }
-                echo "</div>"
+                
             ?>
+            
+            </div>
             <div id="usuario">
                 <?php if(isset($_SESSION['nombre'])){
                     echo "Usuario: " . $_SESSION['nombre'] . "<br>Empresa: ";
@@ -97,7 +101,7 @@
 
     </header>
     <!-- HEADER: MENU + HEROE SECTION -->
-    <button class="btn me-2 btn-block" id="btnMenuIzq" title="ocultar/mostrar menú" onclick="abrirCerrar()">☰</button>
+<button class="btn me-2 btn-block" id="btnMenuIzq" title="ocultar/mostrar menú" onclick="abrirCerrar()">☰</button>
     <div class="d-flex flex-column flex-shrink-0 text-light container-fluid" id="menuIzq" style="width: 15%;">
         <form action="<?php echo base_url(); ?>" id="contenidoMenuIzq1" method="POST">
             <button name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio" style="width: 100%; border-radius:0px; font-size:2em; color:white; <?php if(isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio'){echo "background-color:rgb(1, 168, 184)";}?>">
@@ -270,10 +274,21 @@
         }
         ?>
 
-    </script>
-    
+        document.body.onkeyup = function(e){
+            if(e.keyCode == 32){
+                abrirCerrar();
+            }
+        }
 
-    <div id="contenido" style="padding-top: 5em; padding-left:15%; color:lightgrey;" onclick="cerrarMenu();">
+    </script>
+    <div id="conAyuda">
+    <i class="fas fa-times" style="float: right;" onclick="ayuda()"></i>
+        <h3>Ayuda:</h3>
+        <p>pulsa "espacio" para abrir o cerrar el menu</p>
+
+    </div>
+
+    <div id="contenido" style="padding-top: 3.8%; padding-left:15%; color:lightgrey;" onclick="cerrarMenu();">
         <?php $this->renderSection('content');?>
         <?php
             if(!isset($_SESSION['nombre'])){

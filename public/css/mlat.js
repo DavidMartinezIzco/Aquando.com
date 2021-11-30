@@ -73,7 +73,7 @@ function cerrarMenu() {
 
     if(document.getElementById("menuIzq")){
         document.getElementById("menuIzq").style.width = "0%";
-        document.getElementById("contenido").style.paddingLeft = '3em';
+        document.getElementById("contenido").style.paddingLeft = '0%';
         document.getElementById("btnMenuIzq").style.visibility = 'visible';
         document.getElementById("btnMenuIzq").style.left = '0%';
     }
