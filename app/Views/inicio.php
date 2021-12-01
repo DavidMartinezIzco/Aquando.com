@@ -17,6 +17,11 @@
     <script src='css/sur.js'></script>
     <link rel="stylesheet" type="text/css" href="css/sur.css">
     
+    <!--cosillas de Fuentes-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">   
+    
     <!--cosillas de Jquery para AJAX-->
     <script src="css/jquery.js"></script>
 
@@ -282,10 +287,12 @@
 
     </script>
     <div id="conAyuda">
-    <i class="fas fa-times" style="float: right;" onclick="ayuda()"></i>
+    <i class="fas fa-times" style="font-size: 150%" id="btnAyudaCerrar" onclick="ayuda()"></i>
         <h3>Ayuda:</h3>
-        <p>pulsa "espacio" para abrir o cerrar el menu</p>
-
+        <p id="txtAyuda" value="1">pulsa "espacio" para abrir o cerrar el menu</p>
+        <button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()">
+        <i class="fas fa-arrow-right"></i>
+        </button>
     </div>
 
     <div id="contenido" style="padding-top: 3.8%; padding-left:15%; color:lightgrey;" onclick="cerrarMenu();">

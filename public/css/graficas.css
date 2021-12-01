@@ -22,7 +22,12 @@
     border-bottom: 3px solid darkgrey;
     background-color: white;
     height: 50%;
-    margin-bottom: 20%;
+    margin-bottom: 10%;
+}
+
+#dateFecha{
+    width: 60%;
+    margin: 1%;
 }
 
 #btnControl{
@@ -52,7 +57,7 @@
 
 #panelOpciones{
     width: 96%;
-    height: 84%;
+    height: 100%;
     margin:2%;
     border: 2px solid darkgray;
     background-color: lightgrey;
@@ -69,13 +74,13 @@
 
 
 #zonaGraficos{
-    overflow-x: scroll;
-    padding: 1%;
+    padding: 0%;
     width: 80%;
     position: relative;
     height: 100%;
     bottom: 100%;
-    
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 #zonaGraficos::-webkit-scrollbar {

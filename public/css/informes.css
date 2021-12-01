@@ -1,12 +1,33 @@
 /*INFORMES NORTE*/
 
+#btnMenuInformes{
+    position: absolute;
+    z-index: 9999;
+    top: 19.5%;
+    left: 95%;
+    padding: 0.2% 1%;
+    color: grey;
+    background-color:rgba(56, 56, 56);
+    border:none;
+    opacity: 33%;
+    transition: 0.2s;
+}
+
+#btnMenuInformes:hover{
+    background-color: rgb(1, 168, 184);
+    color: white;
+    opacity: 100%;
+}
+
+
 #informesNorte{
     width: 100%;
     height: 15%;
     background-color: grey;
-    
+    transition: 0.2s;
     border-bottom: none;
-    
+    overflow: hidden;
+    border-bottom: 2px solid rgb(1, 168, 184);
 }
 
 #tipoInforme{
@@ -55,14 +76,35 @@
     margin-left: 3%;
 }
 
+#camposInforme{
+    position: relative;
+    text-align: left;
+    width: 20%;
+    left: 55%;
+    height: 100%;
+    bottom: 200%;
+    padding:1%;
+    
+}
+
+#camposInforme form{
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 1.5%;
+}
+
+#camposInforme form input{
+    margin: 0% 5%;
+}
+
 
 #controlesInforme{
     position: relative;
     text-align: left;
     width: 20%;
-    left: 53%;
+    left: 73%;
     height: 100%;
-    bottom: 200%;
+    bottom: 300%;
     padding: 1%;
 }
 
@@ -85,7 +127,25 @@
 
 #informesSur{
     width: 100%;
-    height: 100%;
-    
+    height: 120%;
+    overflow-y: scroll;
+    padding: 3% 10%;
+    padding-bottom: 0%;
+    background-color: rgba(56, 56, 56);
 }
+
+#informesSur::-webkit-scrollbar {
+    margin-top: 5%;
+  }
+  
+  #informesSur::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+    
+  }
+
+  #espacioInforme{
+      background-color: white;
+      width: 100%;
+      height: 200%;
+  }
 

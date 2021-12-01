@@ -1,4 +1,8 @@
 
+  *{
+    font-family: 'Ubuntu', sans-serif;
+    /* font-family: Consolas, monaco, monospace; */
+  }
 
     #conInfo{
       transition: 0.5s;
