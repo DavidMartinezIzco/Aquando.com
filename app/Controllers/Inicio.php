@@ -92,6 +92,11 @@ class Inicio extends BaseController
         return view('inicioSesion');
 
     }
+
+    public function cafe(){
+        return view('café');
+    }
+
     public function pruebaTR()
     {
         

@@ -110,7 +110,7 @@
     <div class="d-flex flex-column flex-shrink-0 text-light container-fluid" id="menuIzq" style="width: 15%;">
         <form action="<?php echo base_url(); ?>" id="contenidoMenuIzq1" method="POST">
             <button name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio" style="width: 100%; border-radius:0px; font-size:2em; color:white; <?php if(isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio'){echo "background-color:rgb(1, 168, 184)";}?>">
-                Inicio
+            <i class="fas fa-home"></i>Inicio
             </button>
             
         </form>
@@ -191,7 +191,7 @@
             <form action="<?php echo base_url(); ?>/pruebaBD" method="POST">
                 <button class="btn me-2 btn-block"  name="btnFuncion"
                     <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> style="padding:1em;width:100%; border-radius:0; color:white; <?php if(isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'conexion'){echo "background-color:rgb(1, 168, 184)";}?>">
-                    <i class="far fa-chart-bar"></i>conexion de BD
+                    <i class="fas fa-coffee"></i>café
                 </button>
             </form>
         </li>

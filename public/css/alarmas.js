@@ -98,35 +98,41 @@
         aplicarFiltros();
     }
 
+
     function imprimir() {
         html2canvas(document.querySelector('#tablaAlarmas')).then(function(canvas) {
             guardar(canvas.toDataURL(), 'alarmas.png');
         });
         
     }
-
     
-function guardar(uri, filename) {
-
-    var link = document.createElement('a');
-
-    if (typeof link.download === 'string') {
-
-        link.href = uri;
-        link.download = filename;
-
-        //Firefox requires the link to be in the body
-        document.body.appendChild(link);
-
-        //simulate click
-        link.click();
-
-        //remove the link when done
-        document.body.removeChild(link);
-
-    } else {
-
-        window.open(uri);
-
+        
+    function guardar(uri, filename) {
+    
+        var link = document.createElement('a');
+    
+        if (typeof link.download === 'string') {
+    
+            link.href = uri;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+    
+        } else {
+    
+            window.open(uri);
+    
+        }
     }
-}
+
+    function opciones(){
+        if (document.getElementById("zonaOpciones").style.height == '10%') {
+            document.getElementById("zonaOpciones").style.height = "0%";
+            document.getElementById("zonaAlarmas").style.maxHeight = '95%';
+        }
+        else{
+            document.getElementById("zonaOpciones").style.height = "10%";
+            document.getElementById("zonaAlarmas").style.maxHeight = '85%';
+        }
+    }

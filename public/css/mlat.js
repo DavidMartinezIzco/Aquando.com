@@ -66,7 +66,9 @@ function abrirMenu() {
         document.getElementById("seccionDetalles2").style.width = '25%';
         document.getElementById("seccionDetalles2").style.left = '72%';
     }
-    
+    if (document.getElementById("btnOpcionesgraficas")) {
+        document.getElementById("btnOpcionesgraficas").style.left = '81%';
+    }
 }
 
 function cerrarMenu() {
@@ -100,7 +102,6 @@ function cerrarMenu() {
         document.getElementById("seccionDetalles1").style.width = '40%';
         document.getElementById("seccionDetalles2").style.width = '40%';
         document.getElementById("seccionDetalles2").style.left = '58%';
-
     }
 }
 

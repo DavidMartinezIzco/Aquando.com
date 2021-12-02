@@ -58,6 +58,8 @@ function aplicarOpciones() {
         tipo = "linea";
     }
     renderGrafico(tipo, datosR);
+
+    
 }
 
 
@@ -115,7 +117,7 @@ function renderGrafico(tipo,datosR) {
             
         });
         option['series'] = series;
-        console.log(option);
+        
     }
     if(tipo == "linea"){
         option = {
@@ -166,16 +168,66 @@ function renderGrafico(tipo,datosR) {
         option['series'] = series;
     }
 
-
+ 
     option && grafico.setOption(option, true);
     
+    $(window).keyup(function(){
+        setTimeout(grafico.resize(),500);
+    });
     
     document.getElementById('conPrincipal').onmouseover = function(){
-        grafico.resize();
+        setTimeout(grafico.resize(),1000);
     }
-    document.getElementById('menuIzq').onmouseover = function(){
-        grafico.resize();
+    document.getElementById('grafica').onmouseover = function(){
+        setTimeout(grafico.resize(),1000);
+    }
+    document.getElementById('zonaControles').onmouseover = function(){
+        setTimeout(grafico.resize(),1000);
+    }
+    
+
+}
+
+function mostrarOpciones() {
+    if (document.getElementById("zonaControles").style.width == '1%') {
+        document.getElementById("zonaControles").style.width = '19.5%';
+        document.getElementById("zonaControles").style.left = '80%';
+        document.getElementById("zonaGraficos").style.width = '80%';
+        
+    }
+    else{
+        document.getElementById("zonaControles").style.width = '1%';
+        document.getElementById("zonaControles").style.left = '100%';
+        document.getElementById("zonaGraficos").style.width = '98%';
+        
     }
     
 }
 
+
+function imprimir() {
+    html2canvas(document.querySelector('#grafica')).then(function(canvas) {
+        guardar(canvas.toDataURL(), 'grafico.png');
+    });
+    
+}
+
+    
+function guardar(uri, filename) {
+
+    var link = document.createElement('a');
+
+    if (typeof link.download === 'string') {
+
+        link.href = uri;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+    } else {
+
+        window.open(uri);
+
+    }
+}

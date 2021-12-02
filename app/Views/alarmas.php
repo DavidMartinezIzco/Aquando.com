@@ -7,7 +7,7 @@
 <script src='css/html2canvas.esm.js'></script>
 <script src="css/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
-<main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px; margin-top:1%; padding: 0.5%">
+<main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px;">
 
 
 <div id="zonaOpciones">
@@ -214,6 +214,12 @@ function actualizar() {
 
 
 }
+
+$(window).keydown(function(e){
+    if (e.ctrlKey)
+        opciones();
+    });
+
 
 </script>
 

@@ -81,6 +81,11 @@ window.onload = function () {
     setInterval(comprobarTiempo, 1000);
 }
 
+$(window).keydown(function(e){
+    if (e.ctrlKey)
+        opciones();
+    });
+
 </script>
 
 

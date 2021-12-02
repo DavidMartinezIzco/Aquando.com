@@ -2,10 +2,12 @@
 <?= $this->section('content') ?>
 <script src='css/echarts.min.js'></script>
 <script src='css/graficas.js'></script>
-<script src='css/canvas.js'></script>
-<script src='css/canvas.min.js'></script>
+<script src='css/html2canvas.js'></script>
+<script src='css/html2canvas.min.js'></script>
+<script src='css/html2canvas.esm.js'></script>
 <link rel="stylesheet" type="text/css" href="css/graficas.css">
 <main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px;">
+
 
 
     <div id="display">
@@ -75,7 +77,7 @@
                 </form>
 
                     <!--controles-->                
-                    <button id="btnControl" style="background-color: yellowgreen;" value="aplicar" onclick="aplicarOpciones()" name="btnControl">aplicar</button>
+                    <button id="btnControl" style="background-color: yellowgreen;" value="aplicar" onclick="aplicarOpciones()" name="btnControlAplicar">aplicar</button>
                     <button id="btnControl" type="reset" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
                     <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
                 
@@ -105,6 +107,10 @@
         setInterval(comprobarTiempo, 1000);
     }
 
+    $(window).keydown(function(e){
+    if (e.ctrlKey)
+        mostrarOpciones();
+    });
 
 
 </script>
