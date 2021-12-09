@@ -1,6 +1,7 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
 <script src='css/echarts.min.js'></script>
+<script src ='css/echarts.js'></script>
 <script src='css/graficas.js'></script>
 <script src='css/html2canvas.js'></script>
 <script src='css/html2canvas.min.js'></script>
@@ -52,14 +53,13 @@
                         </fieldset>
                     <hr>
                     <!--tipo de representacion-->
-                        <fieldset>
-                            <input type="radio" name="g2" id="tipoLinea" value="linea" checked>
-                            <label for="g2">Líneas</label>
-                            <input type="radio" name="g2" id="tipoBarra" value="barra">
-                            <label for="g2">Barras</label>
-                            <input type="radio" name="g2" id="tipoTarta" value="tarta" >
-                            <label for="g2">Tarta (beta)</label>
-                        </fieldset>
+                    <h6>Tipo de representacion:</h6>
+                    <select class="controlSel" id="tipoRender" name="tipoRender">
+                            <option value="histo" selected>Historico</option>
+                            <option value="linea">Lineas</option>
+                            <option value="barra">Barras</option>
+                            <option value="tarta">Tarta</option>
+                        </select>
                     <hr>
                     <!--rango de fechas-->
                         <input type="date" id="dateFecha" name="fechaInicio" disabled>
