@@ -16,15 +16,14 @@ class Inicio extends BaseController
     private $usuario;
     private $sesion;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->sesion = \Config\Services::session();
         $this->sesion->start();
         
     }
 
-    public function index()
-    {
+    //ejecución de arranque del proyecto
+    public function index(){
         
         if(isset($_GET['log']) && $_GET['log'] == 'out'){
             $_SESSION['seccion'] = "login";
@@ -48,8 +47,9 @@ class Inicio extends BaseController
         
     }
 
-    public function inicioSesion()
-    {
+    //inicia sesion usando las credenciales de zeus
+    //habrá que cambiar este sistema en el futuro
+    public function inicioSesion(){
         $_SESSION['seccion'] = "login";
         if (isset($_SESSION['nombre'])) {
             session_unset();
@@ -93,12 +93,13 @@ class Inicio extends BaseController
 
     }
 
+    //caca
     public function cafe(){
         return view('café');
     }
 
-    public function pruebaTR()
-    {
+    // (obsoleto) menu debug para Ajax
+    public function pruebaTR(){
         
         $_SESSION['seccion'] = "tr";
         $conexion = null;
@@ -115,9 +116,9 @@ class Inicio extends BaseController
         return view('pruebaTR', $datos);
     }
 
-    public function pruebaGraficos()
-    {
-        
+
+    //(obsoleto) muestra las pruebas de repren de graficos
+    public function pruebaGraficos(){
         $_SESSION['seccion'] = "graficos";
         if (!empty($this->sesion->get('nombre'))) {
             $datos["infoUser"] = array(
@@ -131,9 +132,11 @@ class Inicio extends BaseController
         return view('pruebaGraficos');
     }
 
+    // nunca llegó a ver la luz
     // public function pruebaAnalitico(){
     // }
 
+    //muestra la vista de las estaciones
     public function estacion(){
         
         if(isset($_SESSION['nombre'])){
@@ -145,6 +148,7 @@ class Inicio extends BaseController
         }
     }
 
+    //muestra la vista de graficas (historicos y demas)
     public function graficas(){
         if(isset($_SESSION['nombre'])){
             $_SESSION['seccion'] = "graficos";
@@ -156,6 +160,7 @@ class Inicio extends BaseController
 
     }
     
+    //muestra la zona principal de alarmas
     public function alarmas(){
         
         if(isset($_SESSION['nombre'])){
@@ -179,11 +184,13 @@ class Inicio extends BaseController
         }
     }
 
+    //muestra la zona de informes
     public function informes(){
         $_SESSION['seccion'] = "infos";
         return view('informes');
     }
 
+    //muestra el estado de las conexiones con las estaciones
     public function comunicaciones(){
         $_SESSION['seccion'] = "coms";
         if(isset($_SESSION['nombre'])){

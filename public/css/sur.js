@@ -1,8 +1,11 @@
+
+//animación para las alarmas activas
 function latido(alarma){
     setTimeout(function(){alarma.style.backgroundColor = "#ff726e"}, 500);
     alarma.style.backgroundColor = "#de3d37";
 }
 
+//actualiza los datos de alarmas en la seccion sur
 function actualizarMini(){
 
     $(document).ready(function(){
@@ -19,6 +22,7 @@ function actualizarMini(){
     
 }
 
+//da color a las alarmas con "pintar"
 function colores(){
     var elems = document.getElementsByClassName("filaAl");
     for (var i = 0; i < elems.length; i++) {
@@ -26,8 +30,7 @@ function colores(){
       }
 }
 
-
-
+//da colores distintos en funcion del tipo de alarma
 function pintar(elem){
     if(elem.innerHTML.indexOf("Motivo : 3") !== -1) {
         elem.style.backgroundColor = "rgb(144, 238, 144)";

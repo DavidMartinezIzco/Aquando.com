@@ -1,3 +1,5 @@
+
+//hace aparecer o desaparecer la caja de tips
 function ayuda(){
     if(document.getElementById("conAyuda").style.opacity == '0'){
         document.getElementById("conAyuda").style.opacity = '100%';
@@ -9,6 +11,7 @@ function ayuda(){
     }
 }
 
+//cambia al siguiente mensaje de ayuda de la caja de tips
 function ayudaNext() {
     
     var tip ="";

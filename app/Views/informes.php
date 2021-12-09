@@ -8,6 +8,8 @@
 
 <div id="informesNorte">
     <button id="btnMenuInformes" onclick="opciones()"><i class="fas fa-sliders-h"></i></button>
+        
+        <!--tipo de representacion--->
         <div id="tipoInforme">
             <form>
                 <input type="radio" name="tipoInforme" value="tabla" checked/>
@@ -19,6 +21,7 @@
             </form>
 
         </div>
+        <!--controles de fecha busqueda y otros--->
         <div id="opcionesInforme">
             <input type="text" style="margin-left: 3%;" name="txtBusqueda"/>
             <label for="txtBusqueda"><i class="fas fa-search"></i></label>
@@ -39,7 +42,7 @@
                 <label for="fecha">Fin</label>
             </form>
         </div>
-
+        <!--campos posibles para representar--->
         <div id="camposInforme">
             <form>
                 <input type="radio" name="radioCampo1" value ="" checked/>

@@ -1,3 +1,5 @@
+
+//abre o cierra la cabeza de opciones para el informe
 function opciones() {
     if(document.getElementById("informesNorte").style.height == '15%'){
         document.getElementById("informesNorte").style.height = '0%';

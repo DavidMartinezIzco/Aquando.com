@@ -1,3 +1,21 @@
+
+
+//configs para el codigo
+    var tiempoMax = 15*60;  // 15 mins
+    if(sessionStorage.getItem('tmax') !== null){
+        tiempoMax = sessionStorage.getItem('tmax');
+    }
+
+    var tiempoStandBy = 0;
+    document.onclick = function() {
+        tiempoStandBy = 0;
+    };
+    document.onmousemove = function() {
+        tiempoStandBy = 0;
+    };
+
+
+//muestra la hora del sistema
 function fechaYHora() {
     var currentdate = new Date(); 
     var datetime = currentdate.getDate() + "/"
@@ -9,20 +27,7 @@ function fechaYHora() {
     document.getElementById('fechahora').innerHTML = datetime;
 }
 
-
-var tiempoMax = 15*60;  // 15 mins
-if(sessionStorage.getItem('tmax') !== null){
-    tiempoMax = sessionStorage.getItem('tmax');
-}
-
-var tiempoStandBy = 0;
-document.onclick = function() {
-    tiempoStandBy = 0;
-};
-document.onmousemove = function() {
-    tiempoStandBy = 0;
-};
-
+//comprueba el tiempo que lleva el cliente inactivo
 function comprobarTiempo() {
 if(document.getElementById("seccion").value != "login")
 formatearTiempo(tiempoMax - tiempoStandBy);    
@@ -32,6 +37,7 @@ tiempoStandBy++;
     }
 }
 
+//da formato a la hora y la prepara para representarla
 function formatearTiempo(segs) {
     
     var hours   = Math.floor(segs / 3600);
@@ -44,7 +50,7 @@ function formatearTiempo(segs) {
     document.getElementById("restante").innerText =  minutos+':'+segundos;
 }
 
-
+//modifica el tiempo de inactividad para el cliente
 function modificarInactividad(minutos){
 
     tiempoMax = minutos * 60;

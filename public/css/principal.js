@@ -1,4 +1,6 @@
 
+    
+    //(provisional) establece los datos para los widgets
     function cargarDatos() {
         var datos1 = {1:{"nivel":55, "max": 0.8, "min": 0.15}, 2:{"conexiones":[100, 190, 150, 120, 90, 100, 115]}, 3:{"minimos": [100, 190, 110, 215, 150, 190, 120]}};
         var datos2 = {1:{"nivel":75, "max": 0.9, "min": 0.2}, 2:{"conexiones":[200, 190, 180, 150, 190, 200, 215]}, 3:{"minimos": [200, 195, 170, 155, 185, 190, 220]}};
@@ -23,7 +25,7 @@
 
     }
 
-
+    //actualiza la posicion de un widget
     function transicion(widget) {
 
         var posicion = posiciones[widget];
@@ -48,19 +50,12 @@
         
     }
 
+    //animacion de carga
     function mostrarResumen() {
         document.getElementById("resumen").style.opacity = '100%';
     }
 
-    function efectoListaAlarmas1(elem){
-        elem.style.marginBottom = '2%';
-    }
-
-    function efectoListaAlarmas2(elem){
-        elem.style.marginBottom = '1%';
-    }
-
-
+    //crea los widgets en funcion de los datos cargados antes
     function generarWid(widget, datos) {
 
 

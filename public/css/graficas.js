@@ -1,4 +1,5 @@
 
+//reestablece los filtros por defecto
 function limpiar(){
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
     var i = 1;
@@ -25,13 +26,8 @@ function limpiar(){
 }
 
 
-function imprimir() {
-    html2canvas(document.querySelector("#grafica")).then(canvas => {
-    document.body.appendChild(canvas)
-    });
-}
 
-
+//aplica las opciones de los controles
 function aplicarOpciones() {
     var datosR = [];
     var datos = {
@@ -62,7 +58,7 @@ function aplicarOpciones() {
     
 }
 
-
+//prepara el grafico
 function renderGrafico(tipo,datosR) {
 
     var chartDom = document.getElementById('grafica');
@@ -188,6 +184,7 @@ function renderGrafico(tipo,datosR) {
 
 }
 
+//muestra o esconde las opciones de los graficos
 function mostrarOpciones() {
     if (document.getElementById("zonaControles").style.width == '1%') {
         document.getElementById("zonaControles").style.width = '19.5%';
@@ -204,7 +201,7 @@ function mostrarOpciones() {
     
 }
 
-
+//saca una captura del grafico en panatalla
 function imprimir() {
     html2canvas(document.querySelector('#grafica')).then(function(canvas) {
         guardar(canvas.toDataURL(), 'grafico.png');
@@ -212,7 +209,7 @@ function imprimir() {
     
 }
 
-    
+//descarga la captura del grafico
 function guardar(uri, filename) {
 
     var link = document.createElement('a');

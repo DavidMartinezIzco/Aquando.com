@@ -1,5 +1,5 @@
 
-
+    //limpia los filtros
     function  limpiar(){
         document.getElementById("radioDesc").checked ='checked';
         document.getElementById("radioFecha").checked = 'checked';
@@ -9,6 +9,7 @@
         actualizar();
     }
 
+    //aplica los filtros y actualiza las alarmas
     function aplicarFiltros() {
         var filtro = "";
         var orden = "";
@@ -57,6 +58,7 @@
 
     }
 
+    //filtra los datos
     function filtrarPor(tipo){
 
         if(tipo == 'Motivo'){
@@ -98,15 +100,15 @@
         aplicarFiltros();
     }
 
-
+    //saca una captura de las alarmas
     function imprimir() {
-        html2canvas(document.querySelector('#tablaAlarmas')).then(function(canvas) {
+            html2canvas(document.querySelector('#tablaAlarmas')).then(function(canvas) {
             guardar(canvas.toDataURL(), 'alarmas.png');
         });
         
     }
     
-        
+    //descarga la captura de las alarmas
     function guardar(uri, filename) {
     
         var link = document.createElement('a');
@@ -126,6 +128,7 @@
         }
     }
 
+    //esconde o muestra las opciones
     function opciones(){
         if (document.getElementById("zonaOpciones").style.height == '10%') {
             document.getElementById("zonaOpciones").style.height = "0%";

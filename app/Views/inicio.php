@@ -17,19 +17,19 @@
     <script src='css/sur.js'></script>
     <link rel="stylesheet" type="text/css" href="css/sur.css">
     
-    <!--cosillas de Fuentes-->
+<!--cosillas de Fuentes-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">   
     
-    <!--cosillas de Jquery para AJAX-->
+<!--cosillas de Jquery para AJAX-->
     <script src="css/jquery.js"></script>
 
-    <!--cosillas de font-awesome-->
+<!--cosillas de font-awesome-->
     <link rel="stylesheet" type="text/css" href="css/fontawesome/css/all.css">
     <script defer src="css/js/all.js"></script>
 
-    <!--cosillas de bootstrap-->
+<!--cosillas de bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
@@ -116,14 +116,14 @@
         </form>
         <ul class="nav nav-pills flex-column" id="contenidoMenuIzq2">
         
-        <!---estaciones--->
+    <!---estaciones--->
         <li class="Func">
             <button class="btn me-2 btn-block" name="btnFuncion" value="estaciones" onclick="desplegar(this.value)"<?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> 
             style="padding:1em;width:100%;border-radius:0;  color:white;"> 
             <i class="fas fa-broadcast-tower" style="margin-right:5%"></i>Estaciones
             </button>  
         </li>
-        <!---wrap estaciones--->
+    <!---wrap estaciones--->
         <?php 
             if(isset($_SESSION['estaciones'])){
 
@@ -147,7 +147,7 @@
                 }
         ?>
 
-        <!--demas funciones--->
+    <!--demas funciones--->
         <li class="Func">
                 <form action="<?php echo base_url(); ?>/graficas" method="POST">
                     <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> 
@@ -181,7 +181,7 @@
                 </form>
         </li>
 
-        <!---debug--->
+    <!---debug--->
         <li class="nav-item">
             <button class="btn me-2 btn-block"  name="btnPruebas" value="pruebas" onclick="desplegar(this.value)" style="padding:1em;width:100%; border-radius:0; color:white;">
                 Pruebas ⚙
@@ -222,7 +222,7 @@
         </li>
         
         <hr>
-        <!---LOGIN---->
+    <!---LOGIN---->
         <li class="nav-item">
             <form action="<?php echo base_url(); ?>/inicioSesion" method="POST" >
                 <button onclick="carga()" class="btn me-2" id="btnLogin" value="log-in" name="btnFuncion">
@@ -286,15 +286,19 @@
         }
 
     </script>
-    <div id="conAyuda">
-    <i class="fas fa-times" style="font-size: 150%" id="btnAyudaCerrar" onclick="ayuda()"></i>
-        <h3>Ayuda:</h3>
-        <p id="txtAyuda" value="1">pulsa "espacio" para abrir o cerrar el menu</p>
-        <button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()">
-        <i class="fas fa-arrow-right"></i>
-        </button>
-    </div>
 
+    <!--seccion flotante de ayuda--->
+        <div id="conAyuda">
+        <i class="fas fa-times" style="font-size: 150%" id="btnAyudaCerrar" onclick="ayuda()"></i>
+            <h3>Ayuda:</h3>
+            <p id="txtAyuda" value="1">pulsa "espacio" para abrir o cerrar el menu</p>
+            <button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()">
+            <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    
+
+    <!--render de las distintas vistas--->
     <div id="contenido" style="padding-top: 3.8%; padding-left:15%; color:lightgrey;" onclick="cerrarMenu();">
         <?php $this->renderSection('content');?>
         <?php

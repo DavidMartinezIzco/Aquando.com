@@ -1,3 +1,5 @@
+
+//hacer parpadear los objetos de alerta media
 function parpadeoProblema() {
     if(document.getElementById("secProblema").style.opacity == '0'){
         document.getElementById("secProblema").style.opacity = '100%'
@@ -8,6 +10,8 @@ function parpadeoProblema() {
         
     }
 }
+
+//hace parpadear los objetos de alerta alta
 function parpadeoError() {
     if(document.getElementById("secError").style.opacity == '0'){
         document.getElementById("secError").style.opacity = '100%'
@@ -19,6 +23,7 @@ function parpadeoError() {
     }
 }
 
+//genera el esquema del estado historico de la calidad de conexion de una estacion
 function graficoConex() {
     var i = 0;
     var e = 7;

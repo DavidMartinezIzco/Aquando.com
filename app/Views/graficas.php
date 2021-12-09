@@ -67,7 +67,7 @@
                         <label for="fecha">Fin</label>
                     <hr>
                     <!--presets/tipos de repren-->
-                    <label for="opciones">mas opciones:</label>
+                        <label for="opciones">mas opciones:</label>
                         <select class="controlSel" id="opciones" disabled name="opciones">
                             <option value="p1">Preset 1</option>
                             <option value="p2">Preset 2</option>
@@ -76,27 +76,26 @@
                     
                 </form>
 
-                    <!--controles-->                
+                <!--controles-->                
                     <button id="btnControl" style="background-color: yellowgreen;" value="aplicar" onclick="aplicarOpciones()" name="btnControlAplicar">aplicar</button>
                     <button id="btnControl" type="reset" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
                     <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
                 
-            </div>
-
-        </div>
-
-        <div id="zonaGraficos">
-            <div id="grafica" style="width: 100%; height: 100%; border-radius:10px">
+            
             </div>
         </div>
+
+        <!--espacio para las graficas--->
+            <div id="zonaGraficos">
+                <div id="grafica" style="width: 100%; height: 100%; border-radius:10px">
+                </div>
+            </div>
     </div>
 
 </main>
     <!---alarmas--->
-    <table id="alarmasSur">
-
-
-    </table>
+        <table id="alarmasSur">
+        </table>
 
 <script>
     window.onload = function () {

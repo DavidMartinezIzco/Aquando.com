@@ -1,6 +1,7 @@
+
+//abre o cierra el menu lateral
 function abrirCerrar() {
 
-    
     if(document.getElementById("menuIzq").style.width == '15%'){
         cerrarMenu();
     }
@@ -10,6 +11,7 @@ function abrirCerrar() {
     
 }
 
+//despliega la zona de debug
 function desplegar(menu) {
     if (menu == 'pruebas') {
         if(document.getElementsByClassName('expPruebas')[0].style.height == '0px'){
@@ -37,6 +39,7 @@ function desplegar(menu) {
 
 }
 
+//abre el menu y aplica las nnuevas dimensiones
 function abrirMenu() {
     if(document.getElementById("menuIzq")){
         document.getElementById("menuIzq").style.width = '15%';
@@ -71,6 +74,7 @@ function abrirMenu() {
     }
 }
 
+//cierra el menu y aplica las nuevas dimensiones
 function cerrarMenu() {
 
     if(document.getElementById("menuIzq")){
@@ -105,6 +109,7 @@ function cerrarMenu() {
     }
 }
 
+//despliega el menu de inactividad
 function tiempoOpciones(){
     if(document.getElementById("amplificador").style.height == "0px"){
         document.getElementById("amplificador").style.height = '100%';
@@ -117,6 +122,7 @@ function tiempoOpciones(){
     }
 }
 
+//anima textos mientras cargan cosas
 function carga(){
     document.getElementById("seccion").innerText = "Cargando..."
 }
