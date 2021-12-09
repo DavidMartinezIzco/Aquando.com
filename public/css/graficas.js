@@ -53,6 +53,9 @@ function aplicarOpciones() {
     if(document.getElementById("tipoLinea").checked){
         tipo = "linea";
     }
+    if(document.getElementById("tipoTarta").checked){
+        tipo = "tarta";
+    }
     renderGrafico(tipo, datosR);
 
     
@@ -64,99 +67,92 @@ function renderGrafico(tipo,datosR) {
     var chartDom = document.getElementById('grafica');
     var grafico = echarts.init(chartDom);
     var option;
+    var formato = "";
 
-    if(tipo =="barra"){
+    //Ajustes
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+            type: 'shadow'
+            }
+        },
+        legend: {},
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        
+        };
 
-        option = {
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                type: 'shadow'
-                }
-            },
-            legend: {},
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                type: 'category',
-                data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
-                }
-            ],
-            yAxis: [
-                {
-                type: 'value'
-                }
-            ]
-            };
+
+    if(tipo == "barra"){
+        formato = "bar";
+
+        option['xAxis'] = [
+            {
+            type: 'category',
+            data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
+            }
+        ]
+        option['yAxis'] = [
+            {
+            type: 'value'
+            }
+        ]
         
         var series = []
-        
+
         datosR.forEach(function(valores, index, array){
-            
+                
             var datorender = {
                 name: "dato "+ index,
-                type: 'bar',
+                type: formato,
                 smooth: true,
                 emphasis: {
                     focus: 'series'
                 },
                 data: valores
                 }
-
+    
             
             series.push(datorender);
             
         });
         option['series'] = series;
-        
+
     }
+
     if(tipo == "linea"){
-        option = {
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                type: 'shadow'
-                }
-            },
-            legend: {},
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                type: 'category',
-                data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
-                }
-            ],
-            yAxis: [
-                {
-                type: 'value'
-                }
-            ]
-            };
-        
+        formato = "line";
+        option['xAxis'] = [
+            {
+            type: 'category',
+            data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
+            }
+        ]
+        option['yAxis'] = [
+            {
+            type: 'value'
+            }
+        ]
+
         var series = []
-        
+
         datosR.forEach(function(valores, index, array){
-            
+                
             var datorender = {
                 name: "dato "+ index,
-                type: 'line',
+                type: formato,
                 smooth: true,
                 emphasis: {
                     focus: 'series'
                 },
                 data: valores
                 }
-
+    
             
             series.push(datorender);
             
@@ -164,21 +160,45 @@ function renderGrafico(tipo,datosR) {
         option['series'] = series;
     }
 
- 
+    if(tipo == "tarta"){
+
+        formato = "pie";
+        
+        var datos = [];
+        datosR.forEach(function(valores, index, array){    
+                datos.push({value: valores[6], name: 'dato '+index});
+        });
+
+        var series = [{
+            name: "Prototipo Chart",
+                type: formato,
+                radius: '70%',
+                data: datos
+            } 
+        ]
+        option['series'] = series;
+        option['tooltip'] = {trigger:'item'};
+    }
+
+    
+    
+
     option && grafico.setOption(option, true);
     
+    document.getElementById("infoGraf").innerHTML = "formato: "+ tipo + "<br>Periodo: Semanal";
+
     $(window).keyup(function(){
         setTimeout(grafico.resize(),500);
     });
     
     document.getElementById('conPrincipal').onmouseover = function(){
-        setTimeout(grafico.resize(),1000);
+        setTimeout(grafico.resize(),500);
     }
     document.getElementById('grafica').onmouseover = function(){
-        setTimeout(grafico.resize(),1000);
+        setTimeout(grafico.resize(),500);
     }
     document.getElementById('zonaControles').onmouseover = function(){
-        setTimeout(grafico.resize(),1000);
+        setTimeout(grafico.resize(),500);
     }
     
 

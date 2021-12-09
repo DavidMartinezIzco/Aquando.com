@@ -13,8 +13,9 @@
     <div id="display">
         <div id="zonaControles">
 
-            <div id="panelInfo">
-                <h3>info</h3>
+            <div id="panelInfo" style="color: black;padding: 1% 2%">
+                <h3>Mostrando:</h3>
+                <p id="infoGraf"></p>
             </div>
 
             <div id="panelOpciones">
@@ -53,11 +54,11 @@
                     <!--tipo de representacion-->
                         <fieldset>
                             <input type="radio" name="g2" id="tipoLinea" value="linea" checked>
-                            <label for="3">Líneas</label>
+                            <label for="g2">Líneas</label>
                             <input type="radio" name="g2" id="tipoBarra" value="barra">
-                            <label for="3">Barras</label>
-                            <input type="radio" name="g2" id="tipoGraf" value="6" disabled>
-                            <label for="6">opcion 6</label>
+                            <label for="g2">Barras</label>
+                            <input type="radio" name="g2" id="tipoTarta" value="tarta" >
+                            <label for="g2">Tarta (beta)</label>
                         </fieldset>
                     <hr>
                     <!--rango de fechas-->
