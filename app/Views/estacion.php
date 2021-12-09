@@ -1,6 +1,6 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src='css/echarts.min.js'></script>
+<script src ='css/echarts.js'></script>
 <link rel="stylesheet" type="text/css" href="css/estaciones.css">
 <main id="conPrincipal" style="height: 50em; overflow-y:scroll; width:100%;border-radius:10px; margin-top:1%">
 <!---zona superior--->

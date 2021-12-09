@@ -1,7 +1,7 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src='css/echarts.min.js'></script>
 <script src='css/informes.js'></script>
+<script src ='css/echarts.js'></script>
 <link rel="stylesheet" type="text/css" href="css/informes.css">
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
 <main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px;">

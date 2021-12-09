@@ -1,6 +1,5 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src='css/echarts.min.js'></script>
 <script src ='css/echarts.js'></script>
 <script src='css/graficas.js'></script>
 <script src='css/html2canvas.js'></script>

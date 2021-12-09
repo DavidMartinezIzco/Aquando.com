@@ -1,7 +1,7 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
 
-<script src='css/echarts.min.js'></script>
+<script src ='css/echarts.js'></script>
 
 <main style="padding-left: 3em;">
     <h1 style="margin-left: 1em; color: black">Zona de Gráficos</h1>
