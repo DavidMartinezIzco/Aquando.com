@@ -21,7 +21,7 @@
             <div id="panelOpciones">
                 <form>
                     <!--datos a mostrar-->
-                        <fieldset>
+                        <fieldset id="infoRepren" style="transition: 0.5s">
                             <input type="checkbox" name="1" checked>
                             <label for="1">Dato 1</label>
                             
@@ -53,7 +53,7 @@
                     <hr>
                     <!--tipo de representacion-->
                     <h6>Tipo de representacion:</h6>
-                    <select class="controlSel" id="tipoRender" name="tipoRender">
+                    <select class="controlSel" id="tipoRender" name="tipoRender" onchange="alternarOpciones(this.value)">
                             <option value="histo" selected>Historico</option>
                             <option value="linea">Lineas</option>
                             <option value="barra">Barras</option>
@@ -61,14 +61,14 @@
                         </select>
                     <hr>
                     <!--rango de fechas-->
-                        <input type="date" id="dateFecha" name="fechaInicio" disabled>
+                        <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
                         <label for="fecha">Inicio</label>
-                        <input type="date" id="dateFecha" name="fechaFin" disabled>
+                        <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin">
                         <label for="fecha">Fin</label>
                     <hr>
                     <!--presets/tipos de repren-->
                         <label for="opciones">mas opciones:</label>
-                        <select class="controlSel" id="opciones" disabled name="opciones">
+                        <select class="controlSel" id="opciones" style="transition: 0.5s;" name="opciones">
                             <option value="p1">Preset 1</option>
                             <option value="p2">Preset 2</option>
                             <option value="p3">Preset 3</option>
@@ -87,7 +87,7 @@
 
         <!--espacio para las graficas--->
             <div id="zonaGraficos">
-                <div id="grafica" style="width: 100%; height: 100%; border-radius:10px">
+                <div id="grafica" style="width: 100%; height: 100%; border-radius:10px;">
                 </div>
             </div>
     </div>
@@ -101,6 +101,7 @@
     window.onload = function () {
         actualizarMini();
         aplicarOpciones();
+        alternarOpciones(document.getElementById("tipoRender").value);
         setInterval(fechaYHora, 1000);
         setInterval(actualizarMini, 3000);
         setInterval(comprobarTiempo, 1000);

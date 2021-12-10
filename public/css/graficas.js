@@ -13,10 +13,10 @@ function limpiar() {
     document.getElementsByName(2)[0].checked = true;
     document.getElementsByName(3)[0].checked = true;
 
-    document.getElementById("tipoBarra").checked = false;
-    document.getElementById("tipoLinea").checked = true;
     document.getElementById("opciones").value = 'p1';
-
+    document.getElementById("tipoRender").value = "histo";
+    alternarOpciones("histo");
+    aplicarOpciones();
 
 
     setTimeout(function() {
@@ -176,7 +176,7 @@ function renderGrafico(tipo, datosR) {
         let undia = 24 * 3600 * 1000;
         let fecha = [];
         var datos = [Math.random() * 300];
-        for (let i = 1; i < 3700; i++) {
+        for (let i = 1; i < 4300; i++) {
             var now = new Date((base += undia));
             fecha.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
             datos.push(Math.round((Math.random() - 0.5) * 20 + datos[i - 1]));
@@ -185,8 +185,8 @@ function renderGrafico(tipo, datosR) {
         //Ajustes
         option['tooltip'] = {
             trigger: 'axis',
-            position: function(pt) {
-                return [pt[0], '10%'];
+            axisPointer: {
+                type: 'shadow'
             }
         };
 
@@ -203,12 +203,12 @@ function renderGrafico(tipo, datosR) {
 
         option['dataZoom'] = [{
             type: 'inside',
-            start: 0,
-            end: 20,
+            start: 80,
+            end: 100,
 
         }, {
-            start: 0,
-            end: 20
+            start: 80,
+            end: 100
         }];
 
 
@@ -304,4 +304,51 @@ function guardar(uri, filename) {
         window.open(uri);
 
     }
+}
+
+function alternarOpciones(repren) {
+
+
+    switch (repren) {
+        case "histo":
+            document.getElementById("infoRepren").style.opacity = "50%";
+            document.getElementById("infoRepren").disabled = true;
+            document.getElementById("fechaInicio").style.opacity = "50%";
+            document.getElementById("fechaInicio").disabled = true;
+            document.getElementById("fechaFin").style.opacity = "50%";
+            document.getElementById("fechaFin").disabled = true;
+            document.getElementById("opciones").style.opacity = "50%";
+            document.getElementById("opciones").disabled = true;
+            break;
+
+            // case "linea":
+            //     break;
+
+            // case "barra":
+            //     break;
+
+        case "tarta":
+            document.getElementById("infoRepren").style.opacity = "100%";
+            document.getElementById("infoRepren").disabled = false;
+            document.getElementById("fechaInicio").style.opacity = "50%";
+            document.getElementById("fechaInicio").disabled = true;
+            document.getElementById("fechaFin").style.opacity = "50%";
+            document.getElementById("fechaFin").disabled = true;
+            document.getElementById("opciones").style.opacity = "50%";
+            document.getElementById("opciones").disabled = true;
+            break;
+
+        default:
+            document.getElementById("infoRepren").disabled = false;
+            document.getElementById("fechaInicio").disabled = false;
+            document.getElementById("fechaFin").disabled = false;
+            document.getElementById("opciones").disabled = false;
+
+            document.getElementById("infoRepren").style.opacity = "100%";
+            document.getElementById("fechaInicio").style.opacity = "100%";
+            document.getElementById("fechaFin").style.opacity = "100%";
+            document.getElementById("opciones").style.opacity = "100%";
+            break;
+    }
+
 }

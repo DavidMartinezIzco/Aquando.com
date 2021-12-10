@@ -100,7 +100,7 @@
     position: relative;
     height: 80%;
     bottom: 100%;
-    overflow-x: scroll;
+    overflow-x: none;
     overflow-y: hidden;
 }
 
@@ -116,6 +116,7 @@
 
 #grafica {
     transition: 0.5s;
+    z-index: 99;
 }
 
 #alarmasGraficas {

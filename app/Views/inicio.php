@@ -291,7 +291,7 @@
         <div id="conAyuda">
         <i class="fas fa-times" style="font-size: 150%" id="btnAyudaCerrar" onclick="ayuda()"></i>
             <h3>Ayuda:</h3>
-            <p id="txtAyuda" value="1">pulsa "espacio" para abrir o cerrar el menu</p>
+            <p id="txtAyuda" value="1"></p>
             <button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()">
             <i class="fas fa-arrow-right"></i>
             </button>
