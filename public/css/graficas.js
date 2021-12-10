@@ -203,11 +203,11 @@ function renderGrafico(tipo, datosR) {
 
         option['dataZoom'] = [{
             type: 'inside',
-            start: 80,
+            start: 92,
             end: 100,
 
         }, {
-            start: 80,
+            start: 92,
             end: 100
         }];
 
@@ -246,7 +246,7 @@ function renderGrafico(tipo, datosR) {
     document.getElementById("infoGraf").innerHTML = "formato: " + tipo + "<br>Periodo: Semanal";
 
     $(window).keyup(function() {
-        setTimeout(grafico.resize(), 500);
+        grafico.resize();
     });
 
     document.getElementById('conPrincipal').onmouseover = function() {

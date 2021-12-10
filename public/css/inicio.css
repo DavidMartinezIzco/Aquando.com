@@ -1,56 +1,53 @@
-body{
+body {
     /* background: url('Dateando_Fondo_Limpio_Oscuro.png');
     background-size: cover;
     background-attachment: fixed; */
     overflow: hidden;
-    
-    
-  }
-  
-  i{
+}
+
+i {
     margin: 0 5px;
-  }
-  
-  #contenido{
+}
+
+#contenido {
     color: black;
-  }
-  
-  #contenido table{
+}
+
+#contenido table {
     color: black
-  }
-  
-  .icono {
-      background: src('../favicon.ico');
-      height: 0.7em;
-      width: 1em;
-    }
-  
-  .customScroll::-webkit-scrollbar {
+}
+
+.icono {
+    background: src('../favicon.ico');
+    height: 0.7em;
+    width: 1em;
+}
+
+.customScroll::-webkit-scrollbar {
     height: 15px;
-    
-  }
-  .customScroll::-webkit-scrollbar-track {
+}
+
+.customScroll::-webkit-scrollbar-track {
     border-radius: 5px;
     background-color: rgb(1, 168, 184);
-  }
-  .customScroll::-webkit-scrollbar-thumb {
-    
-    background-color:rgb(39,45,79);
+}
+
+.customScroll::-webkit-scrollbar-thumb {
+    background-color: rgb(39, 45, 79);
     border-radius: 5px;
-  }
+}
 
-
-  #iconoAyuda{
+#iconoAyuda {
     font-size: 110%;
     transition: 0.2s;
-  }
+}
 
-  #iconoAyuda:hover{
+#iconoAyuda:hover {
     font-size: 130%;
-    color:rgb(1, 168, 184);
-  }
-  
-  #conAyuda{
+    color: rgb(1, 168, 184);
+}
+
+#conAyuda {
     transition: 0.5s;
     z-index: 9999;
     position: fixed;
@@ -62,29 +59,36 @@ body{
     border-radius: 10px;
     visibility: hidden;
     opacity: 0%;
-  }
+}
 
-  #btnAyudaNext{
+#btnAyudaNext {
     border: none;
     border-radius: 5px;
-  }
+}
 
-  #btnAyudaNext:hover{
+#btnAyudaNext:hover {
     background-color: rgb(1, 168, 184);
     color: white;
     font-size: 130%;
-  }
+}
 
-  #btnAyudaCerrar{
+#btnAyudaCerrar {
     float: right;
     color: black;
-  }
-  #btnAyudaCerrar:hover{
+}
+
+#btnAyudaCerrar:hover {
     color: tomato;
-  }
+}
 
+#imgAyuda {
+    margin: 0% 25%;
+    margin-bottom: 2%;
+    border-radius: 10px;
+    border: 1px solid rgb(1, 168, 184);
+}
 
-  #usuario{
+#usuario {
     color: rgb(1, 168, 184);
     width: 20%;
     margin: 0;
@@ -92,42 +96,42 @@ body{
     position: fixed;
     right: -3%;
     top: 0.5%;
-  }
-  
-  #seccion{
+}
+
+#seccion {
     color: white;
     position: fixed;
     left: 40%;
     top: 0.1em;
     font-size: 2.5em;
     transition: 1s;
-  }
-  
-  #fechahora{
+}
+
+#fechahora {
     padding: 5px;
     color: rgb(1, 168, 184);
     position: fixed;
     right: 3%;
     top: 0.5%;
-  }
-  
-  
-  /*-------------MENUS DE NAVEGACION------------------*/
-  
-  #btnLogin{
+}
+
+
+/*-------------MENUS DE NAVEGACION------------------*/
+
+#btnLogin {
     width: 80%;
     margin: 0 10%;
-    background-color:rgb(56, 56, 56);
-    color:white;
-    border-radius:0;
+    background-color: rgb(56, 56, 56);
+    color: white;
+    border-radius: 0;
     border: 2px solid rgb(1, 168, 184);
-  
-  }
-  #btnLogin:hover{
-    background-color:rgb(1, 168, 184);
-  }
-  
-  #btnMenuIzq{
+}
+
+#btnLogin:hover {
+    background-color: rgb(1, 168, 184);
+}
+
+#btnMenuIzq {
     position: fixed;
     visibility: hidden;
     opacity: 33%;
@@ -140,40 +144,39 @@ body{
     z-index: 9999;
     transition: 0.5s;
     border-radius: 0px;
-  }
-  
-  #btnMenuIzq:hover{
-    background-color:rgb(1, 168, 184);
+}
+
+#btnMenuIzq:hover {
+    background-color: rgb(1, 168, 184);
     opacity: 100%;
-  }
-  
-  #menuIzq{
+}
+
+#menuIzq {
     /* background-color:rgba(255, 255, 255, 0.1); */
-    background-color: rgb(39,45,79);
+    background-color: rgb(39, 45, 79);
     overflow-x: hidden;
     overflow-y: scroll;
     transition: 0.5s;
     width: 15%;
-    height:100%;
+    height: 100%;
     position: fixed;
     margin-top: 4.5em;
     padding: 0;
     z-index: 1000;
-  }
-  #menuIzq::-webkit-scrollbar{
-  display: none;
-  }
+}
+
+#menuIzq::-webkit-scrollbar {
+    display: none;
+}
 
 
-  /* control del tiempo */
+/* control del tiempo */
 
-
-  #conRest:hover{
+#conRest:hover {
     color: rgb(1, 168, 184);
-  }
+}
 
-
-  #amplificador{
+#amplificador {
     transition: 0.2s;
     width: 80%;
     margin: 0% 10%;
@@ -183,15 +186,14 @@ body{
     text-align: center;
     padding: 0%;
     border: 1px solid white;
-    
     background-color: rgba(50, 50, 50);
-  }
+}
 
-  #amplificador li{
+#amplificador li {
     margin: 0px;
-  }
+}
 
-  .btnTiempo{
+.btnTiempo {
     width: 80%;
     margin: 5% 10%;
     border-radius: 7px;
@@ -200,30 +202,29 @@ body{
     color: white;
     transition: 0.1s;
     padding: 1%;
-  }
+}
 
-  .btnTiempo:hover{
-    background-color:rgb(1, 168, 184);
-  }
-
-  #amplificador::-webkit-scrollbar {
-    height: 15px;
-  }
-  #amplificador::-webkit-scrollbar-track {
-    background-color:rgba(50, 50, 50);
-  }
-  #amplificador::-webkit-scrollbar-thumb {
+.btnTiempo:hover {
     background-color: rgb(1, 168, 184);
-    
-  }
+}
 
+#amplificador::-webkit-scrollbar {
+    height: 15px;
+}
 
+#amplificador::-webkit-scrollbar-track {
+    background-color: rgba(50, 50, 50);
+}
 
-  .miniEstacion{
+#amplificador::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+}
+
+.miniEstacion {
     list-style: none;
     border: 1px solid white;
     height: 0px;
-    overflow-x:hidden;
+    overflow-x: hidden;
     overflow-y: scroll;
     width: 80%;
     margin: 0 10%;
@@ -232,69 +233,67 @@ body{
     font-size: small;
     transition: 0.5s;
     padding: 0px;
-  }
-  .miniEstacion::-webkit-scrollbar {
+}
+
+.miniEstacion::-webkit-scrollbar {
     height: 15px;
-  }
-  .miniEstacion::-webkit-scrollbar-track {
-    background-color:rgba(50, 50, 50);
-  }
-  .miniEstacion::-webkit-scrollbar-thumb {
+}
+
+.miniEstacion::-webkit-scrollbar-track {
+    background-color: rgba(50, 50, 50);
+}
+
+.miniEstacion::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
-  }
-  
-  .miniEstacion li{
+}
+
+.miniEstacion li {
     width: 100%;
-    margin:0px;
-  }
-  
-  .expPruebas{
+    margin: 0px;
+}
+
+.expPruebas {
     margin: 0;
     transition: 0.5s;
-    overflow:hidden;
+    overflow: hidden;
     height: 0px;
-  }
-  
+}
 
-  #contenido{
+#contenido {
     transition: 0.5s;
-    padding-left:5em;
+    padding-left: 5em;
     padding-top: 10%;
     padding-left: calc(15% + 3em);
-  }
-  
-  #contenidoMenuIzq2 li form button:hover{
+}
+
+#contenidoMenuIzq2 li form button:hover {
     background-color: rgb(1, 168, 184);
-    
-  }
-  
-  #contenidoMenuIzq1:hover{
+}
+
+#contenidoMenuIzq1:hover {
     background-color: rgb(1, 168, 184);
-    
-  }
-  
+}
+
+
 /*  footer sur alarmas */
 
-footer{
-  width: 100%;
-  height: 10%;
+footer {
+    width: 100%;
+    height: 10%;
 }
-
 
 .tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  top: 100%;
-  left: 50%;
-  margin-left: -60px;
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
 }
-
