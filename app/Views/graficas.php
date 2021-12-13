@@ -21,36 +21,50 @@
             <div id="panelOpciones">
                 <form>
                     <!--datos a mostrar-->
-                        <fieldset id="infoRepren" style="transition: 0.5s">
-                            <input type="checkbox" name="1" checked>
+                    <fieldset id="infoRepren" style="transition: 0.5s">
+                    <?php
+                    $i = 1;
+                        foreach ($datosF as $key => $value) {
+                            $clave = substr($key, strpos($key, " ")+1,10 );
+                            echo "<input type='checkbox' style='margin:0% 2%' name='$clave' value='$clave' checked>";
+                            echo "<label for='$clave'>Info: $clave</label>";
+                            if($i == 3 || $i == 6){
+                                echo "<br>";
+                            }
+                            $i++;
+                        }
+                    ?>
+                    </fieldset>
+                    <hr>
+                        
+                            <!-- <input type="checkbox" name="1" value=1 checked>
                             <label for="1">Dato 1</label>
                             
-                            <input type="checkbox" name="2"checked>
+                            <input type="checkbox" name="2" value=2 checked>
                             <label for="2">Dato 2</label>
                             
-                            <input type="checkbox" name="3"checked>
+                            <input type="checkbox" name="3" value=3 checked>
                             <label for="3">Dato 3</label>
                             <br>
-                            <input type="checkbox" name="4">
+                            <input type="checkbox" name="4" value=4>
                             <label for="4">Dato 4</label>
                             
-                            <input type="checkbox" name="5">
+                            <input type="checkbox" name="5" value=5>
                             <label for="5">Dato 5</label>
                             
-                            <input type="checkbox" name="6">
+                            <input type="checkbox" name="6" value=6>
                             <label for="6">Dato 6</label>
                             <br>
-                            <input type="checkbox" name="7">
+                            <input type="checkbox" name="7" value=7>
                             <label for="7">Dato 7</label>
                             
-                            <input type="checkbox" name="8">
+                            <input type="checkbox" name="8" value=8>
                             <label for="8">Dato 8</label>
                             
-                            <input type="checkbox" name="9">
+                            <input type="checkbox" name="9" value=9>
                             <label for="9">Dato 9</label>
-                            <br>
-                        </fieldset>
-                    <hr>
+                            <br> -->
+                        
                     <!--tipo de representacion-->
                     <h6>Tipo de representacion:</h6>
                     <select class="controlSel" id="tipoRender" name="tipoRender" onchange="alternarOpciones(this.value)">
@@ -67,11 +81,11 @@
                         <label for="fecha">Fin</label>
                     <hr>
                     <!--presets/tipos de repren-->
-                        <label for="opciones">mas opciones:</label>
+                        <label for="opciones">Estación:</label>
                         <select class="controlSel" id="opciones" style="transition: 0.5s;" name="opciones">
-                            <option value="p1">Preset 1</option>
-                            <option value="p2">Preset 2</option>
-                            <option value="p3">Preset 3</option>
+                            <option value="e1">Estación 1</option>
+                            <option value="e2">Estación 2</option>
+                            <option value="e3">Estación 3</option>
                         </select>
                     
                 </form>
@@ -91,7 +105,7 @@
                 </div>
             </div>
     </div>
-
+    
 </main>
     <!---alarmas--->
         <table id="alarmasSur">
@@ -99,6 +113,8 @@
 
 <script>
     window.onload = function () {
+        var datos = [];
+        iniciar();
         actualizarMini();
         aplicarOpciones();
         alternarOpciones(document.getElementById("tipoRender").value);
@@ -106,6 +122,29 @@
         setInterval(actualizarMini, 3000);
         setInterval(comprobarTiempo, 1000);
     }
+
+    function iniciar() {
+    <?php
+
+        //carga de datos general
+        echo "datos = {"; 
+
+            foreach ($datosF as $index => $datos) {
+                echo "'". $index ."':[";
+                foreach ($datos as $nombre => $valores) {
+                    
+                    echo $valores.",";
+                    
+                }
+                echo "],";
+            }
+
+        echo "};"
+
+    ?>
+    }
+    
+    
 
     $(window).keydown(function(e){
     if (e.ctrlKey)

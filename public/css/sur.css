@@ -1,4 +1,4 @@
-#alarmasSur {
+#alarmasSur{
     border-top: 5px solid rgb(1, 168, 184);
     position: absolute;
     width: 90%;
@@ -6,14 +6,15 @@
     bottom: 0;
     text-align: center;
     transition: 0.5s;
-    overflow-y: scroll;
+    height: 10%;
 }
 
 #alarmasSur tr {
     transition: 2s;
     margin-left: 0.5%;
+    height: 50%;
 }
 
 table tr :hover {
-    padding: 0.2%;
+    padding: 0.1%;
 }

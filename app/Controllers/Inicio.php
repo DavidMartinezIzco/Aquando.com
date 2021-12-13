@@ -152,7 +152,26 @@ class Inicio extends BaseController
     public function graficas(){
         if(isset($_SESSION['nombre'])){
             $_SESSION['seccion'] = "graficos";
-            return view('graficas');
+
+
+            //estructura de datos para graficas
+            //se conseguiran con consultas
+            //necesitaremos otro con las fechas
+            $datosF = array(
+                "info 1"=> array(320, 332, 301, 334, 390, 330, 320),
+                "info 2"=>array(120, 132, 101, 134, 90, 230, 210),
+                "info 3"=>array(220, 182, 191, 234, 290, 330, 310),
+                "info 4"=> array(150, 232, 201, 154, 190, 330, 410),
+                "info 5"=>array(862, 1018, 964, 1026, 1679, 1600, 1570),
+                "info 6"=>array(620, 732, 701, 734, 1090, 1130, 1120),
+                "info 7"=>array(120, 132, 101, 134, 290, 230, 220),
+                "info 8"=>array(60, 72, 71, 74, 190, 130, 110),
+                "info 9"=>array(62, 82, 91, 84, 109, 110, 120)
+            );
+
+            $datos['datosF'] = $datosF;
+
+            return view('graficas', $datos);
         }
         else {
             return view('inicio');

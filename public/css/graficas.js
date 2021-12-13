@@ -9,13 +9,8 @@ function limpiar() {
         i++
     }
 
-    document.getElementsByName(1)[0].checked = true;
-    document.getElementsByName(2)[0].checked = true;
-    document.getElementsByName(3)[0].checked = true;
-
-    document.getElementById("opciones").value = 'p1';
-    document.getElementById("tipoRender").value = "histo";
-    alternarOpciones("histo");
+    document.getElementById("opciones").value = 'e1';
+    
     aplicarOpciones();
 
 
@@ -29,22 +24,23 @@ function limpiar() {
 //aplica las opciones de los controles
 function aplicarOpciones() {
     var datosR = [];
-    var datos = {
-        "info 1": [320, 332, 301, 334, 390, 330, 320],
-        "info 2": [120, 132, 101, 134, 90, 230, 210],
-        "info 3": [220, 182, 191, 234, 290, 330, 310],
-        "info 4": [150, 232, 201, 154, 190, 330, 410],
-        "info 5": [862, 1018, 964, 1026, 1679, 1600, 1570],
-        "info 6": [620, 732, 701, 734, 1090, 1130, 1120],
-        "info 7": [120, 132, 101, 134, 290, 230, 220],
-        "info 8": [60, 72, 71, 74, 190, 130, 110],
-        "info 9": [62, 82, 91, 84, 109, 110, 120]
-    };
+    //estructura original de uso de datos
+    // var datos = {
+    //     "info 1": [320, 332, 301, 334, 390, 330, 320],
+    //     "info 2": [120, 132, 101, 134, 90, 230, 210],
+    //     "info 3": [220, 182, 191, 234, 290, 330, 310],
+    //     "info 4": [150, 232, 201, 154, 190, 330, 410],
+    //     "info 5": [862, 1018, 964, 1026, 1679, 1600, 1570],
+    //     "info 6": [620, 732, 701, 734, 1090, 1130, 1120],
+    //     "info 7": [120, 132, 101, 134, 290, 230, 220],
+    //     "info 8": [60, 72, 71, 74, 190, 130, 110],
+    //     "info 9": [62, 82, 91, 84, 109, 110, 120]
+    // };
 
     var i = 1;
     while (i <= 9) {
         if (document.getElementsByName(i)[0].checked) {
-            datosR.push(datos["info " + i]);
+            datosR["info " + document.getElementsByName(i)[0].value] = (datos["info " + document.getElementsByName(i)[0].value]);
         }
         i++
     }
@@ -88,23 +84,24 @@ function renderGrafico(tipo, datosR) {
         }]
 
         var series = []
-
-        datosR.forEach(function(valores, index, array) {
-
+        for(var index in datosR) {
+        
             var datorender = {
-                name: "dato " + index,
+                name: index,
                 type: formato,
                 smooth: true,
                 emphasis: {
                     focus: 'series'
                 },
-                data: valores
+                data: datosR[index]
             }
 
 
             series.push(datorender);
 
-        });
+        };
+
+
         option['series'] = series;
         option['tooltip'] = {
             trigger: 'axis',
@@ -132,22 +129,22 @@ function renderGrafico(tipo, datosR) {
 
         var series = []
 
-        datosR.forEach(function(valores, index, array) {
-
+        for(var index in datosR) {
+        
             var datorender = {
-                name: "dato " + index,
+                name: index,
                 type: formato,
                 smooth: true,
                 emphasis: {
                     focus: 'series'
                 },
-                data: valores
+                data: datosR[index]
             }
 
 
             series.push(datorender);
 
-        });
+        };
         option['series'] = series;
     }
 
@@ -156,12 +153,13 @@ function renderGrafico(tipo, datosR) {
         formato = "pie";
 
         var datos = [];
-        datosR.forEach(function(valores, index, array) {
-            datos.push({ value: valores[6], name: 'dato ' + index });
-        });
-
+        for(var index in datosR) {
+            var dato = {"value":datosR[index][6], "name": index};
+            datos.push(dato);
+        };
+        console.log(datos);
         var series = [{
-            name: "Prototipo Chart",
+            name: "protoChart",
             type: formato,
             radius: '70%',
             data: datos
@@ -178,7 +176,7 @@ function renderGrafico(tipo, datosR) {
         var datos = [Math.random() * 300];
         for (let i = 1; i < 4300; i++) {
             var now = new Date((base += undia));
-            fecha.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+            fecha.push([now.getDate(), now.getMonth() + 1,now.getFullYear()].join('/'));
             datos.push(Math.round((Math.random() - 0.5) * 20 + datos[i - 1]));
         }
 
@@ -235,8 +233,6 @@ function renderGrafico(tipo, datosR) {
         }];
 
         option['series'] = series;
-
-
 
     }
 
