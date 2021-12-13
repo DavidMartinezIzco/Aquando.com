@@ -58,7 +58,7 @@ class Conexion{
             '<script language="javascript">
             alert("comprueba tu conexion");
             </script>';
-            
+            return view("inicioSesion");
         }
         if($this->conexionAPI->IsCreated() == false)
         {
@@ -95,12 +95,14 @@ class Conexion{
 
     //devuelve array con IDs de las estaciones en linea
     public function mostrarOnlineAPI(){
-        $estaciones = $this->conexionAPI->Stations();
+        if($this->pruebaDBAPI()){
+            $estaciones = $this->conexionAPI->Stations();
         if(!empty($estaciones)){
             return $estaciones;
         }
         else{
             return array("error"=>"error");
+        }
         }
     }
 

@@ -156,7 +156,8 @@ class Inicio extends BaseController
 
             //estructura de datos para graficas
             //se conseguiran con consultas
-            //necesitaremos otro con las fechas
+            //necesitaremos otro con las fechas 
+            //otro distinto para historicos + ajax
             $datosF = array(
                 "info 1"=> array(320, 332, 301, 334, 390, 330, 320),
                 "info 2"=>array(120, 132, 101, 134, 90, 230, 210),

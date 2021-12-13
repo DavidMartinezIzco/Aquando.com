@@ -20,7 +20,7 @@
 
             <div id="panelOpciones">
                 <form>
-                    <!--datos a mostrar-->
+                    <!--generador de datos a mostrar-->
                     <fieldset id="infoRepren" style="transition: 0.5s">
                     <?php
                     $i = 1;
@@ -36,34 +36,6 @@
                     ?>
                     </fieldset>
                     <hr>
-                        
-                            <!-- <input type="checkbox" name="1" value=1 checked>
-                            <label for="1">Dato 1</label>
-                            
-                            <input type="checkbox" name="2" value=2 checked>
-                            <label for="2">Dato 2</label>
-                            
-                            <input type="checkbox" name="3" value=3 checked>
-                            <label for="3">Dato 3</label>
-                            <br>
-                            <input type="checkbox" name="4" value=4>
-                            <label for="4">Dato 4</label>
-                            
-                            <input type="checkbox" name="5" value=5>
-                            <label for="5">Dato 5</label>
-                            
-                            <input type="checkbox" name="6" value=6>
-                            <label for="6">Dato 6</label>
-                            <br>
-                            <input type="checkbox" name="7" value=7>
-                            <label for="7">Dato 7</label>
-                            
-                            <input type="checkbox" name="8" value=8>
-                            <label for="8">Dato 8</label>
-                            
-                            <input type="checkbox" name="9" value=9>
-                            <label for="9">Dato 9</label>
-                            <br> -->
                         
                     <!--tipo de representacion-->
                     <h6>Tipo de representacion:</h6>
@@ -124,26 +96,19 @@
     }
 
     function iniciar() {
-    <?php
-
-        //carga de datos general
-        echo "datos = {"; 
-
-            foreach ($datosF as $index => $datos) {
-                echo "'". $index ."':[";
-                foreach ($datos as $nombre => $valores) {
-                    
-                    echo $valores.",";
-                    
+        <?php
+            //carga de datos general desde servidor
+            echo "datos = {"; 
+                foreach ($datosF as $index => $datos) {
+                    echo "'". $index ."':[";
+                    foreach ($datos as $nombre => $valores) {
+                        echo $valores.",";
+                    }
+                    echo "],";
                 }
-                echo "],";
-            }
-
-        echo "};"
-
-    ?>
+            echo "};"
+        ?>
     }
-    
     
 
     $(window).keydown(function(e){

@@ -3,8 +3,11 @@ function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
     var i = 1;
     while (i <= 9) {
-        if (document.getElementsByName(i)[0].checked) {
+
+        if(document.getElementsByName(i)[0]){
+            if (document.getElementsByName(i)[0].checked) {
             document.getElementsByName(i)[0].checked = false;
+            }
         }
         i++
     }
@@ -19,34 +22,23 @@ function limpiar() {
     }, 1000);
 }
 
-
-
 //aplica las opciones de los controles
 function aplicarOpciones() {
     var datosR = [];
-    //estructura original de uso de datos
-    // var datos = {
-    //     "info 1": [320, 332, 301, 334, 390, 330, 320],
-    //     "info 2": [120, 132, 101, 134, 90, 230, 210],
-    //     "info 3": [220, 182, 191, 234, 290, 330, 310],
-    //     "info 4": [150, 232, 201, 154, 190, 330, 410],
-    //     "info 5": [862, 1018, 964, 1026, 1679, 1600, 1570],
-    //     "info 6": [620, 732, 701, 734, 1090, 1130, 1120],
-    //     "info 7": [120, 132, 101, 134, 290, 230, 220],
-    //     "info 8": [60, 72, 71, 74, 190, 130, 110],
-    //     "info 9": [62, 82, 91, 84, 109, 110, 120]
-    // };
-
+    //elems = document.getElementById("infoRepren").childElementCount / 2 -1;
+    //console.log(elems);
     var i = 1;
     while (i <= 9) {
-        if (document.getElementsByName(i)[0].checked) {
-            datosR["info " + document.getElementsByName(i)[0].value] = (datos["info " + document.getElementsByName(i)[0].value]);
+        if(document.getElementsByName(i)[0]){
+            if (document.getElementsByName(i)[0].checked) {
+                datosR["info " + document.getElementsByName(i)[0].value] = (datos["info " + document.getElementsByName(i)[0].value]);
+            }
         }
-        i++
+        i++;
     }
+
     var tipo = document.getElementById("tipoRender").value
     renderGrafico(tipo, datosR);
-
 
 }
 
@@ -157,7 +149,6 @@ function renderGrafico(tipo, datosR) {
             var dato = {"value":datosR[index][6], "name": index};
             datos.push(dato);
         };
-        console.log(datos);
         var series = [{
             name: "protoChart",
             type: formato,
@@ -168,6 +159,7 @@ function renderGrafico(tipo, datosR) {
         option['tooltip'] = { trigger: 'item' };
     }
 
+    //historicos todavia no coge datos de servidor
     if (tipo == "histo") {
 
         let base = +new Date(2010, 1, 1);
@@ -254,7 +246,6 @@ function renderGrafico(tipo, datosR) {
     document.getElementById('zonaControles').onmouseover = function() {
         setTimeout(grafico.resize(), 500);
     }
-
 
 }
 
