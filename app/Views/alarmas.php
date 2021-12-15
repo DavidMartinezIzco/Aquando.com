@@ -39,13 +39,13 @@
 
         <div id="filtros2">
             <input type="radio" id="radioFecha" name="filtro" value="Fecha" checked>
-                <label for="filtro">Fecha</label>
+                <label for="radioFecha">Fecha</label>
             <input type="radio" id="radioMotivo" name="filtro" value="Motivo">
-                <label for="filtro">Importancia</label>
+                <label for="radioMotivo">Importancia</label>
             <input type="radio" id="radioCanal" name="filtro" value="Canal">
-                <label for="filtro">Canal</label>
+                <label for="radioCanal">Canal</label>
             <input type="radio" id="radioEstacion" name="filtro" value="Estacion">
-                <label for="filtro">Estación</label>
+                <label for="radioEstacion">Estación</label>
         </div>
 
         <div id="orden">
@@ -167,6 +167,12 @@
         setInterval(fechaYHora, 1000);
         setInterval(actualizar, 10000);
         setInterval(comprobarTiempo, 1000);
+        $(window).blur(function() {
+            comprobarSesion();
+        });
+        $(window).focus(function() {
+            comprobarSesion();
+        });
     }
 
     //actualiza las alarmas con los ajustes del menu

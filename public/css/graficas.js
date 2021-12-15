@@ -337,5 +337,6 @@ function alternarOpciones(repren) {
             document.getElementById("opciones").style.opacity = "100%";
             break;
     }
+    aplicarOpciones();
 
 }

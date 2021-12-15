@@ -26,8 +26,8 @@
                     $i = 1;
                         foreach ($datosF as $key => $value) {
                             $clave = substr($key, strpos($key, " ")+1,10 );
-                            echo "<input type='checkbox' style='margin:0% 2%' name='$clave' value='$clave' checked>";
-                            echo "<label for='$clave'>Info: $clave</label>";
+                            echo "<input type='checkbox' style='margin:0% 2%' id='i$clave' name='$clave' value='$clave' checked>";
+                            echo "<label for='i$clave'>Info: $clave</label>";
                             if($i == 3 || $i == 6){
                                 echo "<br>";
                             }
@@ -39,7 +39,7 @@
                         
                     <!--tipo de representacion-->
                     <h6>Tipo de representacion:</h6>
-                    <select class="controlSel" id="tipoRender" name="tipoRender" onchange="alternarOpciones(this.value)">
+                    <select class="controlSel" id="tipoRender" name="tipoRender" onchange=alternarOpciones(this.value)>
                             <option value="histo" selected>Historico</option>
                             <option value="linea">Lineas</option>
                             <option value="barra">Barras</option>
@@ -93,6 +93,12 @@
         setInterval(fechaYHora, 1000);
         setInterval(actualizarMini, 3000);
         setInterval(comprobarTiempo, 1000);
+        $(window).blur(function() {
+            comprobarSesion();
+        });
+        $(window).focus(function() {
+            comprobarSesion();
+        });
     }
 
     function iniciar() {
@@ -116,6 +122,9 @@
         mostrarOpciones();
     });
 
+
+    
+    
 
 </script>
 

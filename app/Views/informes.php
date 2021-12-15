@@ -82,6 +82,12 @@
 window.onload = function () {
     setInterval(fechaYHora, 1000);
     setInterval(comprobarTiempo, 1000);
+    $(window).blur(function() {
+            comprobarSesion();
+        });
+        $(window).focus(function() {
+            comprobarSesion();
+        });
 }
 
 $(window).keydown(function(e){

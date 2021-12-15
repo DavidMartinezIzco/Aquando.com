@@ -71,7 +71,14 @@
         setInterval(actualizarMini, 3000);
         mostrarResumen();
         cargarDatos();
+        $(window).blur(function() {
+            comprobarSesion();
+        });
+        $(window).focus(function() {
+            comprobarSesion();
+        });
     }
+
 
 </script>
 

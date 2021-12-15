@@ -119,6 +119,12 @@
         setInterval(parpadeoProblema, 1000);
         setInterval(parpadeoError, 1000);
         setInterval(actualizarMini, 3000);
+        $(window).blur(function() {
+            comprobarSesion();
+        });
+        $(window).focus(function() {
+            comprobarSesion();
+        });
     }
 </script>
 

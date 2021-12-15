@@ -206,15 +206,20 @@ class Inicio extends BaseController
 
     //muestra la zona de informes
     public function informes(){
-        $_SESSION['seccion'] = "infos";
-        return view('informes');
+        if(isset($_SESSION['nombre'])){
+            $_SESSION['seccion'] = "infos";
+            return view('informes');
+        }
+        else {
+            return $this->inicioSesion();
+        }
     }
 
     //muestra el estado de las conexiones con las estaciones
     public function comunicaciones(){
         $_SESSION['seccion'] = "coms";
         if(isset($_SESSION['nombre'])){
-            return view('comunicaciones');
+            
         }
         else {
             return view('inicio');
@@ -222,6 +227,6 @@ class Inicio extends BaseController
     }   
 
 
-
+    
 
 }
