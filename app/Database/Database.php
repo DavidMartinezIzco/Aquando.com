@@ -5,9 +5,8 @@ class Database{
     private $conexion;
 
     public function __construct(){        
-        //estos parametros son provisionales (creo)
-        //luego Uid y PWD dependeran del usuario (creo)
-        //no son las credenciales que se usan para Zeus (creo)
+        //falta: cambiar a nueva BD y rehacer todas las consultas
+        
         $this->host = "172.16.3.2";
         $this->opciones = array("Database"=>"Zeus", "Uid"=>"sa", "PWD"=>"dateando","CharacterSet"=>"UTF-8");
         $this->conectar();
@@ -15,7 +14,7 @@ class Database{
 
     //parametros y logica provisional
     public function conectar(){
-    
+    //falta: cambiar a nueva BD
         
         $this->conexion = sqlsrv_connect($this->host, $this->opciones);
         if($this->conexion == false){
@@ -125,4 +124,3 @@ class Database{
     }
 
 }
-?>

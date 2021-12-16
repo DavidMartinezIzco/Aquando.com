@@ -4,6 +4,9 @@ if (sessionStorage.getItem('tmax') !== null) {
     tiempoMax = sessionStorage.getItem('tmax');
 }
 
+
+//tiempo standby y eventos que lo resetean
+//el tiempo está en segundos y avanza por la ejecucion de checking
 var tiempoStandBy = 0;
 document.onclick = function() {
     tiempoStandBy = 0;
@@ -60,6 +63,8 @@ function modificarInactividad(minutos) {
     tiempoOpciones();
 }
 
+//crea una cuenta atrás para cerrar sesion mientras estés con la pagina minimizada.
+//el tiempo de la cuenta atrás depende del tiempo maximo seleccionado y del tiempo en stand-by
 function tiempoFuera(evento) {
     tiempoPara = (tiempoMax - tiempoStandBy) * 1000;
     const tFuera = setTimeout(function() {

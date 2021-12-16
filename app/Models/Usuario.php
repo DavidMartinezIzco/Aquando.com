@@ -15,6 +15,7 @@ class Usuario{
         $this->contrasena = $contrasena;
         $this->authAcc = $authAcc;
         $this->authPass = $authPass;
+        //falta: cambiar a nueva BD
         $this->DB = new Conexion($this->authAcc, $this->contrasena,$this->authPass);
     }
 
@@ -125,6 +126,3 @@ class Usuario{
         return $this;
     }
 }
-
-
-?>

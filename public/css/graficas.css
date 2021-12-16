@@ -5,25 +5,6 @@
     padding: 0.5%;
 }
 
-
-/* #btnOpcionesgraficas{
-    position: fixed;
-    z-index: 9999;
-    top: 10%;
-    left: 81%;
-    padding: 0.5% 0.5%;
-    color: grey;
-    background-color:rgba(56, 56, 56);
-    border:none;
-    transition: 0.5s;
-    border-radius: 5px;
-}
-
-#btnOpcionesgraficas:hover{
-    background-color: rgb(1, 168, 184);
-    color: white;
-} */
-
 #zonaControles {
     height: 90%;
     transition: 0.2s;

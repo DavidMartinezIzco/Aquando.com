@@ -1,6 +1,6 @@
 <?php
 
-
+//provisional: eliminaremos ZeusAPI y usaremos sólo la clase Database.php
 require_once (APPPATH."Database/Database.php");
 require (APPPATH."Models/Tag.php");
 
@@ -224,7 +224,3 @@ class Conexion{
     }
 
 }
-
-
-
-?>

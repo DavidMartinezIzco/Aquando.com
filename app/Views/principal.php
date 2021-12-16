@@ -1,6 +1,6 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src ='css/echarts.js'></script>
+<script src='css/echarts.js'></script>
 <script src="css/principal.js"></script>
 <script src="css/reloj.js"></script>
 
@@ -16,21 +16,21 @@
 
             <!-----WIDGET DE PRUEBA PEPINA---->
             <div id="widgetsI">
-            <?php
+                <?php
                 $cont = 1;
-                while($cont <= 4){
+                while ($cont <= 4) {
                     echo '
-                    <div id="widgetMixto" onclick="transicion('.$cont.');">
-                    <div id="widVal'.$cont.'" style="height: 20em; width:100%;">   
+                    <div id="widgetMixto" onclick="transicion(' . $cont . ');">
+                    <div id="widVal' . $cont . '" style="height: 20em; width:100%;">   
                     </div>
                 <!--conexion-->
-                    <div id="widConex'.$cont.'" style="height: 20em; width:100%;">
+                    <div id="widConex' . $cont . '" style="height: 20em; width:100%;">
                     </div>
                 <!--minimos-->
-                    <div id="widMin'.$cont.'" style="height: 20em; width:100%;">
+                    <div id="widMin' . $cont . '" style="height: 20em; width:100%;">
                     </div>
                 <!--alarmas-->
-                    <div id="widAla'.$cont.'" style="padding:5% 0%;position: relative;right:5%;height: 20em; width:100%;">
+                    <div id="widAla' . $cont . '" style="padding:5% 0%;position: relative;right:5%;height: 20em; width:100%;">
                     
                         <ul style="color:white;list-style:none;">
                             <h6>Alarmas:</h6>
@@ -41,17 +41,16 @@
                     </div>
                 </div>
                     
-                    '
-                    ;
-                    $cont ++;
+                    ';
+                    $cont++;
                 }
-            ?>
+                ?>
             </div>
         </div>
     </div>
     <div id="conCarrusel">
         <h3 style="margin: 3% 0%">Mapa</h3>
-            
+
         <iframe width="100%" height="80%" frameborder="0" scrolling="yes" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=-1.6398355364799502%2C42.753842721248496%2C-1.635463535785675%2C42.75560341523702&amp;layer=hot&amp;marker=42.75472307449567%2C-1.6376495361328125" style="border: 1px solid black"></iframe>
     </div>
 </main>
@@ -78,8 +77,6 @@
             tiempoFuera("volver")
         });
     }
-
-
 </script>
 
 

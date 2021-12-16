@@ -1,6 +1,6 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src ='css/echarts.js'></script>
+<script src='css/echarts.js'></script>
 <script src='css/alarmas.js'></script>
 <script src='css/html2canvas.js'></script>
 <script src='css/html2canvas.min.js'></script>
@@ -9,13 +9,13 @@
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
 <main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px;">
 
-<!--opciones de filtrado de las alarmas--->
+    <!--opciones de filtrado de las alarmas--->
     <div id="zonaOpciones">
         <div id="filtros">
-        <label for="estacionSel">Estación:</label>
-                        <select class="controlSel" id="estaciones" name="estacionSel">
-                        <option value="all">Todas</option>
-                            <?php 
+            <label for="estacionSel">Estación:</label>
+            <select class="controlSel" id="estaciones" name="estacionSel">
+                <option value="all">Todas</option>
+                <?php 
                             $estaciones = $_SESSION['estaciones'];
                             if(isset($_SESSION['estacion'])){
                                 $estacionVieja = $_SESSION['estacion'];
@@ -34,18 +34,18 @@
                                     }
                                 }                 
                             ?>
-                        </select>
+            </select>
         </div>
 
         <div id="filtros2">
             <input type="radio" id="radioFecha" name="filtro" value="Fecha" checked>
-                <label for="radioFecha">Fecha</label>
+            <label for="radioFecha">Fecha</label>
             <input type="radio" id="radioMotivo" name="filtro" value="Motivo">
-                <label for="radioMotivo">Importancia</label>
+            <label for="radioMotivo">Importancia</label>
             <input type="radio" id="radioCanal" name="filtro" value="Canal">
-                <label for="radioCanal">Canal</label>
+            <label for="radioCanal">Canal</label>
             <input type="radio" id="radioEstacion" name="filtro" value="Estacion">
-                <label for="radioEstacion">Estación</label>
+            <label for="radioEstacion">Estación</label>
         </div>
 
         <div id="orden">
@@ -57,7 +57,7 @@
         </div>
 
         <div id="fechas">
-            
+
             <input type="date" id="radioFecha" name="fechaInicio">
             <label for="fecha">Inicio</label><br>
             <input type="date" id="radioMotivo" name="fechaFin">
@@ -65,13 +65,16 @@
         </div>
 
         <div id="acciones">
-            <button id="btnControl" style="background-color: yellowgreen;" value="aplicar"onclick=aplicarFiltros() name="btnControl">aplicar</button>
-            <button id="btnControl" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
-            <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
+            <button id="btnControl" style="background-color: yellowgreen;" value="aplicar" onclick=aplicarFiltros()
+                name="btnControl">aplicar</button>
+            <button id="btnControl" onclick=limpiar() style="background-color: tomato;" value="reset"
+                name="btnControlReset">reset</button>
+            <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()"
+                name="btnControlPrint"><i class="fas fa-print"></i></button>
         </div>
 
     </div>
-<!--zona para representar las alarmas--->
+    <!--zona para representar las alarmas--->
     <div id="zonaAlarmas">
 
         <table id="tablaAlarmas">
@@ -161,76 +164,73 @@
 </main>
 
 <script>
+window.onload = function() {
+    setInterval(fechaYHora, 1000);
+    setInterval(actualizar, 10000);
+    setInterval(comprobarTiempo, 1000);
+    $(window).blur(function() {
+        tiempoFuera("");
+    });
+    $(window).focus(function() {
+        tiempoFuera("volver")
+    });
+}
 
-    
-    window.onload = function () {
-        setInterval(fechaYHora, 1000);
-        setInterval(actualizar, 10000);
-        setInterval(comprobarTiempo, 1000);
-        $(window).blur(function() {
-            tiempoFuera("");
-        });
-        $(window).focus(function() {
-            tiempoFuera("volver")
-        });
-    }
+//actualiza las alarmas con los ajustes del menu
+function actualizar() {
 
-    //actualiza las alarmas con los ajustes del menu
-        function actualizar() {
+    if (document.getElementById("estaciones").value == 'all') {
+        var estacion = 'all';
+        var filtro = "";
+        var orden = "";
+        if (document.getElementById("radioFecha").checked) {
+            filtro = document.getElementById("radioFecha").value;
+        }
+        if (document.getElementById("radioMotivo").checked) {
+            filtro = document.getElementById("radioMotivo").value;
+        }
+        if (document.getElementById("radioCanal").checked) {
+            filtro = document.getElementById("radioCanal").value;
+        }
+        if (document.getElementById("radioEstacion").checked) {
+            filtro = document.getElementById("radioEstacion").value;
+        }
 
-            if(document.getElementById("estaciones").value == 'all'){
-                var estacion = 'all';
-                var filtro = "";
-                var orden = "";
-                if (document.getElementById("radioFecha").checked) {
-                    filtro = document.getElementById("radioFecha").value;
-                }
-                if (document.getElementById("radioMotivo").checked) {
-                    filtro = document.getElementById("radioMotivo").value;
-                }
-                if (document.getElementById("radioCanal").checked) {
-                    filtro = document.getElementById("radioCanal").value;
-                }
-                if (document.getElementById("radioEstacion").checked) {
-                    filtro = document.getElementById("radioEstacion").value;
-                }
+        if (document.getElementById("radioAsc").checked) {
+            orden = document.getElementById("radioAsc").value;
+        }
 
-                if (document.getElementById("radioAsc").checked) {
-                    orden = document.getElementById("radioAsc").value;
-                }
-
-                if (document.getElementById("radioDesc").checked) {
-                    orden = document.getElementById("radioDesc").value;
-                }
-
-
-                var acc = "<?php if(isset($_SESSION['acc'])){echo $_SESSION['acc'];}else{echo "";}?>"
-                var pwd = "<?php if(isset($_SESSION['pwd'])){echo $_SESSION['pwd'];}else{echo "";}?>"
-                var pass = "<?php if(isset($_SESSION['pass'])){echo $_SESSION['pass'];}else{echo "";}?>"
-                $(document).ready(function(){
-                
-                $.ajax({
-                    type: 'GET',
-                    url: 'A_Alarmas.php?acc=' + acc + '&pwd= ' + pwd + '&pass=' + pass + '&estacion=' + estacion + '&filtro=' + filtro + '&orden=' + orden,
-                    success: function(alarmas) {
-                        $("#tablaAlarmas").html(alarmas);
-                    }
-                });
-                
-            });
-            }
-
-
+        if (document.getElementById("radioDesc").checked) {
+            orden = document.getElementById("radioDesc").value;
         }
 
 
-    //muestra / oculta las opciones
-        $(window).keydown(function(e){
-        if (e.ctrlKey)
-            opciones();
+        var acc = "<?php if(isset($_SESSION['acc'])){echo $_SESSION['acc'];}else{echo "";}?>"
+        var pwd = "<?php if(isset($_SESSION['pwd'])){echo $_SESSION['pwd'];}else{echo "";}?>"
+        var pass = "<?php if(isset($_SESSION['pass'])){echo $_SESSION['pass'];}else{echo "";}?>"
+        $(document).ready(function() {
+
+            $.ajax({
+                type: 'GET',
+                url: 'A_Alarmas.php?acc=' + acc + '&pwd= ' + pwd + '&pass=' + pass + '&estacion=' +
+                    estacion + '&filtro=' + filtro + '&orden=' + orden,
+                success: function(alarmas) {
+                    $("#tablaAlarmas").html(alarmas);
+                }
+            });
+
         });
+    }
 
 
+}
+
+
+//muestra / oculta las opciones
+$(window).keydown(function(e) {
+    if (e.ctrlKey)
+        opciones();
+});
 </script>
 
 <?= $this->endSection() ?>
