@@ -38,14 +38,7 @@
       <input type="password" name="txtContrasena" class="form-control">
       <label for="floatingPassword"style="color:black">Contraseña</label>
     </div>
-    <div class="form-floating" style="margin-bottom: 15px;">
-      <input type="text" name="txtAuthAccount" class="form-control" >
-      <label for="floatingPassword"style="color:black">AuthAccount</label>
-    </div>
-    <div class="form-floating" style="margin-bottom: 15px;">
-      <input type="text" name="txtAuthPass" class="form-control">
-      <label for="floatingPassword" style="color:black">AuthPass</label>
-    </div>
+    
     <button id="btnForm" class="w-100 btn btn-lg " style="background-color: rgb(56, 56, 56);margin-bottom: 100em; opacity:100%; color: white" type="submit">Iniciar Sesión</button>
   </form>
 </main>

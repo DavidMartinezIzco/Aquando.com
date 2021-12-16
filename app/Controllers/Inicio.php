@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
-require(APPPATH . "Database/Conexion.php");
-require(APPPATH . "Models/Usuario.php");
-require(APPPATH . "Libraries/ZeusApi.php");
 
-use Conexion;
+require(APPPATH . "Models/Usuario.php");
+
+
+
 use Usuario;
 
 
@@ -31,10 +31,9 @@ class Inicio extends BaseController
         } else {
             $_SESSION['seccion'] = "inicio";
             if (isset($_SESSION['nombre'])) {
-                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
+                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
                 //falta: cambiar a nueva BD
-                $conexion = new Conexion($this->usuario->getAuthAcc(), $this->usuario->getContrasena(), $this->usuario->getAuthPass());
-                $_SESSION['estaciones'] = $conexion->mostrarOnlineAPI();
+               
                 return view('principal');
             } else {
                 return view('inicio');
@@ -46,45 +45,48 @@ class Inicio extends BaseController
     //habrá que cambiar este sistema en el futuro
     public function inicioSesion()
     {
-        $_SESSION['seccion'] = "login";
-        if (isset($_SESSION['nombre'])) {
-            session_unset();
-        }
+        // $_SESSION['seccion'] = "login";
+        // if (isset($_SESSION['nombre'])) {
+        //     session_unset();
+        // }
+        
         $nombre = "";
-        $contra = "";
-        $authacc = "";
-        $authPass = "";
+        $pwd = "";
+        
 
-        if (!empty($_POST)) {
-            try {
+        if(isset($_POST["txtNombre"]) && isset($_POST["txtContrasena"])){
                 $nombre = $_POST["txtNombre"];
-                $contra = $_POST["txtContrasena"];
-                $authacc = $_POST["txtAuthAccount"];
-                $authPass = $_POST["txtAuthPass"];
+                $pwd = $_POST["txtContrasena"];
 
-                $this->usuario = new Usuario($nombre, $contra, $authacc, $authPass);
-                if (!$this->usuario->existeUsuario()) {
+                $this->usuario = new Usuario($nombre, $pwd);
+                if($this->usuario->existeUsuario() == false){
                     echo '<script language="javascript">';
                     echo 'alert("Datos Incorrectos")';
                     echo '</script>';
                     return view('inicioSesion');
-                } else {
+                }
+
+                if($this->usuario->existeUsuario() == true) {
                     $_SESSION['nombre'] = $nombre;
-                    $_SESSION['pwd'] = $contra;
-                    $_SESSION['acc'] = $authacc;
-                    $_SESSION['pass'] = $authPass;
-                    $_SESSION['seccion'] = "inicio";
-                    //falta: cambiar a nueva BD
-                    $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
-                    $conexion = new Conexion($this->usuario->getAuthAcc(), $this->usuario->getContrasena(), $this->usuario->getAuthPass());
-                    $_SESSION['estaciones'] = $conexion->mostrarOnlineAPI();
+                    $_SESSION['pwd'] = $pwd;
+                    $this->usuario->obetenerEstacionesUsuario();
+                    echo '<script language="javascript">';
+                    echo 'alert("Exito")';
+                    echo '</script>';
                     return view('principal');
                 }
-            } catch (\Throwable $th) {
-            }
+                else {
+                    echo '<script language="javascript">alert("Fallo la conexion")</script>';
+                    return view('inicioSesion');
+                }
+
+        }
+        else {
             return view('inicioSesion');
         }
-        return view('inicioSesion');
+
+
+
     }
 
     //caca
@@ -93,41 +95,41 @@ class Inicio extends BaseController
         return view('café');
     }
 
-    // (obsoleto) menu debug para Ajax
-    public function pruebaTR()
-    {
+    // // (obsoleto) menu debug para Ajax
+    // public function pruebaTR()
+    // {
 
-        $_SESSION['seccion'] = "tr";
-        $conexion = null;
+    //     $_SESSION['seccion'] = "tr";
+    //     $conexion = null;
 
-        if (isset($_SESSION['nombre'])) {
-            $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
-            $_SESSION['usuario'] = $this->usuario;
-            $conexion = new Conexion($_SESSION['acc'], $_SESSION['pwd'], $_SESSION['pass']);
-            $datos['estaciones'] = $conexion->mostrarOnlineAPI(); //saca las estaciones
-            $_SESSION['estaciones'] = $datos['estaciones'];
-        }
+    //     if (isset($_SESSION['nombre'])) {
+    //         $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
+    //         $_SESSION['usuario'] = $this->usuario;
+    //         $conexion = new Conexion($_SESSION['acc'], $_SESSION['pwd'], $_SESSION['pass']);
+    //         $datos['estaciones'] = $conexion->mostrarOnlineAPI(); //saca las estaciones
+    //         $_SESSION['estaciones'] = $datos['estaciones'];
+    //     }
 
-        $datos['estaciones'] = $conexion->mostrarOnlineAPI();
-        return view('pruebaTR', $datos);
-    }
+    //     $datos['estaciones'] = $conexion->mostrarOnlineAPI();
+    //     return view('pruebaTR', $datos);
+    // }
 
 
-    //(obsoleto) muestra las pruebas de repren de graficos
-    public function pruebaGraficos()
-    {
-        $_SESSION['seccion'] = "graficos";
-        if (!empty($this->sesion->get('nombre'))) {
-            $datos["infoUser"] = array(
-                "nombre" => $this->sesion->get('nombre'),
-                "pwd" => $this->sesion->get('pwd'),
-                "acc" => $this->sesion->get('acc'),
-                "pass" => $this->sesion->get('pass')
-            );
-            return view('pruebaGraficos', $datos);
-        }
-        return view('pruebaGraficos');
-    }
+    // //(obsoleto) muestra las pruebas de repren de graficos
+    // public function pruebaGraficos()
+    // {
+    //     $_SESSION['seccion'] = "graficos";
+    //     if (!empty($this->sesion->get('nombre'))) {
+    //         $datos["infoUser"] = array(
+    //             "nombre" => $this->sesion->get('nombre'),
+    //             "pwd" => $this->sesion->get('pwd'),
+    //             "acc" => $this->sesion->get('acc'),
+    //             "pass" => $this->sesion->get('pass')
+    //         );
+    //         return view('pruebaGraficos', $datos);
+    //     }
+    //     return view('pruebaGraficos');
+    // }
 
     // nunca llegó a ver la luz
     // public function pruebaAnalitico(){
@@ -177,28 +179,28 @@ class Inicio extends BaseController
         }
     }
 
-    //muestra la zona principal de alarmas
-    public function alarmas()
-    {
+    // //muestra la zona principal de alarmas
+    // public function alarmas()
+    // {
 
-        if (isset($_SESSION['nombre'])) {
-            $_SESSION['seccion'] = "alarmas";
-            if (isset($_SESSION['alarmas'])) {
-                $datos['alarmas'] = $_SESSION['alarmas'];
-            } else {
-                //falta: cambiar a nueva BD
-                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
-                //formato fecha: aaaa-mm-dd hh:mm:ss.000
-                //alarmas desde principio de año
-                $alarmas = $this->usuario->conseguirAlarmas(null, null, "2021-01-01 00:00:01.000");
-                $datos['alarmas'] = $alarmas;
-            }
+    //     if (isset($_SESSION['nombre'])) {
+    //         $_SESSION['seccion'] = "alarmas";
+    //         if (isset($_SESSION['alarmas'])) {
+    //             $datos['alarmas'] = $_SESSION['alarmas'];
+    //         } else {
+    //             //falta: cambiar a nueva BD
+    //             $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
+    //             //formato fecha: aaaa-mm-dd hh:mm:ss.000
+    //             //alarmas desde principio de año
+    //             $alarmas = $this->usuario->conseguirAlarmas(null, null, "2021-01-01 00:00:01.000");
+    //             $datos['alarmas'] = $alarmas;
+    //         }
 
-            return view('alarmas', $datos);
-        } else {
-            return view('inicio');
-        }
-    }
+    //         return view('alarmas', $datos);
+    //     } else {
+    //         return view('inicio');
+    //     }
+    // }
 
     //muestra la zona de informes
     public function informes()

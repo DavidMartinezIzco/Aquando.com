@@ -1,60 +1,56 @@
 <?php
 
+require(APPPATH . "Database/Database.php");
+
 
 class Usuario{
-
+    
     private $nombre;
     private $contrasena;
-    private $authAcc;
-    private $authPass;
     private $DB;
 
-    public function __construct($nombre, $contrasena, $authAcc, $authPass)
+    public function __construct($nombre, $contrasena)
     {
         $this->nombre = $nombre;
         $this->contrasena = $contrasena;
-        $this->authAcc = $authAcc;
-        $this->authPass = $authPass;
         //falta: cambiar a nueva BD
-        $this->DB = new Conexion($this->authAcc, $this->contrasena,$this->authPass);
+        $this->DB = new Database($this->nombre, $this->contrasena);
     }
 
     public function existeUsuario(){
 
-        if ($this->DB->pruebaDBAPI()) {
-            return true;
-        }
-        return false;
+        return $this->DB->existeUsuario($this->nombre, $this->contrasena);
+       
     }
 
-    public function obtenerPropiedadesEstacion($estacion){
-        return $this->DB->obtenerPropiedadesEstacion($estacion);
+    public function obetenerEstacionesUsuario(){
+        return $this->DB->mostrarEstacionesCliente($this->nombre, $this->contrasena);
     }
 
-    public function obtenerUltimosDatosEstacion($estacion){
-        return $this->DB->obtenerUltimosValoresAPI($estacion);
-    }
+    // public function obtenerPropiedadesEstacion($estacion){
+        
+    // }
+
+    // public function obtenerUltimosDatosEstacion($estacion){
+        
+    // }
 
 
-    //funcion de prueba para las consultas SQL
-    //devuelve caracteristicas de la BDD en pruebaBD.php
-    public function comprobarSQL(){
-        return $this->DB->pruebaSQL();
-    }
+    // public function comprobarSQL(){
+        
+    // }
 
-    public function pruebaTag($estacion, $canal){
+    // public function pruebaTag($estacion, $canal){
 
-        $alarmas = $this->DB->pruebaObetenerTag($estacion, $canal);
-        return $alarmas;
-    }
+    // }
 
 
-    public function conseguirAlarmas($fechaInicio, $fechaFin, $desde){
+    // public function conseguirAlarmas($fechaInicio, $fechaFin, $desde){
 
-        return $this->DB->obtenerAlarmas($fechaInicio, $fechaFin, $desde, null);
+       
 
 
-    }
+    // }
 
 
     /**
@@ -72,40 +68,6 @@ class Usuario{
     public function setContrasena($contrasena)
     {
         $this->contrasena = $contrasena;
-        return $this;
-    }
-    /**
-     * Get the value of authAcc
-     */ 
-    public function getAuthAcc()
-    {
-        return $this->authAcc;
-    }
-    /**
-     * Set the value of authAcc
-     *
-     * @return  self
-     */ 
-    public function setAuthAcc($authAcc)
-    {
-        $this->authAcc = $authAcc;
-        return $this;
-    }
-    /**
-     * Get the value of authPass
-     */ 
-    public function getAuthPass()
-    {
-        return $this->authPass;
-    }
-    /**
-     * Set the value of authPass
-     *
-     * @return  self
-     */ 
-    public function setAuthPass($authPass)
-    {
-        $this->authPass = $authPass;
         return $this;
     }
     /**
