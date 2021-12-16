@@ -72,10 +72,10 @@
         mostrarResumen();
         cargarDatos();
         $(window).blur(function() {
-            comprobarSesion();
+            tiempoFuera("");
         });
         $(window).focus(function() {
-            comprobarSesion();
+            tiempoFuera("volver")
         });
     }
 

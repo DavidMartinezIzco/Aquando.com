@@ -14,6 +14,7 @@ document.onmousemove = function() {
 
 
 
+
 //muestra la hora del sistema
 function fechaYHora() {
     var currentdate = new Date();
@@ -59,27 +60,13 @@ function modificarInactividad(minutos) {
     tiempoOpciones();
 }
 
-
-//comprueba la sesión cuando la pestaña deja de estar minimizada
-function comprobarSesion() {
-    $(document).ready(function() {
-        $.ajax({
-            type: 'GET',
-            url: 'A_Reloj.php',
-            success: function(caducidad) {
-                var caducar = caducidad;
-
-                if (caducar == true) {
-                    window.location.href = "/Aquando/public/index.php?log=out";
-                }
-                if (caducar == false) {
-                    console.log("la sesion sigue");
-                }
-                if (caducar == null) {
-                    console.log("error en la sesion");
-                }
-            }
-        });
-    });
+function tiempoFuera(evento) {
+    tiempoPara = (tiempoMax - tiempoStandBy) * 1000;
+    const tFuera = setTimeout(function() {
+        window.location.href = "/Aquando/public/index.php?log=out";
+    }, tiempoPara);
+    if (evento == "volver") {
+        clearTimeout(tFuera);
+    }
 
 }

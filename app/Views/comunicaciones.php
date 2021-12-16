@@ -120,10 +120,10 @@
         setInterval(parpadeoError, 1000);
         setInterval(actualizarMini, 3000);
         $(window).blur(function() {
-            comprobarSesion();
+            tiempoFuera("");
         });
         $(window).focus(function() {
-            comprobarSesion();
+            tiempoFuera("volver")
         });
     }
 </script>

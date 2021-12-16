@@ -168,10 +168,10 @@
         setInterval(actualizar, 10000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {
-            comprobarSesion();
+            tiempoFuera("");
         });
         $(window).focus(function() {
-            comprobarSesion();
+            tiempoFuera("volver")
         });
     }
 

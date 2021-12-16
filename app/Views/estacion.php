@@ -107,10 +107,10 @@
         setInterval(actualizarMini, 3000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {
-            comprobarSesion();
+            tiempoFuera("");
         });
         $(window).focus(function() {
-            comprobarSesion();
+            tiempoFuera("volver")
         });
     }
 </script>

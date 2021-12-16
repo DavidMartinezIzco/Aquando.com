@@ -4,16 +4,16 @@ function limpiar() {
     var i = 1;
     while (i <= 9) {
 
-        if(document.getElementsByName(i)[0]){
+        if (document.getElementsByName(i)[0]) {
             if (document.getElementsByName(i)[0].checked) {
-            document.getElementsByName(i)[0].checked = false;
+                document.getElementsByName(i)[0].checked = false;
             }
         }
         i++
     }
 
     document.getElementById("opciones").value = 'e1';
-    
+
     aplicarOpciones();
 
 
@@ -29,7 +29,7 @@ function aplicarOpciones() {
     //console.log(elems);
     var i = 1;
     while (i <= 9) {
-        if(document.getElementsByName(i)[0]){
+        if (document.getElementsByName(i)[0]) {
             if (document.getElementsByName(i)[0].checked) {
                 datosR["info " + document.getElementsByName(i)[0].value] = (datos["info " + document.getElementsByName(i)[0].value]);
             }
@@ -76,8 +76,8 @@ function renderGrafico(tipo, datosR) {
         }]
 
         var series = []
-        for(var index in datosR) {
-        
+        for (var index in datosR) {
+
             var datorender = {
                 name: index,
                 type: formato,
@@ -121,8 +121,8 @@ function renderGrafico(tipo, datosR) {
 
         var series = []
 
-        for(var index in datosR) {
-        
+        for (var index in datosR) {
+
             var datorender = {
                 name: index,
                 type: formato,
@@ -145,8 +145,8 @@ function renderGrafico(tipo, datosR) {
         formato = "pie";
 
         var datos = [];
-        for(var index in datosR) {
-            var dato = {"value":datosR[index][6], "name": index};
+        for (var index in datosR) {
+            var dato = { "value": datosR[index][6], "name": index };
             datos.push(dato);
         };
         var series = [{
@@ -168,7 +168,7 @@ function renderGrafico(tipo, datosR) {
         var datos = [Math.random() * 300];
         for (let i = 1; i < 4300; i++) {
             var now = new Date((base += undia));
-            fecha.push([now.getDate(), now.getMonth() + 1,now.getFullYear()].join('/'));
+            fecha.push([now.getDate(), now.getMonth() + 1, now.getFullYear()].join('/'));
             datos.push(Math.round((Math.random() - 0.5) * 20 + datos[i - 1]));
         }
 
@@ -228,14 +228,13 @@ function renderGrafico(tipo, datosR) {
 
     }
 
-
-    option && grafico.setOption(option, true);
-
-    document.getElementById("infoGraf").innerHTML = "formato: " + tipo + "<br>Periodo: Semanal";
-
     $(window).keyup(function() {
         grafico.resize();
     });
+
+    document.getElementById("conPrincipal").onclick = function() {
+        setTimeout(grafico.resize(), 500);
+    };
 
     document.getElementById('conPrincipal').onmouseover = function() {
         setTimeout(grafico.resize(), 500);
@@ -246,6 +245,11 @@ function renderGrafico(tipo, datosR) {
     document.getElementById('zonaControles').onmouseover = function() {
         setTimeout(grafico.resize(), 500);
     }
+
+    option && grafico.setOption(option, true);
+
+    document.getElementById("infoGraf").innerHTML = "formato: " + tipo + "<br>Periodo: Semanal";
+
 
 }
 
