@@ -63,6 +63,9 @@
     var nwids = 0;
     var e = 1;
     var posiciones = {};
+    var usu=<?php echo $_SESSION['nombre'] ?>
+    var pwd=<?php echo $_SESSION['pwd'] ?>
+
     window.onload = function() {
         actualizarMini();
         setInterval(fechaYHora, 1000);

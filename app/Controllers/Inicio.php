@@ -22,17 +22,15 @@ class Inicio extends BaseController
     }
 
     //ejecución de arranque del proyecto
-    public function index()
-    {
-
+    public function index(){
         if (isset($_GET['log']) && $_GET['log'] == 'out') {
             $_SESSION['seccion'] = "login";
             return $this->inicioSesion();
         } else {
             $_SESSION['seccion'] = "inicio";
             if (isset($_SESSION['nombre'])) {
-                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
-                //falta: cambiar a nueva BD
+                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
+                $_SESSION['estaciones'] = $this->usuario->obetenerEstacionesUsuario();
                
                 return view('principal');
             } else {
@@ -45,10 +43,10 @@ class Inicio extends BaseController
     //habrá que cambiar este sistema en el futuro
     public function inicioSesion()
     {
-        // $_SESSION['seccion'] = "login";
-        // if (isset($_SESSION['nombre'])) {
-        //     session_unset();
-        // }
+        $_SESSION['seccion'] = "login";
+        if (isset($_SESSION['nombre'])) {
+            session_unset();
+        }
         
         $nombre = "";
         $pwd = "";
@@ -57,8 +55,9 @@ class Inicio extends BaseController
         if(isset($_POST["txtNombre"]) && isset($_POST["txtContrasena"])){
                 $nombre = $_POST["txtNombre"];
                 $pwd = $_POST["txtContrasena"];
+                $id = $_POST['selEmpresa'];
 
-                $this->usuario = new Usuario($nombre, $pwd);
+                $this->usuario = new Usuario($nombre, $pwd, $id);
                 if($this->usuario->existeUsuario() == false){
                     echo '<script language="javascript">';
                     echo 'alert("Datos Incorrectos")';
@@ -69,11 +68,27 @@ class Inicio extends BaseController
                 if($this->usuario->existeUsuario() == true) {
                     $_SESSION['nombre'] = $nombre;
                     $_SESSION['pwd'] = $pwd;
+
+                    switch ($this->usuario->getCliente()) {
+                        case 1:
+                            $_SESSION['empresa'] = "Iturri Ederra";
+                            break;
+                        case 2:
+                            $_SESSION['empresa'] = "Amescoa Alta";
+                            break;
+                        case 3:
+                            $_SESSION['empresa'] = "Amescoa Baja";
+                            break;
+                        case 5:
+                            $_SESSION['empresa'] = "Dateando";
+                            break;
+                        default:
+                        $_SESSION['empresa'] = "Desconocida";
+                            break;
+                    }
+
                     $this->usuario->obetenerEstacionesUsuario();
-                    echo '<script language="javascript">';
-                    echo 'alert("Exito")';
-                    echo '</script>';
-                    return view('principal');
+                    return $this->index();
                 }
                 else {
                     echo '<script language="javascript">alert("Fallo la conexion")</script>';
@@ -95,45 +110,6 @@ class Inicio extends BaseController
         return view('café');
     }
 
-    // // (obsoleto) menu debug para Ajax
-    // public function pruebaTR()
-    // {
-
-    //     $_SESSION['seccion'] = "tr";
-    //     $conexion = null;
-
-    //     if (isset($_SESSION['nombre'])) {
-    //         $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
-    //         $_SESSION['usuario'] = $this->usuario;
-    //         $conexion = new Conexion($_SESSION['acc'], $_SESSION['pwd'], $_SESSION['pass']);
-    //         $datos['estaciones'] = $conexion->mostrarOnlineAPI(); //saca las estaciones
-    //         $_SESSION['estaciones'] = $datos['estaciones'];
-    //     }
-
-    //     $datos['estaciones'] = $conexion->mostrarOnlineAPI();
-    //     return view('pruebaTR', $datos);
-    // }
-
-
-    // //(obsoleto) muestra las pruebas de repren de graficos
-    // public function pruebaGraficos()
-    // {
-    //     $_SESSION['seccion'] = "graficos";
-    //     if (!empty($this->sesion->get('nombre'))) {
-    //         $datos["infoUser"] = array(
-    //             "nombre" => $this->sesion->get('nombre'),
-    //             "pwd" => $this->sesion->get('pwd'),
-    //             "acc" => $this->sesion->get('acc'),
-    //             "pass" => $this->sesion->get('pass')
-    //         );
-    //         return view('pruebaGraficos', $datos);
-    //     }
-    //     return view('pruebaGraficos');
-    // }
-
-    // nunca llegó a ver la luz
-    // public function pruebaAnalitico(){
-    // }
 
     //muestra la vista de las estaciones
     public function estacion()

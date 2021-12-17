@@ -22,11 +22,11 @@
   <form method="POST" id="formulario" >  
     <h1 class="h3 mb-3 fw-normal" style="color: white;">Inicio de sesión</h1>
     <div class="form-floating" style="margin-bottom: 15px;">
-      <select class="form-control">
-        <option>Empresa 1</option>
-        <option>Empresa 2</option>
-        <option>Empresa 3</option>
-        <option>Empresa X</option>
+      <select class="form-control" name="selEmpresa">
+        <option value="1">Iturri Ederra</option>
+        <option value="2">Amescoa Alta</option>
+        <option value="3">Amescoa Baja</option>
+        <option value="5">Dateando</option>
       </select>
       <label for="floatingInput"style="color:black">Empresa</label>
     </div>

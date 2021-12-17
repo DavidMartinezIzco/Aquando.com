@@ -95,7 +95,7 @@
             </div>
             <div id="usuario">
                 <?php if(isset($_SESSION['nombre'])){
-                    echo "Usuario: " . $_SESSION['nombre'] . "<br>Empresa: ";
+                    echo "Usuario: " . $_SESSION['nombre'] . "<br>Empresa: " .$_SESSION['empresa'];
                     }
                     else {
                         echo "Usuario:   Desconectado<br>Empresa: ";
@@ -137,8 +137,8 @@
                         echo
                             '<li>
                                 <form action='. base_url().'/estacion method="POST">
-                                    <button class="btn me-2 btn-block" name="" value="'.$estacion.'" onclick="carga()"
-                                    style="padding:0.1em;width:100%; border-radius:0; color:white;">'.$estacion.'
+                                    <button class="btn me-2 btn-block" name="" value="'.$estacion['id_estacion'].'" onclick="carga()"
+                                    style="padding:0.1em;width:100%; border-radius:0; color:white;">'.$estacion['nombre_estacion'].'
                                     </button>
                                 </form>
                             </li>';
@@ -185,44 +185,6 @@
         </li>
 
     <!---debug--->
-        <li class="nav-item">
-            <button class="btn me-2 btn-block"  name="btnPruebas" value="pruebas" onclick="desplegar(this.value)" style="padding:1em;width:100%; border-radius:0; color:white;">
-                Pruebas ⚙
-            </button>    
-        </li>
-        <li class="expPruebas">
-            <form action="<?php echo base_url(); ?>/pruebaBD" method="POST">
-                <button class="btn me-2 btn-block"  name="btnFuncion"
-                    <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> style="padding:1em;width:100%; border-radius:0; color:white; <?php if(isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'conexion'){echo "background-color:rgb(1, 168, 184)";}?>">
-                    <i class="fas fa-coffee"></i>café
-                </button>
-            </form>
-        </li>
-        <li class="expPruebas">
-            <form action="<?php echo base_url(); ?>/pruebaTR" method="POST">
-                <button class="btn me-2 btn-block"
-                    <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> name="btnFuncion"
-                    style="padding:1em;width:100%;border-radius:0; color:white; <?php if(isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'tr'){echo "background-color:rgb(1, 168, 184)";}?>">
-                    <i class="far fa-chart-bar"></i>Tiempo Real
-                </button>
-            </form>
-        </li>
-        <li class="expPruebas">
-            <form action="<?php echo base_url(); ?>/pruebaGraficos" method="POST">
-                <button class="btn me-2 btn-block" name="btnFuncion"
-                    <?php if(!isset($_SESSION["nombre"])){echo "disabled";} ?> style="padding:1em;width:100%;border-radius:0;  color:white; <?php if(isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'graficos'){echo "background-color:rgb(1, 168, 184)";}?>">
-                    <i class="far fa-chart-bar"></i>Graficos
-                </button>
-            </form>
-        </li>
-        <li class="expPruebas">
-            <form action="<?php echo base_url(); ?>/pruebaAnalitico" method="POST">
-                <button class="btn me-2 btn-block" disabled name="btnFuncion"
-                style="padding:1em;width:100%;border-radius:0;  color:white; <?php if(isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'analitico'){echo "background-color:rgb(1, 168, 184)";}?>">
-                    <i class="far fa-chart-bar"></i>Analitico
-                </button>
-            </form>
-        </li>
         
         <hr>
     <!---LOGIN---->
