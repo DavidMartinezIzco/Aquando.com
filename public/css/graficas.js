@@ -51,13 +51,11 @@ function aplicarOpciones() {
 
 function tagsEstacion(id_estacion) {
 
-
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
             url: 'A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
             success: function(tags) {
-                console.log(tags);
                 document.getElementById("opcionesTag").innerHTML = "";
                 for (var tag in tags) {
                     document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
@@ -187,7 +185,7 @@ function renderGrafico(tipo, datosR) {
         option['tooltip'] = { trigger: 'item' };
     }
 
-    //historicos todavia no coge datos de servidor
+
     if (tipo == "histo") {
 
         var fechas = new Array();

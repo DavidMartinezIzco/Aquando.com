@@ -67,7 +67,7 @@ class Inicio extends BaseController
                 if($this->usuario->existeUsuario() == true) {
                     $_SESSION['nombre'] = $nombre;
                     $_SESSION['pwd'] = $pwd;
-
+                    $_SESSION['idusu'] = $this->usuario->getCliente();
                     switch ($this->usuario->getCliente()) {
                         case 1:
                             $_SESSION['empresa'] = "Iturri Ederra";
@@ -125,8 +125,7 @@ class Inicio extends BaseController
     }
 
     //muestra la vista de graficas (historicos y demas)
-    public function graficas()
-    {
+    public function graficas(){
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "graficos";
             $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
@@ -149,27 +148,30 @@ class Inicio extends BaseController
     }
 
     // //muestra la zona principal de alarmas
-    // public function alarmas()
-    // {
+    public function alarmas()
+    {
 
-    //     if (isset($_SESSION['nombre'])) {
-    //         $_SESSION['seccion'] = "alarmas";
-    //         if (isset($_SESSION['alarmas'])) {
-    //             $datos['alarmas'] = $_SESSION['alarmas'];
-    //         } else {
-    //             //falta: cambiar a nueva BD
-    //             $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['acc'], $_SESSION['pass']);
-    //             //formato fecha: aaaa-mm-dd hh:mm:ss.000
-    //             //alarmas desde principio de año
-    //             $alarmas = $this->usuario->conseguirAlarmas(null, null, "2021-01-01 00:00:01.000");
-    //             $datos['alarmas'] = $alarmas;
-    //         }
+        if (isset($_SESSION['nombre'])) {
+            $_SESSION['seccion'] = "alarmas";
+            if (isset($_SESSION['alarmas'])) {
+                $datos['alarmas'] = $_SESSION['alarmas'];
+            } else {
+                //falta: cambiar a nueva BD
+                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
+                
+                //alarmas desde principio de año
+                $estaciones = $this->usuario->obtenerEstacionesUsuario();
+                $datos['estaciones'] = $estaciones;
+                $alarmas = $this->usuario->obtenerAlarmas();
+                
+                $datos['alarmasAll'] = $alarmas;
+            }
 
-    //         return view('alarmas', $datos);
-    //     } else {
-    //         return view('inicio');
-    //     }
-    // }
+            return view('alarmas', $datos);
+        } else {
+            return view('inicio');
+        }
+    }
 
     //muestra la zona de informes
     public function informes()

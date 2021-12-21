@@ -9,6 +9,7 @@ class Usuario{
     private $contrasena;
     private $cliente;
     private $DB;
+    
 
     public function __construct($nombre, $contrasena, $cliente)
     {
@@ -18,6 +19,7 @@ class Usuario{
 
         //falta: cambiar a nueva BD
         $this->DB = new Database($this->nombre, $this->contrasena);
+        
     }
 
     public function existeUsuario(){
@@ -35,9 +37,48 @@ class Usuario{
         }
     }
 
-    // public function obtenerAlarmasEstacion($id_estacion, $fechaInicio, $fechaFin){
+    public function obtenerAlarmasEstacion($id_estacion, $fechaInicio, $fechaFin){
+        
+        $alarmasEstacion = $this->DB->obtenerAlarmasEstacion($id_estacion, $fechaInicio, $fechaFin);
+        if($alarmasEstacion != false){
+            return $alarmasEstacion;
+        }
+        else {
+            return false;
+        }
+    }
 
+    // public function obtenerAlarmas(){
+    //     $estaciones = $this->obtenerEstacionesUsuario();
+    //     $alarmas = array();
+    //     foreach ($estaciones as $index => $estacion) {
+    //         $alarmas[$estacion['nombre_estacion']] = $this->obtenerAlarmasEstacion($estacion['id_estacion'], null,null);
+    //     }
+    //     $alarmasLimpio = array();
+    //     foreach ($alarmas as $estacion => $alarmas) {
+    //         if($alarmas != false){
+    //             $alarmasLimpio[$estacion] = $alarmas;
+    //         }
+    //     }
+    //     return $alarmasLimpio;
     // }
+
+    public function obtenerAlarmas(){
+
+
+        $id_usuario = $this->DB->obtenerIdUsuario($this->nombre, $this->contrasena, $_SESSION['idusu']);
+        $alarmas = $this->DB->obtenerAlarmasUsuario($id_usuario, null , null);
+
+        $alarmasLimpio = array();
+        foreach ($alarmas as $estacion => $alarmas) {
+            if($alarmas != false){
+                $alarmasLimpio[$estacion] = $alarmas;
+            }
+        }
+        return $alarmasLimpio;
+    }
+
+
 
     public function obtenerUltimaInfoEstacion($id_estacion){
         try{

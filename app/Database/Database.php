@@ -15,6 +15,19 @@ class Database
         return $this->conexion = pg_connect("host=$this->host dbname=$this->dbname user=$this->user password=$this->password");
     }
 
+    public function obtenerIdUsuario($nombre, $pwd, $id_cliente){
+        if ($this->conectar()) {
+            $consulta = "SELECT id_usuario FROM usuarios WHERE nombre ='$nombre' AND password ='$pwd' AND id_cliente = '$id_cliente'";
+            $resultado = pg_query($this->conexion, $consulta);
+            if ($this->consultaExitosa($resultado)) {
+                $id_usu = pg_fetch_all($resultado);
+                return $id_usu;
+            } else {
+                return false;
+            }
+        }
+    }
+
     function consultaExitosa($resultado){
         $nResuls = pg_num_rows($resultado);
         if ($nResuls != 0 || $nResuls != null) {
@@ -49,29 +62,46 @@ class Database
         }
     }
 
-    // public function obtenerAlarmasCliente($nombre,$pwd){
-    //     if($this->conectar()){
-    //         $estacionesCliente = $this->mostrarEstacionesCliente($nombre, $pwd);
-    //         foreach ($estacionesCliente as $index => $estacion) {
-    //             $alarmasEstacion[] = $this->obtenerAlarmasEstacion($estacion['id_estacion']);
-    //         }
-    //         return $alarmasEstacion;
-    //     }
-    //     else {
-    //         return false;
-    //     }
-    // }
+    public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido){
+        $sentido = null;
+        if($this->conectar()){
+            $conAlarmas = "SELECT 
+             alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.valor_alarma, alarmas.valor_limite 
+             FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion
+             WHERE usuario_estacion.id_usuario = ".$id_usuario[0]['id_usuario']." ORDER BY alarmas.fecha_origen";
+
+             if($sentido != null){
+                 $conAlarmas += $sentido;
+             }
+
+             $resulAlarmas = pg_query($conAlarmas);
+            if($this->consultaExitosa($resulAlarmas)){
+                $alarmas = pg_fetch_all($resulAlarmas);
+                return $alarmas;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 
     public function obtenerAlarmasEstacion($id_estacion, $fechaInicio, $fechaFin){
+        if($fechaInicio != null){
+            //traducir fecha
+        }
+        if($fechaFin != null){
+            //traducir fecha
+        }
         if ($this->conectar()) {
             $consulta = "SELECT alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.valor_alarma, alarmas.valor_limite 
-            FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = '$id_estacion'";
+            FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = '$id_estacion' LIMIT 100";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $alarmasEstacion = pg_fetch_all($resultado);
                 return $alarmasEstacion;
-            } else {
-                return false;
             }
         } else {
             return false;
@@ -109,7 +139,6 @@ class Database
             }
         }
     }
-
 
     public function tagsEstacion($id_estacion){
         if($this->conectar()){
