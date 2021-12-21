@@ -24,22 +24,52 @@ function limpiar() {
 
 //aplica las opciones de los controles
 function aplicarOpciones() {
-    var datosR = [];
-    //elems = document.getElementById("infoRepren").childElementCount / 2 -1;
-    //console.log(elems);
-    var i = 1;
-    while (i <= 9) {
-        if (document.getElementsByName(i)[0]) {
-            if (document.getElementsByName(i)[0].checked) {
-                datosR["info " + document.getElementsByName(i)[0].value] = (datos["info " + document.getElementsByName(i)[0].value]);
-            }
-        }
-        i++;
-    }
 
-    var tipo = document.getElementById("tipoRender").value
-    renderGrafico(tipo, datosR);
+    var datosR = new Array();
+    var idEstacion = document.getElementById("opciones").value;
+    var idTag = document.getElementById("opcionesTag").value;
 
+
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_Graficas.php?estacion=' + idEstacion + '&tag=' + idTag + '&opcion=render',
+            success: function(histo) {
+                datosR = histo;
+                var tipo = document.getElementById("tipoRender").value;
+                renderGrafico(tipo, datosR);
+            },
+            error: function() {
+                console.log("error");
+            },
+            dataType: 'json'
+        });
+    });
+
+}
+
+function tagsEstacion(id_estacion) {
+
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
+            success: function(tags) {
+                console.log(tags);
+                document.getElementById("opcionesTag").innerHTML = "";
+                for (var tag in tags) {
+                    document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
+                }
+
+            },
+            error: function() {
+                console.log("error");
+            },
+            dataType: 'json'
+        });
+    });
 }
 
 //prepara el grafico
@@ -60,9 +90,7 @@ function renderGrafico(tipo, datosR) {
             bottom: '10%',
             containLabel: true
         },
-
     };
-
 
     if (tipo == "barra") {
         formato = "bar";
@@ -162,15 +190,23 @@ function renderGrafico(tipo, datosR) {
     //historicos todavia no coge datos de servidor
     if (tipo == "histo") {
 
-        let base = +new Date(2010, 1, 1);
-        let undia = 24 * 3600 * 1000;
-        let fecha = [];
-        var datos = [Math.random() * 300];
-        for (let i = 1; i < 4300; i++) {
-            var now = new Date((base += undia));
-            fecha.push([now.getDate(), now.getMonth() + 1, now.getFullYear()].join('/'));
-            datos.push(Math.round((Math.random() - 0.5) * 20 + datos[i - 1]));
+        var fechas = new Array();
+        for (var index in datosR) {
+            fechas.push(datosR[index]['fecha']);
         }
+        var calidades = new Array();
+        for (var index in datosR) {
+            calidades.push(datosR[index]['calidad']);
+        }
+        var valores = new Array();
+        for (var index in datosR) {
+            for (var valor in datosR[index]) {
+                if (valor != "fecha" && valor != "calidad") {
+                    valores.push(datosR[index][valor]);
+                }
+            }
+        }
+
 
         //Ajustes
         option['tooltip'] = {
@@ -183,7 +219,7 @@ function renderGrafico(tipo, datosR) {
         option['xAxis'] = {
             type: 'category',
             boundaryGap: false,
-            data: fecha
+            data: fechas
         };
 
         option['yAxis'] = {
@@ -221,7 +257,7 @@ function renderGrafico(tipo, datosR) {
                     }
                 ])
             },
-            data: datos
+            data: valores
         }];
 
         option['series'] = series;

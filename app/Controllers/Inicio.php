@@ -30,7 +30,7 @@ class Inicio extends BaseController
             $_SESSION['seccion'] = "inicio";
             if (isset($_SESSION['nombre'])) {
                 $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
-                $_SESSION['estaciones'] = $this->usuario->obetenerEstacionesUsuario();
+                $_SESSION['estaciones'] = $this->usuario->obtenerEstacionesUsuario();
                
                 return view('principal');
             } else {
@@ -41,8 +41,7 @@ class Inicio extends BaseController
 
     //inicia sesion usando las credenciales de zeus
     //habrá que cambiar este sistema en el futuro
-    public function inicioSesion()
-    {
+    public function inicioSesion(){
         $_SESSION['seccion'] = "login";
         if (isset($_SESSION['nombre'])) {
             session_unset();
@@ -87,7 +86,7 @@ class Inicio extends BaseController
                             break;
                     }
 
-                    $this->usuario->obetenerEstacionesUsuario();
+                    $this->usuario->obtenerEstacionesUsuario();
                     return $this->index();
                 }
                 else {
@@ -104,20 +103,22 @@ class Inicio extends BaseController
 
     }
 
-    //caca
-    public function cafe()
-    {
-        return view('café');
-    }
-
-
     //muestra la vista de las estaciones
-    public function estacion()
-    {
-        //falta: cambiar a nueva BD
+    public function estacion(){
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "estacion";
-            return view('estacion');
+            $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
+            $datosEstacion = $usuario->obtenerUltimaInfoEstacion($_POST['btnEstacion']);
+            foreach ($_SESSION['estaciones'] as $index => $estacion) {
+                if($estacion["id_estacion"] == $_POST["btnEstacion"]){
+                    $nombreEstacion = $estacion["nombre_estacion"];
+                }
+            }
+            $datos['datosEstacion'] = $datosEstacion;
+            
+            $datos['nombreEstacion'] = $nombreEstacion;
+
+            return view('estacion', $datos);
         } else {
             return view('inicio');
         }
@@ -126,31 +127,23 @@ class Inicio extends BaseController
     //muestra la vista de graficas (historicos y demas)
     public function graficas()
     {
-        //falta: cambiar a nueva BD
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "graficos";
+            $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
+            $datos['tagsEstaciones'] = $usuario->obtenerTagsEstaciones();
+            $estaciones = $_SESSION['estaciones'];
+            $datosHistoricosEstacion = array();
+            $datosHistoricosEstacion[] = $usuario->obtenerHistoricosEstacion($estaciones[0]['id_estacion'], null, null);
+            if($datosHistoricosEstacion != false){
+                $datos['historicos'] = $datosHistoricosEstacion;
+                return view('graficas', $datos);
+            }
+            else {
+                echo "<script>alert('error con los historicos');</script>";
+                return view('principal');
+            }
 
-
-            //estructura de datos para graficas
-            //se conseguiran con consultas
-            //necesitaremos otro con las fechas 
-            //otro distinto para historicos + ajax
-            $datosF = array(
-                "info 1" => array(320, 332, 301, 334, 390, 330, 320),
-                "info 2" => array(120, 132, 101, 134, 90, 230, 210),
-                "info 3" => array(220, 182, 191, 234, 290, 330, 310),
-                "info 4" => array(150, 232, 201, 154, 190, 330, 410),
-                "info 5" => array(862, 1018, 964, 1026, 1679, 1600, 1570),
-                "info 6" => array(620, 732, 701, 734, 1090, 1130, 1120),
-                "info 7" => array(120, 132, 101, 134, 290, 230, 220),
-                "info 8" => array(60, 72, 71, 74, 190, 130, 110),
-                "info 9" => array(62, 82, 91, 84, 109, 110, 120)
-            );
-
-            $datos['datosF'] = $datosF;
-
-            return view('graficas', $datos);
-        } else {
+         }else {
             return view('inicio');
         }
     }
@@ -195,6 +188,7 @@ class Inicio extends BaseController
         //falta: cambiar a nueva BD
         $_SESSION['seccion'] = "coms";
         if (isset($_SESSION['nombre'])) {
+            return view('comunicaciones');
         } else {
             return view('inicio');
         }

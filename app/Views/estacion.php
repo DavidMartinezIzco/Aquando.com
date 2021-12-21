@@ -15,8 +15,8 @@
                 <h3>información</h3>
                 <hr>
                 <ul>
-                    <li>Estación:</li>
-                    <li>Ultima conexión:</li>
+                    <li>Estación: <?php echo $nombreEstacion?></li>
+                    <li>Ultima conexión: </li>
                 </ul>
             </div>
             <div id="sinopMD">

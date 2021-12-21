@@ -129,7 +129,6 @@
     <!---wrap estaciones--->
         <?php 
             if(isset($_SESSION['estaciones'])){
-
                 $estaciones = $_SESSION['estaciones'];
                 echo "<ul class='miniEstacion'>";
                 foreach ($estaciones as $index => $estacion) {
@@ -137,7 +136,7 @@
                         echo
                             '<li>
                                 <form action='. base_url().'/estacion method="POST">
-                                    <button class="btn me-2 btn-block" name="" value="'.$estacion['id_estacion'].'" onclick="carga()"
+                                    <button class="btn me-2 btn-block" name="btnEstacion" value="'.$estacion['id_estacion'].'""
                                     style="padding:0.1em;width:100%; border-radius:0; color:white;">'.$estacion['nombre_estacion'].'
                                     </button>
                                 </form>

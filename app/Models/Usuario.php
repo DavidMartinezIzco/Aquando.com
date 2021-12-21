@@ -21,23 +21,60 @@ class Usuario{
     }
 
     public function existeUsuario(){
-        return $this->DB->existeUsuario($this->nombre, $this->contrasena, $this->cliente);
+        try {
+            return $this->DB->existeUsuario($this->nombre, $this->contrasena, $this->cliente);
+        } catch (\Throwable $th) {   
+        }
     }
 
-    public function obetenerEstacionesUsuario(){
-        return $this->DB->mostrarEstacionesCliente($this->nombre, $this->contrasena);
+    public function obtenerEstacionesUsuario(){
+        try{
+            return $this->DB->mostrarEstacionesCliente($this->nombre, $this->contrasena);
+        }
+        catch(Throwable $e){   
+        }
+    }
+
+    // public function obtenerAlarmasEstacion($id_estacion, $fechaInicio, $fechaFin){
+
+    // }
+
+    public function obtenerUltimaInfoEstacion($id_estacion){
+        try{
+            return $this->DB->datosEstacion($id_estacion);
+        }
+        catch(Throwable $e){
+            return $e;
+        }
+    }
+
+    public function obtenerHistoricosEstacion($id_estacion, $fechaInicio, $fechaFinal){
+        if($fechaFinal == null){
+            $fechaFinal = "";
+        }
+        else if($fechaInicio == null){
+            $fechaInicio = "";
+        }
+        try {
+            return $this->DB->historicosEstacion($id_estacion, $fechaInicio, $fechaFinal);
+        } catch (\Throwable $th) {
+            return $th;
+        }
+
+    }
+
+    public function obtenerTagsEstaciones(){
+
+        $estaciones = $this->obtenerEstacionesUsuario();
+        $tagsEstacion = array();
+        foreach ($estaciones as $estacion) {
+            $id_estacion = $estacion['id_estacion'];
+            $tagsEstacion[$estacion['id_estacion']] = $this->DB->tagsEstacion($id_estacion);
+        }
+        return $tagsEstacion;
     }
 
 
-
-
-    // public function obtenerPropiedadesEstacion($estacion){
-        
-    // }
-
-    // public function obtenerUltimosDatosEstacion($estacion){
-        
-    // }
 
 
     // public function comprobarSQL(){

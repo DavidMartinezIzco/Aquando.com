@@ -1,5 +1,5 @@
 <?php
-require '../app/Libraries/ZeusApi.php';
+
 require '../app/Database/Database.php';
 
 echo "<tr>
