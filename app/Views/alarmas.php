@@ -12,11 +12,11 @@
     <!--opciones de filtrado de las alarmas--->
     <div id="zonaOpciones">
         <div id="filtros">
-            <select class="controlSel" id="estaciones" name="estacionSel">
-                <option value="all">Todas</option>
+            <select class="controlSel" id="estaciones" name="estacionSel" onchange="filtrarPorEstacion()">
+                <option value="all" >Todas las estaciones</option>
                 <?php 
                     foreach($estaciones as $index=>$estacion){
-                        echo "<option value".$estacion['id_estacion'].">".$estacion['nombre_estacion']."</option>";
+                        echo "<option value=".$estacion['id_estacion'].">".$estacion['nombre_estacion']."</option>";
                     }                   
                 ?>
             </select>
@@ -25,28 +25,28 @@
         <div id="filtros2">
             <input type="radio" id="radioFecha" name="filtro" value="Fecha" checked>
             <label for="radioFecha">Fecha</label>
-            <input type="radio" id="radioMotivo" name="filtro" value="Motivo">
+            <input type="radio" id="radioMotivo" name="filtro" value="estado">
             <label for="radioMotivo">Importancia</label>
-            <input type="radio" id="radioCanal" name="filtro" value="Canal">
-            <label for="radioCanal">Canal</label>
-            <input type="radio" id="radioEstacion" name="filtro" value="Estacion">
+            <input type="radio" id="radioRest" name="filtro" value="restauracion">
+            <label for="radioRest">Restauracion</label>
+            <input type="radio" id="radioEstacion" name="filtro" value="estacion">
             <label for="radioEstacion">Estación</label>
         </div>
 
         <div id="orden">
             <input type="radio" id="radioAsc" name="orden" value="ASC">
-            <label for="orden">Ascendente</label>
+            <label for="radioAsc">Ascendente</label>
             <br>
             <input type="radio" id="radioDesc" name="orden" value="DESC" checked>
-            <label for="filtro">Descendiente</label>
+            <label for="radioDesc">Descendiente</label>
         </div>
 
         <div id="fechas">
 
-            <input type="date" id="radioFecha" name="fechaInicio">
-            <label for="fecha">Inicio</label><br>
-            <input type="date" id="radioMotivo" name="fechaFin">
-            <label for="fecha">Fin</label>
+            <input type="date" id="radioFecha" disabled name="fechaInicio">
+            <label for="radioFecha">Inicio</label><br>
+            <input type="date" id="radioMotivo" disabled name="fechaFin">
+            <label for="radioMotivo">Fin</label>
         </div>
 
         <div id="acciones">
@@ -64,63 +64,61 @@
 
         <table id="tablaAlarmas">
             <tr>
-                
-                <th>Estación</th>
-                <th>Fecha de Origen</th>
-                <th >Fecha de Restauracion</th>
-                <th>Estado</th>
-                <th>Reconocida por</th>
-                <th>Info</th>
+                <th onclick="reordenar('estacion')">Estación</th>
+                <th onclick="reordenar('senal')">Señal </th>
+                <th onclick="reordenar('valor')">Valor de la señal</th>
+                <th onclick="reordenar('origenfecha')">Fecha de Origen</th>
+                <th onclick="reordenar('restauracionfecha')">Fecha de Restauracion</th>
+                <th onclick="reordenar('reconusu')">Reconocida por</th>
+                <th onclick="reordenar('reconfecha')">Fecha de reconocimiento</th>
             </tr>
             <?php
-                $i = 0;
-                $e = 0;
-                    foreach ($alarmasAll as $index => $alarma) {
-                        echo "<tr id=$e>";
-                        foreach ($alarma as $dato => $valor) {
-                            if($dato == 'estado'){
-                                switch ($valor) {
-                                    case 1:
-                                        echo "<script>document.getElementById($e).className ='activaNo'</script>";
-                                        echo "<td>";
-                                        echo "ACTIVA NO RECONOCIDA";
-                                        echo "</td>";
+        foreach ($alarmasAll as $index => $alarma) {
+            switch ($alarma['estado']) {
+                case 1:
+                    echo "<tr class='activaNo' >";
+                    
+                    break;
+                case 2:
+                    echo "<tr class='restNo'>";
+                    
+                    break;
+                case 3:
+                    echo "<tr class='activaSi'>";
+                    
+                    break;
+                case 4:
+                    echo "<tr class='restSi'>";
+                    break;
 
-                                        break;
-                                    case 2:
-                                        echo "<script>document.getElementById($e).className='restNo'</script>";
-                                        echo "<td>";
-                                        echo "RESTAURADA NO RECONOCIDA";
-                                        echo "</td>";
-                                        break;
-                                    case 3:
-                                        echo "<script>document.getElementById($e).className ='activaSi'</script>";
-                                        echo "<td>";
-                                        echo "ACTIVA RECONOCIDA";
-                                        echo "</td>";
-                                        break;
-                                    case 4:
-                                        echo "<script>document.getElementById($e).className ='restSi'</script>";
-                                        echo "<td>";
-                                        echo "RESTAURADA RECONOCIDA";
-                                        echo "</td>";
-                                        break;
+                default:
+                    break;
+            }
 
-                                    default:
-                                    echo "<td>";
-                                    echo "ESTADO DESCONOCIDO";
-                                    echo "</td>";
-                                        break;
-                                }
-                            }else {
+            foreach ($alarma as $dato => $valor) {
+                if($dato != 'estado' && $dato != 'id_alarmas'){
+                    if($dato == 'ack_por'){
+                        if($valor == null){
+                            echo "<td>";
+                            echo '<i class="fas fa-eye" onclick="reconocer('.$alarma['id_alarmas'].')"></i>';
+                            echo "</td>"; 
+                        }
+                        else {
                             echo "<td>";
                             echo $valor;
                             echo "</td>";
-                            }
                         }
-                        echo "</tr>";
-                        $e++;
                     }
+                    else {
+                        echo "<td>";
+                        echo $valor;
+                        echo "</td>";
+                    }
+                    
+                }
+            }
+            echo "</tr>";
+        }
             ?>
 
         </table>
@@ -131,7 +129,6 @@
 <script>
 window.onload = function() {
 
-
     var nousu="<?php echo $_SESSION['nombre']?>";
     sessionStorage.setItem('nousu',nousu);
     var psusu="<?php echo $_SESSION['pwd']?>";
@@ -139,14 +136,16 @@ window.onload = function() {
     var empusu = "<?php echo $_SESSION['idusu']?>";
     sessionStorage.setItem('empusu',empusu);
     setInterval(fechaYHora, 1000);
-    setInterval(actualizar, 10000);
+    //setInterval(actualizar, 20000);
     setInterval(comprobarTiempo, 1000);
+    setInterval(efectoAlerta, 3000);
     $(window).blur(function() {
         tiempoFuera("");
     });
     $(window).focus(function() {
         tiempoFuera("volver")
     });
+
 }
 
 

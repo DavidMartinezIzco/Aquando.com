@@ -47,28 +47,117 @@ function opciones() {
     }
 }
 
-function actualizar() {
-    var orden = 'fecha';
-    var sentido = 'DESC';
-    if (document.getElementById('radioAsc').checked) {
-        sentido = 'ASC';
+function actualizar(reorden) {
+
+    var id_estacion = document.getElementById("estaciones").value;
+    if (id_estacion != 'all') {
+        filtrarPorEstacion();
+    } else {
+        var orden = 'fecha';
+        for (var filtro in document.getElementsByName('filtro')) {
+            if (document.getElementsByName('filtro')[filtro].checked == true) {
+                orden = document.getElementsByName('filtro')[filtro].value;
+            }
+        }
+        if (reorden != null) {
+            orden = reorden;
+        }
+
+        var sentido = 'DESC';
+        if (document.getElementById('radioAsc').checked == true) {
+            sentido = 'ASC';
+        }
+
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'A_Alarmas.php?funcion=actualizar&nombre=' + sessionStorage.getItem('nousu') + '&pwd=' + sessionStorage.getItem('pwd') + '&emp=' + sessionStorage.getItem('empusu') + '&sentido=' + sentido + '&orden=' + orden,
+                success: function(alarmas) {
+                    document.getElementById("tablaAlarmas").innerHTML = alarmas;
+                },
+                error: function() {
+                    console.log("error");
+                }
+
+            });
+        });
     }
+
+}
+
+function filtrarPorEstacion() {
+
+    var id_estacion = document.getElementById("estaciones").value;
+    if (id_estacion == 'all') {
+        actualizar();
+    } else {
+        var orden = 'fecha';
+        for (var filtro in document.getElementsByName('filtro')) {
+            if (document.getElementsByName('filtro')[filtro].checked == true) {
+                orden = document.getElementsByName('filtro')[filtro].value;
+            }
+        }
+        var sentido = 'DESC';
+        if (document.getElementById('radioAsc').checked == true) {
+            sentido = 'ASC';
+        }
+
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'A_Alarmas.php?funcion=estacion&sentido=' + sentido + '&orden=' + orden + '&estacion=' + id_estacion,
+                success: function(alarmas) {
+                    document.getElementById("tablaAlarmas").innerHTML = alarmas;
+                },
+                error: function() {
+                    console.log("error");
+                }
+
+            });
+        });
+    }
+
+
+}
+
+function reconocer(id_alarma) {
+    var fecha_ack = Date.now();
+    console.log(fecha_ack);
 
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Alarmas.php?funcion=actualizar&nombre=' + sessionStorage.getItem('nousu') + '&pwd=' + sessionStorage.getItem('pwd') + '&emp=' + sessionStorage.getItem('empusu') + '&sentido=' + sentido,
-            success: function(alarmas) {
-                document.getElementById("tablaAlarmas").innerHTML = alarmas;
+            url: 'A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
+            success: function(exito) {
+                actualizar();
             },
             error: function() {
-                console.log("error");
+                console.log("error en la update");
             }
 
         });
     });
+
+
+
 }
 
-function filtrarPorEstacion() {
+function efectoAlerta() {
+
+    var alertas = document.getElementsByClassName('activaNo');
+    for (var i = 0, max = alertas.length; i < max; i++) {
+        setInterval(resaltar(alertas[i]), 1000);
+    }
+
+}
+
+function resaltar(elem) {
+    elem.style.backgroundColor = "red";
+    setTimeout(function() { elem.style.backgroundColor = "tomato" }, 1000);
+}
+
+function reordenar(opcion) {
+
+    actualizar(opcion);
 
 }

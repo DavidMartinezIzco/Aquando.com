@@ -63,18 +63,61 @@ class Database
     }
 
     public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido){
-        $sentido = null;
         if($this->conectar()){
+            
+            $prioridad = 'alarmas.fecha_origen';
+            if($orden != null){
+                $prioridad = 'alarmas.fecha_origen';
+            if($orden != null){
+                $prioridad = null;
+                switch ($orden) {
+                    case 'estado':
+                        $prioridad = 'alarmas.estado';
+                        break;
+                    case 'senal':
+                        $prioridad = 'tags.nombre_tag';
+                        break;
+                    case 'restauracionfecha':
+                        $prioridad = 'alarmas.fecha_restauracion';
+                        break;
+                    case 'estacion':
+                        $prioridad = 'estaciones.nombre_estacion';
+                        break;
+                    case 'reconfecha':
+                        $prioridad = 'alarmas.fecha_ack';
+                        break;
+                    case 'reconusu':
+                        $prioridad = 'alarmas.ack_por';
+                        break;
+                    case 'valor':
+                        $prioridad = 'alarmas.valor_alarma';
+                        break;
+                    case 'origenfecha':
+                        $prioridad = 'alarmas.fecha_origen';
+                        break;
+                    
+                    default:
+                    $prioridad = 'alarmas.fecha_origen';
+                        break;
+                }
+            }
+            }
+
             $conAlarmas = "SELECT 
-             alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.valor_alarma, alarmas.valor_limite 
-             FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion
-             WHERE usuario_estacion.id_usuario = ".$id_usuario[0]['id_usuario']." ORDER BY alarmas.fecha_origen";
+                estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+                FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
+                WHERE usuario_estacion.id_usuario = ".$id_usuario[0]['id_usuario']." ORDER BY $prioridad DESC";
 
              if($sentido != null){
-                 $conAlarmas += $sentido;
+                 if($sentido == 'ASC'){
+                    $conAlarmas = "SELECT 
+                    estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+                    FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
+                    WHERE usuario_estacion.id_usuario = ".$id_usuario[0]['id_usuario']." ORDER BY $prioridad ASC";
+                 }
              }
 
-             $resulAlarmas = pg_query($conAlarmas);
+            $resulAlarmas = pg_query($conAlarmas);
             if($this->consultaExitosa($resulAlarmas)){
                 $alarmas = pg_fetch_all($resulAlarmas);
                 return $alarmas;
@@ -88,17 +131,65 @@ class Database
         }
     }
 
-    public function obtenerAlarmasEstacion($id_estacion, $fechaInicio, $fechaFin){
+    public function obtenerAlarmasEstacion($id_estacion,$orden,$sentido, $fechaInicio, $fechaFin){
         if($fechaInicio != null){
             //traducir fecha
         }
         if($fechaFin != null){
             //traducir fecha
         }
+
+        $prioridad = 'alarmas.fecha_origen';
+            if($orden != null){
+                $prioridad = null;
+                switch ($orden) {
+                    case 'estado':
+                        $prioridad = 'alarmas.estado';
+                        break;
+                    case 'senal':
+                        $prioridad = 'tags.nombre_tag';
+                        break;
+                    case 'restauracionfecha':
+                        $prioridad = 'alarmas.fecha_restauracion';
+                        break;
+                    case 'estacion':
+                        $prioridad = 'estaciones.nombre_estacion';
+                        break;
+                    case 'reconfecha':
+                        $prioridad = 'alarmas.fecha_ack';
+                        break;
+                    case 'reconusu':
+                        $prioridad = 'alarmas.ack_por';
+                        break;
+                    case 'valor':
+                        $prioridad = 'alarmas.valor_alarma';
+                        break;
+                    case 'origenfecha':
+                        $prioridad = 'alarmas.fecha_origen';
+                        break;
+                    
+                    default:
+                    $prioridad = 'alarmas.fecha_origen';
+                        break;
+                }
+            }
+
         if ($this->conectar()) {
-            $consulta = "SELECT alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.valor_alarma, alarmas.valor_limite 
-            FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = '$id_estacion' LIMIT 100";
+
+            $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+            FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
+            WHERE estacion_tag.id_estacion = '$id_estacion' ORDER BY $prioridad DESC";
+            if($sentido != null){
+                if($sentido == 'ASC'){
+                    $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+                    FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
+                    WHERE estacion_tag.id_estacion = '$id_estacion' ORDER BY $prioridad ASC";
+                }
+            }
+            
             $resultado = pg_query($this->conexion, $consulta);
+
+
             if ($this->consultaExitosa($resultado)) {
                 $alarmasEstacion = pg_fetch_all($resultado);
                 return $alarmasEstacion;
@@ -215,6 +306,38 @@ class Database
         else {
             return false;
         }
+    }
+
+    public function reconocerAlarma($id_alarma, $usuario, $hora){
+
+        if($this->conectar()){
+            $conDatosAlarma = "SELECT estado FROM alarmas WHERE id_alarmas = $id_alarma";
+            $resulDatosAlarma = pg_query($this->conexion, $conDatosAlarma);
+            if($this->consultaExitosa($resulDatosAlarma)){
+                $datosAlarma = pg_fetch_all($resulDatosAlarma);
+                $estadoAlarma = $datosAlarma[0]['estado'];
+
+                if($estadoAlarma == "1"){
+                    $nuevoEstado = 3;
+                }
+                if ($estadoAlarma == "2") {
+                    $nuevoEstado = 4;
+                }
+
+                $secuencia = "UPDATE alarmas SET estado = $nuevoEstado, ack_por = '$usuario', fecha_ack = '$hora' WHERE id_alarmas = $id_alarma";
+                $resultado = pg_query($this->conexion, $secuencia);
+                if($this->consultaExitosa($resultado)){
+                    return true;
+                }
+            }
+            else {
+                return false;
+            }
+        }   
+        else {
+            return false;
+        }
+
     }
 
 }

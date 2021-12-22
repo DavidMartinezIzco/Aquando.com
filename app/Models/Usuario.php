@@ -37,17 +37,6 @@ class Usuario{
         }
     }
 
-    public function obtenerAlarmasEstacion($id_estacion, $fechaInicio, $fechaFin){
-        
-        $alarmasEstacion = $this->DB->obtenerAlarmasEstacion($id_estacion, $fechaInicio, $fechaFin);
-        if($alarmasEstacion != false){
-            return $alarmasEstacion;
-        }
-        else {
-            return false;
-        }
-    }
-
     // public function obtenerAlarmas(){
     //     $estaciones = $this->obtenerEstacionesUsuario();
     //     $alarmas = array();

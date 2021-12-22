@@ -117,7 +117,7 @@
     padding-bottom: 1%;
     overflow-y: scroll;
     max-height: 85%;
-    border: 2px solid grey;
+    border: 2px solid rgb(56, 56, 56);
     border-radius: 10px;
 }
 
@@ -155,26 +155,33 @@
 }
 
 #tablaAlarmas tr:first-of-type {
-    background-color: lightgray;
-    border-bottom: 2px solid darkgray;
+    border-bottom: 1px solid black;
 }
 
-#tablaAlarmas tr th {
-    border-right: 1px solid darkgray;
-}
-
-#tablaAlarmas tr th:hover {
-    border-right: 1px solid darkgray;
+#tablaAlarmas tr:first-of-type th {
     background-color: darkgray;
+    padding: 0.5%;
 }
 
-#tablaAlarmas tr:first-of-type :hover {
-    padding: 0px;
+#tablaAlarmas tr:first-of-type th:hover {
+    color: white;
+    background-color: gray;
 }
 
-.activaNo {
+.activaNo td {
     color: white;
     background-color: tomato;
+    padding: 0.5%;
+    transition: 0.5s;
+    font-size: 110%;
+}
+
+table tr td i {
+    opacity: 10%;
+}
+
+table tr td i:hover {
+    opacity: 100%;
 }
 
 .activaSi {

@@ -1,4 +1,4 @@
-#alarmasSur{
+#alarmasSur {
     border-top: 5px solid rgb(1, 168, 184);
     position: absolute;
     width: 90%;
@@ -15,6 +15,6 @@
     height: 50%;
 }
 
-table tr :hover {
+#alarmasSur tr :hover {
     padding: 0.1%;
 }
