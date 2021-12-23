@@ -98,7 +98,7 @@
                     echo "Usuario: " . $_SESSION['nombre'] . "<br>Empresa: " .$_SESSION['empresa'];
                     }
                     else {
-                        echo "Usuario:   Desconectado<br>Empresa: ";
+                        echo "";
                         }
                 ?>
             </div>
@@ -269,11 +269,11 @@
             if(!isset($_SESSION['nombre'])){
                 echo "<h1 id='txtDesconectado' style='width:30%;margin:25% 40%;color:grey; transition:1.5s;opacity:60%'>Desconectado</h1>";
             }
+            
         ?>
     </div>
 
 </body>
-
 
 
 </html>

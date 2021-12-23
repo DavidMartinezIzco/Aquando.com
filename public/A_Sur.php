@@ -2,83 +2,78 @@
 
 require '../app/Database/Database.php';
 
-$nombre_usuario = $_GET['nombre'];
-$pwd_usuario = $_GET['pwd'];
+    $caso = $_GET['caso'];
+    $db = new Database();
+    if($caso == "general"){
+        $nombre = $_GET['nombre'];
+        $pwd = $_GET['pwd'];
+        $id_emp = $_GET['emp'];
 
+        $id_usuario = $db->obtenerIdUsuario($nombre, $pwd, $id_emp);
+        $alarmasSur = $db->alarmasSur($id_usuario);
 
-$conexionDB = New Database();
-$datosPreview = $conexionDB->obtenerAlarmasCliente($nombre_usuario, $pwd_usuario);
-
-
-
-
-
-// $sql = "SELECT TOP 7 [Motivo],[Canal],[Estacion] FROM [Zeus].[dbo].[SMS] ORDER BY [Fecha]";
-// $consulta = sqlsrv_query($conexion, $sql);
-
-// //error
-// if (!$consulta ) {
-//     $alarmas[] = array("Motivo"=>"error", "Canal"=>"error", "Dato"=>"error");
-//     return $alarmas;
-// }
-
-// //sin resultados
-// if(!sqlsrv_has_rows($consulta)){
-//     $alarmas[] = array("Motivo"=>"error", "Canal"=>"error", "Dato"=>"error");
-//     return $alarmas;
-// }
-
-// // bien
-// else{
-//     while($alarmasDeEstacion = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)) {
-//         $alarmas[] = $alarmasDeEstacion;
-//     }
-    
-//     foreach ($alarmas as $index => $alarmasDeEstacion) {
+        echo "<tr>        
+        <th>Estación</th>
+        <th>Señal </th>
+        <th>Valor de la señal</th>
+        <th>Fecha de Origen</th>
+        <th>Fecha de Restauracion</th>
+        <th>Reconocida por</th>
+        <th>Fecha de reconocimiento</th>
+        </tr>";
         
-//         $e++;
-//         echo "<tr class='filaAl' id=".$e.">";
-//         foreach ($alarmasDeEstacion as $dato => $info) {
-//             $i ++;
-//             if($dato != "Fecha" && $info != "sin datos de la consulta" && $info != "error"){
-//                 if($dato == "Estacion"){
-//                     echo "<td>Estacion: ".$info."</td>";
-//                 }
-//                 elseif ($dato == "Motivo") {
-//                     switch ($info) {
-//                         case 1:
-//                             echo "<script>
-//                             document.getElementById('".$e."').style.backgroundColor='#de3d37';
-//                             document.getElementById('".$e."').style.color='white';
-//                             setInterval(latido(document.getElementById('".$e."')), 500);
-//                             </script>";
-                            
-//                             break;
+        if($alarmasSur != false){
+            $alarmasLimpio = array();
+            foreach ($alarmasSur as $estacion => $alarmas) {
+                if($alarmas != false){
+                    $alarmasLimpio[$estacion] = $alarmas;
+                }
+            }
+
+            foreach ($alarmasLimpio as $index => $alarma) {
+
+                switch ($alarma['estado']) {
+                    case 1:
+                        echo "<tr class='activaNo' >";
                         
-//                         case 3:
-//                             echo "<script>document.getElementById('".$e."').style.backgroundColor='rgb(144, 238, 144)'</script>";
-//                             break;
-                               
-//                         default:
-//                             # code...
-//                             break;
-//                     }
-//                     echo "<td>Motivo: ".$info."</td>";
-//                 }
+                        break;
+                    case 2:
+                        echo "<tr class='restNo'>";
+                        
+                        break;
+                    case 3:
+                        echo "<tr class='activaSi'>";
+                        
+                        break;
+                    case 4:
+                        echo "<tr class='restSi'>";
+                        break;
 
+                    default:
+                        break;
+                }
 
-//                 else {
-//                     echo "<td>";
-//                     echo " ".$dato." : ".$info." ";
-//                     echo "</td>";
-//                 }
+                foreach ($alarma as $dato => $valor) {
+                    
+                    if($dato != 'estado' && $dato != 'id_alarmas'){
+                    
+                        echo "<td>";
+                        echo $valor;
+                        echo "</td>";    
+                        
+                    }
+                    
+                }
+                echo "</tr>";
                 
-//             }
-        
-//         }
-//         echo "</tr>";
+            }
+        }
 
-//     }
-// }
+    }
+
+    
+    if($caso = "estacion"){
+
+    }
 
 ?>

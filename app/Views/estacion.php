@@ -92,17 +92,20 @@
             <h3>Zona Media Derecha</h3>
         </div>
     </div>
-
-</main>
 <!---zona alarmas--->
 <table id="alarmasSur">
 </table>
+</main>
+
 
 <script>
     window.onload = function() {
-        actualizarMini();
+        var usu = '<?php echo $_SESSION['nombre'] ?>';
+        var pwd = '<?php echo $_SESSION['pwd'] ?>';
+        var idusu = <?php echo $_SESSION['idusu']?>;
+        actualizarSur('general',usu, pwd, idusu);
         setInterval(fechaYHora, 1000);
-        setInterval(actualizarMini, 3000);
+        
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {
             tiempoFuera("");

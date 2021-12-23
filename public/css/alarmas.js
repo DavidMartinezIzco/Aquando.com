@@ -63,15 +63,20 @@ function actualizar(reorden) {
             orden = reorden;
         }
 
+
         var sentido = 'DESC';
         if (document.getElementById('radioAsc').checked == true) {
             sentido = 'ASC';
         }
 
+        var nombre = sessionStorage.getItem('nousu');
+        var pwd = sessionStorage.getItem('pwd');
+        var emp = sessionStorage.getItem('emp');
+
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_Alarmas.php?funcion=actualizar&nombre=' + sessionStorage.getItem('nousu') + '&pwd=' + sessionStorage.getItem('pwd') + '&emp=' + sessionStorage.getItem('empusu') + '&sentido=' + sentido + '&orden=' + orden,
+                url: 'A_Alarmas.php?funcion=actualizar&nombre=' + nombre + '&pwd=' + pwd + '&emp=' + emp + '&sentido=' + sentido + '&orden=' + orden,
                 success: function(alarmas) {
                     document.getElementById("tablaAlarmas").innerHTML = alarmas;
                 },

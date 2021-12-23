@@ -3,7 +3,7 @@
 <script src='css/echarts.js'></script>
 <script src='css/comunicaciones.js'></script>
 <link rel="stylesheet" type="text/css" href="css/comunicaciones.css">
-<main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px; margin-top:1%; padding: 0.5%">
+<main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px; margin-top:1%;">
 
 
     <!--zona con los estados de conexiones-->
@@ -102,23 +102,25 @@
     <div id="seccionDetalles2">
         detalles de la estacion seleccionada (?)
     </div>
-
-</main>
-
-
 <!--alarmas de abajo-->
 <table id="alarmasSur">
 </table>
+</main>
+
+
+
 
 <script>
     window.onload = function() {
-        actualizarMini();
+        var usu = '<?php echo $_SESSION['nombre'] ?>';
+        var pwd = '<?php echo $_SESSION['pwd'] ?>';
+        var idusu = <?php echo $_SESSION['idusu']?>;
+        actualizarSur('general',usu, pwd, idusu);
         graficoConex();
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
         setInterval(parpadeoProblema, 1000);
         setInterval(parpadeoError, 1000);
-        setInterval(actualizarMini, 3000);
         $(window).blur(function() {
             tiempoFuera("");
         });

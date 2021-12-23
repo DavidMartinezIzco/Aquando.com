@@ -128,15 +128,15 @@
 
 <script>
 window.onload = function() {
+    var usu = '<?php echo $_SESSION['nombre'] ?>';
+    var pwd = '<?php echo $_SESSION['pwd'] ?>';
+    var idusu = <?php echo $_SESSION['idusu']?>;
+    sessionStorage.setItem('nousu',usu);
+    sessionStorage.setItem('pwd', pwd);
+    sessionStorage.setItem('emp', idusu);
 
-    var nousu="<?php echo $_SESSION['nombre']?>";
-    sessionStorage.setItem('nousu',nousu);
-    var psusu="<?php echo $_SESSION['pwd']?>";
-    sessionStorage.setItem('pwd',psusu);
-    var empusu = "<?php echo $_SESSION['idusu']?>";
-    sessionStorage.setItem('empusu',empusu);
     setInterval(fechaYHora, 1000);
-    //setInterval(actualizar, 20000);
+    setInterval(actualizar(null), 20000);
     setInterval(comprobarTiempo, 1000);
     setInterval(efectoAlerta, 3000);
     $(window).blur(function() {

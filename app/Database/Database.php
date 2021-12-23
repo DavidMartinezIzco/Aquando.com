@@ -17,7 +17,7 @@ class Database
 
     public function obtenerIdUsuario($nombre, $pwd, $id_cliente){
         if ($this->conectar()) {
-            $consulta = "SELECT id_usuario FROM usuarios WHERE nombre ='$nombre' AND password ='$pwd' AND id_cliente = '$id_cliente'";
+            $consulta = "SELECT id_usuario FROM usuarios WHERE nombre ='$nombre' AND password ='$pwd' AND id_cliente = ".$id_cliente."";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $id_usu = pg_fetch_all($resultado);
@@ -340,4 +340,38 @@ class Database
 
     }
 
+    public function alarmasSur($id_usuario){
+        if($this->conectar()){
+            $conAlarmas = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+            FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
+            WHERE usuario_estacion.id_usuario = ".$id_usuario[0]['id_usuario']." ORDER BY alarmas.fecha_origen DESC limit 7";
+
+            $resulAlarmas = pg_query($conAlarmas);
+            if($this->consultaExitosa($resulAlarmas)){
+                $alarmas = pg_fetch_all($resulAlarmas);
+                return $alarmas;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function alarmasEstacionSur($id_estacion){
+        if ($this->conectar()) {
+            $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+            FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
+            WHERE estacion_tag.id_estacion = '$id_estacion' ORDER BY alarmas.fecha_origen DESC LIMIT 7";
+            $resultado = pg_query($this->conexion, $consulta);
+            if ($this->consultaExitosa($resultado)) {
+                $alarmasEstacion = pg_fetch_all($resultado);
+                return $alarmasEstacion;
+            }
+        } else {
+            return false;
+        }
+    }
 }

@@ -91,8 +91,8 @@ function cerrarMenu() {
     }
 
     if (document.getElementById("alarmasSur")) {
-        document.getElementById("alarmasSur").style.width = '105%';
-        document.getElementById("alarmasSur").style.marginLeft = '-5%';
+        document.getElementById("alarmasSur").style.width = '100%';
+
     }
 
     if (document.getElementById("displayComs")) {
