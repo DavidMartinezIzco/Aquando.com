@@ -112,6 +112,7 @@ class Inicio extends BaseController
             foreach ($_SESSION['estaciones'] as $index => $estacion) {
                 if($estacion["id_estacion"] == $_POST["btnEstacion"]){
                     $nombreEstacion = $estacion["nombre_estacion"];
+                    $datos['id_estacion'] = $estacion["id_estacion"];
                 }
             }
             $datos['datosEstacion'] = $datosEstacion;
@@ -190,7 +191,10 @@ class Inicio extends BaseController
         //falta: cambiar a nueva BD
         $_SESSION['seccion'] = "coms";
         if (isset($_SESSION['nombre'])) {
-            return view('comunicaciones');
+            $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
+            $conexiones = $this->usuario->ultimasConexiones();
+            $datos['conexiones'] = $conexiones;
+            return view('comunicaciones', $datos);
         } else {
             return view('inicio');
         }

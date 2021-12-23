@@ -100,12 +100,11 @@
 
 <script>
     window.onload = function() {
-        var usu = '<?php echo $_SESSION['nombre'] ?>';
-        var pwd = '<?php echo $_SESSION['pwd'] ?>';
-        var idusu = <?php echo $_SESSION['idusu']?>;
-        actualizarSur('general',usu, pwd, idusu);
+        var estacion = <?php echo $id_estacion; ?>;
+        actualizarSur('estacion',null, null, null, estacion);
+        comprobarTiempo();
         setInterval(fechaYHora, 1000);
-        
+        setInterval(actualizarSur('estacion',null, null, null, estacion), 20000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {
             tiempoFuera("");

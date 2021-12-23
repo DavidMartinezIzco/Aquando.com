@@ -374,4 +374,24 @@ class Database
             return false;
         }
     }
+
+    //secuencia para sacar las ultimas conexiones de las estaciones
+    //SELECT estaciones.nombre_estacion, datos_valores.valor_date, tags.nombre_tag FROM estaciones INNER JOIN estacion_tag ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag INNER JOIN datos_valores ON estacion_tag.id_tag = datos_valores.id_tag WHERE tags.nombre_tag LIKE 'Ultima Comunicacion%' ORDER BY estaciones.nombre_estacion DESC
+
+    public function ultimaComunicacionEstacion($id_estacion){
+        if($this->conectar()){
+            $consulta = "SELECT estaciones.nombre_estacion, datos_valores.valor_date, tags.nombre_tag FROM estaciones INNER JOIN estacion_tag ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag INNER JOIN datos_valores ON estacion_tag.id_tag = datos_valores.id_tag WHERE tags.nombre_tag LIKE 'Ultima Comunicacion%' AND estaciones.id_estacion = ".$id_estacion." ORDER BY estaciones.nombre_estacion DESC";
+            $resultado = pg_query($this->conexion, $consulta);
+            if($this->consultaExitosa($resultado)){
+                $ultimaConexion = pg_fetch_all($resultado);
+                return $ultimaConexion;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }

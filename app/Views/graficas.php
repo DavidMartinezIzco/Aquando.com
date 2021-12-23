@@ -78,7 +78,7 @@
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         var idusu = <?php echo $_SESSION['idusu']?>;
-        actualizarSur('general',usu, pwd, idusu);
+        actualizarSur('general',usu, pwd, idusu, null);
         comprobarTiempo();
         iniciar();
         aplicarOpciones();

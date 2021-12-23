@@ -33,7 +33,8 @@ class Usuario{
         try{
             return $this->DB->mostrarEstacionesCliente($this->nombre, $this->contrasena);
         }
-        catch(Throwable $e){   
+        catch(Throwable $e){
+            return false;
         }
     }
 
@@ -105,23 +106,38 @@ class Usuario{
     }
 
 
+    public function ultimasConexiones(){
+
+        $estaciones = $this->obtenerEstacionesUsuario();
+        if($estaciones != false){
+            $ultimasConexiones = array();
+            foreach ($estaciones as $index => $estacion) {
+                $ultimasConexiones[$estacion['nombre_estacion']] = $this->DB->ultimaComunicacionEstacion($estacion['id_estacion']);
+            }
+            foreach ($ultimasConexiones as $estacion => $datos) {
+                foreach ($datos[0] as $dato => $valor) {
+                    if($dato == 'valor_date'){
+                        $ultima = new Datetime($valor);
+                        $ahora = new DateTime("now");
+                        $dif = $ahora->diff($ultima);
+                        if($dif->h >= 24){
+                            $ultimasConexiones[$estacion][0]['estado'] = "error";
+                        }
+                        else {
+                            $ultimasConexiones[$estacion][0]['estado'] = "correcto";
+                        }
+                    }
+                }
+            }
+            return $ultimasConexiones;
+        }
 
 
-    // public function comprobarSQL(){
-        
-    // }
 
-    // public function pruebaTag($estacion, $canal){
-
-    // }
+    }
 
 
-    // public function conseguirAlarmas($fechaInicio, $fechaFin, $desde){
 
-       
-
-
-    // }
 
 
     /**

@@ -1,5 +1,5 @@
 #alarmasSur {
-    border-top: 5px solid rgb(1, 168, 184);
+    border-top: 2px solid rgb(56, 56, 56);
     position: absolute;
     width: 85%;
     margin: 0px;
@@ -11,7 +11,7 @@
 }
 
 #alarmasSur tr {
-    opacity: 95%;
+    opacity: 85%;
 }
 
 #alarmasSur tr:hover {
@@ -24,6 +24,7 @@
 
 #alarmasSur tr:first-of-type {
     border-bottom: 1px solid black;
+    opacity: 100%;
 }
 
 #alarmasSur tr:first-of-type th {
@@ -37,11 +38,11 @@
     transition: 0.5s;
 }
 
-table tr td i {
+#alarmasSur tr td i {
     opacity: 10%;
 }
 
-table tr td i:hover {
+#alarmasSur tr td i:hover {
     opacity: 100%;
 }
 

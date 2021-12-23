@@ -1,25 +1,22 @@
-
 //hacer parpadear los objetos de alerta media
 function parpadeoProblema() {
-    if(document.getElementById("secProblema").style.opacity == '0'){
+    if (document.getElementById("secProblema").style.opacity == '0') {
         document.getElementById("secProblema").style.opacity = '100%'
-        
-    }
-    else{
+
+    } else {
         document.getElementById("secProblema").style.opacity = '0%'
-        
+
     }
 }
 
 //hace parpadear los objetos de alerta alta
 function parpadeoError() {
-    if(document.getElementById("secError").style.opacity == '0'){
+    if (document.getElementById("secError").style.opacity == '0') {
         document.getElementById("secError").style.opacity = '100%'
-        
-    }
-    else{
+
+    } else {
         document.getElementById("secError").style.opacity = '0%';
-        
+
     }
 }
 
@@ -34,53 +31,69 @@ function graficoConex() {
         datos.push(dato);
         i++;
     }
-    
+
     var chartDom = document.getElementById('graficoConexion');
     var myChart = echarts.init(chartDom);
     var option;
 
-    option = {title: {
-        text: 'Calidad de Conexión',
-        textStyle: {
-            left: "center",
-            top: "center",
-            fontSize: 15,
-            color: 'rgb(1, 168, 184)'
-        }
-    },
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'line',
-            label: {
-                backgroundColor: '#6a7985 0.1'
+    option = {
+        title: {
+            text: 'Calidad de Conexión',
+            textStyle: {
+                left: "center",
+                top: "center",
+                fontSize: 15,
+                color: 'rgb(1, 168, 184)'
             }
-        }
-    },
-    xAxis: {
-        type: 'category',
-        data: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'],
-        color: 'rgb(1, 168, 184)'
-        
-    },
-    yAxis: {
-        
-    },
-    series : [
-        {
-        color: 'rgb(1, 168, 184)',
-        name: 'Calidad',
-        type: 'line',
-        stack: 'Total',
-        areaStyle: {},
-        emphasis: {
-            focus: 'series'
         },
-        data: datos
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'line',
+                label: {
+                    backgroundColor: '#6a7985 0.1'
+                }
+            }
         },
-    ]
+        xAxis: {
+            type: 'category',
+            data: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'],
+            color: 'rgb(1, 168, 184)'
+
+        },
+        yAxis: {
+
+        },
+        series: [{
+            color: 'rgb(1, 168, 184)',
+            name: 'Calidad',
+            type: 'line',
+            stack: 'Total',
+            areaStyle: {},
+            emphasis: {
+                focus: 'series'
+            },
+            data: datos
+        }, ]
     };
 
     option && myChart.setOption(option);
-    
+
+}
+
+function actualizarConexiones(nombre, pwd, idemp) {
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_Conexiones.php?nombre=' + nombre + '&pwd=' + pwd + '&emp=' + idemp,
+            success: function(conex) {
+                document.getElementById("tablaConex").innerHTML = conex;
+            },
+            error: function() {
+                console.log("error");
+            }
+
+        });
+    });
 }

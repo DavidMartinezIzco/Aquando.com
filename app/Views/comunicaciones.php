@@ -9,7 +9,39 @@
     <!--zona con los estados de conexiones-->
     <!--su contenido es provisional-->
     <div id="displayComs">
-        <table style="width:100%; height:100%">
+        <table id="tablaConex"style="width:100%; height:100%">
+
+        <?php 
+            // foreach ($conexiones as $estacion => $datos) {
+            //     echo "<tr id='seccionEstacion'>";
+            //         foreach ($datos[0] as $dato => $valor) {
+            //             if($dato == 'nombre_estacion'){
+            //                 echo "<td id='secNombre'>";
+            //                 echo "ESTACION: " . $valor;
+            //                 echo "</td>";
+            //             }
+            //             if($dato == 'valor_date'){
+            //                 echo "<td id='secUltima'>";
+            //                 echo "ULTIMA CONEXION: " . $valor;
+            //                 echo "</td>";
+            //             }
+            //             if($dato == 'nombre_tag'){
+                            
+            //             }
+            //             if($dato == 'estado'){
+            //                 if($valor == "correcto"){
+            //                     echo "<td id='secEstado'><i class='fas fa-check'></i></td>"; 
+            //                 }
+            //                 else {
+            //                     echo "<i class='fas fa-exclamation-triangle'></i>";
+            //                 }
+            //             }
+            //         }
+            //     echo "</tr>";
+            // }
+        ?>
+        </table>
+<!-- 
             <tr onclick="graficoConex()" id='seccionEstacion'>
                 <td id='secNombre'>
                     N Estacion
@@ -88,7 +120,7 @@
                 <td id="secUltima">
                     Ultima Conexion
                 </td>
-            </tr>
+            </tr> -->
 
         </table>
     </div>
@@ -115,12 +147,13 @@
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         var idusu = <?php echo $_SESSION['idusu']?>;
-        actualizarSur('general',usu, pwd, idusu);
+        actualizarSur('general',usu, pwd, idusu, null);
         graficoConex();
+        setInterval(actualizarConexiones(usu, pwd, idusu), 1000*60*5);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
-        setInterval(parpadeoProblema, 1000);
-        setInterval(parpadeoError, 1000);
+        // setInterval(parpadeoProblema, 1000);
+        // setInterval(parpadeoError, 1000);
         $(window).blur(function() {
             tiempoFuera("");
         });

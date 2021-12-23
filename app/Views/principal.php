@@ -68,10 +68,10 @@
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         var idusu = <?php echo $_SESSION['idusu']?>;
-        actualizarSur('general',usu, pwd, idusu);
-        //setInterval(fechaYHora, 1000);
-        //setInterval(comprobarTiempo, 1000);
-        //setInterval(actualizarSur('general'), 3000);
+        actualizarSur('general',usu, pwd, idusu, null);
+        setInterval(fechaYHora, 1000);
+        setInterval(comprobarTiempo, 1000);
+        
         mostrarResumen();
         //cargarDatos();
         $(window).blur(function() {
@@ -80,7 +80,7 @@
         $(window).focus(function() {
             tiempoFuera("volver")
         });
-
+        setInterval(actualizarSur('general',usu, pwd, idusu, null), 20000);
         
     }
 </script>
