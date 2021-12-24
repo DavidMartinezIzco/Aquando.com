@@ -3,13 +3,7 @@
 <?= $this->section('content') ?>
 
 
-<?php
- if(isset($_GET['log'])){
-  echo '<script language="javascript">';
-  echo 'alert("Su sesión a caducado");';
-  echo '</script>';
- }
-?>
+
 
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
 <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">

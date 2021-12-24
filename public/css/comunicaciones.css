@@ -18,7 +18,12 @@
 }
 
 #displayComs tr:hover {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgb(1, 168, 184);
+    color: white;
+}
+
+.comsSelec {
+    background-color: rgba(255, 255, 255, 0.6);
     color: black;
 }
 
@@ -37,9 +42,25 @@
 }
 
 #secProblema {
-    transition: 0.5s;
     color: yellow;
     font-size: 150%;
+}
+
+.alerta {
+    transition: opacity 0.5s ease-in-out;
+}
+
+.rotante {
+    -webkit-animation: rotar 2s infinite linear;
+}
+
+@keyframes rotar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 
@@ -60,7 +81,6 @@
 /* detalles 1 */
 
 #seccionDetalles1 {
-    overflow-x: scroll;
     transition: 0.5s;
     position: absolute;
     left: 72%;
@@ -70,6 +90,23 @@
     text-align: center;
     border-radius: 10px;
     border: 5px solid darkgray;
+    padding-top: 0.5%;
+    overflow-y: scroll;
+}
+
+#seccionCalidad {
+    background-color: lightgray;
+    font-size: 80%;
+    width: 100%;
+}
+
+#seccionCalidad tr {
+    border-bottom: 1px solid lightseagreen;
+}
+
+#seccionCalidad tr td {
+    padding: 0% 3%;
+    text-align: left;
 }
 
 #seccionDetalles1::-webkit-scrollbar {
@@ -98,4 +135,23 @@
     text-align: center;
     border-radius: 10px;
     border: 5px solid darkgray;
+}
+
+#seccionDetalles2 table {
+    height: 100%;
+    width: 100%;
+}
+
+#btnControl {
+    color: white;
+    transition: 0.2s;
+    padding: 10%;
+    background-color: grey;
+    border: 3px solid white;
+    border-radius: 10px;
+    font-size: 200%;
+}
+
+#btnControl:hover {
+    background-color: rgb(1, 168, 184);
 }

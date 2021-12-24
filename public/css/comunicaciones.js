@@ -1,92 +1,14 @@
-//hacer parpadear los objetos de alerta media
-function parpadeoProblema() {
-    if (document.getElementById("secProblema").style.opacity == '0') {
-        document.getElementById("secProblema").style.opacity = '100%'
-
-    } else {
-        document.getElementById("secProblema").style.opacity = '0%'
-
-    }
-}
-
-//hace parpadear los objetos de alerta alta
-function parpadeoError() {
-    if (document.getElementById("secError").style.opacity == '0') {
-        document.getElementById("secError").style.opacity = '100%'
-
-    } else {
-        document.getElementById("secError").style.opacity = '0%';
-
-    }
-}
-
-//genera el esquema del estado historico de la calidad de conexion de una estacion
-function graficoConex() {
-    var i = 0;
-    var e = 7;
-    var datos = [];
-
-    while (i < e) {
-        var dato = Math.random() * (10 - 1) + 1;
-        datos.push(dato);
-        i++;
-    }
-
-    var chartDom = document.getElementById('graficoConexion');
-    var myChart = echarts.init(chartDom);
-    var option;
-
-    option = {
-        title: {
-            text: 'Calidad de Conexión',
-            textStyle: {
-                left: "center",
-                top: "center",
-                fontSize: 15,
-                color: 'rgb(1, 168, 184)'
-            }
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'line',
-                label: {
-                    backgroundColor: '#6a7985 0.1'
-                }
-            }
-        },
-        xAxis: {
-            type: 'category',
-            data: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'],
-            color: 'rgb(1, 168, 184)'
-
-        },
-        yAxis: {
-
-        },
-        series: [{
-            color: 'rgb(1, 168, 184)',
-            name: 'Calidad',
-            type: 'line',
-            stack: 'Total',
-            areaStyle: {},
-            emphasis: {
-                focus: 'series'
-            },
-            data: datos
-        }, ]
-    };
-
-    option && myChart.setOption(option);
-
-}
-
 function actualizarConexiones(nombre, pwd, idemp) {
+
+    $(document.getElementById("iconoActu")).addClass("rotante");
+    setTimeout(function() {
+        document.getElementById("iconoActu").classList.remove("rotante");
+    }, 3000);
 
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Conexiones.php?nombre=' + nombre + '&pwd=' + pwd + '&emp=' + idemp,
+            url: 'A_Conexiones.php?nombre=' + nombre + '&pwd=' + pwd + '&emp=' + idemp + '&opcion=conex',
             success: function(conex) {
                 document.getElementById("tablaConex").innerHTML = conex;
             },
@@ -96,4 +18,66 @@ function actualizarConexiones(nombre, pwd, idemp) {
 
         });
     });
+}
+
+function obtenerCalidadTags(estacion) {
+    if (document.getElementsByClassName('comsSelec')[0]) {
+        document.getElementsByClassName('comsSelec')[0].classList.remove("comsSelec");
+    }
+    $(document.getElementsByName(estacion)[0]).addClass('comsSelec');
+
+    nombrarEstacion(estacion);
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_Conexiones.php?estacion=' + estacion + '&opcion=cali',
+            success: function(cali) {
+                document.getElementById("seccionCalidad").innerHTML = cali;
+            },
+            error: function() {
+                console.log("error");
+            }
+
+        });
+    });
+}
+
+function parpadeoProblema() {
+    desvanecer();
+    setTimeout(aparecer, 1000);
+}
+
+function desvanecer() {
+
+    var nalertas = document.getElementsByName('alerta').length;
+    for (var i = 0; i < nalertas; i++) {
+        document.getElementsByName('alerta')[i].style.opacity = '0';
+    }
+}
+
+function aparecer() {
+    var nalertas = document.getElementsByName('alerta').length;
+    for (var i = 0; i < nalertas; i++) {
+        document.getElementsByName('alerta')[i].style.opacity = '1';
+    }
+}
+
+function nombrarEstacion(estacion) {
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_Conexiones.php?estacion=' + estacion + '&opcion=nom',
+            success: function(est) {
+                document.getElementById("calidadSenales").innerHTML = '<h4 id="calidadSenales"> Calidad de señal: ' + est + '</h4>';
+
+            },
+            error: function() {
+                console.log("error");
+            }
+
+        });
+    });
+
 }

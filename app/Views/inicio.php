@@ -46,7 +46,14 @@
     <script src='css/sur.js'></script>
 
 </head>
-
+<?php
+ if(isset($_GET['log'])){
+  
+  echo '<script language="javascript">';
+  echo 'alert("Su sesión a caducado");';
+  echo '</script>';
+ }
+?>
 <body>
     <header class="p-1 text-white" style="width: 100%;background-color:rgb(39,45,79);position:fixed; height:4.5em; z-index:1000;">
         <div style="width: 100%; padding-left: 1em">powered by

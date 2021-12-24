@@ -63,7 +63,7 @@
     <div id="zonaAlarmas">
 
         <table id="tablaAlarmas">
-            <tr>
+            <!-- <tr>
                 <th onclick="reordenar('estacion')">Estación</th>
                 <th onclick="reordenar('senal')">Señal </th>
                 <th onclick="reordenar('valor')">Valor de la señal</th>
@@ -71,54 +71,54 @@
                 <th onclick="reordenar('restauracionfecha')">Fecha de Restauracion</th>
                 <th onclick="reordenar('reconusu')">Reconocida por</th>
                 <th onclick="reordenar('reconfecha')">Fecha de reconocimiento</th>
-            </tr>
+            </tr> -->
             <?php
-        foreach ($alarmasAll as $index => $alarma) {
-            switch ($alarma['estado']) {
-                case 1:
-                    echo "<tr class='activaNo' >";
+        // foreach ($alarmasAll as $index => $alarma) {
+        //     switch ($alarma['estado']) {
+        //         case 1:
+        //             echo "<tr class='activaNo' >";
                     
-                    break;
-                case 2:
-                    echo "<tr class='restNo'>";
+        //             break;
+        //         case 2:
+        //             echo "<tr class='restNo'>";
                     
-                    break;
-                case 3:
-                    echo "<tr class='activaSi'>";
+        //             break;
+        //         case 3:
+        //             echo "<tr class='activaSi'>";
                     
-                    break;
-                case 4:
-                    echo "<tr class='restSi'>";
-                    break;
+        //             break;
+        //         case 4:
+        //             echo "<tr class='restSi'>";
+        //             break;
 
-                default:
-                    break;
-            }
+        //         default:
+        //             break;
+        //     }
 
-            foreach ($alarma as $dato => $valor) {
-                if($dato != 'estado' && $dato != 'id_alarmas'){
-                    if($dato == 'ack_por'){
-                        if($valor == null){
-                            echo "<td>";
-                            echo '<i class="fas fa-eye" onclick="reconocer('.$alarma['id_alarmas'].')"></i>';
-                            echo "</td>"; 
-                        }
-                        else {
-                            echo "<td>";
-                            echo $valor;
-                            echo "</td>";
-                        }
-                    }
-                    else {
-                        echo "<td>";
-                        echo $valor;
-                        echo "</td>";
-                    }
+        //     foreach ($alarma as $dato => $valor) {
+        //         if($dato != 'estado' && $dato != 'id_alarmas'){
+        //             if($dato == 'ack_por'){
+        //                 if($valor == null){
+        //                     echo "<td>";
+        //                     echo '<i class="fas fa-eye" onclick="reconocer('.$alarma['id_alarmas'].')"></i>';
+        //                     echo "</td>"; 
+        //                 }
+        //                 else {
+        //                     echo "<td>";
+        //                     echo $valor;
+        //                     echo "</td>";
+        //                 }
+        //             }
+        //             else {
+        //                 echo "<td>";
+        //                 echo $valor;
+        //                 echo "</td>";
+        //             }
                     
-                }
-            }
-            echo "</tr>";
-        }
+        //         }
+        //     }
+        //     echo "</tr>";
+        // }
             ?>
 
         </table>
@@ -134,7 +134,7 @@ window.onload = function() {
     sessionStorage.setItem('nousu',usu);
     sessionStorage.setItem('pwd', pwd);
     sessionStorage.setItem('emp', idusu);
-
+    actualizar(null);
     setInterval(fechaYHora, 1000);
     setInterval(actualizar(null), 20000);
     setInterval(comprobarTiempo, 1000);

@@ -11,128 +11,26 @@
     <div id="displayComs">
         <table id="tablaConex"style="width:100%; height:100%">
 
-        <?php 
-            // foreach ($conexiones as $estacion => $datos) {
-            //     echo "<tr id='seccionEstacion'>";
-            //         foreach ($datos[0] as $dato => $valor) {
-            //             if($dato == 'nombre_estacion'){
-            //                 echo "<td id='secNombre'>";
-            //                 echo "ESTACION: " . $valor;
-            //                 echo "</td>";
-            //             }
-            //             if($dato == 'valor_date'){
-            //                 echo "<td id='secUltima'>";
-            //                 echo "ULTIMA CONEXION: " . $valor;
-            //                 echo "</td>";
-            //             }
-            //             if($dato == 'nombre_tag'){
-                            
-            //             }
-            //             if($dato == 'estado'){
-            //                 if($valor == "correcto"){
-            //                     echo "<td id='secEstado'><i class='fas fa-check'></i></td>"; 
-            //                 }
-            //                 else {
-            //                     echo "<i class='fas fa-exclamation-triangle'></i>";
-            //                 }
-            //             }
-            //         }
-            //     echo "</tr>";
-            // }
-        ?>
-        </table>
-<!-- 
-            <tr onclick="graficoConex()" id='seccionEstacion'>
-                <td id='secNombre'>
-                    N Estacion
-                </td>
-                <td id='secEstado'>
-                    <i class="fas fa-check"></i>
-                </td>
-                <td id='secUltima'>
-                    Ultima Conexion
-                </td>
-            </tr>
-
-            <tr onclick="graficoConex()" id='seccionEstacion'>
-                <td id='secNombre'>
-                    N Estacion
-                </td>
-                <td id='secEstado'>
-                    <i class="fas fa-check"></i>
-                </td>
-                <td id='secUltima'>
-                    Ultima Conexion
-                </td>
-            </tr>
-
-            <tr onclick="graficoConex()" id="seccionEstacionProblema">
-                <td id="secNombre">
-                    N Estacion
-                </td>
-
-                <td id="secProblema">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </td>
-
-                <td id="secUltima">
-                    Ultima Conexion
-                </td>
-            </tr>
-
-            <tr onclick="graficoConex()" id="seccionEstacionError">
-                <td id="secNombre">
-                    N Estacion
-                </td>
-
-                <td id="secError">
-                    <i class="fas fa-times-circle"></i>
-
-                </td>
-
-                <td id="secUltima">
-                    Ultima Conexion
-                </td>
-
-            </tr>
-
-            <tr onclick="graficoConex()" id='seccionEstacion'>
-                <td id='secNombre'>
-                    N Estacion
-                </td>
-                <td id='secEstado'>
-                    <i class="fas fa-check"></i>
-                </td>
-                <td id='secUltima'>
-                    Ultima Conexion
-                </td>
-            </tr>
-
-            <tr onclick="graficoConex()" id="seccionEstacionProblema">
-                <td id="secNombre">
-                    N Estacion
-                </td>
-
-                <td id="secProblema">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </td>
-
-                <td id="secUltima">
-                    Ultima Conexion
-                </td>
-            </tr> -->
-
         </table>
     </div>
 
     <!--sitio para el grafico de resumen del estado-->
     <div id="seccionDetalles1">
-        <div id="graficoConexion" style="width: 720px; height:350px;"></div>
+        <h4 id="calidadSenales">Calidad de señales:</h4>
+        <table id="seccionCalidad">
+        </table>
     </div>
 
     <!--sitio para mas informacion-->
     <div id="seccionDetalles2">
-        detalles de la estacion seleccionada (?)
+        <table>
+        <tr>
+            <td><button id="btnControl" value="actualizar" onclick="actu()" name=""><i id="iconoActu" class="fas fa-sync"></i></button></td>
+            <td><button id="btnControl" value="ir" onclick="" style="font-size: 185%;" value="reset" name=""><i class="fas fa-broadcast-tower"></i></i></button></td>
+            <td><button id="btnControl" value="ajustes" onclick="" name=""><i class="fas fa-cog"></i></button></td>
+        </tr>
+        </table>
+        
     </div>
 <!--alarmas de abajo-->
 <table id="alarmasSur">
@@ -145,15 +43,17 @@
 <script>
     window.onload = function() {
         var usu = '<?php echo $_SESSION['nombre'] ?>';
+        sessionStorage.setItem('usu', usu);
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
+        sessionStorage.setItem('pwd', pwd);
         var idusu = <?php echo $_SESSION['idusu']?>;
+        sessionStorage.setItem('idusu', idusu);
         actualizarSur('general',usu, pwd, idusu, null);
-        graficoConex();
+        
         setInterval(actualizarConexiones(usu, pwd, idusu), 1000*60*5);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
-        // setInterval(parpadeoProblema, 1000);
-        // setInterval(parpadeoError, 1000);
+        setInterval(parpadeoProblema, 3000);
         $(window).blur(function() {
             tiempoFuera("");
         });
@@ -161,7 +61,15 @@
             tiempoFuera("volver")
         });
     }
+
+    function actu(){
+        usu = sessionStorage.getItem('usu');
+        pwd = sessionStorage.getItem('pwd');
+        idusu = sessionStorage.getItem('idusu');
+        actualizarConexiones(usu,pwd,idusu);
+    }
 </script>
+
 
 
 <?= $this->endSection() ?>

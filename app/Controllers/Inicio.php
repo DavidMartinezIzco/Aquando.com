@@ -24,8 +24,9 @@ class Inicio extends BaseController
     //ejecución de arranque del proyecto
     public function index(){
         if (isset($_GET['log']) && $_GET['log'] == 'out') {
-            $_SESSION['seccion'] = "login";
-            return $this->inicioSesion();
+            session_unset();
+            
+            return view('inicio');
         } else {
             $_SESSION['seccion'] = "inicio";
             if (isset($_SESSION['nombre'])) {
@@ -149,8 +150,7 @@ class Inicio extends BaseController
     }
 
     // //muestra la zona principal de alarmas
-    public function alarmas()
-    {
+    public function alarmas(){
 
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "alarmas";
@@ -163,9 +163,9 @@ class Inicio extends BaseController
                 //alarmas desde principio de año
                 $estaciones = $this->usuario->obtenerEstacionesUsuario();
                 $datos['estaciones'] = $estaciones;
-                $alarmas = $this->usuario->obtenerAlarmas();
+                // $alarmas = $this->usuario->obtenerAlarmas();
                 
-                $datos['alarmasAll'] = $alarmas;
+                // $datos['alarmasAll'] = $alarmas;
             }
 
             return view('alarmas', $datos);
@@ -191,10 +191,10 @@ class Inicio extends BaseController
         //falta: cambiar a nueva BD
         $_SESSION['seccion'] = "coms";
         if (isset($_SESSION['nombre'])) {
-            $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
-            $conexiones = $this->usuario->ultimasConexiones();
-            $datos['conexiones'] = $conexiones;
-            return view('comunicaciones', $datos);
+            // $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
+            // $conexiones = $this->usuario->ultimasConexiones();
+            // $datos['conexiones'] = $conexiones;
+            return view('comunicaciones');
         } else {
             return view('inicio');
         }
