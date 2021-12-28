@@ -16,7 +16,7 @@
                 <hr>
                 <ul>
                     <li>Estación: <?php echo $nombreEstacion?></li>
-                    <li>Ultima conexión: </li>
+                    <li>Ultima conexión: <?php echo $ultimaConex[0]['valor_date'] ?></li>
                 </ul>
             </div>
             <div id="sinopMD">

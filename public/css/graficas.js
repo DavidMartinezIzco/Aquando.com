@@ -28,8 +28,7 @@ function aplicarOpciones() {
     var datosR = new Array();
     var idEstacion = document.getElementById("opciones").value;
     var idTag = document.getElementById("opcionesTag").value;
-
-
+    var metaDatos = metaDatosTag(idTag, idEstacion);
 
     $(document).ready(function() {
         $.ajax({
@@ -70,6 +69,21 @@ function tagsEstacion(id_estacion) {
     });
 }
 
+function metaDatosTag(id_tag, id_estacion) {
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_Graficas.php?opcion=meta&tag=' + id_tag + '&estacion=' + id_estacion,
+            success: function(meta) {
+                return meta;
+            },
+            error: function() {
+                console.log("error");
+            }
+        });
+    });
+}
+
 //prepara el grafico
 function renderGrafico(tipo, datosR) {
 
@@ -81,7 +95,12 @@ function renderGrafico(tipo, datosR) {
     //Ajustes
     option = {
 
-        legend: {},
+        legend: {
+            data: [{
+                name: 'Datos',
+                icon: 'circle',
+            }]
+        },
         grid: {
             left: '3%',
             right: '4%',
@@ -209,31 +228,57 @@ function renderGrafico(tipo, datosR) {
         //Ajustes
         option['tooltip'] = {
             trigger: 'axis',
+            textStyle: {
+                fontStyle: 'bold',
+                fontSize: 20
+            },
+
             axisPointer: {
-                type: 'shadow'
+                type: 'line',
+                label: {
+                    formatter: 'fecha y hora: {value}',
+                    fontStyle: 'bold'
+                }
             }
         };
 
+
+
         option['xAxis'] = {
-            type: 'category',
+
             boundaryGap: false,
-            data: fechas
+            data: fechas,
+            label: {
+                show: true,
+                position: 'top',
+                color: "black",
+                fontSize: 30,
+            },
+
         };
 
         option['yAxis'] = {
             type: 'value',
-            boundaryGap: [0, '100%']
+            boundaryGap: [0, '100%'],
+
         };
 
         option['dataZoom'] = [{
-            type: 'inside',
-            start: 92,
-            end: 100,
+                type: 'inside',
+                start: 0,
+                end: 10,
+                textStyle: {
+                    fontStyle: 'bold',
+                    fontSize: 10
+                },
+            },
 
-        }, {
-            start: 92,
-            end: 100
-        }];
+            {
+                start: 0,
+                end: 10
+            },
+
+        ];
 
 
         var series = [{
@@ -244,6 +289,7 @@ function renderGrafico(tipo, datosR) {
             itemStyle: {
                 color: 'rgb(39,45,79)'
             },
+
             areaStyle: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                         offset: 0,
@@ -255,7 +301,77 @@ function renderGrafico(tipo, datosR) {
                     }
                 ])
             },
-            data: valores
+            data: valores,
+            markLine: {
+
+                data: [{
+                        symbol: 'none',
+                        type: 'average',
+                        name: 'media',
+                        lineStyle: {
+                            normal: {
+                                type: 'dashed',
+                                color: 'darkseagreen',
+                            }
+                        },
+                        label: {
+                            formatter: '{b}: {c}',
+                            position: 'insideEnd',
+                            backgroundColor: 'darkseagreen',
+                            color: 'white',
+                            padding: [5, 20],
+                            borderColor: "rgba(0, 0, 0, 1)",
+                            borderRadius: [5, 5, 5, 5],
+                            borderWidth: 2
+                        }
+                    },
+                    {
+                        symbol: 'none',
+                        type: 'max',
+                        name: 'maximo',
+                        lineStyle: {
+                            normal: {
+                                type: 'dashed',
+                                color: 'tomato',
+                            }
+                        },
+                        label: {
+                            formatter: '{b}: {c}',
+                            position: 'insideEndTop',
+
+                            backgroundColor: 'tomato',
+                            color: 'white',
+                            padding: [5, 20],
+                            borderColor: "rgba(0, 0, 0, 1)",
+                            borderRadius: [5, 5, 5, 5],
+                            borderWidth: 2
+                        }
+                    },
+                    {
+                        symbol: 'none',
+                        type: 'min',
+                        name: 'minino',
+                        lineStyle: {
+                            normal: {
+                                type: 'dashed',
+                                color: 'white',
+                            }
+                        },
+                        label: {
+                            formatter: '{b}: {c}',
+                            position: 'insideEndBottom',
+
+                            backgroundColor: 'white',
+                            color: 'black',
+                            padding: [5, 20],
+                            borderColor: "rgba(0, 0, 0, 1)",
+                            borderRadius: [5, 5, 5, 5],
+                            borderWidth: 2
+                        }
+                    }
+                ],
+            }
+
         }];
 
         option['series'] = series;
@@ -280,10 +396,12 @@ function renderGrafico(tipo, datosR) {
         setTimeout(grafico.resize(), 500);
     }
 
+    // grafico.on('dataZoom', function() {
+    //     var intervalo = myChart.getOption();
+    //     console.log(intervalo.dataZoom[0].startValue, intervalo.dataZoom[0].endValue);
+    // });
+
     option && grafico.setOption(option, true);
-
-    document.getElementById("infoGraf").innerHTML = "formato: " + tipo + "<br>Periodo: Semanal";
-
 
 }
 

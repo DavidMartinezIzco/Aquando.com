@@ -4,14 +4,14 @@ require '../app/Database/Database.php';
 if(isset($_GET['tag'])){
     $id_tag = $_GET['tag'];
 }
-$id_estacion = $_GET['estacion'];
-$opcion = $_GET['opcion'];
 
+$opcion = $_GET['opcion'];
+$id_estacion = $_GET['estacion'];
 
 $db = new Database();
 
 if($opcion == "render"){
-
+    
     $histos = $db->historicosTagEstacion($id_estacion, $id_tag);
 
     if($histos != false){
@@ -23,6 +23,7 @@ if($opcion == "render"){
 }
 
 if($opcion == "tags"){
+    
     $tags = $db->tagsEstacion($id_estacion);
     if($tags != false){
         echo json_encode($tags);
@@ -33,6 +34,10 @@ if($opcion == "tags"){
 
 }
 
+if($opcion == "meta"){
+    $metaDatos = $db->metaTag($id_tag, $id_estacion);
+    echo json_encode($metaDatos);
 
+}
 
 ?>

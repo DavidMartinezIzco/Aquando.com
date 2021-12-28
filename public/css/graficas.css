@@ -124,3 +124,20 @@
     background-color: rgb(1, 168, 184);
     color: white;
 }
+
+.rotante {
+    -webkit-animation: rotar 2s infinite linear;
+    font-size: 4000%;
+    position: fixed;
+    left: 30%;
+    top: 10%
+}
+
+@keyframes rotar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

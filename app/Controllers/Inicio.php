@@ -116,6 +116,13 @@ class Inicio extends BaseController
                     $datos['id_estacion'] = $estacion["id_estacion"];
                 }
             }
+            $ultimaConex = $usuario->ultimaConexionEstacion($_POST["btnEstacion"]);
+            if ($ultimaConex != false) {
+                $datos['ultimaConex'] = $ultimaConex;
+            }
+            else {
+                $datos['ultimaConex'] = "error";
+            }
             $datos['datosEstacion'] = $datosEstacion;
             
             $datos['nombreEstacion'] = $nombreEstacion;
@@ -133,16 +140,8 @@ class Inicio extends BaseController
             $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
             $datos['tagsEstaciones'] = $usuario->obtenerTagsEstaciones();
             $estaciones = $_SESSION['estaciones'];
-            $datosHistoricosEstacion = array();
-            $datosHistoricosEstacion[] = $usuario->obtenerHistoricosEstacion($estaciones[0]['id_estacion'], null, null);
-            if($datosHistoricosEstacion != false){
-                $datos['historicos'] = $datosHistoricosEstacion;
-                return view('graficas', $datos);
-            }
-            else {
-                echo "<script>alert('error con los historicos');</script>";
-                return view('principal');
-            }
+            return view('graficas', $datos);
+            
 
          }else {
             return view('inicio');
@@ -175,8 +174,7 @@ class Inicio extends BaseController
     }
 
     //muestra la zona de informes
-    public function informes()
-    {
+    public function informes(){
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "infos";
             return view('informes');
@@ -186,9 +184,8 @@ class Inicio extends BaseController
     }
 
     //muestra el estado de las conexiones con las estaciones
-    public function comunicaciones()
-    {
-        //falta: cambiar a nueva BD
+    public function comunicaciones(){
+        
         $_SESSION['seccion'] = "coms";
         if (isset($_SESSION['nombre'])) {
             // $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);

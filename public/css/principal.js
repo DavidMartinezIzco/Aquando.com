@@ -1,54 +1,55 @@
-// //(provisional) establece los datos para los widgets
-// function cargarDatos() {
-//     var datos1 = { 1: { "nivel": 55, "max": 0.8, "min": 0.15 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [100, 190, 110, 215, 150, 190, 120] } };
-//     var datos2 = { 1: { "nivel": 75, "max": 0.9, "min": 0.2 }, 2: { "conexiones": [200, 190, 180, 150, 190, 200, 215] }, 3: { "minimos": [200, 195, 170, 155, 185, 190, 220] } };
-//     var datos3 = { 1: { "nivel": 41, "max": 0.9, "min": 0.3 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [100, 190, 200, 215, 185, 190, 120] } };
-//     var datos4 = { 1: { "nivel": 87, "max": 0.87, "min": 0.2 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [100, 200, 110, 145, 150, 185, 120] } };
-//     var datos5 = { 1: { "nivel": 62, "max": 0.85, "min": 0.1 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [185, 190, 150, 154, 200, 190, 120] } };
-//     var datos = { 1: datos1, 2: datos2, 3: datos3, 4: datos4, 5: datos5 };
+//(provisional) establece los datos para los widgets
+function cargarDatos() {
+    var datos1 = { 1: { "nivel": 55, "max": 0.8, "min": 0.15 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [100, 190, 110, 215, 150, 190, 120] } };
+    var datos2 = { 1: { "nivel": 75, "max": 0.9, "min": 0.2 }, 2: { "conexiones": [200, 190, 180, 150, 190, 200, 215] }, 3: { "minimos": [200, 195, 170, 155, 185, 190, 220] } };
+    var datos3 = { 1: { "nivel": 41, "max": 0.9, "min": 0.3 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [100, 190, 200, 215, 185, 190, 120] } };
+    var datos4 = { 1: { "nivel": 87, "max": 0.87, "min": 0.2 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [100, 200, 110, 145, 150, 185, 120] } };
+    var datos5 = { 1: { "nivel": 62, "max": 0.85, "min": 0.1 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [185, 190, 150, 154, 200, 190, 120] } };
+    var datos = { 1: datos1, 2: datos2, 3: datos3, 4: datos4, 5: datos5 };
 
-//     var i = 5;
-//     nwids = i;
+    var i = 5;
+    nwids = i;
 
-//     while (e <= nwids) {
-//         posiciones[e] = 1;
-//         e++;
-//     }
+    while (e <= nwids) {
+        posiciones[e] = 1;
+        e++;
+    }
 
-//     var c = 1;
-//     while (c <= i) {
-//         generarWid(c, datos);
-//         c++;
-//     }
+    var c = 1;
+    while (c <= i) {
+        generarWid(c, datos);
+        c++;
+    }
 
-// }
+}
 
-// //actualiza la posicion de un widget
-// function transicion(widget) {
+//actualiza la posicion de un widget
+function transicion(widget) {
 
-//     var posicion = posiciones[widget];
+    var posicion = posiciones[widget];
 
-//     if (posicion <= 4) {
+    if (posicion <= 4) {
 
-//         document.getElementById("widVal"+widget+"").style.bottom = 'calc('+posicion+' * 20em)';
-//         document.getElementById("widConex"+widget+"").style.bottom = 'calc('+posicion+' * 20em)';
-//         document.getElementById("widMin"+widget+"").style.bottom = 'calc('+posicion+' * 20em)';
-//         document.getElementById("widAla"+widget+"").style.bottom = 'calc('+posicion+' * 20em)';
-//         posiciones[widget] = posicion +1;
+        document.getElementById("widVal" + widget + "").style.bottom = 'calc(' + posicion + ' * 20em)';
+        document.getElementById("widConex" + widget + "").style.bottom = 'calc(' + posicion + ' * 20em)';
+        document.getElementById("widMin" + widget + "").style.bottom = 'calc(' + posicion + ' * 20em)';
+        document.getElementById("widAla" + widget + "").style.bottom = 'calc(' + posicion + ' * 20em)';
+        posiciones[widget] = posicion + 1;
 
-//     }
-//     if (posicion == 4) {
+    }
+    if (posicion == 4) {
 
-//         document.getElementById("widVal"+widget+"").style.bottom = '0em';
-//         document.getElementById("widConex"+widget+"").style.bottom = '0em';
-//         document.getElementById("widMin"+widget+"").style.bottom = '0em';
-//         document.getElementById("widAla"+widget+"").style.bottom = '0em';
-//         posiciones[widget] = 1;
-//     }
+        document.getElementById("widVal" + widget + "").style.bottom = '0em';
+        document.getElementById("widConex" + widget + "").style.bottom = '0em';
+        document.getElementById("widMin" + widget + "").style.bottom = '0em';
+        document.getElementById("widAla" + widget + "").style.bottom = '0em';
+        posiciones[widget] = 1;
+    }
 
-// }
+}
 
 //animacion de carga
+
 function mostrarResumen() {
     document.getElementById("resumen").style.opacity = '100%';
 }

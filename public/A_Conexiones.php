@@ -49,7 +49,6 @@
                     if($dato == 'nombre_tag'){
                     }
                     if($dato == 'id_estacion'){
-                        
                     }
                     if($dato == 'estado'){
                         if($valor == "correcto"){

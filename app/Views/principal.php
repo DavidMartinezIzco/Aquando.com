@@ -59,9 +59,9 @@
 
 
 <script>
-    // var nwids = 0;
-    // var e = 1;
-    // var posiciones = {};
+    var nwids = 0;
+    var e = 1;
+    var posiciones = {};
     
     window.onload = function() {
         comprobarTiempo();
@@ -73,7 +73,7 @@
         setInterval(comprobarTiempo, 1000);
         
         mostrarResumen();
-        //cargarDatos();
+        cargarDatos();
         $(window).blur(function() {
             tiempoFuera("");
         });

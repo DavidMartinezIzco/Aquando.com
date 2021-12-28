@@ -136,7 +136,13 @@ class Usuario{
 
     }
 
-
+    public function ultimaConexionEstacion($id_estacion){
+        $ultimaConex = $this->DB->ultimaComunicacionEstacion($id_estacion);
+        if($ultimaConex != false){
+            return $ultimaConex;
+        }
+        return false;
+    }
 
 
 

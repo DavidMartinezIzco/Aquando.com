@@ -15,11 +15,9 @@
             <!--zona para mostrar informacion de render-->
             <div id="panelInfo" style="color: black;padding: 1% 2%">
                 <h3>Mostrando:</h3>
-                <select class="controlSel" id="opcionesTag" style="transition: 0.5s;" name="opciones">
-                            
-                        
-                    </select>
-                    <hr>
+                <select class="controlSel" id="opcionesTag" style="transition: 0.5s;" name="opciones" onchange="aplicarOpciones()">
+                </select>
+                <hr>
             </div>
 
             <div id="panelOpciones">
@@ -48,6 +46,7 @@
                                     echo "<option value=".$value['id_estacion'].">".$value['nombre_estacion']."</option>";
                                     $i++;
                                 }
+                                
                             ?>
 
                     </select>
@@ -64,6 +63,7 @@
         <!--espacio para las graficas--->
         <div id="zonaGraficos">
             <div id="grafica" style="width: 100%; height: 100%; border-radius:10px;">
+            <i class="rotante fas fa-cog"></i>
             </div>
         </div>
     </div>
@@ -78,16 +78,14 @@
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         var idusu = <?php echo $_SESSION['idusu']?>;
-        actualizarSur('general',usu, pwd, idusu, null);
         comprobarTiempo();
         iniciar();
-        aplicarOpciones();
-        
+        setInterval(actualizarSur('general',usu, pwd, idusu, null),20000);
+        setTimeout(aplicarOpciones,1500);
         //alternarOpciones(document.getElementById("tipoRender").value);
         setInterval(fechaYHora, 1000);
-        
         setInterval(comprobarTiempo, 1000);
-
+        
         $(window).blur(function() {
             tiempoFuera("");
         });
@@ -99,7 +97,7 @@
     function iniciar() {
         if(document.getElementById("opciones")){
             var estacion = document.getElementById("opciones").value;
-            var tags = tagsEstacion(estacion);
+            tagsEstacion(estacion);
         }
     }
 
