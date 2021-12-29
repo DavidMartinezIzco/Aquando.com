@@ -1,3 +1,5 @@
+var datosM = new Array();
+var datosR = new Array();
 //reestablece los filtros por defecto
 function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
@@ -22,29 +24,46 @@ function limpiar() {
     }, 1000);
 }
 
+
+function metaDatosTag(id_tag, id_estacion) {
+
+    $.ajax({
+        type: 'GET',
+
+        url: 'A_Graficas.php?opcion=meta&tag=' + id_tag + '&estacion=' + id_estacion,
+        success: function(meta) {
+            datosM['max'] = meta['max'];
+            datosM['min'] = meta['min'];
+            datosM['avg'] = meta['avg'];
+
+            $.ajax({
+                type: 'GET',
+                url: 'A_Graficas.php?estacion=' + id_estacion + '&tag=' + id_tag + '&opcion=render',
+                success: function(histo) {
+                    datosR = histo;
+                    var tipo = document.getElementById("tipoRender").value;
+                    renderGrafico(datosR);
+                },
+                error: function() {
+                    console.log("error");
+                },
+                dataType: 'json'
+            });
+
+        },
+        error: function() {
+            console.log("error");
+        },
+        dataType: 'json'
+    });
+
+}
+
 //aplica las opciones de los controles
 function aplicarOpciones() {
-
-    var datosR = new Array();
     var idEstacion = document.getElementById("opciones").value;
     var idTag = document.getElementById("opcionesTag").value;
-    var metaDatos = metaDatosTag(idTag, idEstacion);
-
-    $(document).ready(function() {
-        $.ajax({
-            type: 'GET',
-            url: 'A_Graficas.php?estacion=' + idEstacion + '&tag=' + idTag + '&opcion=render',
-            success: function(histo) {
-                datosR = histo;
-                var tipo = document.getElementById("tipoRender").value;
-                renderGrafico(tipo, datosR);
-            },
-            error: function() {
-                console.log("error");
-            },
-            dataType: 'json'
-        });
-    });
+    metaDatosTag(idTag, idEstacion);
 
 }
 
@@ -69,24 +88,10 @@ function tagsEstacion(id_estacion) {
     });
 }
 
-function metaDatosTag(id_tag, id_estacion) {
-    $(document).ready(function() {
-        $.ajax({
-            type: 'GET',
-            url: 'A_Graficas.php?opcion=meta&tag=' + id_tag + '&estacion=' + id_estacion,
-            success: function(meta) {
-                return meta;
-            },
-            error: function() {
-                console.log("error");
-            }
-        });
-    });
-}
-
 //prepara el grafico
-function renderGrafico(tipo, datosR) {
+function renderGrafico(datosR) {
 
+    var tipo = "histo";
     var chartDom = document.getElementById('grafica');
     var grafico = echarts.init(chartDom);
     var option;
@@ -96,10 +101,24 @@ function renderGrafico(tipo, datosR) {
     option = {
 
         legend: {
+
             data: [{
-                name: 'Datos',
-                icon: 'circle',
-            }]
+                    name: 'Datos',
+                    icon: 'circle',
+                },
+                {
+                    name: 'Maximo General',
+                    icon: 'circle',
+                },
+                {
+                    name: 'Minimo General',
+                    icon: 'circle',
+                },
+                {
+                    name: 'Media General',
+                    icon: 'circle',
+                }
+            ]
         },
         grid: {
             left: '3%',
@@ -208,9 +227,20 @@ function renderGrafico(tipo, datosR) {
     if (tipo == "histo") {
 
         var fechas = new Array();
+        var serieMax = new Array();
+        var serieMin = new Array();
+        var serieAvg = new Array();
+
         for (var index in datosR) {
             fechas.push(datosR[index]['fecha']);
+            serieMax.push(datosM['max']);
+            serieMin.push(datosM['min']);
+            serieAvg.push(datosM['avg']);
+
         }
+        console.log(serieMax);
+
+
         var calidades = new Array();
         for (var index in datosR) {
             calidades.push(datosR[index]['calidad']);
@@ -223,6 +253,15 @@ function renderGrafico(tipo, datosR) {
                 }
             }
         }
+        var serieMin = new Array();
+        for (var i in fechas) {
+            serieMin[i] = datosM['min'];
+        }
+        var serieAvg = new Array();
+        for (var i in fechas) {
+            serieAvg[i] = datosM['avg'];
+        }
+
 
 
         //Ajustes
@@ -241,8 +280,6 @@ function renderGrafico(tipo, datosR) {
                 }
             }
         };
-
-
 
         option['xAxis'] = {
 
@@ -282,100 +319,138 @@ function renderGrafico(tipo, datosR) {
 
 
         var series = [{
-            name: 'Datos',
-            type: 'line',
-            symbol: 'none',
-            sampling: 'lttb',
-            itemStyle: {
-                color: 'rgb(39,45,79)'
-            },
+                name: 'Datos',
+                type: 'line',
+                smooth: true,
+                symbol: 'none',
+                sampling: 'lttb',
+                itemStyle: {
+                    color: 'rgb(39,45,79)'
+                },
 
-            areaStyle: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                        offset: 0,
-                        color: 'rgb(1, 168, 184)'
-                    },
-                    {
-                        offset: 1,
-                        color: 'rgb(39,45,79)'
-                    }
-                ])
-            },
-            data: valores,
-            markLine: {
-
-                data: [{
-                        symbol: 'none',
-                        type: 'average',
-                        name: 'media',
-                        lineStyle: {
-                            normal: {
-                                type: 'dashed',
-                                color: 'darkseagreen',
-                            }
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgb(1, 168, 184)'
                         },
-                        label: {
-                            formatter: '{b}: {c}',
-                            position: 'insideEnd',
-                            backgroundColor: 'darkseagreen',
-                            color: 'white',
-                            padding: [5, 20],
-                            borderColor: "rgba(0, 0, 0, 1)",
-                            borderRadius: [5, 5, 5, 5],
-                            borderWidth: 2
+                        {
+                            offset: 1,
+                            color: 'rgb(39,45,79)'
                         }
-                    },
-                    {
-                        symbol: 'none',
-                        type: 'max',
-                        name: 'maximo',
-                        lineStyle: {
-                            normal: {
-                                type: 'dashed',
-                                color: 'tomato',
-                            }
-                        },
-                        label: {
-                            formatter: '{b}: {c}',
-                            position: 'insideEndTop',
+                    ])
+                },
+                data: valores,
 
-                            backgroundColor: 'tomato',
-                            color: 'white',
-                            padding: [5, 20],
-                            borderColor: "rgba(0, 0, 0, 1)",
-                            borderRadius: [5, 5, 5, 5],
-                            borderWidth: 2
-                        }
-                    },
-                    {
-                        symbol: 'none',
-                        type: 'min',
-                        name: 'minino',
-                        lineStyle: {
-                            normal: {
-                                type: 'dashed',
+                markLine: {
+
+                    data: [{
+                            symbol: 'none',
+                            type: 'average',
+                            name: 'media',
+                            lineStyle: {
+                                normal: {
+                                    type: 'dashed',
+                                    color: 'darkseagreen',
+                                }
+                            },
+                            label: {
+                                formatter: '{b}: {c}',
+                                position: 'insideEnd',
+                                backgroundColor: 'darkseagreen',
                                 color: 'white',
+                                padding: [5, 20],
+                                borderColor: "rgba(0, 0, 0, 1)",
+                                borderRadius: [5, 5, 5, 5],
+                                borderWidth: 2
                             }
                         },
-                        label: {
-                            formatter: '{b}: {c}',
-                            position: 'insideEndBottom',
+                        {
+                            symbol: 'none',
+                            type: 'max',
+                            name: 'maximo',
+                            lineStyle: {
+                                normal: {
+                                    type: 'dashed',
+                                    color: 'tomato',
+                                }
+                            },
+                            label: {
+                                formatter: '{b}: {c}',
+                                position: 'insideEndTop',
 
-                            backgroundColor: 'white',
-                            color: 'black',
-                            padding: [5, 20],
-                            borderColor: "rgba(0, 0, 0, 1)",
-                            borderRadius: [5, 5, 5, 5],
-                            borderWidth: 2
+                                backgroundColor: 'tomato',
+                                color: 'white',
+                                padding: [5, 20],
+                                borderColor: "rgba(0, 0, 0, 1)",
+                                borderRadius: [5, 5, 5, 5],
+                                borderWidth: 2
+                            }
+                        },
+                        {
+                            symbol: 'none',
+                            type: 'min',
+                            name: 'minino',
+                            lineStyle: {
+                                normal: {
+                                    type: 'dashed',
+                                    color: 'white',
+                                }
+                            },
+                            label: {
+                                formatter: '{b}: {c}',
+                                position: 'insideEndBottom',
+
+                                backgroundColor: 'white',
+                                color: 'black',
+                                padding: [5, 20],
+                                borderColor: "rgba(0, 0, 0, 1)",
+                                borderRadius: [5, 5, 5, 5],
+                                borderWidth: 2
+                            }
                         }
-                    }
-                ],
+                    ],
+                }
+
+            },
+            {
+                name: 'Maximo General',
+                type: 'line',
+                symbol: 'none',
+                sampling: 'lttb',
+                itemStyle: {
+                    color: 'red'
+                },
+                data: serieMax,
+            },
+            {
+                name: 'Minimo General',
+                type: 'line',
+                symbol: 'none',
+                sampling: 'lttb',
+                itemStyle: {
+                    color: 'lightgrey'
+                },
+                data: serieMin,
+            },
+            {
+                name: 'Media General',
+                type: 'line',
+                symbol: 'none',
+                sampling: 'lttb',
+                itemStyle: {
+                    color: 'green'
+                },
+                data: serieAvg,
             }
 
-        }];
+        ];
+
+
 
         option['series'] = series;
-
+        // option['series'].push(maxGen[0]);
+        // option['series'].push(minGen[0]);
+        // option['series'].push(avgGen[0]);
     }
 
     $(window).keyup(function() {

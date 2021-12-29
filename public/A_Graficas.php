@@ -36,7 +36,12 @@ if($opcion == "tags"){
 
 if($opcion == "meta"){
     $metaDatos = $db->metaTag($id_tag, $id_estacion);
-    echo json_encode($metaDatos);
+    if($metaDatos != false){
+        echo json_encode($metaDatos);
+    }
+    else {
+        echo "error";
+    }
 
 }
 

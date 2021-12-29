@@ -78,6 +78,8 @@
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         var idusu = <?php echo $_SESSION['idusu']?>;
+        
+
         comprobarTiempo();
         iniciar();
         setInterval(actualizarSur('general',usu, pwd, idusu, null),20000);
