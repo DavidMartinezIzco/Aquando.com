@@ -29,7 +29,6 @@ function metaDatosTag(id_tag, id_estacion) {
 
     $.ajax({
         type: 'GET',
-
         url: 'A_Graficas.php?opcion=meta&tag=' + id_tag + '&estacion=' + id_estacion,
         success: function(meta) {
             datosM['max'] = meta['max'];
@@ -41,7 +40,7 @@ function metaDatosTag(id_tag, id_estacion) {
                 url: 'A_Graficas.php?estacion=' + id_estacion + '&tag=' + id_tag + '&opcion=render',
                 success: function(histo) {
                     datosR = histo;
-                    var tipo = document.getElementById("tipoRender").value;
+                    //var tipo = document.getElementById("tipoRender").value;
                     renderGrafico(datosR);
                 },
                 error: function() {
@@ -64,7 +63,6 @@ function aplicarOpciones() {
     var idEstacion = document.getElementById("opciones").value;
     var idTag = document.getElementById("opcionesTag").value;
     metaDatosTag(idTag, idEstacion);
-
 }
 
 function tagsEstacion(id_estacion) {
@@ -75,8 +73,17 @@ function tagsEstacion(id_estacion) {
             url: 'A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
             success: function(tags) {
                 document.getElementById("opcionesTag").innerHTML = "";
+                document.getElementById("compararSel").innerHTML = "<option value='nada' selected>Nada</option>";
+                var e = 0;
+                sessionStorage.setItem('tagsAct', JSON.stringify(tags));
                 for (var tag in tags) {
-                    document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
+                    if (e == 0) {
+                        document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + " selected>" + tags[tag]['nombre_tag'] + "</option>";
+                    } else {
+                        document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
+                    }
+                    document.getElementById("compararSel").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
+                    e++;
                 }
 
             },
@@ -91,11 +98,22 @@ function tagsEstacion(id_estacion) {
 //prepara el grafico
 function renderGrafico(datosR) {
 
-    var tipo = "histo";
     var chartDom = document.getElementById('grafica');
     var grafico = echarts.init(chartDom);
     var option;
-    var formato = "";
+    var nombreDato = "Info";
+    var tagsAct = JSON.parse('[' + sessionStorage.getItem("tagsAct") + ']');
+
+    for (var tindex in tagsAct[0]) {
+
+        if (tagsAct[0][tindex]['id_tag'] == document.getElementById("opcionesTag").value) {
+            nombreDato = tagsAct[0][tindex]['nombre_tag'];
+        }
+        if (tagsAct[0][tindex]['id_tag'] == document.getElementById("compararSel").value) {
+            nombreDato = tagsAct[0][tindex]['nombre_tag'];
+        }
+        sessionStorage.setItem('datoviej', nombreDato);
+    }
 
     //Ajustes
     option = {
@@ -103,7 +121,7 @@ function renderGrafico(datosR) {
         legend: {
 
             data: [{
-                    name: 'Datos',
+                    name: nombreDato,
                     icon: 'circle',
                 },
                 {
@@ -128,330 +146,240 @@ function renderGrafico(datosR) {
         },
     };
 
-    if (tipo == "barra") {
-        formato = "bar";
+    var fechas = new Array();
+    var serieMax = new Array();
+    var serieMin = new Array();
+    var serieAvg = new Array();
 
-        option['xAxis'] = [{
-            type: 'category',
-            data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
-        }]
-        option['yAxis'] = [{
-            type: 'value'
-        }]
+    for (var index in datosR) {
+        fechas.push(datosR[index]['fecha']);
+        serieMax.push(datosM['max']);
+        serieMin.push(datosM['min']);
+        serieAvg.push(datosM['avg']);
 
-        var series = []
-        for (var index in datosR) {
-
-            var datorender = {
-                name: index,
-                type: formato,
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-                data: datosR[index]
-            }
-
-
-            series.push(datorender);
-
-        };
-
-
-        option['series'] = series;
-        option['tooltip'] = {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
-        }
-    }
-
-    if (tipo == "linea") {
-        formato = "line";
-        option['tooltip'] = {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
-        }
-        option['xAxis'] = [{
-            type: 'category',
-            data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
-        }]
-        option['yAxis'] = [{
-            type: 'value'
-        }]
-
-        var series = []
-
-        for (var index in datosR) {
-
-            var datorender = {
-                name: index,
-                type: formato,
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-                data: datosR[index]
-            }
-
-
-            series.push(datorender);
-
-        };
-        option['series'] = series;
-    }
-
-    if (tipo == "tarta") {
-
-        formato = "pie";
-
-        var datos = [];
-        for (var index in datosR) {
-            var dato = { "value": datosR[index][6], "name": index };
-            datos.push(dato);
-        };
-        var series = [{
-            name: "protoChart",
-            type: formato,
-            radius: '70%',
-            data: datos
-        }]
-        option['series'] = series;
-        option['tooltip'] = { trigger: 'item' };
     }
 
 
-    if (tipo == "histo") {
-
-        var fechas = new Array();
-        var serieMax = new Array();
-        var serieMin = new Array();
-        var serieAvg = new Array();
-
-        for (var index in datosR) {
-            fechas.push(datosR[index]['fecha']);
-            serieMax.push(datosM['max']);
-            serieMin.push(datosM['min']);
-            serieAvg.push(datosM['avg']);
-
-        }
-        console.log(serieMax);
-
-
-        var calidades = new Array();
-        for (var index in datosR) {
-            calidades.push(datosR[index]['calidad']);
-        }
-        var valores = new Array();
-        for (var index in datosR) {
-            for (var valor in datosR[index]) {
-                if (valor != "fecha" && valor != "calidad") {
-                    valores.push(datosR[index][valor]);
-                }
+    var calidades = new Array();
+    for (var index in datosR) {
+        calidades.push(datosR[index]['calidad']);
+    }
+    var valores = new Array();
+    for (var index in datosR) {
+        for (var valor in datosR[index]) {
+            if (valor != "fecha" && valor != "calidad") {
+                valores.push(datosR[index][valor]);
             }
         }
-        var serieMin = new Array();
-        for (var i in fechas) {
-            serieMin[i] = datosM['min'];
-        }
-        var serieAvg = new Array();
-        for (var i in fechas) {
-            serieAvg[i] = datosM['avg'];
-        }
+    }
+    var serieMin = new Array();
+    for (var i in fechas) {
+        serieMin[i] = datosM['min'];
+    }
+    var serieAvg = new Array();
+    for (var i in fechas) {
+        serieAvg[i] = datosM['avg'];
+    }
 
 
 
-        //Ajustes
-        option['tooltip'] = {
-            trigger: 'axis',
-            textStyle: {
-                fontStyle: 'bold',
-                fontSize: 20
-            },
+    //Ajustes
+    option['tooltip'] = {
+        trigger: 'axis',
+        textStyle: {
+            fontStyle: 'bold',
+            fontSize: 20
+        },
 
-            axisPointer: {
-                type: 'line',
-                label: {
-                    formatter: 'fecha y hora: {value}',
-                    fontStyle: 'bold'
-                }
-            }
-        };
-
-        option['xAxis'] = {
-
-            boundaryGap: false,
-            data: fechas,
+        axisPointer: {
+            type: 'line',
             label: {
-                show: true,
-                position: 'top',
-                color: "black",
-                fontSize: 30,
-            },
+                formatter: 'fecha y hora: {value}',
+                fontStyle: 'bold'
+            }
+        }
+    };
 
-        };
+    option['xAxis'] = {
 
-        option['yAxis'] = {
+        boundaryGap: false,
+        splitNumber: 10,
+        data: fechas,
+        label: {
+            show: true,
+            position: 'top',
+            color: "black",
+            fontSize: 30,
+        },
+
+    };
+
+    option['yAxis'] = [{
             type: 'value',
+            name: 'y1',
             boundaryGap: [0, '100%'],
+        },
+        {
+            type: 'value',
+            name: 'y2',
+            offset: 30,
 
-        };
+            position: 'left',
+            boundaryGap: [0, '100%'],
+        }
+    ];
 
-        option['dataZoom'] = [{
-                type: 'inside',
-                start: 0,
-                end: 10,
-                textStyle: {
-                    fontStyle: 'bold',
-                    fontSize: 10
-                },
+
+    option['dataZoom'] = [{
+            type: 'slider',
+            xAxisIndex: 0,
+            start: 0,
+            end: 10,
+            filterMode: 'none'
+        },
+        {
+            type: 'slider',
+            yAxisIndex: 0,
+            filterMode: 'none'
+        },
+        {
+            type: 'inside',
+            xAxisIndex: 10,
+            start: 0,
+            end: 10,
+            filterMode: 'none'
+        },
+        {
+            type: 'inside',
+            yAxisIndex: 0,
+            filterMode: 'none'
+        }
+    ];
+
+
+
+    var series = [{
+            name: nombreDato,
+            type: 'line',
+            smooth: true,
+            symbol: 'none',
+            sampling: 'lttb',
+            areaStyle: {
+                show: true,
             },
+            data: valores,
 
-            {
-                start: 0,
-                end: 10
-            },
+            markLine: {
 
-        ];
-
-
-        var series = [{
-                name: 'Datos',
-                type: 'line',
-                smooth: true,
-                symbol: 'none',
-                sampling: 'lttb',
-                itemStyle: {
-                    color: 'rgb(39,45,79)'
-                },
-
-                areaStyle: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgb(1, 168, 184)'
+                data: [{
+                        symbol: 'none',
+                        type: 'average',
+                        name: 'media',
+                        lineStyle: {
+                            normal: {
+                                type: 'dashed',
+                                color: 'darkseagreen',
+                            }
                         },
-                        {
-                            offset: 1,
-                            color: 'rgb(39,45,79)'
+                        label: {
+                            formatter: '{b} ' + nombreDato + ': {c}',
+                            position: 'insideEnd',
+                            backgroundColor: 'darkseagreen',
+                            color: 'white',
+                            padding: [5, 20],
+                            borderColor: "rgba(0, 0, 0, 1)",
+                            borderRadius: [5, 5, 5, 5],
+                            borderWidth: 2
                         }
-                    ])
-                },
-                data: valores,
-
-                markLine: {
-
-                    data: [{
-                            symbol: 'none',
-                            type: 'average',
-                            name: 'media',
-                            lineStyle: {
-                                normal: {
-                                    type: 'dashed',
-                                    color: 'darkseagreen',
-                                }
-                            },
-                            label: {
-                                formatter: '{b}: {c}',
-                                position: 'insideEnd',
-                                backgroundColor: 'darkseagreen',
-                                color: 'white',
-                                padding: [5, 20],
-                                borderColor: "rgba(0, 0, 0, 1)",
-                                borderRadius: [5, 5, 5, 5],
-                                borderWidth: 2
+                    },
+                    {
+                        symbol: 'none',
+                        type: 'max',
+                        name: 'maximo',
+                        lineStyle: {
+                            normal: {
+                                type: 'dashed',
+                                color: 'tomato',
                             }
                         },
-                        {
-                            symbol: 'none',
-                            type: 'max',
-                            name: 'maximo',
-                            lineStyle: {
-                                normal: {
-                                    type: 'dashed',
-                                    color: 'tomato',
-                                }
-                            },
-                            label: {
-                                formatter: '{b}: {c}',
-                                position: 'insideEndTop',
+                        label: {
+                            formatter: '{b} ' + nombreDato + ': {c}',
+                            position: 'insideEndTop',
 
-                                backgroundColor: 'tomato',
-                                color: 'white',
-                                padding: [5, 20],
-                                borderColor: "rgba(0, 0, 0, 1)",
-                                borderRadius: [5, 5, 5, 5],
-                                borderWidth: 2
-                            }
-                        },
-                        {
-                            symbol: 'none',
-                            type: 'min',
-                            name: 'minino',
-                            lineStyle: {
-                                normal: {
-                                    type: 'dashed',
-                                    color: 'white',
-                                }
-                            },
-                            label: {
-                                formatter: '{b}: {c}',
-                                position: 'insideEndBottom',
-
-                                backgroundColor: 'white',
-                                color: 'black',
-                                padding: [5, 20],
-                                borderColor: "rgba(0, 0, 0, 1)",
-                                borderRadius: [5, 5, 5, 5],
-                                borderWidth: 2
-                            }
+                            backgroundColor: 'tomato',
+                            color: 'white',
+                            padding: [5, 20],
+                            borderColor: "rgba(0, 0, 0, 1)",
+                            borderRadius: [5, 5, 5, 5],
+                            borderWidth: 2
                         }
-                    ],
-                }
+                    },
+                    {
+                        symbol: 'none',
+                        type: 'min',
+                        name: 'minino',
+                        lineStyle: {
+                            normal: {
+                                type: 'dashed',
+                                color: 'white',
+                            }
+                        },
+                        label: {
+                            formatter: '{b} ' + nombreDato + ': {c}',
+                            position: 'insideEndBottom',
 
-            },
-            {
-                name: 'Maximo General',
-                type: 'line',
-                symbol: 'none',
-                sampling: 'lttb',
-                itemStyle: {
-                    color: 'red'
-                },
-                data: serieMax,
-            },
-            {
-                name: 'Minimo General',
-                type: 'line',
-                symbol: 'none',
-                sampling: 'lttb',
-                itemStyle: {
-                    color: 'lightgrey'
-                },
-                data: serieMin,
-            },
-            {
-                name: 'Media General',
-                type: 'line',
-                symbol: 'none',
-                sampling: 'lttb',
-                itemStyle: {
-                    color: 'green'
-                },
-                data: serieAvg,
+                            backgroundColor: 'white',
+                            color: 'black',
+                            padding: [5, 20],
+                            borderColor: "rgba(0, 0, 0, 1)",
+                            borderRadius: [5, 5, 5, 5],
+                            borderWidth: 2
+                        }
+                    }
+                ],
             }
 
-        ];
+        },
+        {
+            name: 'Maximo General',
+            type: 'line',
+            silent: true,
+            symbol: 'none',
+            sampling: 'lttb',
+            itemStyle: {
+                color: 'red'
+            },
+            data: serieMax,
+        },
+        {
+            name: 'Minimo General',
+            silent: true,
+            type: 'line',
+            symbol: 'none',
+            sampling: 'lttb',
+            itemStyle: {
+                color: 'lightgrey'
+            },
+            data: serieMin,
+        },
+        {
+            name: 'Media General',
+            silent: true,
+            type: 'line',
+            symbol: 'none',
+            sampling: 'lttb',
+            itemStyle: {
+                color: 'green'
+            },
+            data: serieAvg,
+        }
+
+    ];
 
 
 
-        option['series'] = series;
-        // option['series'].push(maxGen[0]);
-        // option['series'].push(minGen[0]);
-        // option['series'].push(avgGen[0]);
-    }
+    option['series'] = series;
+
 
     $(window).keyup(function() {
         grafico.resize();
@@ -476,7 +404,24 @@ function renderGrafico(datosR) {
     //     console.log(intervalo.dataZoom[0].startValue, intervalo.dataZoom[0].endValue);
     // });
 
+    if (document.getElementById("compararSel").value != "nada") {
+
+        var lgviej = {
+            name: sessionStorage.getItem('datoviej'),
+            icon: 'circle',
+        }
+        option['legend']['data'].push(lgviej);
+        console.log(option['legend']['data']);
+
+        optionVieja = JSON.parse('[' + sessionStorage.getItem('gviej') + ']');
+        option['series'].push(optionVieja[0][0]);
+        console.log(option['series']);
+
+
+    }
+    sessionStorage.setItem('gviej', JSON.stringify(option['series']));
     option && grafico.setOption(option, true);
+
 
 }
 
@@ -570,4 +515,12 @@ function alternarOpciones(repren) {
     }
     aplicarOpciones();
 
+}
+
+function comparar() {
+    if (document.getElementById("compararSel").value != "nada") {
+        var idEstacionCom = document.getElementById("opciones").value;
+        var idTagCom = document.getElementById("compararSel").value;
+        metaDatosTag(idTagCom, idEstacionCom);
+    }
 }

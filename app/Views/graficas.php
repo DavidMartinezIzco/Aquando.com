@@ -15,7 +15,7 @@
             <!--zona para mostrar informacion de render-->
             <div id="panelInfo" style="color: black;padding: 1% 2%">
                 <h3>Mostrando:</h3>
-                <select class="controlSel" id="opcionesTag" style="transition: 0.5s;" name="opciones" onchange="aplicarOpciones()">
+                <select class="controlSel" id="opcionesTag" style="transition: 0.5s;" name="opciones"  onchange="aplicarOpciones()">
                 </select>
                 <hr>
             </div>
@@ -23,12 +23,9 @@
             <div id="panelOpciones">
                 <form>
                     <!--tipo de representacion-->
-                    <h6>Tipo de representacion:</h6>
-                    <select class="controlSel" id="tipoRender" name="tipoRender" disabled onchange=alternarOpciones(this.value)>
-                        <option value="histo" selected>Historico</option>
-                        <option value="linea">Lineas</option>
-                        <option value="barra">Barras</option>
-                        <option value="tarta">Tarta</option>
+                    <h6>comparar</h6>
+                    <select class="controlSel" id="compararSel" name="tipoRender" onchange="comparar()">
+                        <option value="nada" selected>Nada</option>
                     </select>
                     <hr>
                     <!--rango de fechas-->

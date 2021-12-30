@@ -68,11 +68,17 @@
     border-radius: 10px;
 }
 
+#panelOpciones form {
+    height: 60%;
+}
+
 .controlSel {
     padding: 1% 2%;
     border-radius: 7px;
     background-color: rgb(56, 56, 56);
     color: white;
+    width: 90%;
+    margin: 0% 5%;
 }
 
 #zonaGraficos {
