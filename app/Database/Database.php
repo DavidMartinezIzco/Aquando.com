@@ -1,4 +1,7 @@
 <?php
+//algun dia documentaré esta clase entera
+// o igual no
+//almendro
 class Database
 {
     private $host = "172.16.3.2";

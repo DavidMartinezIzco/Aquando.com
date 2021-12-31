@@ -97,6 +97,9 @@ function tagsEstacion(id_estacion) {
 }
 
 //prepara el grafico
+//sabemos que funciona, pero cuando tengamos datos muy bestias tal vez empiece a ir lenta.
+//debería repartir algunas tareas para venir hechas desde servidor
+
 function renderGrafico(datosR) {
 
     var chartDom = document.getElementById('grafica');
@@ -115,6 +118,8 @@ function renderGrafico(datosR) {
     //Ajustes
 
     option = {
+        //las etiquetas de "legend" en ocasiones se cambian por otras viejas que ya no se están representando
+        //aun no se por que es, pero pinta un fallo gordo en la logica en las funciones de comparación
         legend: {
             x: 'center',
             y: 'top',
@@ -140,7 +145,8 @@ function renderGrafico(datosR) {
                     icon: 'circle',
                 }
             ],
-
+            //se podría hacer que los Meta no se muestren por defecto pero para eso necesitamos
+            //meter los nombre en unas variables porque se desformatea concatenando las que ya hay.
         },
         grid: {
             left: '3%',
@@ -156,6 +162,9 @@ function renderGrafico(datosR) {
 
     sessionStorage.setItem('leyenda', JSON.stringify(option['legend']));
 
+
+    //series de meta 
+    //esto igual lo hago desde servidor para quitarle curro al renderizado
     var fechas = new Array();
     var serieMax = new Array();
     var serieMin = new Array();
@@ -169,7 +178,7 @@ function renderGrafico(datosR) {
 
     }
 
-
+    //el chandrío que mas habría que optimizar o pasar a servidor
     var calidades = new Array();
     for (var index in datosR) {
         calidades.push(datosR[index]['calidad']);
@@ -224,6 +233,8 @@ function renderGrafico(datosR) {
 
     };
 
+    //aqui tiene que haber un fallo que solapa las etiquetas de los ejes propios
+    //pero seguro que es porque eres tonto y se solucione facil
     option['yAxis'] = [{
         type: 'value',
         name: nombreDato,
@@ -240,7 +251,8 @@ function renderGrafico(datosR) {
     }
     sessionStorage.setItem('yaxis', JSON.stringify(option['yAxis']));
 
-
+    //en el dataZoom molaría que el scroll lo tuviera el eje X que por alguna razón ahora el scroll
+    //lo ha robado el eje Y. Si lo pueden tener los dos --> s u b l i m e
     option['dataZoom'] = [{
             type: 'slider',
             textStyle: {
@@ -397,11 +409,12 @@ function renderGrafico(datosR) {
 
     ];
 
-
-
     option['series'] = series;
 
 
+
+    //estos even handlers son para los cambios de tamaño del grafico
+    //igual habría que ampliarlos con cuidado pero de momento sirven
     $(window).keyup(function() {
         grafico.resize();
     });
@@ -420,20 +433,12 @@ function renderGrafico(datosR) {
         setTimeout(grafico.resize(), 500);
     }
 
-    // grafico.on('dataZoom', function() {
-    //     var intervalo = myChart.getOption();
-    //     console.log(intervalo.dataZoom[0].startValue, intervalo.dataZoom[0].endValue);
-    // });
-
     if (document.getElementById("compararSel").value != "nada") {
         //hay que tener guardado el yaxis, legend, series(particular), nombre, series(de maximos y minimos)?
-
-
-
+        //se guardan despues de generarse al final
+        //al final tambien guardo los metadata (maximos minimos y eso)
         var seriesV = JSON.parse('[' + sessionStorage.getItem('series') + ']');
-        var nombreDato = sessionStorage.getItem('datoV');
 
-        //option['legend']['data'] = option['legend'].concat(leyendaV[0]['data']);
         option['yAxis'] = option['yAxis'].concat(yaxisV[0]);
         option['series'] = seriesV[0].concat(option['series']);
 
@@ -537,6 +542,12 @@ function alternarOpciones(repren) {
 
 }
 
+
+//la funcion de comparación de gráficos.
+//la chicha la has llevado toda a renderGrafico()
+//se queda por si acabo cambiando la logica entera de la comparacion
+
+//otra vez :S
 function comparar() {
 
     if (document.getElementById("compararSel").value != "nada") {

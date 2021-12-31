@@ -131,6 +131,9 @@
     color: white;
 }
 
+
+/* ni caso al error. Funciona estupendamente */
+
 .rotante {
     -webkit-animation: rotar 2s infinite linear;
     font-size: 4000%;

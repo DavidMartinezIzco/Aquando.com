@@ -40,8 +40,10 @@ class Inicio extends BaseController
         }
     }
 
-    //inicia sesion usando las credenciales de zeus
-    //habrá que cambiar este sistema en el futuro
+    //inicia la sesion comprobando si existe un usuario con esas credenciales
+    //debería cifrar esto cuando empiece a haber usuarios de verdad
+    //sobretodo por que no me termino de fiar del AJAX pero no queda otra
+    //con mala baba igual pueden decodificar las peticiones de REST
     public function inicioSesion(){
         $_SESSION['seccion'] = "login";
         if (isset($_SESSION['nombre'])) {
