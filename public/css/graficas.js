@@ -85,6 +85,7 @@ function tagsEstacion(id_estacion) {
                     document.getElementById("compararSel").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
                     e++;
                 }
+                aplicarOpciones();
 
             },
             error: function() {
@@ -105,38 +106,41 @@ function renderGrafico(datosR) {
     var tagsAct = JSON.parse('[' + sessionStorage.getItem("tagsAct") + ']');
 
     for (var tindex in tagsAct[0]) {
-
-        if (tagsAct[0][tindex]['id_tag'] == document.getElementById("opcionesTag").value) {
+        if (tagsAct[0][tindex]['id_tag'] == document.getElementById("opcionesTag").value || tagsAct[0][tindex]['id_tag'] == document.getElementById("compararSel").value) {
             nombreDato = tagsAct[0][tindex]['nombre_tag'];
         }
-        if (tagsAct[0][tindex]['id_tag'] == document.getElementById("compararSel").value) {
-            nombreDato = tagsAct[0][tindex]['nombre_tag'];
-        }
-        sessionStorage.setItem('datoviej', nombreDato);
     }
 
+
     //Ajustes
+
     option = {
-
         legend: {
-
+            x: 'center',
+            y: 'top',
+            textStyle: {
+                fontWeight: 'normal',
+                fontSize: 10
+            },
+            padding: 1,
             data: [{
                     name: nombreDato,
                     icon: 'circle',
                 },
                 {
-                    name: 'Maximo General',
+                    name: 'Maximo Total ' + nombreDato,
                     icon: 'circle',
                 },
                 {
-                    name: 'Minimo General',
+                    name: 'Minimo Total ' + nombreDato,
                     icon: 'circle',
                 },
                 {
-                    name: 'Media General',
+                    name: 'Media Total ' + nombreDato,
                     icon: 'circle',
                 }
-            ]
+            ],
+
         },
         grid: {
             left: '3%',
@@ -145,6 +149,12 @@ function renderGrafico(datosR) {
             containLabel: true
         },
     };
+    if (sessionStorage.getItem('leyenda') && document.getElementById("compararSel").value != "nada") {
+        var leyendaV = JSON.parse('[' + sessionStorage.getItem('leyenda') + ']');
+        option['legend']['data'] = leyendaV[0]['data'].concat(option['legend']['data']);
+    }
+
+    sessionStorage.setItem('leyenda', JSON.stringify(option['legend']));
 
     var fechas = new Array();
     var serieMax = new Array();
@@ -215,44 +225,61 @@ function renderGrafico(datosR) {
     };
 
     option['yAxis'] = [{
-            type: 'value',
-            name: 'y1',
-            boundaryGap: [0, '100%'],
+        type: 'value',
+        name: nombreDato,
+        label: {
+            show: true
         },
-        {
-            type: 'value',
-            name: 'y2',
-            offset: 30,
+        boundaryGap: [0, '100%'],
 
-            position: 'left',
-            boundaryGap: [0, '100%'],
-        }
-    ];
+    }, ];
+    if (sessionStorage.getItem('yaxis') && document.getElementById("compararSel").value != "nada") {
+        var yaxisV = JSON.parse('[' + sessionStorage.getItem('yaxis') + ']');
+        option['yAxis'] = yaxisV[0].concat(option['yAxis']);
+        console.log(option['yAxis']);
+    }
+    sessionStorage.setItem('yaxis', JSON.stringify(option['yAxis']));
 
 
     option['dataZoom'] = [{
             type: 'slider',
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
             xAxisIndex: 0,
             start: 0,
             end: 10,
-            filterMode: 'none'
+            filterMode: 'filter'
         },
         {
             type: 'slider',
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
             yAxisIndex: 0,
-            filterMode: 'none'
+            filterMode: 'filter'
         },
         {
             type: 'inside',
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
             xAxisIndex: 10,
             start: 0,
             end: 10,
-            filterMode: 'none'
+            filterMode: 'filter'
         },
         {
             type: 'inside',
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
             yAxisIndex: 0,
-            filterMode: 'none'
+            filterMode: 'filter'
         }
     ];
 
@@ -341,36 +368,30 @@ function renderGrafico(datosR) {
 
         },
         {
-            name: 'Maximo General',
+            name: 'Maximo Total ' + nombreDato,
             type: 'line',
             silent: true,
             symbol: 'none',
             sampling: 'lttb',
-            itemStyle: {
-                color: 'red'
-            },
+            itemStyle: {},
             data: serieMax,
         },
         {
-            name: 'Minimo General',
+            name: 'Minimo Total ' + nombreDato,
             silent: true,
             type: 'line',
             symbol: 'none',
             sampling: 'lttb',
-            itemStyle: {
-                color: 'lightgrey'
-            },
+            itemStyle: {},
             data: serieMin,
         },
         {
-            name: 'Media General',
+            name: 'Media Total ' + nombreDato,
             silent: true,
             type: 'line',
             symbol: 'none',
             sampling: 'lttb',
-            itemStyle: {
-                color: 'green'
-            },
+            itemStyle: {},
             data: serieAvg,
         }
 
@@ -405,21 +426,20 @@ function renderGrafico(datosR) {
     // });
 
     if (document.getElementById("compararSel").value != "nada") {
+        //hay que tener guardado el yaxis, legend, series(particular), nombre, series(de maximos y minimos)?
 
-        var lgviej = {
-            name: sessionStorage.getItem('datoviej'),
-            icon: 'circle',
-        }
-        option['legend']['data'].push(lgviej);
-        console.log(option['legend']['data']);
 
-        optionVieja = JSON.parse('[' + sessionStorage.getItem('gviej') + ']');
-        option['series'].push(optionVieja[0][0]);
-        console.log(option['series']);
+
+        var seriesV = JSON.parse('[' + sessionStorage.getItem('series') + ']');
+        var nombreDato = sessionStorage.getItem('datoV');
+
+        //option['legend']['data'] = option['legend'].concat(leyendaV[0]['data']);
+        option['yAxis'] = option['yAxis'].concat(yaxisV[0]);
+        option['series'] = seriesV[0].concat(option['series']);
 
 
     }
-    sessionStorage.setItem('gviej', JSON.stringify(option['series']));
+    sessionStorage.setItem('series', JSON.stringify(series));
     option && grafico.setOption(option, true);
 
 
@@ -518,9 +538,12 @@ function alternarOpciones(repren) {
 }
 
 function comparar() {
+
     if (document.getElementById("compararSel").value != "nada") {
         var idEstacionCom = document.getElementById("opciones").value;
         var idTagCom = document.getElementById("compararSel").value;
         metaDatosTag(idTagCom, idEstacionCom);
+    } else {
+        aplicarOpciones();
     }
 }
