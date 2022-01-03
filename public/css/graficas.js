@@ -3,22 +3,11 @@ var datosR = new Array();
 //reestablece los filtros por defecto
 function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
-    var i = 1;
-    while (i <= 9) {
-
-        if (document.getElementsByName(i)[0]) {
-            if (document.getElementsByName(i)[0].checked) {
-                document.getElementsByName(i)[0].checked = false;
-            }
-        }
-        i++
-    }
-
-    document.getElementById("opciones").value = 'e1';
+    document.getElementById('compararSel').value = 'nada';
+    document.getElementById('opcionesTag').selectedIndex = 0;
+    document.getElementById('opciones').selectedIndex = 0;
 
     aplicarOpciones();
-
-
     setTimeout(function() {
         document.getElementsByName('btnControlReset')[0].innerHTML = "reset";
     }, 1000);
@@ -62,6 +51,8 @@ function metaDatosTag(id_tag, id_estacion) {
 function aplicarOpciones() {
     var idEstacion = document.getElementById("opciones").value;
     var idTag = document.getElementById("opcionesTag").value;
+    document.getElementById('compararSel').value = 'nada';
+
     metaDatosTag(idTag, idEstacion);
 }
 
@@ -111,6 +102,7 @@ function renderGrafico(datosR) {
     for (var tindex in tagsAct[0]) {
         if (tagsAct[0][tindex]['id_tag'] == document.getElementById("opcionesTag").value || tagsAct[0][tindex]['id_tag'] == document.getElementById("compararSel").value) {
             nombreDato = tagsAct[0][tindex]['nombre_tag'];
+            sessionStorage.setItem('nDato', nombreDato);
         }
     }
 
@@ -155,16 +147,10 @@ function renderGrafico(datosR) {
             containLabel: true
         },
     };
-    if (sessionStorage.getItem('leyenda') && document.getElementById("compararSel").value != "nada") {
-        var leyendaV = JSON.parse('[' + sessionStorage.getItem('leyenda') + ']');
-        option['legend']['data'] = leyendaV[0]['data'].concat(option['legend']['data']);
-    }
-
-    sessionStorage.setItem('leyenda', JSON.stringify(option['legend']));
 
 
     //series de meta 
-    //esto igual lo hago desde servidor para quitarle curro al renderizado
+    //esto igual lo hago desde servidor para quitarle curro al renderizado (lo de mas abajo)
     var fechas = new Array();
     var serieMax = new Array();
     var serieMin = new Array();
@@ -233,8 +219,8 @@ function renderGrafico(datosR) {
 
     };
 
-    //aqui tiene que haber un fallo que solapa las etiquetas de los ejes propios
-    //pero seguro que es porque eres tonto y se solucione facil
+    //aqui tiene que haber un fallo que solapa las etiquetas de los ejes propios (resuelto)
+    //pero seguro que es porque eres tonto y se solucione facil (no)
     option['yAxis'] = [{
         type: 'value',
         name: nombreDato,
@@ -244,12 +230,10 @@ function renderGrafico(datosR) {
         boundaryGap: [0, '100%'],
 
     }, ];
-    if (sessionStorage.getItem('yaxis') && document.getElementById("compararSel").value != "nada") {
-        var yaxisV = JSON.parse('[' + sessionStorage.getItem('yaxis') + ']');
-        option['yAxis'] = yaxisV[0].concat(option['yAxis']);
-        console.log(option['yAxis']);
-    }
-    sessionStorage.setItem('yaxis', JSON.stringify(option['yAxis']));
+
+
+
+
 
     //en el dataZoom molaría que el scroll lo tuviera el eje X que por alguna razón ahora el scroll
     //lo ha robado el eje Y. Si lo pueden tener los dos --> s u b l i m e
@@ -437,14 +421,26 @@ function renderGrafico(datosR) {
         //hay que tener guardado el yaxis, legend, series(particular), nombre, series(de maximos y minimos)?
         //se guardan despues de generarse al final
         //al final tambien guardo los metadata (maximos minimos y eso)
+        var leyendaV = JSON.parse('[' + sessionStorage.getItem('leyenda') + ']');
+        option['legend']['data'] = leyendaV[0]['data'].concat(option['legend']['data']);
+
+
+        var yaxisV = JSON.parse('[' + sessionStorage.getItem('yaxis') + ']');
+        option['yAxis'] = yaxisV[0].concat(option['yAxis']);
+
+
         var seriesV = JSON.parse('[' + sessionStorage.getItem('series') + ']');
-
-        option['yAxis'] = option['yAxis'].concat(yaxisV[0]);
         option['series'] = seriesV[0].concat(option['series']);
-
-
     }
-    sessionStorage.setItem('series', JSON.stringify(series));
+
+
+    if (document.getElementById("compararSel").value == "nada") {
+        sessionStorage.setItem('series', JSON.stringify(series));
+        sessionStorage.setItem('yaxis', JSON.stringify(option['yAxis']));
+        sessionStorage.setItem('leyenda', JSON.stringify(option['legend']));
+    }
+
+
     option && grafico.setOption(option, true);
 
 
@@ -542,12 +538,12 @@ function alternarOpciones(repren) {
 
 }
 
-
 //la funcion de comparación de gráficos.
 //la chicha la has llevado toda a renderGrafico()
 //se queda por si acabo cambiando la logica entera de la comparacion
 
-//otra vez :S
+//este sistema se empieza a liar tras ir comparando distintas graficas
+//llega un momento que las etiquetas fallan o directamente no compara lo que pones
 function comparar() {
 
     if (document.getElementById("compararSel").value != "nada") {

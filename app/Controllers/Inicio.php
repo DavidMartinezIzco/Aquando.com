@@ -21,7 +21,7 @@ class Inicio extends BaseController
         $this->sesion->start();
     }
 
-    //ejecución de arranque del proyecto
+    //arranque del proyecto
     public function index(){
         if (isset($_GET['log']) && $_GET['log'] == 'out') {
             session_unset();

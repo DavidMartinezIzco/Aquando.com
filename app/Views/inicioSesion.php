@@ -31,12 +31,26 @@
     <div class="form-floating" style="margin-bottom: 15px;">
       <input type="password" name="txtContrasena" class="form-control">
       <label for="floatingPassword"style="color:black">Contraseña</label>
+      <p id="mayusAct"></p>
     </div>
     
     <button id="btnForm" class="w-100 btn btn-lg " style="background-color: rgb(56, 56, 56);margin-bottom: 100em; opacity:100%; color: white" type="submit">Iniciar Sesión</button>
   </form>
 </main>
 
-
+<script>
+  //capta el evento de tener el mayus activado
+  document.addEventListener( 'keydown', function( event ) {
+  var mayus = event.getModifierState && event.getModifierState( 'CapsLock' );
+  console.log( mayus ); 
+  if(mayus){
+    document.getElementById("mayusAct").innerHTML = 'Mayúsculas activadas';
+  }
+  else{
+    document.getElementById("mayusAct").innerHTML = '';
+  }
+       
+});
+</script>
 
 <?= $this->endSection() ?>
