@@ -33,6 +33,14 @@ function desplegar(menu) {
         }
     }
 
+    if (menu == 'grafs') {
+        if (document.getElementsByClassName('miniEstacion')[2].style.height == '0px') {
+            document.getElementsByClassName('miniEstacion')[2].style.height = '20%';
+        } else {
+            document.getElementsByClassName('miniEstacion')[2].style.height = '0px';
+        }
+    }
+
 }
 
 //abre el menu y aplica las nnuevas dimensiones

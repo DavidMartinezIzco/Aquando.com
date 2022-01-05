@@ -14,7 +14,7 @@
 <img id="logoGrande" src="../public/logo.png">
 
   <form method="POST" id="formulario" >  
-    <h1 class="h3 mb-3 fw-normal" style="color: white;">Inicio de sesión</h1>
+  <p id="mayusAct" style="text-align:center"><br></p>
     <div class="form-floating" style="margin-bottom: 15px;">
       <select class="form-control" name="selEmpresa">
         <option value="1">Iturri Ederra</option>
@@ -31,7 +31,7 @@
     <div class="form-floating" style="margin-bottom: 15px;">
       <input type="password" name="txtContrasena" class="form-control">
       <label for="floatingPassword"style="color:black">Contraseña</label>
-      <p id="mayusAct"></p>
+      
     </div>
     
     <button id="btnForm" class="w-100 btn btn-lg " style="background-color: rgb(56, 56, 56);margin-bottom: 100em; opacity:100%; color: white" type="submit">Iniciar Sesión</button>
@@ -47,7 +47,7 @@
     document.getElementById("mayusAct").innerHTML = 'Mayúsculas activadas';
   }
   else{
-    document.getElementById("mayusAct").innerHTML = '';
+    document.getElementById("mayusAct").innerHTML = '<br>';
   }
        
 });

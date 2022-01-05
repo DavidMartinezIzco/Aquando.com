@@ -7,7 +7,9 @@ function limpiar() {
     document.getElementById('opcionesTag').selectedIndex = 0;
     document.getElementById('opciones').selectedIndex = 0;
 
+    tagsEstacion(document.getElementById('opciones').value);
     aplicarOpciones();
+
     setTimeout(function() {
         document.getElementsByName('btnControlReset')[0].innerHTML = "reset";
     }, 1000);
@@ -102,7 +104,6 @@ function renderGrafico(datosR) {
     for (var tindex in tagsAct[0]) {
         if (tagsAct[0][tindex]['id_tag'] == document.getElementById("opcionesTag").value || tagsAct[0][tindex]['id_tag'] == document.getElementById("compararSel").value) {
             nombreDato = tagsAct[0][tindex]['nombre_tag'];
-            sessionStorage.setItem('nDato', nombreDato);
         }
     }
 
@@ -228,8 +229,7 @@ function renderGrafico(datosR) {
             show: true
         },
         boundaryGap: [0, '100%'],
-
-    }, ];
+    }];
 
 
 
@@ -250,6 +250,7 @@ function renderGrafico(datosR) {
         },
         {
             type: 'slider',
+            right: 20,
             textStyle: {
                 fontSize: 14,
                 fontWeight: 'bold'
@@ -259,6 +260,7 @@ function renderGrafico(datosR) {
         },
         {
             type: 'inside',
+            throttle: 0,
             textStyle: {
                 fontSize: 14,
                 fontWeight: 'bold'
@@ -270,11 +272,14 @@ function renderGrafico(datosR) {
         },
         {
             type: 'inside',
+            right: 20,
+            throttle: 0,
             textStyle: {
                 fontSize: 14,
                 fontWeight: 'bold'
             },
             yAxisIndex: 0,
+
             filterMode: 'filter'
         }
     ];
@@ -399,6 +404,7 @@ function renderGrafico(datosR) {
 
     //estos even handlers son para los cambios de tamaño del grafico
     //igual habría que ampliarlos con cuidado pero de momento sirven
+
     $(window).keyup(function() {
         grafico.resize();
     });
@@ -407,9 +413,10 @@ function renderGrafico(datosR) {
         setTimeout(grafico.resize(), 500);
     };
 
-    document.getElementById('conPrincipal').onmouseover = function() {
-        setTimeout(grafico.resize(), 500);
-    }
+    // document.getElementById('conPrincipal').onmouseover = function() {
+    //     setTimeout(grafico.resize(), 500);
+    // }
+
     document.getElementById('grafica').onmouseover = function() {
         setTimeout(grafico.resize(), 500);
     }
@@ -428,8 +435,35 @@ function renderGrafico(datosR) {
         var yaxisV = JSON.parse('[' + sessionStorage.getItem('yaxis') + ']');
         option['yAxis'] = yaxisV[0].concat(option['yAxis']);
 
+        var datazoomY = [{
+
+                type: 'slider',
+                textStyle: {
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                },
+                yAxisIndex: 1,
+                left: 20,
+                filterMode: 'filter'
+            },
+            {
+                type: 'inside',
+                textStyle: {
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                },
+                left: 20,
+                yAxisIndex: 1,
+                filterMode: 'filter'
+            }
+        ];
+
+        option['dataZoom'].push(datazoomY[0]);
+        option['dataZoom'].push(datazoomY[1]);
+        console.log(option['dataZoom']);
 
         var seriesV = JSON.parse('[' + sessionStorage.getItem('series') + ']');
+        seriesV[0][0]['yAxisIndex'] = 1;
         option['series'] = seriesV[0].concat(option['series']);
     }
 
@@ -438,6 +472,7 @@ function renderGrafico(datosR) {
         sessionStorage.setItem('series', JSON.stringify(series));
         sessionStorage.setItem('yaxis', JSON.stringify(option['yAxis']));
         sessionStorage.setItem('leyenda', JSON.stringify(option['legend']));
+        sessionStorage.setItem('nDato', nombreDato);
     }
 
 
@@ -490,53 +525,6 @@ function guardar(uri, filename) {
     }
 }
 
-function alternarOpciones(repren) {
-
-
-    switch (repren) {
-        case "histo":
-            document.getElementById("infoRepren").style.opacity = "50%";
-            document.getElementById("infoRepren").disabled = true;
-            document.getElementById("fechaInicio").style.opacity = "50%";
-            document.getElementById("fechaInicio").disabled = true;
-            document.getElementById("fechaFin").style.opacity = "50%";
-            document.getElementById("fechaFin").disabled = true;
-            document.getElementById("opciones").style.opacity = "50%";
-            document.getElementById("opciones").disabled = true;
-            break;
-
-            // case "linea":
-            //     break;
-
-            // case "barra":
-            //     break;
-
-        case "tarta":
-            document.getElementById("infoRepren").style.opacity = "100%";
-            document.getElementById("infoRepren").disabled = false;
-            document.getElementById("fechaInicio").style.opacity = "50%";
-            document.getElementById("fechaInicio").disabled = true;
-            document.getElementById("fechaFin").style.opacity = "50%";
-            document.getElementById("fechaFin").disabled = true;
-            document.getElementById("opciones").style.opacity = "50%";
-            document.getElementById("opciones").disabled = true;
-            break;
-
-        default:
-            document.getElementById("infoRepren").disabled = false;
-            document.getElementById("fechaInicio").disabled = false;
-            document.getElementById("fechaFin").disabled = false;
-            document.getElementById("opciones").disabled = false;
-
-            document.getElementById("infoRepren").style.opacity = "100%";
-            document.getElementById("fechaInicio").style.opacity = "100%";
-            document.getElementById("fechaFin").style.opacity = "100%";
-            document.getElementById("opciones").style.opacity = "100%";
-            break;
-    }
-    aplicarOpciones();
-
-}
 
 //la funcion de comparación de gráficos.
 //la chicha la has llevado toda a renderGrafico()

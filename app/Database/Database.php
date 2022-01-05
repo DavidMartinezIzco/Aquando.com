@@ -4,7 +4,10 @@
 //almendro
 class Database
 {
+    //original
     private $host = "172.16.3.2";
+    //temporal
+    // private $host = "172.16.1.33";
     private $dbname = "Aquando";
     private $user = "postgres";
     private $password = "123456";
@@ -278,6 +281,7 @@ class Database
         }
     }
 
+    
     public function historicosTagEstacion($id_estacion, $id_tag){
         if ($this->conectar()) {
             $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.calidad, datos_historicos.valor_bool, datos_historicos.valor_int, datos_historicos.valor_acu, datos_historicos.valor_float, datos_historicos.valor_string, datos_historicos.valor_date FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = ".$id_estacion." ORDER BY datos_historicos.fecha DESC";
@@ -300,6 +304,79 @@ class Database
             return false;
         }
     }
+
+    public function historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaInicio, $fechaFin){
+
+        // $debug = Array();
+        // $debug['estacion'] = $id_estacion;
+        // $debug['tag'] = $id_tag;
+        // $debug['meta'] = $ajustesMeta;
+        // $debug['inicio']= $fechaInicio;
+        // $debug['fin']= $fechaFin;
+        // return $debug;
+
+        if ($this->conectar()) {
+
+            $seriesTagCustom = array();
+            $metaCustom = array();
+
+            //obtener el metadata del TAG 
+            $meta = $this->metaTag($id_tag, $id_estacion);
+
+            // filtrar metadata
+            foreach ($ajustesMeta as $index => $tipo) {
+                if($tipo == "maxGen"){
+                    $metaCustom['max'] = $meta['max'];
+                }
+                if($tipo == "minGen"){
+                    $metaCustom['min'] = $meta['min'];
+                }
+                if($tipo == "avgGen"){
+                    $metaCustom['avg'] = $meta['avg'];
+                }
+            }
+
+            $seriesTagCustom['meta'] = $metaCustom;
+
+
+            //traducir fechas(?)
+
+            $ini = strtotime($fechaInicio);
+            $fin = strtotime($fechaFin);
+
+            
+
+            //obtener "Series" del TAG delimitado por las fechas (supongo) (falta el WHERE)
+            $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.calidad, datos_historicos.valor_bool, datos_historicos.valor_int, datos_historicos.valor_acu, datos_historicos.valor_float, datos_historicos.valor_string, datos_historicos.valor_date 
+            FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
+            WHERE  estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = ".$id_estacion." AND cast(extract(epoch from datos_historicos.fecha) as integer) < ".$ini." AND cast(extract(epoch from datos_historicos.fecha) as integer) > ".$fin." 
+            ORDER BY datos_historicos.fecha DESC";
+            $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
+            if ($this->consultaExitosa($resulHistoTagEst)) {
+                $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
+                $datosHisto = array();
+                foreach ($datosHistoTagEst as $index => $dato) {
+                    foreach ($dato as $factor => $valor) {
+                        if ($valor != null) {
+                            $datosHisto[$index][$factor] = $valor;
+                        }
+                    }
+                }
+
+                //devolver array unico con las "series" y el "meta" del tag
+                $seriesTagCustom['tag']= $datosHisto;
+                
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        return $seriesTagCustom;
+    }
+
+
 
     public function reconocerAlarma($id_alarma, $usuario, $hora){
 
@@ -475,5 +552,7 @@ class Database
         }
 
     }
+
+    
 
 }

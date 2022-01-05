@@ -1,25 +1,23 @@
-
-#logoGrande{
-  position: absolute;
+#logoGrande {
+    /* position: absolute;
   top: 20%;
   left: 39%;
-  transition: 0.5s;
+  transition: 0.5s; */
+    text-align: center;
+    width: 40%;
+    margin: 0%30%;
 }
 
-
-#formulario div input :active{
-  opacity: 100%;
+#formulario div input :active {
+    opacity: 100%;
 }
 
-#formulario button:hover{
-  opacity: 100%;
+#formulario button:hover {
+    opacity: 100%;
 }
 
-#formulario{
-  width: 50%;
-  margin: 0 25%;
-  margin-top: 20%;
+#formulario {
+    width: 50%;
+    margin: 0 25%;
+    margin-top: 5%;
 }
-
-
-

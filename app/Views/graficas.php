@@ -8,46 +8,32 @@
 <link rel="stylesheet" type="text/css" href="css/graficas.css">
 <main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px;">
 
-<!--necesitamos nombre de estacion, nombre de tags, datos de tags-->
+    <!--necesitamos nombre de estacion, nombre de tags, datos de tags-->
 
     <div id="display">
         <div id="zonaControles">
-            <!--zona para mostrar informacion de render-->
-            <div id="panelInfo" style="color: black;padding: 1% 2%">
-                <h3>Mostrando:</h3>
-                <select class="controlSel" id="opcionesTag" style="transition: 0.5s;" name="opciones"  onchange="aplicarOpciones()">
-                </select>
-                <hr>
-            </div>
-
             <div id="panelOpciones">
-                <form>
-                    <!--tipo de representacion-->
-                    <h6>comparar</h6>
+                
+                <form id="formOpciones">
+                    <h3>Vista Rápida</h3>
+                    <h6>Mostrando:</h6>
+                    <select class="controlSel" id="opcionesTag" style="transition: 0.5s;" name="opciones" onchange="aplicarOpciones()"></select>
+                    <h6>Comparar con:</h6>
                     <select class="controlSel" id="compararSel" name="tipoRender" onchange="comparar()">
                         <option value="nada" selected>Nada</option>
                     </select>
                     <hr>
-                    <!--rango de fechas-->
-                    <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
-                    <label for="fecha">Inicio</label>
-                    <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin">
-                    <label for="fecha">Fin</label>
-                    <hr>
                     <!--presets/tipos de repren-->
                     <label for="opciones">Estación:</label>
                     <select class="controlSel" id="opciones" style="transition: 0.5s;" name="opciones" onchange="iniciar(this.value)">
-                            <?php 
-                                $i = 1;
-                                foreach ($_SESSION['estaciones'] as $index => $value) {
-                                    echo "<option value=".$value['id_estacion'].">".$value['nombre_estacion']."</option>";
-                                    $i++;
-                                }
-                                
-                            ?>
-
+                        <?php
+                            $i = 1;
+                            foreach ($_SESSION['estaciones'] as $index => $value) {
+                                echo "<option value=" . $value['id_estacion'] . ">" . $value['nombre_estacion'] . "</option>";
+                                $i++;
+                            }
+                        ?>
                     </select>
-
                 </form>
 
                 <!--controles-->
@@ -60,13 +46,13 @@
         <!--espacio para las graficas--->
         <div id="zonaGraficos">
             <div id="grafica" style="width: 100%; height: 100%; border-radius:10px;">
-            <i class="rotante fas fa-cog"></i>
+                <i class="rotante fas fa-cog"></i>
             </div>
         </div>
     </div>
-<!---alarmas--->
-<table id="alarmasSur">
-</table>
+    <!---alarmas--->
+    <table id="alarmasSur">
+    </table>
 </main>
 
 
@@ -74,17 +60,16 @@
     window.onload = function() {
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
-        var idusu = <?php echo $_SESSION['idusu']?>;
-        
+        var idusu = <?php echo $_SESSION['idusu'] ?>;
+
 
         comprobarTiempo();
         iniciar();
-        setInterval(actualizarSur('general',usu, pwd, idusu, null),20000);
-        setTimeout(aplicarOpciones,1500);
-        //alternarOpciones(document.getElementById("tipoRender").value);
+        setInterval(actualizarSur('general', usu, pwd, idusu, null), 20000);
+        setTimeout(aplicarOpciones, 1500);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
-        
+
         $(window).blur(function() {
             tiempoFuera("");
         });
@@ -94,13 +79,13 @@
     }
 
     function iniciar() {
-        if(document.getElementById("opciones")){
+        if (document.getElementById("opciones")) {
             var estacion = document.getElementById("opciones").value;
             tagsEstacion(estacion);
         }
     }
 
-    
+
     $(window).keydown(function(e) {
         if (e.ctrlKey)
             mostrarOpciones();

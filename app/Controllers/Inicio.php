@@ -137,13 +137,18 @@ class Inicio extends BaseController
 
     //muestra la vista de graficas (historicos y demas)
     public function graficas(){
+
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "graficos";
             $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
             $datos['tagsEstaciones'] = $usuario->obtenerTagsEstaciones();
-            $estaciones = $_SESSION['estaciones'];
-            return view('graficas', $datos);
             
+            if(isset($_POST['btnGraf']) && $_POST['btnGraf'] == 'rapida'){
+                return view('graficas', $datos);
+            }
+            else{
+                return view('graficasCustom', $datos);
+            }
 
          }else {
             return view('inicio');
