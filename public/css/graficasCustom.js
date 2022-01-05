@@ -1,3 +1,5 @@
+var datosTagCustom = new Array;
+
 //reestablece los filtros por defecto
 function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
@@ -63,6 +65,7 @@ function tagsEstacionCustom(id_estacion) {
                     e++;
                 }
 
+
             },
             error: function() {
                 console.log("error");
@@ -123,14 +126,8 @@ function infoTags(estacion, tag, metas, fechaIni, fechaFin) {
             type: 'GET',
             url: 'A_GraficasCustom.php?estacion=' + estacion + '&id_tag=' + tag + '&fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&meta=' + metas + '&opcion=tag',
             success: function(datosTag) {
-                infoTag = datosTag;
+                prepararTag(datosTag);
 
-                prepararTag(infoTag)
-
-                //se devuelven las "series" del tag y el meta en un mismo array
-                //se preparan el tag y las series para el grafico
-                //se renderiza el grafico con TODO LO QUE TOQUE
-                //rezar
             },
             error: function() {
                 console.log("error");
@@ -139,13 +136,57 @@ function infoTags(estacion, tag, metas, fechaIni, fechaFin) {
         });
     });
 
-
-
 }
 
-function prepararTag(info, color) {
+function prepararTag(info) {
 
+    var nombreDato = "Info";
+    var serie = new Array();
 
+    serie['name'] = nombreDato;
+    serie['type'] = "line";
+    serie['smooth'] = true;
+    serie['sampling'] = "lttb";
+    serie['areaStyle'] = { show: true };
+    serie['data'] = Array();
+    serie['markline'] = Array();
+
+    for (var index in info['tag']) {
+        serie['data'].push(info['tag'][index]['valor']);
+    }
+
+    for (var meta in info['meta']) {
+        serie['markline'].push({
+            symbol: 'none',
+            name: meta,
+            lineStyle: {
+                normal: {
+                    type: 'dashed',
+                    //color: 'darkseagreen',
+                }
+            },
+            yAxis: info['meta'][meta],
+            label: {
+                formatter: '{b} ' + nombreDato + ': {c}',
+                position: 'insideEnd',
+                backgroundColor: 'darkseagreen',
+                color: 'white',
+                padding: [5, 20],
+                borderColor: "rgba(0, 0, 0, 1)",
+                borderRadius: [5, 5, 5, 5],
+                borderWidth: 2
+            }
+        });
+    }
+    console.log(serie);
+
+    //PARA EL DAVID DEL FUTURO:
+    //ya tienes un generador de series
+    //los maximos y minimos se generan en el markline
+    //hay que configurar para poder sacar los meta variables
+    //esto es coger y cargarlo en un array de series (uno x cada tag elegido)
+    //luego un renderGrafico que saque todo.
+    //Lo demás es ver que mas opciones podemos meter pero lo mas coñazo ya lo tienes y funciona
 
 }
 

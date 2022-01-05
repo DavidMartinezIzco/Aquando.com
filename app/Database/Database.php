@@ -358,7 +358,7 @@ class Database
                 foreach ($datosHistoTagEst as $index => $dato) {
                     foreach ($dato as $factor => $valor) {
                         if ($valor != null) {
-                            $datosHisto[$index][$factor] = $valor;
+                            $datosHisto[$index]['valor'] = $valor;
                         }
                     }
                 }
