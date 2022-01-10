@@ -111,8 +111,7 @@ function renderGrafico(datosR) {
     //Ajustes
 
     option = {
-        //las etiquetas de "legend" en ocasiones se cambian por otras viejas que ya no se están representando
-        //aun no se por que es, pero pinta un fallo gordo en la logica en las funciones de comparación
+
         legend: {
             x: 'center',
             y: 'top',
@@ -475,7 +474,7 @@ function renderGrafico(datosR) {
         sessionStorage.setItem('nDato', nombreDato);
     }
 
-
+    console.log(option);
     option && grafico.setOption(option, true);
 
 

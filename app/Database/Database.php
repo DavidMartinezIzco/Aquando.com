@@ -307,14 +307,6 @@ class Database
 
     public function historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaInicio, $fechaFin){
 
-        // $debug = Array();
-        // $debug['estacion'] = $id_estacion;
-        // $debug['tag'] = $id_tag;
-        // $debug['meta'] = $ajustesMeta;
-        // $debug['inicio']= $fechaInicio;
-        // $debug['fin']= $fechaFin;
-        // return $debug;
-
         if ($this->conectar()) {
 
             $seriesTagCustom = array();
@@ -359,6 +351,9 @@ class Database
                     foreach ($dato as $factor => $valor) {
                         if ($valor != null) {
                             $datosHisto[$index]['valor'] = $valor;
+                        }
+                        if($factor == 'fecha'){
+                            $datosHisto[$index]['fecha'] = $valor;
                         }
                     }
                 }

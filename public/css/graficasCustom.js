@@ -1,4 +1,7 @@
 var datosTagCustom = new Array;
+datosTagCustom['serie'] = [];
+datosTagCustom['fechas'] = [];
+var serie = {};
 
 //reestablece los filtros por defecto
 function limpiar() {
@@ -56,7 +59,7 @@ function tagsEstacionCustom(id_estacion) {
                 for (var tag in tags) {
                     if (e == 0) {
                         //document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + " selected>" + tags[tag]['nombre_tag'] + "</option>";
-                        document.getElementById("opcionesTag").innerHTML += '<li style="background-color:darkgray"><input type="checkbox" name="checkTag" style="visibility: hidden;" value="' + tags[tag]['id_tag'] + '" checked id = ' + tags[tag]['id_tag'] + '><label for = "' + tags[tag]['id_tag'] + '" style="box-sizing: none"> ' + tags[tag]['nombre_tag'] + ' </label> <label> <i class= "fas fa-palette"> </i><input type="color" class="form-control-color" id="color' + tags[tag]['id_tag'] + '" style="visibility:hidden" title="color" list="coloresTagGraf"></label></li>';
+                        document.getElementById("opcionesTag").innerHTML += '<li><input type="checkbox" name="checkTag" style="visibility: hidden;" value="' + tags[tag]['id_tag'] + '" id = ' + tags[tag]['id_tag'] + '><label for = "' + tags[tag]['id_tag'] + '" style="box-sizing: none"> ' + tags[tag]['nombre_tag'] + ' </label> <label> <i class= "fas fa-palette"> </i><input type="color" class="form-control-color" id="color' + tags[tag]['id_tag'] + '" style="visibility:hidden" title="color" list="coloresTagGraf"></label></li>';
 
                     } else {
                         //document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
@@ -91,6 +94,9 @@ function mostrarOpciones() {
 }
 
 function aplicarCustom() {
+    datosTagCustom = new Array;
+    datosTagCustom['serie'] = [];
+    datosTagCustom['fechas'] = [];
     var ajustesTag = [];
     var checkTags = document.querySelectorAll('input[name=checkTag]:checked')
     for (var i = 0; i < checkTags.length; i++) {
@@ -113,64 +119,61 @@ function aplicarCustom() {
     }
 
     for (var ajusteTag in ajustesTag) {
-        infoTags(id_estacion, ajustesTag[ajusteTag], metas, fechaInicio, fechaFin);
+        infoTags(id_estacion, ajustesTag, ajustesTag[ajusteTag], metas, fechaInicio, fechaFin);
     }
+
+
 
 }
 
-function infoTags(estacion, tag, metas, fechaIni, fechaFin) {
+function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
 
-
-    $(document).ready(function() {
-        $.ajax({
-            type: 'GET',
-            url: 'A_GraficasCustom.php?estacion=' + estacion + '&id_tag=' + tag + '&fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&meta=' + metas + '&opcion=tag',
-            success: function(datosTag) {
-                prepararTag(datosTag);
-
-            },
-            error: function() {
-                console.log("error");
-            },
-            dataType: 'json'
-        });
+    $.ajax({
+        type: 'GET',
+        url: 'A_GraficasCustom.php?estacion=' + estacion + '&id_tag=' + tag + '&fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&meta=' + metas + '&opcion=tag',
+        success: function(datosTag) {
+            prepararTag(datosTag, tag);
+            if (ajustesTag.at(-1) == tag) {
+                renderGrafico(ajustesTag);
+            }
+        },
+        error: function() {
+            console.log("error");
+        },
+        dataType: 'json'
     });
 
 }
 
-function prepararTag(info) {
-
-    var nombreDato = "Info";
-    var serie = new Array();
+function prepararTag(info, tag) {
+    var fechasTag = [];
+    var nombreDato = "Info " + tag;
+    serie = {};
 
     serie['name'] = nombreDato;
     serie['type'] = "line";
     serie['smooth'] = true;
     serie['sampling'] = "lttb";
     serie['areaStyle'] = { show: true };
-    serie['data'] = Array();
-    serie['markline'] = Array();
+    serie['data'] = [];
+    serie['markline'] = { data: [] };
 
     for (var index in info['tag']) {
         serie['data'].push(info['tag'][index]['valor']);
+        fechasTag.push(info['tag'][index]['fecha']);
     }
 
     for (var meta in info['meta']) {
-        serie['markline'].push({
+        serie['markline']['data'].push({
             symbol: 'none',
             name: meta,
             lineStyle: {
-                normal: {
-                    type: 'dashed',
-                    //color: 'darkseagreen',
-                }
+                //implementar color
             },
             yAxis: info['meta'][meta],
             label: {
                 formatter: '{b} ' + nombreDato + ': {c}',
                 position: 'insideEnd',
-                backgroundColor: 'darkseagreen',
-                color: 'white',
                 padding: [5, 20],
                 borderColor: "rgba(0, 0, 0, 1)",
                 borderRadius: [5, 5, 5, 5],
@@ -178,22 +181,227 @@ function prepararTag(info) {
             }
         });
     }
-    console.log(serie);
 
-    //PARA EL DAVID DEL FUTURO:
-    //ya tienes un generador de series
-    //los maximos y minimos se generan en el markline
-    //hay que configurar para poder sacar los meta variables
-    //esto es coger y cargarlo en un array de series (uno x cada tag elegido)
-    //luego un renderGrafico que saque todo.
-    //Lo demás es ver que mas opciones podemos meter pero lo mas coñazo ya lo tienes y funciona
+    //metadata en intervalos
+    if (document.getElementById("checkMaxInt").checked) {
+        serie['markline']['data'].push({
+            symbol: 'none',
+            type: 'max',
+            name: 'máximo intervalo',
+            lineStyle: {
+                normal: {
+                    type: 'dashed',
+                }
+            },
+            label: {
+                formatter: '{b} ' + nombreDato + ': {c}',
+                position: 'insideEndTop',
+                padding: [5, 20],
+                borderColor: "rgba(0, 0, 0, 1)",
+                borderRadius: [5, 5, 5, 5],
+                borderWidth: 2
+            }
+        });
+    }
+    if (document.getElementById("checkMinInt").checked) {
+        serie['markline']['data'].push({
+            symbol: 'none',
+            type: 'min',
+            name: 'mínimo intervalo',
+            lineStyle: {
+                normal: {
+                    type: 'dashed',
+                }
+            },
+            label: {
+                formatter: '{b} ' + nombreDato + ': {c}',
+                position: 'insideEndTop',
+                padding: [5, 20],
+                borderColor: "rgba(0, 0, 0, 1)",
+                borderRadius: [5, 5, 5, 5],
+                borderWidth: 2
+            }
+        });
+    }
+    if (document.getElementById("checkAvgInt").checked) {
+        serie['markline']['data'].push({
+            symbol: 'none',
+            type: 'average',
+            name: 'media intervalo',
+            lineStyle: {
+                normal: {
+                    type: 'dashed',
+                }
+            },
+            label: {
+                formatter: '{b} ' + nombreDato + ': {c}',
+                position: 'insideEndTop',
+                padding: [5, 20],
+                borderColor: "rgba(0, 0, 0, 1)",
+                borderRadius: [5, 5, 5, 5],
+                borderWidth: 2
+            }
+        });
+    }
+
+    datosTagCustom['serie'].push(serie);
+    datosTagCustom['fechas'].push(fechasTag);
+
 
 }
 
-// function quitarTag(id_tag) {}
+function renderGrafico(tags) {
 
-// function añadirMeta(meta, color) {}
+    //llegan ajustesTags en tags
+    //para organizar los values y las fechas
+    var chartDom = document.getElementById('grafica');
+    var grafico = echarts.init(chartDom);
+    var option;
+    nombreDato = "info";
 
-// function quitarMeta(meta) {}
 
-// function renderGrafico(datos) {}
+    //falta incluir nombres de los tags
+
+    //leyenda
+    option = {
+
+        legend: {
+            x: 'center',
+            y: 'top',
+            textStyle: {
+                fontWeight: 'normal',
+                fontSize: 10
+            },
+            padding: 1,
+            // data: [{
+            //     name: nombreDato,
+            //     icon: 'circle',
+            // }],
+            //se podría hacer que los Meta no se muestren por defecto pero para eso necesitamos
+            //meter los nombre en unas variables porque se desformatea concatenando las que ya hay.
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '10%',
+            containLabel: true
+        },
+    };
+
+    //herramientas
+    option['tooltip'] = {
+        trigger: 'axis',
+        textStyle: {
+            fontStyle: 'bold',
+            fontSize: 20
+        },
+
+        axisPointer: {
+            type: 'line',
+            label: {
+                formatter: 'fecha y hora: {value}',
+                fontStyle: 'bold'
+            }
+        }
+    };
+
+    //ejes X
+    option['xAxis'] = {
+
+        boundaryGap: false,
+        splitNumber: 10,
+        data: datosTagCustom['fechas'][0],
+        label: {
+            show: true,
+            position: 'top',
+            color: "black",
+            fontSize: 30,
+        },
+
+    };
+
+    option['yAxis'] = [{
+        type: 'value',
+        label: {
+            show: true
+        },
+        boundaryGap: [0, '100%'],
+    }];
+
+    //controles de los ejes
+    // option['dataZoom'] = [{
+    //         type: 'slider',
+    //         textStyle: {
+    //             fontSize: 14,
+    //             fontWeight: 'bold'
+    //         },
+    //         xAxisIndex: 0,
+    //         start: 0,
+    //         end: 10,
+    //         filterMode: 'filter'
+    //     },
+    //     {
+    //         type: 'slider',
+    //         right: 20,
+    //         textStyle: {
+    //             fontSize: 14,
+    //             fontWeight: 'bold'
+    //         },
+    //         yAxisIndex: 0,
+    //         filterMode: 'filter'
+    //     },
+    //     {
+    //         type: 'inside',
+    //         throttle: 0,
+    //         textStyle: {
+    //             fontSize: 14,
+    //             fontWeight: 'bold'
+    //         },
+    //         xAxisIndex: 10,
+    //         start: 0,
+    //         end: 10,
+    //         filterMode: 'filter'
+    //     },
+    //     {
+    //         type: 'inside',
+    //         right: 20,
+    //         throttle: 0,
+    //         textStyle: {
+    //             fontSize: 14,
+    //             fontWeight: 'bold'
+    //         },
+    //         yAxisIndex: 0,
+
+    //         filterMode: 'filter'
+    //     }
+    // ];
+
+    //series y datos en el grafico
+    option['series'] = [];
+
+    for (var index in datosTagCustom['serie']) {
+        option['series'].push(datosTagCustom['serie'][index]);
+
+    }
+
+    $(window).keyup(function() {
+        grafico.resize();
+    });
+
+    document.getElementById("conPrincipal").onclick = function() {
+        setTimeout(grafico.resize(), 500);
+    };
+
+    document.getElementById('grafica').onmouseover = function() {
+        setTimeout(grafico.resize(), 500);
+    }
+    document.getElementById('zonaControles').onmouseover = function() {
+        setTimeout(grafico.resize(), 500);
+    }
+
+
+    //console.log(option);
+    console.log(datosTagCustom['serie']);
+    option && grafico.setOption(option, true);
+
+}

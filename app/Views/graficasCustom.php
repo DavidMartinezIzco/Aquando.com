@@ -15,7 +15,7 @@
             <div id="panelOpciones">
 
                 <form id="formOpciones">
-                    <h3>Vista Personalizada</h3>
+                    <h3 onclick="aplicarCustom()">Vista Personalizada</h3>
 
                     <!--selector de tag/tags-->
                     <h6>Mostrar:</h6>
@@ -79,9 +79,9 @@
                     <!-- rango de fechas-->
                     <h6>Rango:</h6>
                     <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
-                    <label for="fecha">Inicio</label><br>
+                    <label for="fecha">Hasta</label><br>
                     <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin">
-                    <label for="fecha">Fin</label>
+                    <label for="fecha">Desde</label>
                     <hr>
 
                     <label for="opciones">Estación:</label>
@@ -94,8 +94,9 @@
                         }
                         ?>
                     </select>
-
+                    
                 </form>
+                
 
                 <!--controles-->
                 <!-- <button id="btnControl" style="background-color: yellowgreen;" value="aplicar" onclick="aplicarOpciones()" name="btnControlAplicar">aplicar</button>
@@ -135,6 +136,8 @@
             } else {
                 this.parentNode.style.backgroundColor = 'darkgray';
             }
+            
+            
         });
 
         Date.prototype.toDateInputValue = (function() {
