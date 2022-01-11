@@ -94,6 +94,14 @@ function mostrarOpciones() {
 }
 
 function aplicarCustom() {
+    //hay que actualizar el etiquetado de tags (en series y legend)
+    //los metadatos en markline no seestán mostrando
+    //los datazooms en X e Y están deshabilitados de momento.
+    //mirar a ver si en vez de actualizar todo, ver si se pueden reutilizar
+    //los estados anteriores (x optimizar vaya)
+    //faltan de implementar los colores custom (igual solo en los series)
+    //al refrescar a veces desaparecen series enteras (bug)
+
     datosTagCustom = new Array;
     datosTagCustom['serie'] = [];
     datosTagCustom['fechas'] = [];
@@ -122,8 +130,6 @@ function aplicarCustom() {
         infoTags(id_estacion, ajustesTag, ajustesTag[ajusteTag], metas, fechaInicio, fechaFin);
     }
 
-
-
 }
 
 function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
@@ -148,15 +154,27 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
 function prepararTag(info, tag) {
     var fechasTag = [];
     var nombreDato = "Info " + tag;
+    var tagsAct = JSON.parse('[' + sessionStorage.getItem("tagsAct") + ']');
+
+    for (var tindex in tagsAct[0]) {
+
+        if (tagsAct[0][tindex]['id_tag'] == tag) {
+            nombreDato = tagsAct[0][tindex]['nombre_tag'];
+        }
+    }
+
+
     serie = {};
 
     serie['name'] = nombreDato;
+    serie['symbol'] = 'none';
     serie['type'] = "line";
     serie['smooth'] = true;
     serie['sampling'] = "lttb";
     serie['areaStyle'] = { show: true };
     serie['data'] = [];
-    serie['markline'] = { data: [] };
+    serie['markLine'] = { data: [] };
+
 
     for (var index in info['tag']) {
         serie['data'].push(info['tag'][index]['valor']);
@@ -164,84 +182,127 @@ function prepararTag(info, tag) {
     }
 
     for (var meta in info['meta']) {
-        serie['markline']['data'].push({
-            symbol: 'none',
-            name: meta,
-            lineStyle: {
-                //implementar color
-            },
-            yAxis: info['meta'][meta],
-            label: {
-                formatter: '{b} ' + nombreDato + ': {c}',
-                position: 'insideEnd',
-                padding: [5, 20],
-                borderColor: "rgba(0, 0, 0, 1)",
-                borderRadius: [5, 5, 5, 5],
-                borderWidth: 2
-            }
-        });
+        var colorMeta = '';
+
+        var valMeta = info['meta'][meta];
+        var marcaMeta = {};
+
+        if (meta == 'max') {
+            colorMeta = document.getElementById("colorMax").value;
+            marcaMeta['name'] = "maximo gen";
+        }
+        if (meta == 'min') {
+            colorMeta = document.getElementById("colorMin").value;
+            marcaMeta['name'] = "minimo gen";
+        }
+        if (meta == 'avg') {
+            colorMeta = document.getElementById("colorAvg").value;
+            marcaMeta['name'] = "media gen";
+        }
+
+        //letrero con nombre y datos del markline
+        marcaMeta['lineStyle'] = { normal: new Array };
+        marcaMeta['lineStyle']['normal']['color'] = colorMeta;
+        marcaMeta['lineStyle']['normal']['type'] = 'dashed';
+        marcaMeta['label'] = {};
+        marcaMeta['label']['formatter'] = '{b} ' + nombreDato + ': {c}';
+        marcaMeta['label']['position'] = 'insideEnd';
+        marcaMeta['label']['backgroundColor'] = 'lightgray';
+        marcaMeta['label']['color'] = 'black';
+        marcaMeta['label']['padding'] = [5, 20];
+        marcaMeta['label']['borderColor'] = 'black';
+        marcaMeta['label']['borderRadius'] = [5, 5, 5, 5];
+        marcaMeta['label']['borderWidth'] = 2;
+
+        marcaMeta['yAxis'] = valMeta;
+        serie['markLine']['data'].push(marcaMeta);
     }
+
 
     //metadata en intervalos
     if (document.getElementById("checkMaxInt").checked) {
-        serie['markline']['data'].push({
-            symbol: 'none',
+        serie['markLine']['data'].push({
+            name: 'max intervalo',
             type: 'max',
-            name: 'máximo intervalo',
             lineStyle: {
                 normal: {
                     type: 'dashed',
+                    color: document.getElementById("colorMaxInt").value
                 }
-            },
-            label: {
-                formatter: '{b} ' + nombreDato + ': {c}',
-                position: 'insideEndTop',
-                padding: [5, 20],
-                borderColor: "rgba(0, 0, 0, 1)",
-                borderRadius: [5, 5, 5, 5],
-                borderWidth: 2
             }
         });
+        var marcaMeta = {};
+        marcaMeta['lineStyle'] = { normal: new Array };
+        marcaMeta['lineStyle']['normal']['color'] = colorMeta;
+        marcaMeta['lineStyle']['normal']['type'] = 'dashed';
+        marcaMeta['label'] = {};
+        marcaMeta['label']['formatter'] = '{b} ' + nombreDato + ': {c}';
+        marcaMeta['label']['position'] = 'insideEndTop';
+        marcaMeta['label']['backgroundColor'] = 'white';
+        marcaMeta['label']['color'] = 'black';
+        marcaMeta['label']['padding'] = [5, 20];
+        marcaMeta['label']['borderColor'] = 'black';
+        marcaMeta['label']['borderRadius'] = [5, 5, 5, 5];
+        marcaMeta['label']['borderWidth'] = 2;
+
+        marcaMeta['yAxis'] = valMeta;
+        serie['markLine']['data'].push(marcaMeta);
     }
     if (document.getElementById("checkMinInt").checked) {
-        serie['markline']['data'].push({
-            symbol: 'none',
+        serie['markLine']['data'].push({
+            name: 'min intervalo',
             type: 'min',
-            name: 'mínimo intervalo',
             lineStyle: {
                 normal: {
                     type: 'dashed',
+                    color: document.getElementById("colorMinInt").value
                 }
-            },
-            label: {
-                formatter: '{b} ' + nombreDato + ': {c}',
-                position: 'insideEndTop',
-                padding: [5, 20],
-                borderColor: "rgba(0, 0, 0, 1)",
-                borderRadius: [5, 5, 5, 5],
-                borderWidth: 2
             }
         });
+        var marcaMeta = {};
+        marcaMeta['lineStyle'] = { normal: new Array };
+        marcaMeta['lineStyle']['normal']['color'] = colorMeta;
+        marcaMeta['lineStyle']['normal']['type'] = 'dashed';
+        marcaMeta['label'] = {};
+        marcaMeta['label']['formatter'] = '{b} ' + nombreDato + ': {c}';
+        marcaMeta['label']['position'] = 'insideEndBottom';
+        marcaMeta['label']['backgroundColor'] = 'white';
+        marcaMeta['label']['color'] = 'black';
+        marcaMeta['label']['padding'] = [5, 20];
+        marcaMeta['label']['borderColor'] = 'black';
+        marcaMeta['label']['borderRadius'] = [5, 5, 5, 5];
+        marcaMeta['label']['borderWidth'] = 2;
+
+        marcaMeta['yAxis'] = valMeta;
+        serie['markLine']['data'].push(marcaMeta);
     }
     if (document.getElementById("checkAvgInt").checked) {
-        serie['markline']['data'].push({
-            symbol: 'none',
-            type: 'average',
+        serie['markLine']['data'].push({
             name: 'media intervalo',
+            type: 'average',
             lineStyle: {
                 normal: {
                     type: 'dashed',
+                    color: document.getElementById("colorAvgInt").value
                 }
-            },
-            label: {
-                formatter: '{b} ' + nombreDato + ': {c}',
-                position: 'insideEndTop',
-                padding: [5, 20],
-                borderColor: "rgba(0, 0, 0, 1)",
-                borderRadius: [5, 5, 5, 5],
-                borderWidth: 2
             }
         });
+        var marcaMeta = {};
+        marcaMeta['lineStyle'] = { normal: new Array };
+        marcaMeta['lineStyle']['normal']['color'] = colorMeta;
+        marcaMeta['lineStyle']['normal']['type'] = 'dashed';
+        marcaMeta['label'] = {};
+        marcaMeta['label']['formatter'] = '{b} ' + nombreDato + ': {c}';
+        marcaMeta['label']['position'] = 'insideEnd';
+        marcaMeta['label']['backgroundColor'] = 'white';
+        marcaMeta['label']['color'] = 'black';
+        marcaMeta['label']['padding'] = [5, 20];
+        marcaMeta['label']['borderColor'] = 'black';
+        marcaMeta['label']['borderRadius'] = [5, 5, 5, 5];
+        marcaMeta['label']['borderWidth'] = 2;
+
+        marcaMeta['yAxis'] = valMeta;
+        serie['markLine']['data'].push(marcaMeta);
     }
 
     datosTagCustom['serie'].push(serie);
@@ -329,52 +390,30 @@ function renderGrafico(tags) {
     }];
 
     //controles de los ejes
-    // option['dataZoom'] = [{
-    //         type: 'slider',
-    //         textStyle: {
-    //             fontSize: 14,
-    //             fontWeight: 'bold'
-    //         },
-    //         xAxisIndex: 0,
-    //         start: 0,
-    //         end: 10,
-    //         filterMode: 'filter'
-    //     },
-    //     {
-    //         type: 'slider',
-    //         right: 20,
-    //         textStyle: {
-    //             fontSize: 14,
-    //             fontWeight: 'bold'
-    //         },
-    //         yAxisIndex: 0,
-    //         filterMode: 'filter'
-    //     },
-    //     {
-    //         type: 'inside',
-    //         throttle: 0,
-    //         textStyle: {
-    //             fontSize: 14,
-    //             fontWeight: 'bold'
-    //         },
-    //         xAxisIndex: 10,
-    //         start: 0,
-    //         end: 10,
-    //         filterMode: 'filter'
-    //     },
-    //     {
-    //         type: 'inside',
-    //         right: 20,
-    //         throttle: 0,
-    //         textStyle: {
-    //             fontSize: 14,
-    //             fontWeight: 'bold'
-    //         },
-    //         yAxisIndex: 0,
-
-    //         filterMode: 'filter'
-    //     }
-    // ];
+    option['dataZoom'] = [{
+            type: 'slider',
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
+            xAxisIndex: 0,
+            start: 0,
+            end: 10,
+            filterMode: 'filter'
+        },
+        {
+            type: 'inside',
+            throttle: 0,
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
+            xAxisIndex: 0,
+            start: 0,
+            end: 10,
+            filterMode: 'filter'
+        }
+    ];
 
     //series y datos en el grafico
     option['series'] = [];
@@ -399,9 +438,8 @@ function renderGrafico(tags) {
         setTimeout(grafico.resize(), 500);
     }
 
-
+    console.log(option);
     //console.log(option);
-    console.log(datosTagCustom['serie']);
     option && grafico.setOption(option, true);
 
 }

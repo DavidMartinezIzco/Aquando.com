@@ -42,17 +42,17 @@
                         <li>
                             <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMaxInt" value="maxInt">
                             <label for="checkMaxInt">Máximos Intervalo</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMax" style="visibility:hidden" title="color" list="coloresTagGraf"></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMaxInt" style="visibility:hidden" title="color" list="coloresTagGraf"></label>
                         </li>
                         <li>
                             <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMinInt" value="minInt">
                             <label for="checkMinInt">Mínimos Intervalo</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMin" style="visibility:hidden" title="color" list="coloresTagGraf"></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMinInt" style="visibility:hidden" title="color" list="coloresTagGraf"></label>
                         </li>
                         <li>
                             <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkAvgInt" value="avgInt">
                             <label for="checkAvgInt">Medias Intervalo</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorAvg" style="visibility:hidden" title="color" list="coloresTagGraf"></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorAvgInt" style="visibility:hidden" title="color" list="coloresTagGraf"></label>
                         </li>
                     </ul>
                     
@@ -108,7 +108,7 @@
         <!--espacio para las graficas--->
         <div id="zonaGraficos">
             <div id="grafica" style="width: 100%; height: 100%; border-radius:10px;">
-                <i class="rotante fas fa-cog"></i>
+                
             </div>
         </div>
     </div>

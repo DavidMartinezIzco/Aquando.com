@@ -354,7 +354,6 @@ function renderGrafico(datosR) {
                         label: {
                             formatter: '{b} ' + nombreDato + ': {c}',
                             position: 'insideEndBottom',
-
                             backgroundColor: 'white',
                             color: 'black',
                             padding: [5, 20],
