@@ -1,3 +1,4 @@
+//configs globales
 var datosTagCustom = new Array;
 datosTagCustom['serie'] = [];
 datosTagCustom['fechas'] = [];
@@ -46,6 +47,7 @@ function guardar(uri, filename) {
     }
 }
 
+//pasa los tags historizables de una estacion en concreto
 function tagsEstacionCustom(id_estacion) {
 
     $(document).ready(function() {
@@ -78,6 +80,7 @@ function tagsEstacionCustom(id_estacion) {
     });
 }
 
+//display de las opciones
 function mostrarOpciones() {
     if (document.getElementById("zonaControles").style.width == '1%') {
         document.getElementById("zonaControles").style.width = '29.5%';
@@ -93,6 +96,7 @@ function mostrarOpciones() {
 
 }
 
+//disparador inicial para mostrar el grafico según los ajustes en los contrles
 function aplicarCustom() {
     //hay que actualizar el etiquetado de tags (en series y legend)
     //los metadatos en markline no seestán mostrando
@@ -132,6 +136,7 @@ function aplicarCustom() {
 
 }
 
+//consigue los metadata de un tag
 function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
 
     $.ajax({
@@ -151,6 +156,9 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
 
 }
 
+//crea el objeto series con la info de un tag en concreto
+//junta en los series los historicos con los metadatos
+//es un caos pero hace lo que promete
 function prepararTag(info, tag) {
     var fechasTag = [];
     var nombreDato = "Info " + tag;
@@ -164,8 +172,8 @@ function prepararTag(info, tag) {
     }
 
 
+    //elementos comunes
     serie = {};
-
     serie['name'] = nombreDato;
     serie['symbol'] = 'none';
     serie['type'] = "line";
@@ -181,28 +189,35 @@ function prepararTag(info, tag) {
         fechasTag.push(info['tag'][index]['fecha']);
     }
 
+    //crear markline-data con los metadatos
+    //se separa en dos por la naturaleza de ambos tipos de meta
+
     for (var meta in info['meta']) {
         var colorMeta = '';
-
         var valMeta = info['meta'][meta];
         var marcaMeta = {};
+        marcaMeta['lineStyle'] = { normal: new Array };
+
+        //PARTE 1: GENERALES
 
         if (meta == 'max') {
             colorMeta = document.getElementById("colorMax").value;
             marcaMeta['name'] = "maximo gen";
+            marcaMeta['lineStyle']['normal']['color'] = colorMeta;
         }
         if (meta == 'min') {
             colorMeta = document.getElementById("colorMin").value;
             marcaMeta['name'] = "minimo gen";
+            marcaMeta['lineStyle']['normal']['color'] = colorMeta;
         }
         if (meta == 'avg') {
             colorMeta = document.getElementById("colorAvg").value;
             marcaMeta['name'] = "media gen";
+            marcaMeta['lineStyle']['normal']['color'] = colorMeta;
         }
 
         //letrero con nombre y datos del markline
-        marcaMeta['lineStyle'] = { normal: new Array };
-        marcaMeta['lineStyle']['normal']['color'] = colorMeta;
+        //tal vez lo quite, tal vez no, tal vez lo cambie
         marcaMeta['lineStyle']['normal']['type'] = 'dashed';
         marcaMeta['label'] = {};
         marcaMeta['label']['formatter'] = '{b} ' + nombreDato + ': {c}';
@@ -210,84 +225,20 @@ function prepararTag(info, tag) {
         marcaMeta['label']['backgroundColor'] = 'lightgray';
         marcaMeta['label']['color'] = 'black';
         marcaMeta['label']['padding'] = [5, 20];
-        marcaMeta['label']['borderColor'] = 'black';
+        marcaMeta['label']['borderColor'] = colorMeta;
         marcaMeta['label']['borderRadius'] = [5, 5, 5, 5];
         marcaMeta['label']['borderWidth'] = 2;
-
         marcaMeta['yAxis'] = valMeta;
         serie['markLine']['data'].push(marcaMeta);
     }
 
 
-    //metadata en intervalos
+    //PARTE 2: INTERVALOS
     if (document.getElementById("checkMaxInt").checked) {
-        serie['markLine']['data'].push({
-            name: 'max intervalo',
-            type: 'max',
-            lineStyle: {
-                normal: {
-                    type: 'dashed',
-                    color: document.getElementById("colorMaxInt").value
-                }
-            }
-        });
+        colorMeta = document.getElementById("colorMaxInt").value;
         var marcaMeta = {};
-        marcaMeta['lineStyle'] = { normal: new Array };
-        marcaMeta['lineStyle']['normal']['color'] = colorMeta;
-        marcaMeta['lineStyle']['normal']['type'] = 'dashed';
-        marcaMeta['label'] = {};
-        marcaMeta['label']['formatter'] = '{b} ' + nombreDato + ': {c}';
-        marcaMeta['label']['position'] = 'insideEndTop';
-        marcaMeta['label']['backgroundColor'] = 'white';
-        marcaMeta['label']['color'] = 'black';
-        marcaMeta['label']['padding'] = [5, 20];
-        marcaMeta['label']['borderColor'] = 'black';
-        marcaMeta['label']['borderRadius'] = [5, 5, 5, 5];
-        marcaMeta['label']['borderWidth'] = 2;
-
-        marcaMeta['yAxis'] = valMeta;
-        serie['markLine']['data'].push(marcaMeta);
-    }
-    if (document.getElementById("checkMinInt").checked) {
-        serie['markLine']['data'].push({
-            name: 'min intervalo',
-            type: 'min',
-            lineStyle: {
-                normal: {
-                    type: 'dashed',
-                    color: document.getElementById("colorMinInt").value
-                }
-            }
-        });
-        var marcaMeta = {};
-        marcaMeta['lineStyle'] = { normal: new Array };
-        marcaMeta['lineStyle']['normal']['color'] = colorMeta;
-        marcaMeta['lineStyle']['normal']['type'] = 'dashed';
-        marcaMeta['label'] = {};
-        marcaMeta['label']['formatter'] = '{b} ' + nombreDato + ': {c}';
-        marcaMeta['label']['position'] = 'insideEndBottom';
-        marcaMeta['label']['backgroundColor'] = 'white';
-        marcaMeta['label']['color'] = 'black';
-        marcaMeta['label']['padding'] = [5, 20];
-        marcaMeta['label']['borderColor'] = 'black';
-        marcaMeta['label']['borderRadius'] = [5, 5, 5, 5];
-        marcaMeta['label']['borderWidth'] = 2;
-
-        marcaMeta['yAxis'] = valMeta;
-        serie['markLine']['data'].push(marcaMeta);
-    }
-    if (document.getElementById("checkAvgInt").checked) {
-        serie['markLine']['data'].push({
-            name: 'media intervalo',
-            type: 'average',
-            lineStyle: {
-                normal: {
-                    type: 'dashed',
-                    color: document.getElementById("colorAvgInt").value
-                }
-            }
-        });
-        var marcaMeta = {};
+        marcaMeta['name'] = 'max';
+        marcaMeta['type'] = 'max';
         marcaMeta['lineStyle'] = { normal: new Array };
         marcaMeta['lineStyle']['normal']['color'] = colorMeta;
         marcaMeta['lineStyle']['normal']['type'] = 'dashed';
@@ -297,20 +248,56 @@ function prepararTag(info, tag) {
         marcaMeta['label']['backgroundColor'] = 'white';
         marcaMeta['label']['color'] = 'black';
         marcaMeta['label']['padding'] = [5, 20];
-        marcaMeta['label']['borderColor'] = 'black';
+        marcaMeta['label']['borderColor'] = colorMeta;
         marcaMeta['label']['borderRadius'] = [5, 5, 5, 5];
         marcaMeta['label']['borderWidth'] = 2;
-
-        marcaMeta['yAxis'] = valMeta;
+        serie['markLine']['data'].push(marcaMeta);
+    }
+    if (document.getElementById("checkMinInt").checked) {
+        colorMeta = document.getElementById("colorMinInt").value;
+        var marcaMeta = {};
+        marcaMeta['name'] = 'min';
+        marcaMeta['type'] = 'min';
+        marcaMeta['lineStyle'] = { normal: new Array };
+        marcaMeta['lineStyle']['normal']['color'] = colorMeta;
+        marcaMeta['lineStyle']['normal']['type'] = 'dashed';
+        marcaMeta['label'] = {};
+        marcaMeta['label']['formatter'] = '{b} ' + nombreDato + ': {c}';
+        marcaMeta['label']['position'] = 'insideEnd';
+        marcaMeta['label']['backgroundColor'] = 'white';
+        marcaMeta['label']['color'] = 'black';
+        marcaMeta['label']['padding'] = [5, 20];
+        marcaMeta['label']['borderColor'] = colorMeta;
+        marcaMeta['label']['borderRadius'] = [5, 5, 5, 5];
+        marcaMeta['label']['borderWidth'] = 2;
+        serie['markLine']['data'].push(marcaMeta);
+    }
+    if (document.getElementById("checkAvgInt").checked) {
+        colorMeta = document.getElementById("colorAvgInt").value;
+        var marcaMeta = {};
+        marcaMeta['name'] = 'media';
+        marcaMeta['type'] = 'average';
+        marcaMeta['lineStyle'] = { normal: new Array };
+        marcaMeta['lineStyle']['normal']['color'] = colorMeta;
+        marcaMeta['lineStyle']['normal']['type'] = 'dashed';
+        marcaMeta['label'] = {};
+        marcaMeta['label']['formatter'] = '{b} ' + nombreDato + ': {c}';
+        marcaMeta['label']['position'] = 'insideEnd';
+        marcaMeta['label']['backgroundColor'] = 'white';
+        marcaMeta['label']['color'] = 'black';
+        marcaMeta['label']['padding'] = [5, 20];
+        marcaMeta['label']['borderColor'] = colorMeta;
+        marcaMeta['label']['borderRadius'] = [5, 5, 5, 5];
+        marcaMeta['label']['borderWidth'] = 2;
         serie['markLine']['data'].push(marcaMeta);
     }
 
     datosTagCustom['serie'].push(serie);
     datosTagCustom['fechas'].push(fechasTag);
 
-
 }
 
+//crea el grafico con varios ajustes y con los objetos series
 function renderGrafico(tags) {
 
     //llegan ajustesTags en tags
@@ -366,7 +353,7 @@ function renderGrafico(tags) {
         }
     };
 
-    //ejes X
+    //eje X
     option['xAxis'] = {
 
         boundaryGap: false,
@@ -381,6 +368,7 @@ function renderGrafico(tags) {
 
     };
 
+    //eje Y
     option['yAxis'] = [{
         type: 'value',
         label: {
@@ -390,6 +378,8 @@ function renderGrafico(tags) {
     }];
 
     //controles de los ejes
+    //igual añado un control para el eje Y pero aun no está claro
+    //dependerá de si incluimos eso, o varios ejes Y independientes
     option['dataZoom'] = [{
             type: 'slider',
             textStyle: {
@@ -416,6 +406,7 @@ function renderGrafico(tags) {
     ];
 
     //series y datos en el grafico
+    //la informacion de aui se cea en prepararTag()
     option['series'] = [];
 
     for (var index in datosTagCustom['serie']) {
@@ -423,6 +414,8 @@ function renderGrafico(tags) {
 
     }
 
+
+    //ajustes de pantalla para el grafico
     $(window).keyup(function() {
         grafico.resize();
     });
@@ -439,7 +432,6 @@ function renderGrafico(tags) {
     }
 
     console.log(option);
-    //console.log(option);
     option && grafico.setOption(option, true);
 
 }

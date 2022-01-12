@@ -119,33 +119,30 @@
 
 
 <script>
-    
+        //Falta de momento: actualizar los controles, control de colores en las series
     window.onload = function() {
-        
+
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         var idusu = <?php echo $_SESSION['idusu'] ?>;
 
+        //handlers para los controles de tags , meta y colores
         $(document).on('change', 'input[type=color]', function() {
             this.parentNode.style.color = this.value;
         });
-
         $(document).on('change', 'input[type=checkbox]', function() {
             if (this.parentNode.style.backgroundColor == 'darkgray') {
                 this.parentNode.style.backgroundColor = 'lightgray';
             } else {
                 this.parentNode.style.backgroundColor = 'darkgray';
             }
-            
-            
         });
-
+        //config para el controlador de fechas
         Date.prototype.toDateInputValue = (function() {
             var local = new Date(this);
             local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
             return local.toJSON().slice(0,10);
         });
-
         $(document).ready( function() {
             $('#fechaInicio').val(new Date().toDateInputValue());
         });
@@ -174,7 +171,7 @@
             tagsEstacionCustom(estacion);
         }
     }
-
+    //muestra u oculta las opciones y controles sin readaptar nada
     $(window).keydown(function(e) {
         if (e.ctrlKey)
             mostrarOpciones();

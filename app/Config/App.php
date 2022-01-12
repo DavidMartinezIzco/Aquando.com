@@ -23,7 +23,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $baseURL = 'http://localhost/Aquando/public';
+    public $baseURL = 'http://192.168.1.131/Aquando/public';
 
     /**
      * --------------------------------------------------------------------------
