@@ -5,6 +5,9 @@
     $opcion = $_GET['opcion'];
     $db = new Database();
 
+    //calcula el tiempo que lleva una estación sin comunicar
+    //determina en función del y tiempo basandose en unas reglas
+    //si la estación tiene problemas no
     if($opcion == 'conex'){
             
         $nombre = $_GET['nombre'];
@@ -62,6 +65,8 @@
             echo "</tr>";
         }
     }
+
+    //busca la calidad de los ultimos datos(tags) de una estacion
     if ($opcion == 'cali') {
         $id_estacion = $_GET['estacion'];
 
@@ -84,6 +89,7 @@
 
     }
 
+    //obtiene los nombres de una estación dado su tag
     if($opcion == 'nom'){
         $id_estacion = $_GET['estacion'];
 

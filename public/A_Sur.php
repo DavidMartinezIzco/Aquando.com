@@ -4,6 +4,9 @@ require '../app/Database/Database.php';
 
     $caso = $_GET['caso'];
     $db = new Database();
+
+    //actualiza el listado del menu sur
+    //utiliza la config general
     if($caso == "general"){
         $nombre = $_GET['nombre'];
         $pwd = $_GET['pwd'];
@@ -71,7 +74,8 @@ require '../app/Database/Database.php';
 
     }
 
-    
+    //actualiza el listado del menu sur en la sección de estacion
+    //utiliza la config particular
     if($caso == "estacion"){
 
         $estacion = $_GET['estacion'];

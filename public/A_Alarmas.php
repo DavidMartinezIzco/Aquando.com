@@ -3,6 +3,8 @@
 require '../app/Database/Database.php';
 $db = new Database();
     //declaraciones de variables
+
+    //actualiza el listado de alarmas con la configuracion establecida por el usuario
     if($_GET['funcion'] == "actualizar"){
 
         $nombre = $_GET['nombre'];
@@ -84,7 +86,7 @@ $db = new Database();
 
     }
 
-    
+    //obtiene el listado de alarmas de una estacion concreta
     if($_GET['funcion'] == "estacion"){
 
         $orden = $_GET['orden'];
@@ -158,6 +160,10 @@ $db = new Database();
         }
     }
 
+    //actualiza el estado de una alarma en particular
+    //establece el estado como reconocida
+    //establece la fecha de reconocimiento
+    //establece el usuario que reconoció la alarma
     if($_GET['funcion'] == "reconocer"){
         $nombre = $_GET['nombre'];
         $id_alarma = $_GET['alarma'];

@@ -10,6 +10,8 @@ $id_estacion = $_GET['estacion'];
 
 $db = new Database();
 
+
+//obtiene datos historicos de un tag
 if($opcion == "render"){
     
     $histos = $db->historicosTagEstacion($id_estacion, $id_tag);
@@ -22,6 +24,7 @@ if($opcion == "render"){
     }
 }
 
+//obtiene los tags historizables de una estación
 if($opcion == "tags"){
     
     $tags = $db->tagsEstacion($id_estacion);
@@ -34,6 +37,8 @@ if($opcion == "tags"){
 
 }
 
+
+//obtiene los metadatos (max, min, avg) de un tag
 if($opcion == "meta"){
     $metaDatos = $db->metaTag($id_tag, $id_estacion);
     if($metaDatos != false){

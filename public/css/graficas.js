@@ -15,7 +15,7 @@ function limpiar() {
     }, 1000);
 }
 
-
+//obtiene los metadatos (max, min, avg) de los historicos (tag)
 function metaDatosTag(id_tag, id_estacion) {
 
     $.ajax({
@@ -165,6 +165,8 @@ function renderGrafico(datosR) {
     }
 
     //el chandrío que mas habría que optimizar o pasar a servidor
+    //crea las series de los metadata
+    //igual se puede sustituir por un valor asociado Y fijo
     var calidades = new Array();
     for (var index in datosR) {
         calidades.push(datosR[index]['calidad']);
@@ -231,11 +233,7 @@ function renderGrafico(datosR) {
     }];
 
 
-
-
-
-    //en el dataZoom molaría que el scroll lo tuviera el eje X que por alguna razón ahora el scroll
-    //lo ha robado el eje Y. Si lo pueden tener los dos --> s u b l i m e
+    //controles de los filtros en los ejes XY
     option['dataZoom'] = [{
             type: 'slider',
             textStyle: {
@@ -284,7 +282,7 @@ function renderGrafico(datosR) {
     ];
 
 
-
+    //valores de los tags y sus metadatos traidos de server
     var series = [{
             name: nombreDato,
             type: 'line',
@@ -465,7 +463,7 @@ function renderGrafico(datosR) {
         option['series'] = seriesV[0].concat(option['series']);
     }
 
-
+    //guarda configs de option en caso de tener que comparar historicos
     if (document.getElementById("compararSel").value == "nada") {
         sessionStorage.setItem('series', JSON.stringify(series));
         sessionStorage.setItem('yaxis', JSON.stringify(option['yAxis']));
@@ -473,10 +471,7 @@ function renderGrafico(datosR) {
         sessionStorage.setItem('nDato', nombreDato);
     }
 
-    console.log(option);
     option && grafico.setOption(option, true);
-
-
 }
 
 //muestra o esconde las opciones de los graficos
@@ -490,9 +485,7 @@ function mostrarOpciones() {
         document.getElementById("zonaControles").style.width = '1%';
         document.getElementById("zonaControles").style.left = '100%';
         document.getElementById("zonaGraficos").style.width = '98%';
-
     }
-
 }
 
 //saca una captura del grafico en panatalla
@@ -500,7 +493,6 @@ function imprimir() {
     html2canvas(document.querySelector('#grafica')).then(function(canvas) {
         guardar(canvas.toDataURL(), 'grafico.png');
     });
-
 }
 
 //descarga la captura del grafico
@@ -523,13 +515,8 @@ function guardar(uri, filename) {
     }
 }
 
-
 //la funcion de comparación de gráficos.
 //la chicha la has llevado toda a renderGrafico()
-//se queda por si acabo cambiando la logica entera de la comparacion
-
-//este sistema se empieza a liar tras ir comparando distintas graficas
-//llega un momento que las etiquetas fallan o directamente no compara lo que pones
 function comparar() {
 
     if (document.getElementById("compararSel").value != "nada") {

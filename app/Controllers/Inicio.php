@@ -136,6 +136,7 @@ class Inicio extends BaseController
     }
 
     //muestra la vista de graficas (historicos y demas)
+    //puede ir a vista rapida o personalizada (a.k.a custom)
     public function graficas(){
 
         if (isset($_SESSION['nombre'])) {

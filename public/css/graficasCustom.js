@@ -1,5 +1,6 @@
 //configs globales
 var datosTagCustom = new Array;
+var ejesYTagCustom = new Array;
 datosTagCustom['serie'] = [];
 datosTagCustom['fechas'] = [];
 var serie = {};
@@ -173,13 +174,31 @@ function prepararTag(info, tag) {
 
 
     //elementos comunes
+    var colorTag = document.getElementById("color" + tag).value;
     serie = {};
+    // var eje = {};
+
+
+    //// codigo provisional
+    // eje['type'] = 'value';
+    // eje['name'] = nombreDato;
+    // eje['label'] = { show: true };
+    // eje['boundaryGap'] = [0, '100%'];
+    // ejesYTagCustom.push(eje);
+
     serie['name'] = nombreDato;
     serie['symbol'] = 'none';
     serie['type'] = "line";
     serie['smooth'] = true;
     serie['sampling'] = "lttb";
-    serie['areaStyle'] = { show: true };
+    serie['itemStyle'] = {
+        color: colorTag
+    }
+    serie['areaStyle'] = {
+        show: true,
+        color: colorTag,
+        opacity: 0.5
+    };
     serie['data'] = [];
     serie['markLine'] = { data: [] };
 
@@ -308,8 +327,6 @@ function renderGrafico(tags) {
     nombreDato = "info";
 
 
-    //falta incluir nombres de los tags
-
     //leyenda
     option = {
 
@@ -318,15 +335,9 @@ function renderGrafico(tags) {
             y: 'top',
             textStyle: {
                 fontWeight: 'normal',
-                fontSize: 10
+                fontSize: 10,
             },
             padding: 1,
-            // data: [{
-            //     name: nombreDato,
-            //     icon: 'circle',
-            // }],
-            //se podría hacer que los Meta no se muestren por defecto pero para eso necesitamos
-            //meter los nombre en unas variables porque se desformatea concatenando las que ya hay.
         },
         grid: {
             left: '3%',
@@ -339,11 +350,11 @@ function renderGrafico(tags) {
     //herramientas
     option['tooltip'] = {
         trigger: 'axis',
+        icon: 'none',
         textStyle: {
             fontStyle: 'bold',
             fontSize: 20
         },
-
         axisPointer: {
             type: 'line',
             label: {
@@ -353,7 +364,7 @@ function renderGrafico(tags) {
         }
     };
 
-    //eje X
+    //eje X Y
     option['xAxis'] = {
 
         boundaryGap: false,
@@ -368,14 +379,23 @@ function renderGrafico(tags) {
 
     };
 
-    //eje Y
     option['yAxis'] = [{
         type: 'value',
+
         label: {
             show: true
         },
         boundaryGap: [0, '100%'],
     }];
+
+    // //codigo provisional
+    // option['yAxis'] = [];
+    // for (var eje in ejesYTagCustom) {
+    //     option['yAxis'].push(ejesYTagCustom[eje]);
+    // }
+    // ejesYTagCustom = new Array;
+
+
 
     //controles de los ejes
     //igual añado un control para el eje Y pero aun no está claro
@@ -392,6 +412,16 @@ function renderGrafico(tags) {
             filterMode: 'filter'
         },
         {
+            type: 'slider',
+            right: 20,
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
+            yAxisIndex: 0,
+            filterMode: 'filter'
+        },
+        {
             type: 'inside',
             throttle: 0,
             textStyle: {
@@ -402,7 +432,20 @@ function renderGrafico(tags) {
             start: 0,
             end: 10,
             filterMode: 'filter'
+        },
+        {
+            type: 'inside',
+            right: 20,
+            throttle: 0,
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
+            yAxisIndex: 0,
+
+            filterMode: 'filter'
         }
+
     ];
 
     //series y datos en el grafico
@@ -411,7 +454,6 @@ function renderGrafico(tags) {
 
     for (var index in datosTagCustom['serie']) {
         option['series'].push(datosTagCustom['serie'][index]);
-
     }
 
 
