@@ -141,8 +141,8 @@ function renderGrafico(datosR) {
             //meter los nombre en unas variables porque se desformatea concatenando las que ya hay.
         },
         grid: {
-            left: '3%',
-            right: '4%',
+            left: '5%',
+            right: '5%',
             bottom: '10%',
             containLabel: true
         },
@@ -199,6 +199,9 @@ function renderGrafico(datosR) {
         },
 
         axisPointer: {
+            axis: 'x',
+            snap: true,
+            offset: 0,
             type: 'line',
             label: {
                 formatter: 'fecha y hora: {value}',
@@ -243,7 +246,8 @@ function renderGrafico(datosR) {
             xAxisIndex: 0,
             start: 0,
             end: 10,
-            filterMode: 'filter'
+            filterMode: 'filter',
+            z: 100
         },
         {
             type: 'slider',
@@ -253,7 +257,8 @@ function renderGrafico(datosR) {
                 fontWeight: 'bold'
             },
             yAxisIndex: 0,
-            filterMode: 'filter'
+            filterMode: 'filter',
+            z: 100
         },
         {
             type: 'inside',
@@ -262,10 +267,11 @@ function renderGrafico(datosR) {
                 fontSize: 14,
                 fontWeight: 'bold'
             },
-            xAxisIndex: 10,
+            xAxisIndex: 0,
             start: 0,
             end: 10,
-            filterMode: 'filter'
+            filterMode: 'filter',
+            z: 100
         },
         {
             type: 'inside',
@@ -276,9 +282,10 @@ function renderGrafico(datosR) {
                 fontWeight: 'bold'
             },
             yAxisIndex: 0,
-
-            filterMode: 'filter'
+            filterMode: 'filter',
+            z: 100
         }
+
     ];
 
 
@@ -472,6 +479,7 @@ function renderGrafico(datosR) {
     }
 
     option && grafico.setOption(option, true);
+    pantalla();
 }
 
 //muestra o esconde las opciones de los graficos

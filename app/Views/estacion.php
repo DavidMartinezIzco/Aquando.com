@@ -99,6 +99,7 @@
 
 
 <script>
+    pantalla();
     window.onload = function() {
         var estacion = <?php echo $id_estacion; ?>;
         actualizarSur('estacion',null, null, null, estacion);

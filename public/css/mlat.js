@@ -1,12 +1,14 @@
+$(window).resize(function() {
+    pantalla();
+});
+
 //abre o cierra el menu lateral
 function abrirCerrar() {
-
     if (document.getElementById("menuIzq").style.width == '15%') {
         cerrarMenu();
     } else {
         abrirMenu();
     }
-
 }
 
 //despliega la zona de debug
@@ -130,4 +132,13 @@ function tiempoOpciones() {
 //anima textos mientras cargan cosas
 function carga() {
     document.getElementById("seccion").innerText = "Cargando..."
+}
+
+function pantalla() {
+    var resu = window.screen.width;
+    var defecto = 1920;
+    var zoom = 100;
+    var zoomUsuario = ((zoom * resu) / defecto);
+    document.body.style.zoom = zoomUsuario + '%';
+
 }

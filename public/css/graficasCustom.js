@@ -409,7 +409,8 @@ function renderGrafico(tags) {
             xAxisIndex: 0,
             start: 0,
             end: 10,
-            filterMode: 'filter'
+            filterMode: 'filter',
+            zlevel: 10
         },
         {
             type: 'slider',
@@ -419,7 +420,8 @@ function renderGrafico(tags) {
                 fontWeight: 'bold'
             },
             yAxisIndex: 0,
-            filterMode: 'filter'
+            filterMode: 'filter',
+            zlevel: 10
         },
         {
             type: 'inside',
@@ -431,7 +433,8 @@ function renderGrafico(tags) {
             xAxisIndex: 0,
             start: 0,
             end: 10,
-            filterMode: 'filter'
+            filterMode: 'filter',
+            zlevel: 10
         },
         {
             type: 'inside',
@@ -442,8 +445,8 @@ function renderGrafico(tags) {
                 fontWeight: 'bold'
             },
             yAxisIndex: 0,
-
-            filterMode: 'filter'
+            filterMode: 'filter',
+            zlevel: 10
         }
 
     ];
@@ -474,6 +477,7 @@ function renderGrafico(tags) {
     }
 
     console.log(option);
+    grafico.clear();
     option && grafico.setOption(option, true);
-
+    pantalla();
 }

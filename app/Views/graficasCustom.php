@@ -27,53 +27,66 @@
                         <li>
                             <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMax" value="maxGen">
                             <label for="checkMax">Máximos generales</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMax" style="visibility:hidden" title="color" ></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMax" style="visibility:hidden" title="color" list="coloresMetaGraf"></label>
                         </li>
                         <li>
                             <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMin" value="minGen">
                             <label for="checkMin">Mínimos generales</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMin" style="visibility:hidden" title="color" ></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMin" style="visibility:hidden" title="color" list="coloresMetaGraf"></label>
                         </li>
                         <li>
                             <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkAvg" value="avgGen">
                             <label for="checkAvg">Medias generales</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorAvg" style="visibility:hidden" title="color" ></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorAvg" style="visibility:hidden" title="color" list="coloresMetaGraf"></label>
                         </li>
                         <li>
                             <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMaxInt" value="maxInt">
                             <label for="checkMaxInt">Máximos Intervalo</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMaxInt" style="visibility:hidden" title="color" ></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMaxInt" style="visibility:hidden" title="color" list="coloresMetaGraf"></label>
                         </li>
                         <li>
                             <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMinInt" value="minInt">
                             <label for="checkMinInt">Mínimos Intervalo</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMinInt" style="visibility:hidden" title="color" ></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMinInt" style="visibility:hidden" title="color" list="coloresMetaGraf"></label>
                         </li>
                         <li>
                             <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkAvgInt" value="avgInt">
                             <label for="checkAvgInt">Medias Intervalo</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorAvgInt" style="visibility:hidden" title="color" ></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorAvgInt" style="visibility:hidden" title="color" list="coloresMetaGraf"></label>
                         </li>
                     </ul>
                     
                     <!--lista de colores-->
                     <datalist id="coloresTagGraf">
-
-                        <option value="#ff5400">
-                        <option value="#ef476f">
-                        <option value="#ff6d00">
-                        <option value="#ff8500">
-                        <option value="#118ab2">
-                        <option value="#ff9100">
-                        <option value="#073b4c">
-                        <option value="#ff9e00">
-                        <option value="#00b4d8">
-                        <option value="#0096c7">
-                        <option value="#ffd166">
-                        <option value="#0077b6">
-                        <option value="#023e8a">
-
+                        <option value="#2f4b7c">
+                        <option value="#5e508f">
+                        <option value="#905196">
+                        <option value="#c0508f">
+                        <option value="#e7537c">
+                        <option value="#ff6460">
+                        <option value="#ff823d">
+                        <option value="#ffa600">
+                        <option value="#8ac900">
+                        <option value="#fd385e">
+                        <option value="#ec432b">
+                        <option value="#ed6227">
                     </datalist>
+                    <datalist id="coloresMetaGraf">
+                        <option value="ff5400">
+                        <option value="ef476f">
+                        <option value="ff6d00">
+                        <option value="ff8500">
+                        <option value="118ab2">
+                        <option value="ff9100">
+                        <option value="073b4c">
+                        <option value="ff9e00">
+                        <option value="00b4d8">
+                        <option value="0096c7">
+                        <option value="ffd166">
+                        <option value="0077b6">
+                        <option value="023e8a">
+                    </datalist>
+
 
 
                     <!-- rango de fechas-->
@@ -119,13 +132,14 @@
 
 
 <script>
-        //Falta de momento: actualizar los controles, control de colores en las series
+    pantalla();
+    //Falta de momento: actualizar los controles, control de colores en las series
     window.onload = function() {
-
+        iniciar();
+        
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         var idusu = <?php echo $_SESSION['idusu'] ?>;
-
         //handlers para los controles de tags , meta y colores
         $(document).on('change', 'input[type=color]', function() {
             this.parentNode.style.color = this.value;
@@ -151,7 +165,7 @@
         });
 
         comprobarTiempo();
-        iniciar();
+        
         setInterval(actualizarSur('general', usu, pwd, idusu, null), 20000);
         //setTimeout(aplicarOpciones, 1500);
         setInterval(fechaYHora, 1000);

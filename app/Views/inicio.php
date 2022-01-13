@@ -126,7 +126,9 @@ if (isset($_GET['log'])) {
 
             <!---estaciones--->
             <li class="Func">
-                <button class="btn me-2 btn-block" name="btnFuncion" value="estaciones" onclick="desplegar(this.value)" <?php if (!isset($_SESSION["nombre"])) {echo "disabled";} ?> style="padding:1em;width:100%;border-radius:0;  color:white;">
+                <button class="btn me-2 btn-block" name="btnFuncion" value="estaciones" onclick="desplegar(this.value)" <?php if (!isset($_SESSION["nombre"])) {
+                                                                                                                            echo "disabled";
+                                                                                                                        } ?> style="padding:1em;width:100%;border-radius:0;  color:white;">
                     <i class="fas fa-broadcast-tower" style="margin-right:5%"></i>Estaciones
                 </button>
             </li>
@@ -253,6 +255,7 @@ if (isset($_GET['log'])) {
     </div>
 
     <script>
+        pantalla();
         window.onload = function() {
             setInterval(fechaYHora, 1000);
             setInterval(desvanecer, 1500);
@@ -269,6 +272,8 @@ if (isset($_GET['log'])) {
                 abrirCerrar();
             }
         }
+
+        
     </script>
 
     <!--seccion flotante de ayuda--->

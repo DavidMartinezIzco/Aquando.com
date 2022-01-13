@@ -11,10 +11,10 @@
 
 
 <main class="form-signin" style="padding: 4em; width:100%;">
-<img id="logoGrande" src="../public/logo.png">
+  <img id="logoGrande" src="../public/logo.png">
 
-  <form method="POST" id="formulario" >  
-  <p id="mayusAct" style="text-align:center"><br></p>
+  <form method="POST" id="formulario">
+    <p id="mayusAct" style="text-align:center"><br></p>
     <div class="form-floating" style="margin-bottom: 15px;">
       <select class="form-control" name="selEmpresa">
         <option value="1">Iturri Ederra</option>
@@ -22,35 +22,37 @@
         <option value="3">Amescoa Baja</option>
         <option value="5">Dateando</option>
       </select>
-      <label for="floatingInput"style="color:black">Empresa</label>
+      <label for="floatingInput" style="color:black">Empresa</label>
     </div>
     <div class="form-floating" style="margin-bottom: 15px;">
       <input type="text" name="txtNombre" class="form-control">
-      <label for="floatingInput"style="color:black">Usuario</label>
+      <label for="floatingInput" style="color:black">Usuario</label>
     </div>
     <div class="form-floating" style="margin-bottom: 15px;">
       <input type="password" name="txtContrasena" class="form-control">
-      <label for="floatingPassword"style="color:black">Contraseña</label>
-      
+      <label for="floatingPassword" style="color:black">Contraseña</label>
+
     </div>
-    
+
     <button id="btnForm" class="w-100 btn btn-lg " style="background-color: rgb(56, 56, 56);margin-bottom: 100em; opacity:100%; color: white" type="submit">Iniciar Sesión</button>
   </form>
 </main>
 
 <script>
-  //capta el evento de tener el mayus activado
-  document.addEventListener( 'keydown', function( event ) {
-  var mayus = event.getModifierState && event.getModifierState( 'CapsLock' );
-  console.log( mayus ); 
-  if(mayus){
-    document.getElementById("mayusAct").innerHTML = 'Mayúsculas activadas';
+  pantalla();
+  window.onload = function() {
+    //capta el evento de tener el mayus activado
+    document.addEventListener('keydown', function(event) {
+      var mayus = event.getModifierState && event.getModifierState('CapsLock');
+      console.log(mayus);
+      if (mayus) {
+        document.getElementById("mayusAct").innerHTML = 'Mayúsculas activadas';
+      } else {
+        document.getElementById("mayusAct").innerHTML = '<br>';
+      }
+
+    });
   }
-  else{
-    document.getElementById("mayusAct").innerHTML = '<br>';
-  }
-       
-});
 </script>
 
 <?= $this->endSection() ?>

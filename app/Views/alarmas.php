@@ -63,70 +63,13 @@
     <div id="zonaAlarmas">
 
         <table id="tablaAlarmas">
-            <!-- <tr>
-                <th onclick="reordenar('estacion')">Estación</th>
-                <th onclick="reordenar('senal')">Señal </th>
-                <th onclick="reordenar('valor')">Valor de la señal</th>
-                <th onclick="reordenar('origenfecha')">Fecha de Origen</th>
-                <th onclick="reordenar('restauracionfecha')">Fecha de Restauracion</th>
-                <th onclick="reordenar('reconusu')">Reconocida por</th>
-                <th onclick="reordenar('reconfecha')">Fecha de reconocimiento</th>
-            </tr> -->
-            <?php
-        // foreach ($alarmasAll as $index => $alarma) {
-        //     switch ($alarma['estado']) {
-        //         case 1:
-        //             echo "<tr class='activaNo' >";
-                    
-        //             break;
-        //         case 2:
-        //             echo "<tr class='restNo'>";
-                    
-        //             break;
-        //         case 3:
-        //             echo "<tr class='activaSi'>";
-                    
-        //             break;
-        //         case 4:
-        //             echo "<tr class='restSi'>";
-        //             break;
-
-        //         default:
-        //             break;
-        //     }
-
-        //     foreach ($alarma as $dato => $valor) {
-        //         if($dato != 'estado' && $dato != 'id_alarmas'){
-        //             if($dato == 'ack_por'){
-        //                 if($valor == null){
-        //                     echo "<td>";
-        //                     echo '<i class="fas fa-eye" onclick="reconocer('.$alarma['id_alarmas'].')"></i>';
-        //                     echo "</td>"; 
-        //                 }
-        //                 else {
-        //                     echo "<td>";
-        //                     echo $valor;
-        //                     echo "</td>";
-        //                 }
-        //             }
-        //             else {
-        //                 echo "<td>";
-        //                 echo $valor;
-        //                 echo "</td>";
-        //             }
-                    
-        //         }
-        //     }
-        //     echo "</tr>";
-        // }
-            ?>
-
         </table>
     </div>
 
 </main>
 
 <script>
+pantalla();
 window.onload = function() {
     var usu = '<?php echo $_SESSION['nombre'] ?>';
     var pwd = '<?php echo $_SESSION['pwd'] ?>';
