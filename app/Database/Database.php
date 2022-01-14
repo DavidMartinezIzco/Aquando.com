@@ -80,7 +80,6 @@ class Database
         }
     }
 
-
     //obtiene las alarmas en general de un usuario
     //se usa en varias cosas
     public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido){

@@ -10,11 +10,11 @@
     transition: 0.2s;
     overflow-x: hidden;
     overflow-y: hidden;
-    width: 29.5%;
+    width: 34.5%;
     margin-left: 0.5%;
     position: relative;
     height: 85%;
-    left: 70%;
+    left: 65%;
 }
 
 #opcionesTag {
@@ -96,20 +96,25 @@
     width: 100%;
 }
 
-#dateFecha {
-    width: 60%;
+#fechaInicio {
+    width: 35%;
     margin: 1%;
 }
 
-#btnControl {
-    width: 90%;
-    margin: 0 5%;
+#fechaFin {
+    width: 35%;
+    margin: 1%;
+}
+
+#btnControlCustom {
+    width: 30%;
+    margin: 0 1%;
     margin-top: 5%;
     color: white;
     border: none;
     border-radius: 10px;
     transition: 0.2s;
-    padding: 2%;
+    padding: 0%, 0.2%;
 }
 
 #btnControl:hover {
@@ -147,11 +152,11 @@
 
 #zonaGraficos {
     padding: 0%;
-    width: 70%;
+    width: 65%;
     position: relative;
     height: 75%;
     bottom: 85%;
-    overflow-x: none;
+    overflow-x: hidden;
     overflow-y: hidden;
 }
 

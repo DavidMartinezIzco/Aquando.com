@@ -78,7 +78,7 @@
 </main>
 
 <script>
-    pantalla();
+    
     window.onload = function() {
         
         setInterval(fechaYHora, 1000);

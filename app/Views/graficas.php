@@ -57,7 +57,6 @@
 
 
 <script>
-    pantalla();
     window.onload = function() {
         
         var usu = '<?php echo $_SESSION['nombre'] ?>';

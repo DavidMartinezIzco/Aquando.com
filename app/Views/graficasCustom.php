@@ -14,12 +14,12 @@
         <div id="zonaControles">
             <div id="panelOpciones">
 
-                <form id="formOpciones">
-                    <h3 onclick="aplicarCustom()">Vista Personalizada</h3>
+                <form action="javascript:void(0);" id="formOpciones">
+                    <h3>Vista Personalizada</h3>
 
                     <!--selector de tag/tags-->
                     <h6>Mostrar:</h6>
-                    <ul  class='listaGrafCustom' id="opcionesTag"  name="opcionesTag" onchange=""></ul>
+                    <ul class='listaGrafCustom' id="opcionesTag" name="opcionesTag" onchange=""></ul>
 
                     <!--opciones de metadatos-->
                     <h6>Opciones:</h6>
@@ -55,7 +55,7 @@
                             <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorAvgInt" style="visibility:hidden" title="color" list="coloresMetaGraf"></label>
                         </li>
                     </ul>
-                    
+
                     <!--lista de colores-->
                     <datalist id="coloresTagGraf">
                         <option value="#2f4b7c">
@@ -90,11 +90,10 @@
 
 
                     <!-- rango de fechas-->
-                    <h6>Rango:</h6>
+                    <label for="fecha">Hasta</label>
                     <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
-                    <label for="fecha">Hasta</label><br>
-                    <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin">
                     <label for="fecha">Desde</label>
+                    <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin">
                     <hr>
 
                     <label for="opciones">Estación:</label>
@@ -107,21 +106,19 @@
                         }
                         ?>
                     </select>
-                    
+                    <!--controles-->
+                    <button id="btnControlCustom" style="background-color: yellowgreen;" value="aplicar" onclick="aplicarCustom()" name="btnControlAplicar">aplicar</button>
+                    <button id="btnControlCustom" type="reset" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
+                    <button id="btnControlCustom" style="background-color: darkseagreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
                 </form>
-                
 
-                <!--controles-->
-                <!-- <button id="btnControl" style="background-color: yellowgreen;" value="aplicar" onclick="aplicarOpciones()" name="btnControlAplicar">aplicar</button>
-                <button id="btnControl" type="reset" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
-                <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button> -->
             </div>
         </div>
 
         <!--espacio para las graficas--->
         <div id="zonaGraficos">
             <div id="grafica" style="width: 100%; height: 100%; border-radius:10px;">
-                
+
             </div>
         </div>
     </div>
@@ -132,11 +129,12 @@
 
 
 <script>
-    pantalla();
+    
+    var chartDom = document.getElementById('grafica');
+    var graficoCustom = echarts.init(chartDom);
     //Falta de momento: actualizar los controles, control de colores en las series
     window.onload = function() {
         iniciar();
-        
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         var idusu = <?php echo $_SESSION['idusu'] ?>;
@@ -155,17 +153,17 @@
         Date.prototype.toDateInputValue = (function() {
             var local = new Date(this);
             local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-            return local.toJSON().slice(0,10);
+            return local.toJSON().slice(0, 10);
         });
-        $(document).ready( function() {
+        $(document).ready(function() {
             $('#fechaInicio').val(new Date().toDateInputValue());
         });
-        $(document).ready( function() {
+        $(document).ready(function() {
             $('#fechaFin').val(new Date().toDateInputValue());
         });
 
         comprobarTiempo();
-        
+
         setInterval(actualizarSur('general', usu, pwd, idusu, null), 20000);
         //setTimeout(aplicarOpciones, 1500);
         setInterval(fechaYHora, 1000);

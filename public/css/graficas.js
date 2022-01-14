@@ -487,7 +487,7 @@ function mostrarOpciones() {
     if (document.getElementById("zonaControles").style.width == '1%') {
         document.getElementById("zonaControles").style.width = '19.5%';
         document.getElementById("zonaControles").style.left = '80%';
-        document.getElementById("zonaGraficos").style.width = '80%';
+        document.getElementById("zonaGraficos").style.width = '79%';
 
     } else {
         document.getElementById("zonaControles").style.width = '1%';

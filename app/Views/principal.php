@@ -59,7 +59,7 @@
 
 
 <script>
-    pantalla();
+    
     var nwids = 0;
     var e = 1;
     var posiciones = {};

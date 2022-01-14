@@ -5,6 +5,7 @@ datosTagCustom['serie'] = [];
 datosTagCustom['fechas'] = [];
 var serie = {};
 
+
 //reestablece los filtros por defecto
 function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
@@ -84,9 +85,9 @@ function tagsEstacionCustom(id_estacion) {
 //display de las opciones
 function mostrarOpciones() {
     if (document.getElementById("zonaControles").style.width == '1%') {
-        document.getElementById("zonaControles").style.width = '29.5%';
-        document.getElementById("zonaControles").style.left = '70%';
-        document.getElementById("zonaGraficos").style.width = '70%';
+        document.getElementById("zonaControles").style.width = '34.5%';
+        document.getElementById("zonaControles").style.left = '65%';
+        document.getElementById("zonaGraficos").style.width = '65%';
 
     } else {
         document.getElementById("zonaControles").style.width = '1%';
@@ -139,14 +140,16 @@ function aplicarCustom() {
 
 //consigue los metadata de un tag
 function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
+    var nTags = ajustesTag.length;
 
+    console.log(nTags);
     $.ajax({
         type: 'GET',
         url: 'A_GraficasCustom.php?estacion=' + estacion + '&id_tag=' + tag + '&fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&meta=' + metas + '&opcion=tag',
         success: function(datosTag) {
             prepararTag(datosTag, tag);
             if (ajustesTag.at(-1) == tag) {
-                renderGrafico(ajustesTag);
+                setTimeout(renderGrafico, (nTags * 800));
             }
         },
         error: function() {
@@ -176,15 +179,18 @@ function prepararTag(info, tag) {
     //elementos comunes
     var colorTag = document.getElementById("color" + tag).value;
     serie = {};
-    // var eje = {};
 
+    // codigo provisional
+    var eje = {};
+    eje['type'] = 'value';
 
-    //// codigo provisional
-    // eje['type'] = 'value';
-    // eje['name'] = nombreDato;
-    // eje['label'] = { show: true };
-    // eje['boundaryGap'] = [0, '100%'];
-    // ejesYTagCustom.push(eje);
+    eje['name'] = nombreDato;
+    eje['label'] = { show: true };
+    eje['axisLine'] = {
+        onZero: 0
+    }
+    eje['boundaryGap'] = [0, '100%'];
+    ejesYTagCustom.push(eje);
 
     serie['name'] = nombreDato;
     serie['symbol'] = 'none';
@@ -317,12 +323,11 @@ function prepararTag(info, tag) {
 }
 
 //crea el grafico con varios ajustes y con los objetos series
-function renderGrafico(tags) {
+function renderGrafico() {
 
     //llegan ajustesTags en tags
     //para organizar los values y las fechas
-    var chartDom = document.getElementById('grafica');
-    var grafico = echarts.init(chartDom);
+
     var option;
     nombreDato = "info";
 
@@ -379,22 +384,26 @@ function renderGrafico(tags) {
 
     };
 
-    option['yAxis'] = [{
-        type: 'value',
+    // option['yAxis'] = [{
+    //     type: 'value',
 
-        label: {
-            show: true
-        },
-        boundaryGap: [0, '100%'],
-    }];
+    //     label: {
+    //         show: true
+    //     },
+    //     boundaryGap: [0, '100%'],
+    // }];
 
-    // //codigo provisional
-    // option['yAxis'] = [];
-    // for (var eje in ejesYTagCustom) {
-    //     option['yAxis'].push(ejesYTagCustom[eje]);
-    // }
-    // ejesYTagCustom = new Array;
-
+    //codigo provisional
+    option['yAxis'] = [];
+    let mul = 0;
+    for (var eje in ejesYTagCustom) {
+        if (mul > 1) {
+            ejesYTagCustom[eje]['offset'] = -90 * (mul - 1);
+        }
+        mul++;
+        option['yAxis'].push(ejesYTagCustom[eje]);
+    }
+    ejesYTagCustom = new Array;
 
 
     //controles de los ejes
@@ -459,25 +468,21 @@ function renderGrafico(tags) {
         option['series'].push(datosTagCustom['serie'][index]);
     }
 
-
     //ajustes de pantalla para el grafico
     $(window).keyup(function() {
-        grafico.resize();
+        graficoCustom.resize();
     });
 
     document.getElementById("conPrincipal").onclick = function() {
-        setTimeout(grafico.resize(), 500);
+        setTimeout(graficoCustom.resize(), 500);
     };
 
     document.getElementById('grafica').onmouseover = function() {
-        setTimeout(grafico.resize(), 500);
+        setTimeout(graficoCustom.resize(), 500);
     }
     document.getElementById('zonaControles').onmouseover = function() {
-        setTimeout(grafico.resize(), 500);
+        setTimeout(graficoCustom.resize(), 500);
     }
-
     console.log(option);
-    grafico.clear();
-    option && grafico.setOption(option, true);
-    pantalla();
+    option && graficoCustom.setOption(option, true);
 }

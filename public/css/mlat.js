@@ -135,10 +135,11 @@ function carga() {
 }
 
 function pantalla() {
-    var resu = window.screen.width;
-    var defecto = 1920;
+
+    var ancho = window.innerWidth;
+    var defectoAncho = 1880;
     var zoom = 100;
-    var zoomUsuario = ((zoom * resu) / defecto);
-    document.body.style.zoom = zoomUsuario + '%';
+    var relAncho = ((zoom * ancho) / defectoAncho);
+    document.body.style.zoom = relAncho + '%';
 
 }

@@ -79,11 +79,11 @@
 
 #zonaGraficos {
     padding: 0%;
-    width: 80%;
+    width: 79%;
     position: relative;
     height: 75%;
     bottom: 85%;
-    overflow-x: none;
+    overflow-x: hidden;
     overflow-y: hidden;
 }
 

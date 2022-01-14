@@ -39,7 +39,7 @@
 </main>
 
 <script>
-  pantalla();
+  
   window.onload = function() {
     //capta el evento de tener el mayus activado
     document.addEventListener('keydown', function(event) {
