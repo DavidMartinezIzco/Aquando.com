@@ -189,8 +189,11 @@ function prepararTag(info, tag) {
 
     var eje = {};
     eje['type'] = 'value';
-    eje['name'] = nombreDato;
-    eje['axisLine'] = { show: true };
+
+    eje['axisLine'] = {
+        show: true,
+        lineStyle: { color: colorTag }
+    };
     eje['axisLabel'] = { show: true };
     eje['axisTick'] = { show: true }
         // eje['label'] = {
@@ -383,20 +386,16 @@ function renderGrafico() {
         }
     };
 
-    //eje X Y
-    option['xAxis'] = {
 
+    //eje X
+    option['xAxis'] = {
         boundaryGap: false,
         splitNumber: 10,
         data: datosTagCustom['fechas'][0],
-
-
     };
 
 
-    //controles de los ejes
-    //igual añado un control para el eje Y pero aun no está claro
-    //dependerá de si incluimos eso, o varios ejes Y independientes
+    //controles del eje X
     option['dataZoom'] = [{
             type: 'slider',
             textStyle: {
@@ -424,21 +423,28 @@ function renderGrafico() {
         },
     ];
 
+    //los ejes Y según se encuentran en mayor número, ocupan mayor espacio hasta el punto
+    //de llegar a ocupar casi la mitad del gráfico. Su forma de aparecer va a tener que cambiar
+    //(tal vez eliminando las labels)
 
     option['yAxis'] = [];
     let mul = 0;
+    //DataZooms dedicados para los Ejes Y
+    //Los datazoom no parecen llegara sincronizarse con la posición de los ejes
+    //tampoco le voy a dar muchas vueltas hasta que no tengamos una forma
+    //de representar los ejes definitiva
     for (var eje in ejesYTagCustom) {
-        var longi = ejesYTagCustom[eje]['name'].length;
+        //var longi = ejesYTagCustom[eje]['name'].length;
         if (mul >= 1) {
-            ejesYTagCustom[eje]['offset'] = (longi * 7) * (mul - 1);
-            option['grid']['right'] = (15) * (mul - 1) + '%';
+            ejesYTagCustom[eje]['offset'] = (100) * (mul - 1);
+            option['grid']['right'] = (5) * (mul - 1) + '%';
             option['dataZoom'].push({
                 type: 'slider',
                 textStyle: {
                     fontSize: 14,
                     fontWeight: 'bold'
                 },
-                right: (longi * 7) * (mul - 1),
+                right: (100) * (mul - 1),
                 yAxisIndex: mul,
                 filterMode: 'filter'
             });
@@ -448,7 +454,7 @@ function renderGrafico() {
                     fontSize: 14,
                     fontWeight: 'bold'
                 },
-                right: (longi * 7) * (mul - 1),
+                right: (100) * (mul - 1),
                 yAxisIndex: mul,
                 filterMode: 'filter'
             })
