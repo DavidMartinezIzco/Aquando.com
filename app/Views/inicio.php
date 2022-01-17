@@ -54,7 +54,7 @@ if (isset($_GET['log'])) {
 <body>
     <header class="p-1 text-white" style="width: 100%;background-color:rgb(39,45,79);position:fixed; height:4.5em; z-index:1000;">
         <div style="width: 100%; padding-left: 1em">powered by
-            <img src="../public/logo.png" style="height: 3.5em; margin-left: 1%;">
+            <img src="../public/logo.png" style="height: 3.5em; margin-left: 1%;" onclick="pantalla()">
             <i style="margin-left: 1%" class="far fa-lightbulb" id="iconoAyuda" onclick="ayuda()"></i>
             <!----zona secciones---->
             <?php
@@ -268,7 +268,7 @@ if (isset($_GET['log'])) {
         ?>
 
         document.body.onkeyup = function(e) {
-            if (e.keyCode == 16) {
+            if (e.keyCode == 9) {
                 abrirCerrar();
             }
         }

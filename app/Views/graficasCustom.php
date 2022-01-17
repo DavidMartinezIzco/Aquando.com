@@ -93,7 +93,7 @@
                     <label for="fecha">Hasta</label>
                     <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
                     <label for="fecha">Desde</label>
-                    <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin">
+                    <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin" value="2020-12-01" >
                     <hr>
 
                     <label for="opciones">Estación:</label>
@@ -129,8 +129,10 @@
 
 
 <script>
-    
-    var chartDom = document.getElementById('grafica');
+    var chartDom = document.getElementById('grafica', null, {
+        height: sessionStorage.getItem('gAlt'),
+        width: sessionStorage.getItem('gAnc')
+    });
     var graficoCustom = echarts.init(chartDom);
     //Falta de momento: actualizar los controles, control de colores en las series
     window.onload = function() {
@@ -150,6 +152,7 @@
             }
         });
         //config para el controlador de fechas
+        //traduce y establece la fecha actual como predeterminado
         Date.prototype.toDateInputValue = (function() {
             var local = new Date(this);
             local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
@@ -158,9 +161,9 @@
         $(document).ready(function() {
             $('#fechaInicio').val(new Date().toDateInputValue());
         });
-        $(document).ready(function() {
-            $('#fechaFin').val(new Date().toDateInputValue());
-        });
+        // $(document).ready(function() {
+        //     $('#fechaFin').val(new Date().toDateInputValue());
+        // });
 
         comprobarTiempo();
 

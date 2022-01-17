@@ -6,6 +6,7 @@ datosTagCustom['fechas'] = [];
 var serie = {};
 
 
+
 //reestablece los filtros por defecto
 function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
@@ -134,6 +135,7 @@ function aplicarCustom() {
 
     for (var ajusteTag in ajustesTag) {
         infoTags(id_estacion, ajustesTag, ajustesTag[ajusteTag], metas, fechaInicio, fechaFin);
+
     }
 
 }
@@ -149,7 +151,7 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
         success: function(datosTag) {
             prepararTag(datosTag, tag);
             if (ajustesTag.at(-1) == tag) {
-                setTimeout(renderGrafico, (nTags * 800));
+                setTimeout(renderGrafico, (nTags * 500));
             }
         },
         error: function() {
@@ -169,27 +171,33 @@ function prepararTag(info, tag) {
     var tagsAct = JSON.parse('[' + sessionStorage.getItem("tagsAct") + ']');
 
     for (var tindex in tagsAct[0]) {
-
         if (tagsAct[0][tindex]['id_tag'] == tag) {
             nombreDato = tagsAct[0][tindex]['nombre_tag'];
         }
     }
-
 
     //elementos comunes
     var colorTag = document.getElementById("color" + tag).value;
     serie = {};
 
     // codigo provisional
+
+    //cambiar escalado de los ejes Y en funcion de las series a las que pertenezcan
+    //eliminiar los nombres de los tags en la parte superior (está en render)
+    //mirar a ver si solucionamos el asunto del zoom
+
+
     var eje = {};
     eje['type'] = 'value';
-
     eje['name'] = nombreDato;
-    eje['label'] = { show: true };
-    eje['axisLine'] = {
-        onZero: 0
-    }
-    eje['boundaryGap'] = [0, '100%'];
+    eje['axisLine'] = { show: true };
+    eje['axisLabel'] = { show: true };
+    eje['axisTick'] = { show: true }
+        // eje['label'] = {
+        //     show: true,
+        //     formatter: '{value}'
+        // };
+    eje['inside'] = true;
     ejesYTagCustom.push(eje);
 
     serie['name'] = nombreDato;
@@ -203,16 +211,24 @@ function prepararTag(info, tag) {
     serie['areaStyle'] = {
         show: true,
         color: colorTag,
-        opacity: 0.5
+        opacity: 0.7
     };
     serie['data'] = [];
     serie['markLine'] = { data: [] };
 
 
+    var mulstack = 1;
     for (var index in info['tag']) {
-        serie['data'].push(info['tag'][index]['valor']);
+
+        if (info['tag'][index]['valor'] != 't') {
+            serie['data'].push(info['tag'][index]['valor']);
+        } else {
+            serie['stack'] = 'Total';
+            serie['data'].push(1 * mulstack);
+        }
         fechasTag.push(info['tag'][index]['fecha']);
     }
+
 
     //crear markline-data con los metadatos
     //se separa en dos por la naturaleza de ambos tipos de meta
@@ -256,7 +272,6 @@ function prepararTag(info, tag) {
         marcaMeta['yAxis'] = valMeta;
         serie['markLine']['data'].push(marcaMeta);
     }
-
 
     //PARTE 2: INTERVALOS
     if (document.getElementById("checkMaxInt").checked) {
@@ -331,7 +346,6 @@ function renderGrafico() {
     var option;
     nombreDato = "info";
 
-
     //leyenda
     option = {
 
@@ -345,10 +359,10 @@ function renderGrafico() {
             padding: 1,
         },
         grid: {
-            left: '3%',
-            right: '4%',
+            left: '5%',
+            right: '7%',
             bottom: '10%',
-            containLabel: true
+            containLabel: true,
         },
     };
 
@@ -375,35 +389,9 @@ function renderGrafico() {
         boundaryGap: false,
         splitNumber: 10,
         data: datosTagCustom['fechas'][0],
-        label: {
-            show: true,
-            position: 'top',
-            color: "black",
-            fontSize: 30,
-        },
+
 
     };
-
-    // option['yAxis'] = [{
-    //     type: 'value',
-
-    //     label: {
-    //         show: true
-    //     },
-    //     boundaryGap: [0, '100%'],
-    // }];
-
-    //codigo provisional
-    option['yAxis'] = [];
-    let mul = 0;
-    for (var eje in ejesYTagCustom) {
-        if (mul > 1) {
-            ejesYTagCustom[eje]['offset'] = -90 * (mul - 1);
-        }
-        mul++;
-        option['yAxis'].push(ejesYTagCustom[eje]);
-    }
-    ejesYTagCustom = new Array;
 
 
     //controles de los ejes
@@ -422,17 +410,6 @@ function renderGrafico() {
             zlevel: 10
         },
         {
-            type: 'slider',
-            right: 20,
-            textStyle: {
-                fontSize: 14,
-                fontWeight: 'bold'
-            },
-            yAxisIndex: 0,
-            filterMode: 'filter',
-            zlevel: 10
-        },
-        {
             type: 'inside',
             throttle: 0,
             textStyle: {
@@ -445,27 +422,72 @@ function renderGrafico() {
             filterMode: 'filter',
             zlevel: 10
         },
-        {
-            type: 'inside',
-            right: 20,
-            throttle: 0,
-            textStyle: {
-                fontSize: 14,
-                fontWeight: 'bold'
-            },
-            yAxisIndex: 0,
-            filterMode: 'filter',
-            zlevel: 10
-        }
-
     ];
+
+
+    option['yAxis'] = [];
+    let mul = 0;
+    for (var eje in ejesYTagCustom) {
+        var longi = ejesYTagCustom[eje]['name'].length;
+        if (mul >= 1) {
+            ejesYTagCustom[eje]['offset'] = (longi * 7) * (mul - 1);
+            option['grid']['right'] = (15) * (mul - 1) + '%';
+            option['dataZoom'].push({
+                type: 'slider',
+                textStyle: {
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                },
+                right: (longi * 7) * (mul - 1),
+                yAxisIndex: mul,
+                filterMode: 'filter'
+            });
+            option['dataZoom'].push({
+                type: 'inside',
+                textStyle: {
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                },
+                right: (longi * 7) * (mul - 1),
+                yAxisIndex: mul,
+                filterMode: 'filter'
+            })
+        } else {
+            option['dataZoom'].push({
+                type: 'slider',
+                textStyle: {
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                },
+                left: '0%',
+                yAxisIndex: mul,
+                filterMode: 'filter'
+            });
+            option['dataZoom'].push({
+                type: 'inside',
+                textStyle: {
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                },
+                left: '0%',
+                yAxisIndex: mul,
+                filterMode: 'filter'
+            })
+        }
+        mul++;
+        option['yAxis'].push(ejesYTagCustom[eje]);
+    }
+    ejesYTagCustom = new Array;
+
 
     //series y datos en el grafico
     //la informacion de aui se cea en prepararTag()
     option['series'] = [];
-
+    var sInd = 0;
     for (var index in datosTagCustom['serie']) {
+        datosTagCustom['serie'][index]['yAxisIndex'] = sInd;
         option['series'].push(datosTagCustom['serie'][index]);
+        sInd++;
     }
 
     //ajustes de pantalla para el grafico

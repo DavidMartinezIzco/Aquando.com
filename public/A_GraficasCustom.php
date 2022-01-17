@@ -12,8 +12,9 @@ if($opcion == 'tag'){
     $fechaFin = $_GET['fechaFin'];
     $meta = $_GET['meta'];
     $ajustesMeta = explode("/", $meta);
-
     $info = $db->historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaIni, $fechaFin);
+
+    
     echo json_encode($info);
 
 }

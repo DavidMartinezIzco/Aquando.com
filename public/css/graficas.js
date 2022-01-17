@@ -224,8 +224,7 @@ function renderGrafico(datosR) {
 
     };
 
-    //aqui tiene que haber un fallo que solapa las etiquetas de los ejes propios (resuelto)
-    //pero seguro que es porque eres tonto y se solucione facil (no)
+    //Eje(s) Y
     option['yAxis'] = [{
         type: 'value',
         name: nombreDato,
@@ -401,6 +400,7 @@ function renderGrafico(datosR) {
 
     ];
 
+
     option['series'] = series;
 
 
@@ -478,6 +478,7 @@ function renderGrafico(datosR) {
         sessionStorage.setItem('nDato', nombreDato);
     }
 
+    console.log(option);
     option && grafico.setOption(option, true);
     pantalla();
 }

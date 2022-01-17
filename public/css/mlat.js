@@ -137,9 +137,23 @@ function carga() {
 function pantalla() {
 
     var ancho = window.innerWidth;
+    var alto = window.innerHeight;
+    var defectoAlto = 745;
+    var relAlto = alto / defectoAlto;
     var defectoAncho = 1880;
     var zoom = 100;
     var relAncho = ((zoom * ancho) / defectoAncho);
     document.body.style.zoom = relAncho + '%';
+
+    if (document.getElementById("grafica")) {
+
+        var gAlt = document.getElementById("grafica").clientHeight * relAlto + 'px';
+        var gAnc = document.getElementById("grafica").clientWidth * (relAncho / 100) + 'px';
+        sessionStorage.setItem('gAlt', gAlt);
+        sessionStorage.setItem('gAnc', gAnc);
+        document.getElementById("grafica").zoom = '100%';
+
+
+    }
 
 }
