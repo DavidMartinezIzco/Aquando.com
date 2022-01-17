@@ -1,20 +1,62 @@
-#alarmasSur{
-    border-top: 5px solid rgb(1, 168, 184);
+#alarmasSur {
+    border-top: 2px solid rgb(56, 56, 56);
     position: absolute;
-    width: 90%;
+    width: 85%;
     margin: 0px;
     bottom: 0;
     text-align: center;
     transition: 0.5s;
-    height: 10%;
+    height: 10em;
+    overflow-y: hidden;
 }
 
 #alarmasSur tr {
-    transition: 2s;
-    margin-left: 0.5%;
-    height: 50%;
+    opacity: 85%;
 }
 
-table tr :hover {
+#alarmasSur tr:hover {
+    opacity: 100%;
+}
+
+#alarmasSur tr td {
+    font-size: 80%;
+}
+
+#alarmasSur tr:first-of-type {
+    border-bottom: 1px solid black;
+    opacity: 100%;
+}
+
+#alarmasSur tr:first-of-type th {
+    background-color: darkgray;
     padding: 0.1%;
+}
+
+.activaNo td {
+    color: white;
+    background-color: tomato;
+    transition: 0.5s;
+}
+
+#alarmasSur tr td i {
+    opacity: 10%;
+}
+
+#alarmasSur tr td i:hover {
+    opacity: 100%;
+}
+
+.activaSi {
+    color: white;
+    background-color: darkred;
+}
+
+.restNo {
+    color: black;
+    background-color: darkseagreen;
+}
+
+.restSi {
+    color: white;
+    background-color: darkolivegreen;
 }

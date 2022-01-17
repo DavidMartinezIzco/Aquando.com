@@ -3,122 +3,58 @@
 <script src='css/echarts.js'></script>
 <script src='css/comunicaciones.js'></script>
 <link rel="stylesheet" type="text/css" href="css/comunicaciones.css">
-<main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px; margin-top:1%; padding: 0.5%">
+<main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px; margin-top:1%;">
 
 
     <!--zona con los estados de conexiones-->
     <!--su contenido es provisional-->
     <div id="displayComs">
-        <table style="width:100%; height:100%">
-            <tr onclick="graficoConex()" id='seccionEstacion'>
-                <td id='secNombre'>
-                    N Estacion
-                </td>
-                <td id='secEstado'>
-                    <i class="fas fa-check"></i>
-                </td>
-                <td id='secUltima'>
-                    Ultima Conexion
-                </td>
-            </tr>
-
-            <tr onclick="graficoConex()" id='seccionEstacion'>
-                <td id='secNombre'>
-                    N Estacion
-                </td>
-                <td id='secEstado'>
-                    <i class="fas fa-check"></i>
-                </td>
-                <td id='secUltima'>
-                    Ultima Conexion
-                </td>
-            </tr>
-
-            <tr onclick="graficoConex()" id="seccionEstacionProblema">
-                <td id="secNombre">
-                    N Estacion
-                </td>
-
-                <td id="secProblema">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </td>
-
-                <td id="secUltima">
-                    Ultima Conexion
-                </td>
-            </tr>
-
-            <tr onclick="graficoConex()" id="seccionEstacionError">
-                <td id="secNombre">
-                    N Estacion
-                </td>
-
-                <td id="secError">
-                    <i class="fas fa-times-circle"></i>
-
-                </td>
-
-                <td id="secUltima">
-                    Ultima Conexion
-                </td>
-
-            </tr>
-
-            <tr onclick="graficoConex()" id='seccionEstacion'>
-                <td id='secNombre'>
-                    N Estacion
-                </td>
-                <td id='secEstado'>
-                    <i class="fas fa-check"></i>
-                </td>
-                <td id='secUltima'>
-                    Ultima Conexion
-                </td>
-            </tr>
-
-            <tr onclick="graficoConex()" id="seccionEstacionProblema">
-                <td id="secNombre">
-                    N Estacion
-                </td>
-
-                <td id="secProblema">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </td>
-
-                <td id="secUltima">
-                    Ultima Conexion
-                </td>
-            </tr>
+        <table id="tablaConex"style="width:100%; height:100%">
 
         </table>
     </div>
 
     <!--sitio para el grafico de resumen del estado-->
     <div id="seccionDetalles1">
-        <div id="graficoConexion" style="width: 720px; height:350px;"></div>
+        <h4 id="calidadSenales">Calidad de señales:</h4>
+        <table id="seccionCalidad">
+        </table>
     </div>
 
     <!--sitio para mas informacion-->
     <div id="seccionDetalles2">
-        detalles de la estacion seleccionada (?)
+        <table>
+        <tr>
+            <td><button id="btnControl" value="actualizar" onclick="actu()" name=""><i id="iconoActu" class="fas fa-sync"></i></button></td>
+            <td><button id="btnControl" value="ir" onclick="" style="font-size: 185%;" value="reset" name=""><i class="fas fa-broadcast-tower"></i></i></button></td>
+            <td><button id="btnControl" value="ajustes" onclick="" name=""><i class="fas fa-cog"></i></button></td>
+        </tr>
+        </table>
+        
     </div>
-
-</main>
-
-
 <!--alarmas de abajo-->
 <table id="alarmasSur">
 </table>
+</main>
+
+
+
 
 <script>
+    
     window.onload = function() {
-        actualizarMini();
-        graficoConex();
+        var usu = '<?php echo $_SESSION['nombre'] ?>';
+        sessionStorage.setItem('usu', usu);
+        var pwd = '<?php echo $_SESSION['pwd'] ?>';
+        sessionStorage.setItem('pwd', pwd);
+        var idusu = <?php echo $_SESSION['idusu']?>;
+        sessionStorage.setItem('idusu', idusu);
+        actualizarSur('general',usu, pwd, idusu, null);
+        
+        setInterval(actualizarConexiones(usu, pwd, idusu), 1000*60*5);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
-        setInterval(parpadeoProblema, 1000);
-        setInterval(parpadeoError, 1000);
-        setInterval(actualizarMini, 3000);
+        setInterval(parpadeoProblema, 3000);
         $(window).blur(function() {
             tiempoFuera("");
         });
@@ -126,7 +62,15 @@
             tiempoFuera("volver")
         });
     }
+
+    function actu(){
+        usu = sessionStorage.getItem('usu');
+        pwd = sessionStorage.getItem('pwd');
+        idusu = sessionStorage.getItem('idusu');
+        actualizarConexiones(usu,pwd,idusu);
+    }
 </script>
+
 
 
 <?= $this->endSection() ?>

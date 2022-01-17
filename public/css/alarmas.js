@@ -1,141 +1,168 @@
+//limpia los filtros
+function limpiar() {
+    document.getElementById("radioDesc").checked = 'checked';
+    document.getElementById("radioFecha").checked = 'checked';
+    document.getElementById("estaciones").value = 'all';
+    document.getElementsByName("btnControlReset")[0].textContent = "limpiando...";
+    setTimeout(function() { document.getElementsByName("btnControlReset")[0].textContent = "reset" }, 1000);
+    actualizar();
+}
 
-    //limpia los filtros
-    function  limpiar(){
-        document.getElementById("radioDesc").checked ='checked';
-        document.getElementById("radioFecha").checked = 'checked';
-        document.getElementById("estaciones").value = 'all';
-        document.getElementsByName("btnControlReset")[0].textContent = "limpiando...";
-        setTimeout(function(){document.getElementsByName("btnControlReset")[0].textContent = "reset"},1000);
-        actualizar();
+//saca una captura de las alarmas
+function imprimir() {
+    html2canvas(document.querySelector('#tablaAlarmas')).then(function(canvas) {
+        guardar(canvas.toDataURL(), 'alarmas.png');
+    });
+
+}
+
+//descarga la captura de las alarmas
+function guardar(uri, filename) {
+
+    var link = document.createElement('a');
+
+    if (typeof link.download === 'string') {
+
+        link.href = uri;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+    } else {
+
+        window.open(uri);
+
     }
+}
 
-    //aplica los filtros y actualiza las alarmas
-    function aplicarFiltros() {
-        var filtro = "";
-        var orden = "";
+//esconde o muestra las opciones
+function opciones() {
+    if (document.getElementById("zonaOpciones").style.height == '10%') {
+        document.getElementById("zonaOpciones").style.height = "0%";
+        document.getElementById("zonaAlarmas").style.maxHeight = '95%';
+    } else {
+        document.getElementById("zonaOpciones").style.height = "10%";
+        document.getElementById("zonaAlarmas").style.maxHeight = '85%';
+    }
+}
 
-        if (document.getElementById("radioFecha").checked) {
-            filtro = document.getElementById("radioFecha").value;
+function actualizar(reorden) {
+
+    var id_estacion = document.getElementById("estaciones").value;
+    if (id_estacion != 'all') {
+        filtrarPorEstacion();
+    } else {
+        var orden = 'fecha';
+        for (var filtro in document.getElementsByName('filtro')) {
+            if (document.getElementsByName('filtro')[filtro].checked == true) {
+                orden = document.getElementsByName('filtro')[filtro].value;
+            }
         }
-        if (document.getElementById("radioMotivo").checked) {
-            filtro = document.getElementById("radioMotivo").value;
-        }
-        if (document.getElementById("radioCanal").checked) {
-            filtro = document.getElementById("radioCanal").value;
+        if (reorden != null) {
+            orden = reorden;
         }
 
-        if (document.getElementById("radioAsc").checked) {
-            orden = document.getElementById("radioAsc").value;
-        }
-    
-        if (document.getElementById("radioDesc").checked) {
-            orden = document.getElementById("radioDesc").value;
+
+        var sentido = 'DESC';
+        if (document.getElementById('radioAsc').checked == true) {
+            sentido = 'ASC';
         }
 
-        var estacion = null;
-        if(document.getElementById("estaciones").value != 'all'){
-            estacion = document.getElementById("estaciones").value;
-            document.getElementsByName("btnControl")[0].textContent = "Cargando...";
-        setTimeout(function(){document.getElementsByName("btnControl")[0].textContent = "aplicar"},1000);
-            $(document).ready(function(){
-                
-                $.ajax({
-                    type: 'GET',
-                    url: 'A_Alarmas.php?estacion=' + estacion + '&filtro=' + filtro + '&orden=' + orden,
-                    success: function(alarmas) {
-                        $("#tablaAlarmas").html(alarmas);
-                    }
-                });
-                
+        var nombre = sessionStorage.getItem('nousu');
+        var pwd = sessionStorage.getItem('pwd');
+        var emp = sessionStorage.getItem('emp');
+
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'A_Alarmas.php?funcion=actualizar&nombre=' + nombre + '&pwd=' + pwd + '&emp=' + emp + '&sentido=' + sentido + '&orden=' + orden,
+                success: function(alarmas) {
+                    document.getElementById("tablaAlarmas").innerHTML = alarmas;
+                },
+                error: function() {
+                    console.log("error");
+                }
+
             });
-        }
-        else{
-            actualizar();
-        }
-
-        
-        return false
-
-    }
-
-    //filtra los datos
-    function filtrarPor(tipo){
-
-        if(tipo == 'Motivo'){
-            if(document.getElementById("radioMotivo").checked && document.getElementById("radioDesc").checked){
-                document.getElementById("radioAsc").checked = true;
-            }
-            else{
-                document.getElementById("radioDesc").checked = true;
-            }
-            document.getElementById("radioMotivo").checked = true;
-        }
-        if(tipo == 'Canal'){
-            if(document.getElementById("radioCanal").checked && document.getElementById("radioDesc").checked){
-                document.getElementById("radioAsc").checked = true;
-            }
-            else{
-                document.getElementById("radioDesc").checked = true;
-            }
-            document.getElementById("radioCanal").checked = true;
-        }
-        if(tipo == 'Fecha'){
-            if(document.getElementById("radioFecha").checked && document.getElementById("radioDesc").checked){
-                document.getElementById("radioAsc").checked = true;
-            }
-            else{
-                document.getElementById("radioDesc").checked = true;
-            }
-            document.getElementById("radioFecha").checked = true;
-        }
-        if(tipo == 'Estacion'){
-            if(document.getElementById("radioEstacion").checked && document.getElementById("radioDesc").checked){
-                document.getElementById("radioAsc").checked = true;
-            }
-            else{
-                document.getElementById("radioDesc").checked = true;
-            }
-            document.getElementById("radioEstacion").checked = true;
-        }
-        aplicarFiltros();
-    }
-
-    //saca una captura de las alarmas
-    function imprimir() {
-            html2canvas(document.querySelector('#tablaAlarmas')).then(function(canvas) {
-            guardar(canvas.toDataURL(), 'alarmas.png');
         });
-        
-    }
-    
-    //descarga la captura de las alarmas
-    function guardar(uri, filename) {
-    
-        var link = document.createElement('a');
-    
-        if (typeof link.download === 'string') {
-    
-            link.href = uri;
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-    
-        } else {
-    
-            window.open(uri);
-    
-        }
     }
 
-    //esconde o muestra las opciones
-    function opciones(){
-        if (document.getElementById("zonaOpciones").style.height == '10%') {
-            document.getElementById("zonaOpciones").style.height = "0%";
-            document.getElementById("zonaAlarmas").style.maxHeight = '95%';
+}
+
+function filtrarPorEstacion() {
+
+    var id_estacion = document.getElementById("estaciones").value;
+    if (id_estacion == 'all') {
+        actualizar();
+    } else {
+        var orden = 'fecha';
+        for (var filtro in document.getElementsByName('filtro')) {
+            if (document.getElementsByName('filtro')[filtro].checked == true) {
+                orden = document.getElementsByName('filtro')[filtro].value;
+            }
         }
-        else{
-            document.getElementById("zonaOpciones").style.height = "10%";
-            document.getElementById("zonaAlarmas").style.maxHeight = '85%';
+        var sentido = 'DESC';
+        if (document.getElementById('radioAsc').checked == true) {
+            sentido = 'ASC';
         }
+
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'A_Alarmas.php?funcion=estacion&sentido=' + sentido + '&orden=' + orden + '&estacion=' + id_estacion,
+                success: function(alarmas) {
+                    document.getElementById("tablaAlarmas").innerHTML = alarmas;
+                },
+                error: function() {
+                    console.log("error");
+                }
+
+            });
+        });
     }
+
+
+}
+
+function reconocer(id_alarma) {
+    var fecha_ack = Date.now();
+    console.log(fecha_ack);
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
+            success: function(exito) {
+                actualizar();
+            },
+            error: function() {
+                console.log("error en la update");
+            }
+
+        });
+    });
+
+
+
+}
+
+function efectoAlerta() {
+
+    var alertas = document.getElementsByClassName('activaNo');
+    for (var i = 0, max = alertas.length; i < max; i++) {
+        setInterval(resaltar(alertas[i]), 1000);
+    }
+
+}
+
+function resaltar(elem) {
+    elem.style.backgroundColor = "red";
+    setTimeout(function() { elem.style.backgroundColor = "tomato" }, 1000);
+}
+
+function reordenar(opcion) {
+
+    actualizar(opcion);
+
+}

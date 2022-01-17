@@ -1,232 +1,412 @@
+var datosM = new Array();
+var datosR = new Array();
 //reestablece los filtros por defecto
 function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
-    var i = 1;
-    while (i <= 9) {
+    document.getElementById('compararSel').value = 'nada';
+    document.getElementById('opcionesTag').selectedIndex = 0;
+    document.getElementById('opciones').selectedIndex = 0;
 
-        if (document.getElementsByName(i)[0]) {
-            if (document.getElementsByName(i)[0].checked) {
-                document.getElementsByName(i)[0].checked = false;
-            }
-        }
-        i++
-    }
-
-    document.getElementById("opciones").value = 'e1';
-
+    tagsEstacion(document.getElementById('opciones').value);
     aplicarOpciones();
-
 
     setTimeout(function() {
         document.getElementsByName('btnControlReset')[0].innerHTML = "reset";
     }, 1000);
 }
 
-//aplica las opciones de los controles
-function aplicarOpciones() {
-    var datosR = [];
-    //elems = document.getElementById("infoRepren").childElementCount / 2 -1;
-    //console.log(elems);
-    var i = 1;
-    while (i <= 9) {
-        if (document.getElementsByName(i)[0]) {
-            if (document.getElementsByName(i)[0].checked) {
-                datosR["info " + document.getElementsByName(i)[0].value] = (datos["info " + document.getElementsByName(i)[0].value]);
-            }
-        }
-        i++;
-    }
+//obtiene los metadatos (max, min, avg) de los historicos (tag)
+function metaDatosTag(id_tag, id_estacion) {
 
-    var tipo = document.getElementById("tipoRender").value
-    renderGrafico(tipo, datosR);
+    $.ajax({
+        type: 'GET',
+        url: 'A_Graficas.php?opcion=meta&tag=' + id_tag + '&estacion=' + id_estacion,
+        success: function(meta) {
+            datosM['max'] = meta['max'];
+            datosM['min'] = meta['min'];
+            datosM['avg'] = meta['avg'];
+
+            $.ajax({
+                type: 'GET',
+                url: 'A_Graficas.php?estacion=' + id_estacion + '&tag=' + id_tag + '&opcion=render',
+                success: function(histo) {
+                    datosR = histo;
+                    //var tipo = document.getElementById("tipoRender").value;
+                    renderGrafico(datosR);
+                },
+                error: function() {
+                    console.log("error");
+                },
+                dataType: 'json'
+            });
+
+        },
+        error: function() {
+            console.log("error");
+        },
+        dataType: 'json'
+    });
 
 }
 
+//aplica las opciones de los controles
+function aplicarOpciones() {
+    var idEstacion = document.getElementById("opciones").value;
+    var idTag = document.getElementById("opcionesTag").value;
+    document.getElementById('compararSel').value = 'nada';
+
+    metaDatosTag(idTag, idEstacion);
+}
+
+function tagsEstacion(id_estacion) {
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
+            success: function(tags) {
+                document.getElementById("opcionesTag").innerHTML = "";
+                document.getElementById("compararSel").innerHTML = "<option value='nada' selected>Nada</option>";
+                var e = 0;
+                sessionStorage.setItem('tagsAct', JSON.stringify(tags));
+                for (var tag in tags) {
+                    if (e == 0) {
+                        document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + " selected>" + tags[tag]['nombre_tag'] + "</option>";
+                    } else {
+                        document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
+                    }
+                    document.getElementById("compararSel").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
+                    e++;
+                }
+                aplicarOpciones();
+
+            },
+            error: function() {
+                console.log("error");
+            },
+            dataType: 'json'
+        });
+    });
+}
+
 //prepara el grafico
-function renderGrafico(tipo, datosR) {
+//sabemos que funciona, pero cuando tengamos datos muy bestias tal vez empiece a ir lenta.
+//debería repartir algunas tareas para venir hechas desde servidor
+
+function renderGrafico(datosR) {
 
     var chartDom = document.getElementById('grafica');
     var grafico = echarts.init(chartDom);
     var option;
-    var formato = "";
+    var nombreDato = "Info";
+    var tagsAct = JSON.parse('[' + sessionStorage.getItem("tagsAct") + ']');
+
+    for (var tindex in tagsAct[0]) {
+        if (tagsAct[0][tindex]['id_tag'] == document.getElementById("opcionesTag").value || tagsAct[0][tindex]['id_tag'] == document.getElementById("compararSel").value) {
+            nombreDato = tagsAct[0][tindex]['nombre_tag'];
+        }
+    }
+
 
     //Ajustes
+
     option = {
 
-        legend: {},
+        legend: {
+            x: 'center',
+            y: 'top',
+            textStyle: {
+                fontWeight: 'normal',
+                fontSize: 10
+            },
+            padding: 1,
+            data: [{
+                    name: nombreDato,
+                    icon: 'circle',
+                },
+                {
+                    name: 'Maximo Total ' + nombreDato,
+                    icon: 'circle',
+                },
+                {
+                    name: 'Minimo Total ' + nombreDato,
+                    icon: 'circle',
+                },
+                {
+                    name: 'Media Total ' + nombreDato,
+                    icon: 'circle',
+                }
+            ],
+            //se podría hacer que los Meta no se muestren por defecto pero para eso necesitamos
+            //meter los nombre en unas variables porque se desformatea concatenando las que ya hay.
+        },
         grid: {
-            left: '3%',
-            right: '4%',
+            left: '5%',
+            right: '5%',
             bottom: '10%',
             containLabel: true
+        },
+    };
+
+
+    //series de meta 
+    //esto igual lo hago desde servidor para quitarle curro al renderizado (lo de mas abajo)
+    var fechas = new Array();
+    var serieMax = new Array();
+    var serieMin = new Array();
+    var serieAvg = new Array();
+
+    for (var index in datosR) {
+        fechas.push(datosR[index]['fecha']);
+        serieMax.push(datosM['max']);
+        serieMin.push(datosM['min']);
+        serieAvg.push(datosM['avg']);
+
+    }
+
+    //el chandrío que mas habría que optimizar o pasar a servidor
+    //crea las series de los metadata
+    //igual se puede sustituir por un valor asociado Y fijo
+    var calidades = new Array();
+    for (var index in datosR) {
+        calidades.push(datosR[index]['calidad']);
+    }
+    var valores = new Array();
+    for (var index in datosR) {
+        for (var valor in datosR[index]) {
+            if (valor != "fecha" && valor != "calidad") {
+                valores.push(datosR[index][valor]);
+            }
+        }
+    }
+    var serieMin = new Array();
+    for (var i in fechas) {
+        serieMin[i] = datosM['min'];
+    }
+    var serieAvg = new Array();
+    for (var i in fechas) {
+        serieAvg[i] = datosM['avg'];
+    }
+
+
+
+    //Ajustes
+    option['tooltip'] = {
+        trigger: 'axis',
+        textStyle: {
+            fontStyle: 'bold',
+            fontSize: 20
+        },
+
+        axisPointer: {
+            axis: 'x',
+            snap: true,
+            offset: 0,
+            type: 'line',
+            label: {
+                formatter: 'fecha y hora: {value}',
+                fontStyle: 'bold'
+            }
+        }
+    };
+
+    option['xAxis'] = {
+
+        boundaryGap: false,
+        splitNumber: 10,
+        data: fechas,
+        label: {
+            show: true,
+            position: 'top',
+            color: "black",
+            fontSize: 30,
         },
 
     };
 
-
-    if (tipo == "barra") {
-        formato = "bar";
-
-        option['xAxis'] = [{
-            type: 'category',
-            data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
-        }]
-        option['yAxis'] = [{
-            type: 'value'
-        }]
-
-        var series = []
-        for (var index in datosR) {
-
-            var datorender = {
-                name: index,
-                type: formato,
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-                data: datosR[index]
-            }
+    //Eje(s) Y
+    option['yAxis'] = [{
+        type: 'value',
+        name: nombreDato,
+        label: {
+            show: true
+        },
+        boundaryGap: [0, '100%'],
+    }];
 
 
-            series.push(datorender);
-
-        };
-
-
-        option['series'] = series;
-        option['tooltip'] = {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
-        }
-    }
-
-    if (tipo == "linea") {
-        formato = "line";
-        option['tooltip'] = {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
-        }
-        option['xAxis'] = [{
-            type: 'category',
-            data: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
-        }]
-        option['yAxis'] = [{
-            type: 'value'
-        }]
-
-        var series = []
-
-        for (var index in datosR) {
-
-            var datorender = {
-                name: index,
-                type: formato,
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-                data: datosR[index]
-            }
-
-
-            series.push(datorender);
-
-        };
-        option['series'] = series;
-    }
-
-    if (tipo == "tarta") {
-
-        formato = "pie";
-
-        var datos = [];
-        for (var index in datosR) {
-            var dato = { "value": datosR[index][6], "name": index };
-            datos.push(dato);
-        };
-        var series = [{
-            name: "protoChart",
-            type: formato,
-            radius: '70%',
-            data: datos
-        }]
-        option['series'] = series;
-        option['tooltip'] = { trigger: 'item' };
-    }
-
-    //historicos todavia no coge datos de servidor
-    if (tipo == "histo") {
-
-        let base = +new Date(2010, 1, 1);
-        let undia = 24 * 3600 * 1000;
-        let fecha = [];
-        var datos = [Math.random() * 300];
-        for (let i = 1; i < 4300; i++) {
-            var now = new Date((base += undia));
-            fecha.push([now.getDate(), now.getMonth() + 1, now.getFullYear()].join('/'));
-            datos.push(Math.round((Math.random() - 0.5) * 20 + datos[i - 1]));
-        }
-
-        //Ajustes
-        option['tooltip'] = {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
-        };
-
-        option['xAxis'] = {
-            type: 'category',
-            boundaryGap: false,
-            data: fecha
-        };
-
-        option['yAxis'] = {
-            type: 'value',
-            boundaryGap: [0, '100%']
-        };
-
-        option['dataZoom'] = [{
+    //controles de los filtros en los ejes XY
+    option['dataZoom'] = [{
+            type: 'slider',
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
+            xAxisIndex: 0,
+            start: 0,
+            end: 10,
+            filterMode: 'filter',
+            z: 100
+        },
+        {
+            type: 'slider',
+            right: 20,
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
+            yAxisIndex: 0,
+            filterMode: 'filter',
+            z: 100
+        },
+        {
             type: 'inside',
-            start: 92,
-            end: 100,
+            throttle: 0,
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
+            xAxisIndex: 0,
+            start: 0,
+            end: 10,
+            filterMode: 'filter',
+            z: 100
+        },
+        {
+            type: 'inside',
+            right: 20,
+            throttle: 0,
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'bold'
+            },
+            yAxisIndex: 0,
+            filterMode: 'filter',
+            z: 100
+        }
 
-        }, {
-            start: 92,
-            end: 100
-        }];
+    ];
 
 
-        var series = [{
-            name: 'Datos',
+    //valores de los tags y sus metadatos traidos de server
+    var series = [{
+            name: nombreDato,
+            type: 'line',
+            smooth: true,
+            symbol: 'none',
+            sampling: 'lttb',
+            areaStyle: {
+                show: true,
+            },
+            data: valores,
+
+            markLine: {
+
+                data: [{
+                        symbol: 'none',
+                        type: 'average',
+                        name: 'media',
+                        lineStyle: {
+                            normal: {
+                                type: 'dashed',
+                                color: 'darkseagreen',
+                            }
+                        },
+                        label: {
+                            formatter: '{b} ' + nombreDato + ': {c}',
+                            position: 'insideEnd',
+                            backgroundColor: 'darkseagreen',
+                            color: 'white',
+                            padding: [5, 20],
+                            borderColor: "rgba(0, 0, 0, 1)",
+                            borderRadius: [5, 5, 5, 5],
+                            borderWidth: 2
+                        }
+                    },
+                    {
+                        symbol: 'none',
+                        type: 'max',
+                        name: 'maximo',
+                        lineStyle: {
+                            normal: {
+                                type: 'dashed',
+                                color: 'tomato',
+                            }
+                        },
+                        label: {
+                            formatter: '{b} ' + nombreDato + ': {c}',
+                            position: 'insideEndTop',
+
+                            backgroundColor: 'tomato',
+                            color: 'white',
+                            padding: [5, 20],
+                            borderColor: "rgba(0, 0, 0, 1)",
+                            borderRadius: [5, 5, 5, 5],
+                            borderWidth: 2
+                        }
+                    },
+                    {
+                        symbol: 'none',
+                        type: 'min',
+                        name: 'minino',
+                        lineStyle: {
+                            normal: {
+                                type: 'dashed',
+                                color: 'white',
+                            }
+                        },
+                        label: {
+                            formatter: '{b} ' + nombreDato + ': {c}',
+                            position: 'insideEndBottom',
+                            backgroundColor: 'white',
+                            color: 'black',
+                            padding: [5, 20],
+                            borderColor: "rgba(0, 0, 0, 1)",
+                            borderRadius: [5, 5, 5, 5],
+                            borderWidth: 2
+                        }
+                    }
+                ],
+            }
+
+        },
+        {
+            name: 'Maximo Total ' + nombreDato,
+            type: 'line',
+            silent: true,
+            symbol: 'none',
+            sampling: 'lttb',
+            itemStyle: {},
+            data: serieMax,
+        },
+        {
+            name: 'Minimo Total ' + nombreDato,
+            silent: true,
             type: 'line',
             symbol: 'none',
             sampling: 'lttb',
-            itemStyle: {
-                color: 'rgb(39,45,79)'
-            },
-            areaStyle: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                        offset: 0,
-                        color: 'rgb(1, 168, 184)'
-                    },
-                    {
-                        offset: 1,
-                        color: 'rgb(39,45,79)'
-                    }
-                ])
-            },
-            data: datos
-        }];
+            itemStyle: {},
+            data: serieMin,
+        },
+        {
+            name: 'Media Total ' + nombreDato,
+            silent: true,
+            type: 'line',
+            symbol: 'none',
+            sampling: 'lttb',
+            itemStyle: {},
+            data: serieAvg,
+        }
 
-        option['series'] = series;
+    ];
 
-    }
+
+    option['series'] = series;
+
+
+
+    //estos even handlers son para los cambios de tamaño del grafico
+    //igual habría que ampliarlos con cuidado pero de momento sirven
 
     $(window).keyup(function() {
         grafico.resize();
@@ -236,9 +416,10 @@ function renderGrafico(tipo, datosR) {
         setTimeout(grafico.resize(), 500);
     };
 
-    document.getElementById('conPrincipal').onmouseover = function() {
-        setTimeout(grafico.resize(), 500);
-    }
+    // document.getElementById('conPrincipal').onmouseover = function() {
+    //     setTimeout(grafico.resize(), 500);
+    // }
+
     document.getElementById('grafica').onmouseover = function() {
         setTimeout(grafico.resize(), 500);
     }
@@ -246,11 +427,60 @@ function renderGrafico(tipo, datosR) {
         setTimeout(grafico.resize(), 500);
     }
 
+    if (document.getElementById("compararSel").value != "nada") {
+        //hay que tener guardado el yaxis, legend, series(particular), nombre, series(de maximos y minimos)?
+        //se guardan despues de generarse al final
+        //al final tambien guardo los metadata (maximos minimos y eso)
+        var leyendaV = JSON.parse('[' + sessionStorage.getItem('leyenda') + ']');
+        option['legend']['data'] = leyendaV[0]['data'].concat(option['legend']['data']);
+
+
+        var yaxisV = JSON.parse('[' + sessionStorage.getItem('yaxis') + ']');
+        option['yAxis'] = yaxisV[0].concat(option['yAxis']);
+
+        var datazoomY = [{
+
+                type: 'slider',
+                textStyle: {
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                },
+                yAxisIndex: 1,
+                left: 20,
+                filterMode: 'filter'
+            },
+            {
+                type: 'inside',
+                textStyle: {
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                },
+                left: 20,
+                yAxisIndex: 1,
+                filterMode: 'filter'
+            }
+        ];
+
+        option['dataZoom'].push(datazoomY[0]);
+        option['dataZoom'].push(datazoomY[1]);
+        console.log(option['dataZoom']);
+
+        var seriesV = JSON.parse('[' + sessionStorage.getItem('series') + ']');
+        seriesV[0][0]['yAxisIndex'] = 1;
+        option['series'] = seriesV[0].concat(option['series']);
+    }
+
+    //guarda configs de option en caso de tener que comparar historicos
+    if (document.getElementById("compararSel").value == "nada") {
+        sessionStorage.setItem('series', JSON.stringify(series));
+        sessionStorage.setItem('yaxis', JSON.stringify(option['yAxis']));
+        sessionStorage.setItem('leyenda', JSON.stringify(option['legend']));
+        sessionStorage.setItem('nDato', nombreDato);
+    }
+
+    console.log(option);
     option && grafico.setOption(option, true);
-
-    document.getElementById("infoGraf").innerHTML = "formato: " + tipo + "<br>Periodo: Semanal";
-
-
+    pantalla();
 }
 
 //muestra o esconde las opciones de los graficos
@@ -258,15 +488,13 @@ function mostrarOpciones() {
     if (document.getElementById("zonaControles").style.width == '1%') {
         document.getElementById("zonaControles").style.width = '19.5%';
         document.getElementById("zonaControles").style.left = '80%';
-        document.getElementById("zonaGraficos").style.width = '80%';
+        document.getElementById("zonaGraficos").style.width = '79%';
 
     } else {
         document.getElementById("zonaControles").style.width = '1%';
         document.getElementById("zonaControles").style.left = '100%';
         document.getElementById("zonaGraficos").style.width = '98%';
-
     }
-
 }
 
 //saca una captura del grafico en panatalla
@@ -274,7 +502,6 @@ function imprimir() {
     html2canvas(document.querySelector('#grafica')).then(function(canvas) {
         guardar(canvas.toDataURL(), 'grafico.png');
     });
-
 }
 
 //descarga la captura del grafico
@@ -297,50 +524,15 @@ function guardar(uri, filename) {
     }
 }
 
-function alternarOpciones(repren) {
+//la funcion de comparación de gráficos.
+//la chicha la has llevado toda a renderGrafico()
+function comparar() {
 
-
-    switch (repren) {
-        case "histo":
-            document.getElementById("infoRepren").style.opacity = "50%";
-            document.getElementById("infoRepren").disabled = true;
-            document.getElementById("fechaInicio").style.opacity = "50%";
-            document.getElementById("fechaInicio").disabled = true;
-            document.getElementById("fechaFin").style.opacity = "50%";
-            document.getElementById("fechaFin").disabled = true;
-            document.getElementById("opciones").style.opacity = "50%";
-            document.getElementById("opciones").disabled = true;
-            break;
-
-            // case "linea":
-            //     break;
-
-            // case "barra":
-            //     break;
-
-        case "tarta":
-            document.getElementById("infoRepren").style.opacity = "100%";
-            document.getElementById("infoRepren").disabled = false;
-            document.getElementById("fechaInicio").style.opacity = "50%";
-            document.getElementById("fechaInicio").disabled = true;
-            document.getElementById("fechaFin").style.opacity = "50%";
-            document.getElementById("fechaFin").disabled = true;
-            document.getElementById("opciones").style.opacity = "50%";
-            document.getElementById("opciones").disabled = true;
-            break;
-
-        default:
-            document.getElementById("infoRepren").disabled = false;
-            document.getElementById("fechaInicio").disabled = false;
-            document.getElementById("fechaFin").disabled = false;
-            document.getElementById("opciones").disabled = false;
-
-            document.getElementById("infoRepren").style.opacity = "100%";
-            document.getElementById("fechaInicio").style.opacity = "100%";
-            document.getElementById("fechaFin").style.opacity = "100%";
-            document.getElementById("opciones").style.opacity = "100%";
-            break;
+    if (document.getElementById("compararSel").value != "nada") {
+        var idEstacionCom = document.getElementById("opciones").value;
+        var idTagCom = document.getElementById("compararSel").value;
+        metaDatosTag(idTagCom, idEstacionCom);
+    } else {
+        aplicarOpciones();
     }
-    aplicarOpciones();
-
 }

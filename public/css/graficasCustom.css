@@ -10,11 +10,34 @@
     transition: 0.2s;
     overflow-x: hidden;
     overflow-y: hidden;
-    width: 19.5%;
+    width: 34.5%;
     margin-left: 0.5%;
     position: relative;
     height: 85%;
-    left: 80%;
+    left: 65%;
+}
+
+#opcionesTag {
+    font-style: normal;
+    overflow-y: scroll;
+    list-style: none;
+    padding-left: 0%;
+    height: 20%;
+    border: 1px solid black;
+    background-color: lightgray;
+    color: black
+}
+
+#opcionesTag::-webkit-scrollbar {
+    height: 15px;
+}
+
+#opcionesTag::-webkit-scrollbar-track {
+    background-color: rgb(1, 168, 184);
+}
+
+#opcionesTag::-webkit-scrollbar-thumb {
+    background-color: rgb(39, 45, 79);
 }
 
 #formOpciones {
@@ -24,29 +47,78 @@
     padding: 5%;
     color: rgb(56, 56, 56);
     background-color: white;
-    height: 50%;
+    height: 94%;
     margin-bottom: 0%;
 }
 
-#dateFecha {
-    width: 60%;
+#conMetaTag {
+    font-style: normal;
+    overflow-y: scroll;
+    list-style: none;
+    padding-left: 0%;
+    height: 20%;
+    border: 1px solid black;
+    background-color: lightgray;
+    color: black
+}
+
+#conMetaTag::-webkit-scrollbar {
+    height: 15px;
+}
+
+#conMetaTag::-webkit-scrollbar-track {
+    background-color: rgb(1, 168, 184);
+}
+
+#conMetaTag::-webkit-scrollbar-thumb {
+    background-color: rgb(39, 45, 79);
+}
+
+.listaGrafCustom li {
+    text-align: center;
+    padding-bottom: 2%;
+    border-bottom: 1px solid white;
+    font-size: 100%;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.listaGrafCustom li label {
+    box-sizing: none;
+    margin: 0%;
+}
+
+#conMetaTag li {
+    padding-bottom: 2%;
+    border-bottom: 1px solid white;
+    font-size: 80%;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+#fechaInicio {
+    width: 35%;
     margin: 1%;
 }
 
-#btnControl {
-    width: 90%;
-    margin: 0 5%;
+#fechaFin {
+    width: 35%;
+    margin: 1%;
+}
+
+#btnControlCustom {
+    width: 30%;
+    margin: 0 1%;
     margin-top: 5%;
     color: white;
     border: none;
     border-radius: 10px;
     transition: 0.2s;
-    padding: 2%;
+    padding: 0%, 0.2%;
 }
 
-#btnControl:hover {
-    padding: 4%;
-    font-size: 110%;
+#btnControlCustom:hover {
+    color: rgb(1, 168, 184);
 }
 
 
@@ -79,7 +151,7 @@
 
 #zonaGraficos {
     padding: 0%;
-    width: 79%;
+    width: 65%;
     position: relative;
     height: 75%;
     bottom: 85%;

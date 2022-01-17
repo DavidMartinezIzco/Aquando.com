@@ -15,8 +15,8 @@
                 <h3>información</h3>
                 <hr>
                 <ul>
-                    <li>Estación:</li>
-                    <li>Ultima conexión:</li>
+                    <li>Estación: <?php echo $nombreEstacion?></li>
+                    <li>Ultima conexión: <?php echo $ultimaConex[0]['valor_date'] ?></li>
                 </ul>
             </div>
             <div id="sinopMD">
@@ -92,17 +92,20 @@
             <h3>Zona Media Derecha</h3>
         </div>
     </div>
-
-</main>
 <!---zona alarmas--->
 <table id="alarmasSur">
 </table>
+</main>
+
 
 <script>
+    
     window.onload = function() {
-        actualizarMini();
+        var estacion = <?php echo $id_estacion; ?>;
+        actualizarSur('estacion',null, null, null, estacion);
+        comprobarTiempo();
         setInterval(fechaYHora, 1000);
-        setInterval(actualizarMini, 3000);
+        setInterval(actualizarSur('estacion',null, null, null, estacion), 20000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {
             tiempoFuera("");

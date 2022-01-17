@@ -1,12 +1,14 @@
+$(window).resize(function() {
+    pantalla();
+});
+
 //abre o cierra el menu lateral
 function abrirCerrar() {
-
     if (document.getElementById("menuIzq").style.width == '15%') {
         cerrarMenu();
     } else {
         abrirMenu();
     }
-
 }
 
 //despliega la zona de debug
@@ -30,6 +32,14 @@ function desplegar(menu) {
             document.getElementsByClassName('miniEstacion')[0].style.height = '20%';
         } else {
             document.getElementsByClassName('miniEstacion')[0].style.height = '0px';
+        }
+    }
+
+    if (menu == 'grafs') {
+        if (document.getElementsByClassName('miniEstacion')[2].style.height == '0px') {
+            document.getElementsByClassName('miniEstacion')[2].style.height = '20%';
+        } else {
+            document.getElementsByClassName('miniEstacion')[2].style.height = '0px';
         }
     }
 
@@ -91,8 +101,8 @@ function cerrarMenu() {
     }
 
     if (document.getElementById("alarmasSur")) {
-        document.getElementById("alarmasSur").style.width = '105%';
-        document.getElementById("alarmasSur").style.marginLeft = '-5%';
+        document.getElementById("alarmasSur").style.width = '100%';
+
     }
 
     if (document.getElementById("displayComs")) {
@@ -122,4 +132,28 @@ function tiempoOpciones() {
 //anima textos mientras cargan cosas
 function carga() {
     document.getElementById("seccion").innerText = "Cargando..."
+}
+
+function pantalla() {
+
+    var ancho = window.innerWidth;
+    var alto = window.innerHeight;
+    var defectoAlto = 745;
+    var relAlto = alto / defectoAlto;
+    var defectoAncho = 1880;
+    var zoom = 100;
+    var relAncho = ((zoom * ancho) / defectoAncho);
+    document.body.style.zoom = relAncho + '%';
+
+    if (document.getElementById("grafica")) {
+
+        var gAlt = document.getElementById("grafica").clientHeight * relAlto + 'px';
+        var gAnc = document.getElementById("grafica").clientWidth * (relAncho / 100) + 'px';
+        sessionStorage.setItem('gAlt', gAlt);
+        sessionStorage.setItem('gAnc', gAnc);
+        document.getElementById("grafica").zoom = '100%';
+
+
+    }
+
 }
