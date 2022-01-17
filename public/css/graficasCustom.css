@@ -117,9 +117,8 @@
     padding: 0%, 0.2%;
 }
 
-#btnControl:hover {
-    padding: 4%;
-    font-size: 110%;
+#btnControlCustom:hover {
+    color: rgb(1, 168, 184);
 }
 
 

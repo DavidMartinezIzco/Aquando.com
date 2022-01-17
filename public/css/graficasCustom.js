@@ -8,14 +8,35 @@ var serie = {};
 
 
 //reestablece los filtros por defecto
+//aun no reestablece los colores de los tags ni meta
+//también podría limpiar la zona de gráficos
+//falta también reestablecer fechas a valores iniciales
+
 function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
-    document.getElementById('compararSel').value = 'nada';
-    document.getElementById('opcionesTag').selectedIndex = 0;
-    document.getElementById('opciones').selectedIndex = 0;
 
-    tagsEstacion(document.getElementById('opciones').value);
-    aplicarOpciones();
+    var checkTags = document.querySelectorAll('input[name=checkTag]:checked')
+    for (var i = 0; i < checkTags.length; i++) {
+        checkTags[i].checked = false;
+        if (checkTags[i].parentNode.style.backgroundColor == 'darkgray') {
+            checkTags[i].parentNode.style.backgroundColor = 'lightgray';
+        } else {
+            checkTags[i].parentNode.style.backgroundColor = 'darkgray';
+        }
+    }
+    var checkMetas = document.querySelectorAll('input[name=checkMeta]:checked')
+    for (var i = 0; i < checkMetas.length; i++) {
+        checkMetas[i].checked = false;
+        if (checkMetas[i].parentNode.style.backgroundColor == 'darkgray') {
+            checkMetas[i].parentNode.style.backgroundColor = 'lightgray';
+        } else {
+            checkMetas[i].parentNode.style.backgroundColor = 'darkgray';
+        }
+    }
+
+
+
+
 
     setTimeout(function() {
         document.getElementsByName('btnControlReset')[0].innerHTML = "reset";
@@ -101,13 +122,10 @@ function mostrarOpciones() {
 
 //disparador inicial para mostrar el grafico según los ajustes en los contrles
 function aplicarCustom() {
-    //hay que actualizar el etiquetado de tags (en series y legend)
-    //los metadatos en markline no seestán mostrando
-    //los datazooms en X e Y están deshabilitados de momento.
     //mirar a ver si en vez de actualizar todo, ver si se pueden reutilizar
     //los estados anteriores (x optimizar vaya)
-    //faltan de implementar los colores custom (igual solo en los series)
-    //al refrescar a veces desaparecen series enteras (bug)
+
+    document.getElementsByName('btnControlAplicar')[0].innerHTML = "cargando...";
 
     datosTagCustom = new Array;
     datosTagCustom['serie'] = [];
@@ -431,10 +449,9 @@ function renderGrafico() {
     let mul = 0;
     //DataZooms dedicados para los Ejes Y
     //Los datazoom no parecen llegara sincronizarse con la posición de los ejes
-    //tampoco le voy a dar muchas vueltas hasta que no tengamos una forma
-    //de representar los ejes definitiva
+    //Los datazoom del lado derecho (mult > 1) están en desorden
     for (var eje in ejesYTagCustom) {
-        //var longi = ejesYTagCustom[eje]['name'].length;
+
         if (mul >= 1) {
             ejesYTagCustom[eje]['offset'] = (100) * (mul - 1);
             option['grid']['right'] = (5) * (mul - 1) + '%';
@@ -513,4 +530,9 @@ function renderGrafico() {
     }
     console.log(option);
     option && graficoCustom.setOption(option, true);
+
+    setTimeout(function() {
+        document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
+    }, 1000);
+
 }
