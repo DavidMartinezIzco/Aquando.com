@@ -13,11 +13,11 @@
     <div id="zonaOpciones">
         <div id="filtros">
             <select class="controlSel" id="estaciones" name="estacionSel" onchange="filtrarPorEstacion()">
-                <option value="all" >Todas las estaciones</option>
-                <?php 
-                    foreach($estaciones as $index=>$estacion){
-                        echo "<option value=".$estacion['id_estacion'].">".$estacion['nombre_estacion']."</option>";
-                    }                   
+                <option value="all">Todas las estaciones</option>
+                <?php
+                foreach ($estaciones as $index => $estacion) {
+                    echo "<option value=" . $estacion['id_estacion'] . ">" . $estacion['nombre_estacion'] . "</option>";
+                }
                 ?>
             </select>
         </div>
@@ -50,12 +50,9 @@
         </div>
 
         <div id="acciones">
-            <button id="btnControl" style="background-color: yellowgreen;" value="aplicar" onclick=actualizar()
-                name="btnControl">aplicar</button>
-            <button id="btnControl" onclick=limpiar() style="background-color: tomato;" value="reset"
-                name="btnControlReset">reset</button>
-            <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()"
-                name="btnControlPrint"><i class="fas fa-print"></i></button>
+            <button id="btnControl" style="background-color: yellowgreen;" value="aplicar" onclick=actualizar() name="btnControl">aplicar</button>
+            <button id="btnControl" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
+            <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
         </div>
 
     </div>
@@ -69,34 +66,33 @@
 </main>
 
 <script>
+    window.onload = function() {
+        var usu = '<?php echo $_SESSION['nombre'] ?>';
+        var pwd = '<?php echo $_SESSION['pwd'] ?>';
+        var idusu = <?php echo $_SESSION['idusu'] ?>;
+        sessionStorage.setItem('nousu', usu);
+        sessionStorage.setItem('pwd', pwd);
+        sessionStorage.setItem('emp', idusu);
+        actualizar(null);
+        setInterval(fechaYHora, 1000);
+        setInterval(actualizar(null), 20000);
+        setInterval(comprobarTiempo, 1000);
+        setInterval(efectoAlerta, 3000);
+        $(window).blur(function() {
+            tiempoFuera("");
+        });
+        $(window).focus(function() {
+            tiempoFuera("volver")
+        });
 
-window.onload = function() {
-    var usu = '<?php echo $_SESSION['nombre'] ?>';
-    var pwd = '<?php echo $_SESSION['pwd'] ?>';
-    var idusu = <?php echo $_SESSION['idusu']?>;
-    sessionStorage.setItem('nousu',usu);
-    sessionStorage.setItem('pwd', pwd);
-    sessionStorage.setItem('emp', idusu);
-    actualizar(null);
-    setInterval(fechaYHora, 1000);
-    setInterval(actualizar(null), 20000);
-    setInterval(comprobarTiempo, 1000);
-    setInterval(efectoAlerta, 3000);
-    $(window).blur(function() {
-        tiempoFuera("");
+    }
+
+
+    //muestra / oculta las opciones
+    $(window).keydown(function(e) {
+        if (e.ctrlKey)
+            opciones();
     });
-    $(window).focus(function() {
-        tiempoFuera("volver")
-    });
-
-}
-
-
-//muestra / oculta las opciones
-$(window).keydown(function(e) {
-    if (e.ctrlKey)
-        opciones();
-});
 </script>
 
 <?= $this->endSection() ?>

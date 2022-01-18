@@ -15,7 +15,7 @@
                 <h3>información</h3>
                 <hr>
                 <ul>
-                    <li>Estación: <?php echo $nombreEstacion?></li>
+                    <li>Estación: <?php echo $nombreEstacion ?></li>
                     <li>Ultima conexión: <?php echo $ultimaConex[0]['valor_date'] ?></li>
                 </ul>
             </div>
@@ -92,20 +92,19 @@
             <h3>Zona Media Derecha</h3>
         </div>
     </div>
-<!---zona alarmas--->
-<table id="alarmasSur">
-</table>
+    <!---zona alarmas--->
+    <table id="alarmasSur">
+    </table>
 </main>
 
 
 <script>
-    
     window.onload = function() {
         var estacion = <?php echo $id_estacion; ?>;
-        actualizarSur('estacion',null, null, null, estacion);
+        actualizarSur('estacion', null, null, null, estacion);
         comprobarTiempo();
         setInterval(fechaYHora, 1000);
-        setInterval(actualizarSur('estacion',null, null, null, estacion), 20000);
+        setInterval(actualizarSur('estacion', null, null, null, estacion), 20000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {
             tiempoFuera("");

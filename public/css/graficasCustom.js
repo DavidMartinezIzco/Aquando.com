@@ -5,8 +5,6 @@ datosTagCustom['serie'] = [];
 datosTagCustom['fechas'] = [];
 var serie = {};
 
-
-
 //reestablece los filtros por defecto
 //aun no reestablece los colores de los tags ni meta
 //también podría limpiar la zona de gráficos
@@ -15,6 +13,7 @@ var serie = {};
 function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
 
+    //tags y metas seleccionados
     var checkTags = document.querySelectorAll('input[name=checkTag]:checked')
     for (var i = 0; i < checkTags.length; i++) {
         checkTags[i].checked = false;
@@ -34,9 +33,18 @@ function limpiar() {
         }
     }
 
+    //quitar colores der tags y meta
+    var inColor = document.querySelectorAll('input[name=colorDato]')
+    for (var i = 0; i < inColor.length; i++) {
+        inColor[i].value = '#000000';
+        inColor[i].parentNode.style.color = '#000000';
+    }
 
+    //reset de fechas
+    inicioFin();
 
-
+    //limpiar zona de gráficos
+    graficoCustom.clear();
 
     setTimeout(function() {
         document.getElementsByName('btnControlReset')[0].innerHTML = "reset";
@@ -48,7 +56,6 @@ function imprimir() {
     html2canvas(document.querySelector('#grafica')).then(function(canvas) {
         guardar(canvas.toDataURL(), 'grafico.png');
     });
-
 }
 
 //descarga la captura del grafico
@@ -71,6 +78,19 @@ function guardar(uri, filename) {
     }
 }
 
+//establece los valores por defecto de los inputs de fecha
+//traduce y establece la fecha actual como predeterminado
+function inicioFin() {
+    Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0, 10);
+    });
+    $(document).ready(function() {
+        $('#fechaInicio').val(new Date().toDateInputValue());
+    });
+}
+
 //pasa los tags historizables de una estacion en concreto
 function tagsEstacionCustom(id_estacion) {
 
@@ -85,11 +105,11 @@ function tagsEstacionCustom(id_estacion) {
                 for (var tag in tags) {
                     if (e == 0) {
                         //document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + " selected>" + tags[tag]['nombre_tag'] + "</option>";
-                        document.getElementById("opcionesTag").innerHTML += '<li><input type="checkbox" name="checkTag" style="visibility: hidden;" value="' + tags[tag]['id_tag'] + '" id = ' + tags[tag]['id_tag'] + '><label for = "' + tags[tag]['id_tag'] + '" style="box-sizing: none"> ' + tags[tag]['nombre_tag'] + ' </label> <label> <i class= "fas fa-palette"> </i><input type="color" class="form-control-color" id="color' + tags[tag]['id_tag'] + '" style="visibility:hidden" title="color" list="coloresTagGraf"></label></li>';
+                        document.getElementById("opcionesTag").innerHTML += '<li><input type="checkbox" name="checkTag" style="visibility: hidden;" value="' + tags[tag]['id_tag'] + '" id = ' + tags[tag]['id_tag'] + '><label for = "' + tags[tag]['id_tag'] + '" style="box-sizing: none"> ' + tags[tag]['nombre_tag'] + ' </label> <label> <i class= "fas fa-palette"> </i><input type="color" class="form-control-color" id="color' + tags[tag]['id_tag'] + '" style="visibility:hidden" title="color" name="colorDato" list="coloresTagGraf"></label></li>';
 
                     } else {
                         //document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
-                        document.getElementById("opcionesTag").innerHTML += '<li> <input type = "checkbox" name="checkTag" style = "visibility: hidden;" value="' + tags[tag]['id_tag'] + '" id = ' + tags[tag]['id_tag'] + ' ><label for = "' + tags[tag]['id_tag'] + '" style="box-sizing: none"> ' + tags[tag]['nombre_tag'] + ' </label> <label> <i class= "fas fa-palette"> </i><input type="color" class="form-control-color" id="color' + tags[tag]['id_tag'] + '" style="visibility:hidden" title="color" list="coloresTagGraf"></label ></li>';
+                        document.getElementById("opcionesTag").innerHTML += '<li> <input type = "checkbox" name="checkTag" style = "visibility: hidden;" value="' + tags[tag]['id_tag'] + '" id = ' + tags[tag]['id_tag'] + ' ><label for = "' + tags[tag]['id_tag'] + '" style="box-sizing: none"> ' + tags[tag]['nombre_tag'] + ' </label> <label> <i class= "fas fa-palette"> </i><input type="color" class="form-control-color" id="color' + tags[tag]['id_tag'] + '" style="visibility:hidden" title="color" name="colorDato" list="coloresTagGraf"></label ></li>';
                     }
                     e++;
                 }
@@ -214,10 +234,8 @@ function prepararTag(info, tag) {
     };
     eje['axisLabel'] = { show: true };
     eje['axisTick'] = { show: true }
-        // eje['label'] = {
-        //     show: true,
-        //     formatter: '{value}'
-        // };
+    eje['boundaryGap'] = [0, '100%'];
+
     eje['inside'] = true;
     ejesYTagCustom.push(eje);
 
@@ -528,7 +546,6 @@ function renderGrafico() {
     document.getElementById('zonaControles').onmouseover = function() {
         setTimeout(graficoCustom.resize(), 500);
     }
-    console.log(option);
     option && graficoCustom.setOption(option, true);
 
     setTimeout(function() {

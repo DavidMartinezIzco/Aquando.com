@@ -82,8 +82,6 @@ $db = new Database();
             echo "</tr>";
             
         }
-        
-
     }
 
     //obtiene el listado de alarmas de una estacion concreta

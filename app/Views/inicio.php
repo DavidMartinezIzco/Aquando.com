@@ -272,8 +272,6 @@ if (isset($_GET['log'])) {
                 abrirCerrar();
             }
         }
-
-        
     </script>
 
     <!--seccion flotante de ayuda--->

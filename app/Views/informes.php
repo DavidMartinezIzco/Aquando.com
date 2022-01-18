@@ -78,9 +78,8 @@
 </main>
 
 <script>
-    
     window.onload = function() {
-        
+
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {

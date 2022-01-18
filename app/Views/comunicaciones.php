@@ -9,7 +9,7 @@
     <!--zona con los estados de conexiones-->
     <!--su contenido es provisional-->
     <div id="displayComs">
-        <table id="tablaConex"style="width:100%; height:100%">
+        <table id="tablaConex" style="width:100%; height:100%">
 
         </table>
     </div>
@@ -24,34 +24,33 @@
     <!--sitio para mas informacion-->
     <div id="seccionDetalles2">
         <table>
-        <tr>
-            <td><button id="btnControl" value="actualizar" onclick="actu()" name=""><i id="iconoActu" class="fas fa-sync"></i></button></td>
-            <td><button id="btnControl" value="ir" onclick="" style="font-size: 185%;" value="reset" name=""><i class="fas fa-broadcast-tower"></i></i></button></td>
-            <td><button id="btnControl" value="ajustes" onclick="" name=""><i class="fas fa-cog"></i></button></td>
-        </tr>
+            <tr>
+                <td><button id="btnControl" value="actualizar" onclick="actu()" name=""><i id="iconoActu" class="fas fa-sync"></i></button></td>
+                <td><button id="btnControl" value="ir" onclick="" style="font-size: 185%;" value="reset" name=""><i class="fas fa-broadcast-tower"></i></i></button></td>
+                <td><button id="btnControl" value="ajustes" onclick="" name=""><i class="fas fa-cog"></i></button></td>
+            </tr>
         </table>
-        
+
     </div>
-<!--alarmas de abajo-->
-<table id="alarmasSur">
-</table>
+    <!--alarmas de abajo-->
+    <table id="alarmasSur">
+    </table>
 </main>
 
 
 
 
 <script>
-    
     window.onload = function() {
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         sessionStorage.setItem('usu', usu);
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         sessionStorage.setItem('pwd', pwd);
-        var idusu = <?php echo $_SESSION['idusu']?>;
+        var idusu = <?php echo $_SESSION['idusu'] ?>;
         sessionStorage.setItem('idusu', idusu);
-        actualizarSur('general',usu, pwd, idusu, null);
-        
-        setInterval(actualizarConexiones(usu, pwd, idusu), 1000*60*5);
+        actualizarSur('general', usu, pwd, idusu, null);
+
+        setInterval(actualizarConexiones(usu, pwd, idusu), 1000 * 60 * 5);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
         setInterval(parpadeoProblema, 3000);
@@ -63,11 +62,11 @@
         });
     }
 
-    function actu(){
+    function actu() {
         usu = sessionStorage.getItem('usu');
         pwd = sessionStorage.getItem('pwd');
         idusu = sessionStorage.getItem('idusu');
-        actualizarConexiones(usu,pwd,idusu);
+        actualizarConexiones(usu, pwd, idusu);
     }
 </script>
 

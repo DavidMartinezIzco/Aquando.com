@@ -107,9 +107,7 @@ function renderGrafico(datosR) {
         }
     }
 
-
     //Ajustes
-
     option = {
 
         legend: {
@@ -147,7 +145,6 @@ function renderGrafico(datosR) {
             containLabel: true
         },
     };
-
 
     //series de meta 
     //esto igual lo hago desde servidor para quitarle curro al renderizado (lo de mas abajo)
@@ -234,7 +231,6 @@ function renderGrafico(datosR) {
         boundaryGap: [0, '100%'],
     }];
 
-
     //controles de los filtros en los ejes XY
     option['dataZoom'] = [{
             type: 'slider',
@@ -286,7 +282,6 @@ function renderGrafico(datosR) {
         }
 
     ];
-
 
     //valores de los tags y sus metadatos traidos de server
     var series = [{
@@ -399,8 +394,6 @@ function renderGrafico(datosR) {
         }
 
     ];
-
-
     option['series'] = series;
 
 

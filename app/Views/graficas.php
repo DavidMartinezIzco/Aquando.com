@@ -13,7 +13,7 @@
     <div id="display">
         <div id="zonaControles">
             <div id="panelOpciones">
-                
+
                 <form id="formOpciones">
                     <h3>Vista Rápida</h3>
                     <h6>Mostrando:</h6>
@@ -27,11 +27,11 @@
                     <label for="opciones">Estación:</label>
                     <select class="controlSel" id="opciones" style="transition: 0.5s;" name="opciones" onchange="iniciar(this.value)">
                         <?php
-                            $i = 1;
-                            foreach ($_SESSION['estaciones'] as $index => $value) {
-                                echo "<option value=" . $value['id_estacion'] . ">" . $value['nombre_estacion'] . "</option>";
-                                $i++;
-                            }
+                        $i = 1;
+                        foreach ($_SESSION['estaciones'] as $index => $value) {
+                            echo "<option value=" . $value['id_estacion'] . ">" . $value['nombre_estacion'] . "</option>";
+                            $i++;
+                        }
                         ?>
                     </select>
                 </form>
@@ -58,7 +58,7 @@
 
 <script>
     window.onload = function() {
-        
+
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         var idusu = <?php echo $_SESSION['idusu'] ?>;
