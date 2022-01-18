@@ -226,18 +226,16 @@ class Database
         //DE CADA TAG SACAR LA ULTIMA FECHA Y SU VALOR
 
         if ($this->conectar()) {
-            
-
             $ultimosDatosEstacion = array();
             $tagsEstacion = $this->tagsEstacion($id_estacion);
             
             foreach ($tagsEstacion as $index => $tag) {
-                $conFechaMaxTag = "SELECT MAX(fecha) FROM datos_valores WHERE id_tag = ".$tag['id_tag']."";
+                $conFechaMaxTag = "SELECT MAX(datos_valores.fecha) FROM datos_valores INNER JOIN estacion_tag on datos_valores.id_tag = estacion_tag.id_tag  WHERE datos_valores.id_tag = ".$tag['id_tag']." AND estacion_tag.id_estacion = ".$id_estacion."";
                 $conUltimoValorTag = "SELECT tags.nombre_tag,
                 datos_valores.*
                 FROM datos_valores INNER JOIN tags ON datos_valores.id_tag = tags.id_tag
                 INNER JOIN estacion_tag ON estacion_tag.id_tag = tags.id_tag
-                WHERE tags.id_tag = ".$tag['id_tag']."AND datos_valores.fecha = ($conFechaMaxTag)";
+                WHERE tags.id_tag = ".$tag['id_tag']."AND datos_valores.fecha = ($conFechaMaxTag) AND estacion_tag.id_estacion = ".$id_estacion."";
 
                 $resulConUltimoValorTag = pg_query($this->conexion, $conUltimoValorTag);
                 if($this->consultaExitosa($resulConUltimoValorTag)){

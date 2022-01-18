@@ -1,204 +1,149 @@
+/* ZONA IZQUIERDA */
 
-/*GENERAL*/
-
-#conPrincipal::-webkit-scrollbar {
-    height: 15px;
-}
-
-#conPrincipal::-webkit-scrollbar-thumb {
-    background-color: rgb(1, 168, 184);
+#estacionIzq {
+    position: relative;
+    width: 33%;
+    height: 75%;
+    border: 1px solid rgb(1, 168, 184);
     border-radius: 10px;
-}
-
-ul{
-    list-style: none;
-    padding: 0;
-}
-
-/*ZONA ALTA*/
-
-#estacionSup{
-    
-    width: 100%;
-    height: 30%;
-    color: black;
-    position: relative;
+    left: 2%;
     padding: 1%;
-    margin-bottom: 1%;
+    background-color: rgb(85, 85, 85);
 }
 
-#elemGraf {
-    width: 20%;
+
+/* FOTO E INFO BASICA */
+
+#seccionSup {
+    border: 1px solid rgb(1, 168, 184);
+    border-radius: 10px;
+    width: 100%;
+    height: 20%;
+}
+
+#seccionFoto {
+    float: left;
+    width: 40%;
     height: 100%;
-    margin: 0em;
-    position: relative;
-    top: 0%;
-    left: 0%;
+    border-right: 1px solid lightgray;
     background-image: url('../logo.png');
-    background-size: contain;
     background-repeat: no-repeat;
-    border: 2px solid rgb(1, 168, 184);
-    border-radius: 5px;
+    background-size: contain;
+    background-position: center;
 }
 
-#sinopMedio{
-    padding-left: 1%;
+#seccionInfo {
+    float: right;
+    width: 60%;
     height: 100%;
-    width: 40%;
-    position: relative;
-    bottom: 100%;
-    left: 20%;
+    padding: 2.5% 1.5%;
 }
 
-#sinopMI{
-    color: black;
-    padding: 2% 5%;
-    border: 2px solid rgb(1, 168, 184);
-    border-radius: 5px;
-    background-color: white;
-    width: 50%;
-    position: relative;
-    height: 100%;
-    bottom: 0%;
-    
-    
-}
 
-#sinopMD{
-    padding: 5px;
-    width: 50%;
-    position: relative;
-    height: 100%;
-    bottom: 100%;
-    left: 50%;
-}
+/* DISPLAY DE TAGS ANALOGICOS */
 
-.widDigital{
-    width: 90%;
-    margin-bottom: 3%;
-    padding: 2% 5%;
+#seccionInf {
+    border: 1px solid rgb(1, 168, 184);
     border-radius: 10px;
-    border: 2px solid rgb(1, 168, 184);
-}
-
-#sinopLado{
-    padding: 5px;
-    height: 100%;
-    width: 40%;
-    position: relative;
-    bottom: 204%;
-    left: 60%;
-    border-radius: 5px;
-}
-
-.widMed{
-    border-radius: 5px;
-    height: 6em;
-    position: relative;
-    border: 2px solid rgb(1, 168, 184);
-    margin-bottom: 3%;
-    color: black;
-}
-.widMedDatos{
-    color: black;
-    padding: 1%;
-    width: 35%;
-    height: 100%;
-}
-
-.widMedDatos ul{
-    padding: 1%;
-    background-color: white;
-    border-radius:5px;
-    height: 100%;
-}
-
-.widMedDatos ul li{
-    margin: 1% 3%;
-}
-
-.widMedGraf{
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    width: 65%;
-    padding: 2%;
-    position: relative;
-    height: 100%;
-    left: 35%;
-    bottom: 100%;
-    background-color: white;
-}
-
-
-/*ZONA MEDIA*/
-
-#estacionMedio{
-    
-    padding: 1%;
     width: 100%;
-    height: 45%;
+    height: 75%;
+    margin-top: 5%;
+    padding: 5%;
+}
+
+.widDigi {
+    border-radius: 10px;
+    color: rgb(85, 85, 85);
+    background-color: lightgray;
+    height: 17%;
+    padding: 1% 0%;
+    width: 100%;
+    border: 1px solid rgb(85, 85, 85);
     margin-bottom: 1%;
-    color: black;
 }
 
-#estMedI{
-    border: 2px solid rgb(1, 168, 184);
-    border-radius: 5px;
-    padding: 1%;
-    position: relative;
-    width: 34%;
+.widDigiIcono {
     height: 100%;
-    
-}
-#estMedC{
-    border: 2px solid rgb(1, 168, 184);
-    border-radius: 5px;
-    padding: 1%;
-    position: relative;
-    width: 29%;
-    height: 100%;
-    left:35%;
-    bottom:100%;
-    
-    
-}
-#estMedD{
-    border: 2px solid rgb(1, 168, 184);
-    border-radius: 5px;
-    padding: 1%;
-    position: relative;
-    left: 65%;
-    width: 34%;
-    height: 100%;
-    bottom:200%;
-}
-
-
-/*ZONA BAJA*/
-
-#estacionBajo{  
-    width: 100%;
-    height: 20%;
-    background-color:rgb(56, 56, 56);
-    
-}
-
-#estacionBajo table{
-    overflow-y: scroll;
-    width: 100%;
-    height: 100%;
+    width: 33%;
+    float: right;
+    border-left: 1px solid rgb(85, 85, 85);
     text-align: center;
-    background-color: white;
-    border: 2px solid rgb(1, 168, 184);
 }
 
-#estacionBajo table tr {
-    height: 20%;
-    border-bottom: 1px solid black;
+.widDigiIcono i {
+    margin: 7%;
+    font-size: 200%;
 }
 
-#estacionBajo table tr th{
-    border-bottom: 1px solid black;
-    background-color: lightgrey;
+.widDigiText {
+    text-align: center;
+    height: 100%;
+    width: 33%;
+    float: left;
+    font-size: 110%;
 }
 
+
+/* ZONA DERECHA CON TAGS VARIOS*/
+
+#estacionDer {
+    position: relative;
+    width: 59%;
+    height: 75%;
+    border: 1px solid rgb(1, 168, 184);
+    border-radius: 10px;
+    bottom: 75%;
+    left: 37%;
+    background-color: rgb(85, 85, 85);
+    padding: 1%;
+}
+
+
+/* WIDGET DE DATOS ANALOGICOS 1 */
+
+.widAna {
+    width: 40%;
+    height: 17%;
+    border: 1px solid rgb(1, 168, 184);
+    border-radius: 10px;
+}
+
+.widAnaInfo {
+    background-color: lightgray;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    width: 40%;
+    height: 100%;
+    float: left;
+    border-right: 1px solid rgb(85, 85, 85);
+}
+
+.widAnaInfoPrin {
+    width: 50%;
+    text-align: center;
+    padding: calc(25% - 0.5em) 0%;
+    height: 100%;
+    float: left;
+    border-right: 1px solid rgb(85, 85, 85);
+    color: rgb(85, 85, 85);
+}
+
+.widAnaInfoSec {
+    width: 50%;
+    height: 100%;
+    padding: 0;
+    float: right;
+    color: rgb(85, 85, 85);
+}
+
+.widAnaInfoSec div {
+    height: 50%;
+    padding: calc(25% - 0.5em) 0%;
+    text-align: center;
+}
+
+.widAnaGraf {
+    width: 60%;
+    height: 100%;
+    float: right;
+}
