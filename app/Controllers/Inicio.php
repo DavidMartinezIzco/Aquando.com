@@ -111,7 +111,6 @@ class Inicio extends BaseController
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "estacion";
             $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
-            $datosEstacion = $usuario->obtenerUltimaInfoEstacion($_POST['btnEstacion']);
             foreach ($_SESSION['estaciones'] as $index => $estacion) {
                 if($estacion["id_estacion"] == $_POST["btnEstacion"]){
                     $nombreEstacion = $estacion["nombre_estacion"];
@@ -125,10 +124,7 @@ class Inicio extends BaseController
             else {
                 $datos['ultimaConex'] = "error";
             }
-            $datos['datosEstacion'] = $datosEstacion;
-            
             $datos['nombreEstacion'] = $nombreEstacion;
-
             return view('estacion', $datos);
         } else {
             return view('inicio');

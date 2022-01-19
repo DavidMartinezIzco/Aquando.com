@@ -49,6 +49,19 @@
     height: 75%;
     margin-top: 5%;
     padding: 5%;
+    overflow-y: scroll;
+}
+
+#seccionInf::-webkit-scrollbar {
+    height: 15px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#seccionInf::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .widDigi {
@@ -78,7 +91,7 @@
 .widDigiText {
     text-align: center;
     height: 100%;
-    width: 33%;
+    width: 66%;
     float: left;
     font-size: 110%;
 }
@@ -96,6 +109,19 @@
     left: 37%;
     background-color: rgb(85, 85, 85);
     padding: 1%;
+    overflow-y: scroll;
+}
+
+#estacionDer::-webkit-scrollbar {
+    height: 15px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#estacionDer::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 
@@ -103,9 +129,13 @@
 
 .widAna {
     width: 40%;
-    height: 17%;
+    height: 30%;
+    background-color: white;
+    font-size: 80%;
     border: 1px solid rgb(1, 168, 184);
+    margin: 1% 4.25%;
     border-radius: 10px;
+    display: inline-block;
 }
 
 .widAnaInfo {
@@ -140,6 +170,10 @@
     height: 50%;
     padding: calc(25% - 0.5em) 0%;
     text-align: center;
+}
+
+.widAnaInfoSec div:first-child {
+    border-bottom: 1px solid rgb(85, 85, 85);
 }
 
 .widAnaGraf {

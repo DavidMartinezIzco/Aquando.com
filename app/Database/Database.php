@@ -221,13 +221,18 @@ class Database
 
     //obtiene la ultima información conocida de una estación concreta
     //se usará en la sección de estaciones y probablemente mediante AJAX
-    public function datosEstacion($id_estacion){
+    public function datosEstacion($id_estacion, $todos){
         //SACAR TAGS DE ESTACION
         //DE CADA TAG SACAR LA ULTIMA FECHA Y SU VALOR
 
         if ($this->conectar()) {
             $ultimosDatosEstacion = array();
-            $tagsEstacion = $this->tagsEstacion($id_estacion);
+            if($todos){
+                $tagsEstacion = $this->todosTagsEstacion($id_estacion);
+            }
+            else {
+                $tagsEstacion = $this->tagsEstacion($id_estacion);
+            }
             
             foreach ($tagsEstacion as $index => $tag) {
                 $conFechaMaxTag = "SELECT MAX(datos_valores.fecha) FROM datos_valores INNER JOIN estacion_tag on datos_valores.id_tag = estacion_tag.id_tag  WHERE datos_valores.id_tag = ".$tag['id_tag']." AND estacion_tag.id_estacion = ".$id_estacion."";
@@ -243,7 +248,21 @@ class Database
                 }
 
             }
-            return $ultimosDatosEstacion;
+            $ultimosDatosEstacionLimpio = array();
+            foreach ($ultimosDatosEstacion as $tag => $datosTag) {
+                foreach ($datosTag as $nDato => $valor) {
+                    if($nDato != 'nombre_tag' && $nDato != 'id_tag' && $nDato!= 'id_datos' && $nDato != 'fecha' && $nDato != 'calidad'){
+                        if($valor != null){
+                            $ultimosDatosEstacionLimpio[$tag]['valor'] = $valor;
+                        }
+                    }
+                    else{
+                        $ultimosDatosEstacionLimpio[$tag][$nDato] = $valor;
+                    }
+                }
+            }
+
+            return $ultimosDatosEstacionLimpio;
         }
     }
 
@@ -264,6 +283,23 @@ class Database
             return false;
         }
     }
+
+    public function todosTagsEstacion($id_estacion){
+        if ($this->conectar()) {
+            $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = $id_estacion";
+            $resulTags = pg_query($this->conexion, $conTags);
+            if ($this->consultaExitosa($resulTags)) {
+                $tagsEstacion = pg_fetch_all($resulTags);
+
+                $_SESSION['tagsEstacion'] = $tagsEstacion;
+                return $tagsEstacion;
+            } else {
+                return false;
+            }
+            return false;
+        }
+    }
+
 
     //para las fechas vamos a necesitar un traductor de Date() a TimeStamp()
     public function historicosEstacion($id_estacion, $fechaIni, $fechaFin){

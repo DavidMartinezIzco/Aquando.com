@@ -72,7 +72,7 @@ class Usuario{
 
     public function obtenerUltimaInfoEstacion($id_estacion){
         try{
-            return $this->DB->datosEstacion($id_estacion);
+            return $this->DB->datosEstacion($id_estacion, true);
         }
         catch(Throwable $e){
             return $e;
