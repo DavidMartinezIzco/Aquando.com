@@ -33,15 +33,17 @@
 
 
         <!---zona alarmas--->
+        
         <table id="alarmasSur">
         </table>
+        
+        
     </main>
 
 
     <script>
-        
+        var estacion = <?php echo $id_estacion ?>;
         window.onload = function() {
-            var estacion = <?php echo $id_estacion ?>;
             actualizarSur('estacion', null, null, null, estacion);
             comprobarTiempo();
             setInterval(fechaYHora, 1000);

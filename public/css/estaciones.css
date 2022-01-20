@@ -139,7 +139,7 @@
 }
 
 .widAnaInfo {
-    background-color: lightgray;
+    background-color: white;
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
     width: 40%;
@@ -149,31 +149,28 @@
 }
 
 .widAnaInfoPrin {
-    width: 50%;
+    width: 100%;
+    padding: 6%;
+    border-top-left-radius: 9px;
+    background-color: rgb(1, 168, 184);
     text-align: center;
-    padding: calc(25% - 0.5em) 0%;
-    height: 100%;
-    float: left;
-    border-right: 1px solid rgb(85, 85, 85);
-    color: rgb(85, 85, 85);
+    height: calc(100%/3);
+    color: white;
+    font-size: 100%;
+    vertical-align: center;
 }
 
 .widAnaInfoSec {
-    width: 50%;
-    height: 100%;
-    padding: 0;
-    float: right;
-    color: rgb(85, 85, 85);
-}
-
-.widAnaInfoSec div {
-    height: 50%;
-    padding: calc(25% - 0.5em) 0%;
+    height: calc(100%/3);
     text-align: center;
+    color: rgb(85, 85, 85);
+    width: 100%;
+    font-size: 90%;
+    padding: 6%;
 }
 
-.widAnaInfoSec div:first-child {
-    border-bottom: 1px solid rgb(85, 85, 85);
+.widAnaInfoSec :first-of-type {
+    border-bottom: 1px solid black;
 }
 
 .widAnaGraf {

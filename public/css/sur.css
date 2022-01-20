@@ -6,8 +6,8 @@
     bottom: 0;
     text-align: center;
     transition: 0.5s;
-    height: 10em;
-    overflow-y: hidden;
+    max-height: 10em;
+    overflow: hidden;
 }
 
 #alarmasSur tr {

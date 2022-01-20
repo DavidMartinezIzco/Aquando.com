@@ -59,12 +59,13 @@ require '../app/Database/Database.php';
                 foreach ($alarma as $dato => $valor) {
                     
                     if($dato != 'estado' && $dato != 'id_alarmas'){
-                    
+                        
                         echo "<td>";
                         echo $valor;
                         echo "</td>";    
                         
                     }
+                    
                     
                 }
                 echo "</tr>";
@@ -91,6 +92,7 @@ require '../app/Database/Database.php';
         <th>Fecha de reconocimiento</th>
         </tr>";
         
+
         if($alarmasSur != false){
             if(!empty($alarmasSur)){
                 
@@ -102,45 +104,53 @@ require '../app/Database/Database.php';
             }
             
             
-                foreach ($alarmasLimpio as $index => $alarma) {
-
-                    switch ($alarma['estado']) {
-                        case 1:
-                            echo "<tr class='activaNo' >";
-                            
-                            break;
-                        case 2:
-                            echo "<tr class='restNo'>";
-                            
-                            break;
-                        case 3:
-                            echo "<tr class='activaSi'>";
-                            
-                            break;
-                        case 4:
-                            echo "<tr class='restSi'>";
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    foreach ($alarma as $dato => $valor) {
-                        
-                        if($dato != 'estado' && $dato != 'id_alarmas'){
-                            echo "<td>";
-                            echo $valor;
-                            echo "</td>";    
+                if(!empty($alarmasLimpio)){
+                    $i = 0;
+                    foreach ($alarmasLimpio as $index => $alarma) {
+                        $i++;
+                        switch ($alarma['estado']) {
+                            case 1:
+                                echo "<tr class='activaNo' >";
+                                
+                                break;
+                            case 2:
+                                echo "<tr class='restNo'>";
+                                
+                                break;
+                            case 3:
+                                echo "<tr class='activaSi'>";
+                                
+                                break;
+                            case 4:
+                                echo "<tr class='restSi'>";
+                                break;
+    
+                            default:
+                               
+                                break;
                         }
-                        
+    
+                        foreach ($alarma as $dato => $valor) {
+                            
+                            if($dato != 'estado' && $dato != 'id_alarmas'){
+                                echo "<td>";
+                                echo $valor;
+                                echo "</td>";    
+                            }
+                            
+                        }
+                        echo "</tr>";
                     }
-                    echo "</tr>";
+                    if($i < 6){
+                        while ($i <= 6){
+                            $i++;
+                           echo "<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+                        }
+                    }  
                 }
-  
+                
             }
         }
-                
+              
         
     }
-
-?>

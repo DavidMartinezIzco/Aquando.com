@@ -300,7 +300,6 @@ class Database
         }
     }
 
-
     //para las fechas vamos a necesitar un traductor de Date() a TimeStamp()
     public function historicosEstacion($id_estacion, $fechaIni, $fechaFin){
         if ($this->conectar()) {
@@ -607,6 +606,26 @@ class Database
         }
         else {
             return false;
+        }
+
+    }
+
+    //obtiene los 7 ultimos maximos valores de un tag de una estación
+    public function tagTrend($id_tag, $id_estacion){
+
+        if($this->conectar()){
+
+            $conTrend = 
+            "SELECT MAX(datos_historicos.valor_acu), datos_historicos.fecha::date
+            from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+            where datos_historicos.id_tag = ".$id_tag." and estacion_tag.id_estacion = ".$id_estacion."
+            and datos_historicos.fecha::date > current_date::date - interval '38 days' GROUP BY datos_historicos.fecha::date";
+            $resTrend = pg_query($this->conexion, $conTrend);
+            if($this->consultaExitosa(($resTrend))){
+                $datosTrendTag = pg_fetch_all($resTrend);
+                return($datosTrendTag);
+            }
+            return "no hay resultados";
         }
 
     }

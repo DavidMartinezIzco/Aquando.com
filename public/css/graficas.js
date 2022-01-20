@@ -158,7 +158,6 @@ function renderGrafico(datosR) {
         serieMax.push(datosM['max']);
         serieMin.push(datosM['min']);
         serieAvg.push(datosM['avg']);
-
     }
 
     //el chandrío que mas habría que optimizar o pasar a servidor
