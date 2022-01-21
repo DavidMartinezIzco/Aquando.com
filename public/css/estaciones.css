@@ -39,6 +39,10 @@
     padding: 2.5% 1.5%;
 }
 
+#seccionInfo i:hover {
+    color: white;
+}
+
 
 /* DISPLAY DE TAGS ANALOGICOS */
 
@@ -177,4 +181,37 @@
     width: 60%;
     height: 100%;
     float: right;
+}
+
+#ajustesEstacion {
+    transition: 0.2s;
+    display: none;
+    padding: 1%;
+    width: 70%;
+    height: 60%;
+    background-color: lightgray;
+    border-radius: 10px;
+    position: absolute;
+    left: 20%;
+    top: 15%;
+}
+
+#ajustesEstacion h1 {
+    text-align: center;
+    color: white;
+    font-weight: 'bold';
+}
+
+#btnAjustesCerrar {
+    float: right;
+    color: tomato;
+    font-size: 200%;
+}
+
+#tablaConsignas {
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    border-radius: 10px;
+    margin: 2% 10%;
 }

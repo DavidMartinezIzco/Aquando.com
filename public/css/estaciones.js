@@ -42,7 +42,7 @@ function trendsTags() {
             url: 'A_Estacion.php?opcion=trends&estacion=' + id_estacion + '&tipo=todos',
             success: function(trends) {
                 todoTrends = trends;
-                console.log(todoTrends);
+
             },
             error: function() {
                 console.log("error");
@@ -230,7 +230,7 @@ function montarGraficosWidget() {
         var fechas = [];
         valores.push(todoTrends[tag]['max']);
         fechas.push(todoTrends[tag]['fecha']);
-        console.log(valores);
+
         optionChart = {
             grid: {
                 left: '2%',
@@ -296,3 +296,17 @@ function montarGraficosWidget() {
 
 //      para cambiar los trends o su intervalo, hay que modificar
 //      la funcion trendTags de AJAX y la función montar graficos Widgets
+
+
+function ajustes() {
+    var ajustes = document.getElementById("ajustesEstacion");
+    if (ajustes.style.display == 'block') {
+        ajustes.style.opacity = '0%';
+        setTimeout(function() { ajustes.style.display = 'none' }, 200);
+
+    } else {
+        ajustes.style.display = 'block';
+        setTimeout(function() { ajustes.style.opacity = '100%'; }, 200);
+    }
+
+}

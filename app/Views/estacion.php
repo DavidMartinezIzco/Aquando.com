@@ -10,6 +10,7 @@
             <div id="seccionSup">
                 <div id="seccionFoto"></div>
                 <div id="seccionInfo">
+                <i class="fas fa-tools" onclick="ajustes()" style="float:right;color: rgb(1, 168, 184);"></i>
                     <p><?php echo $ultimaConex[0]['nombre_estacion'];  ?></p>
                     <p>Ultima comunicación: <?php echo $ultimaConex[0]['valor_date']  ?></p>
                 </div>
@@ -31,6 +32,15 @@
         <div id="estacionDer">
         </div>
 
+        <div id="ajustesEstacion">
+        <i class="fas fa-times" id="btnAjustesCerrar" onclick="ajustes()"></i>
+            <h1>Ajustes de estación <?php echo $nombreEstacion; ?></h1>
+            
+                <table id="tablaConsignas">
+
+                </table>
+            
+        </div>
 
         <!---zona alarmas--->
         
