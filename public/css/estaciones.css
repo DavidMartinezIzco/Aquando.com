@@ -108,7 +108,7 @@
     bottom: 75%;
     left: 37%;
     background-color: rgb(85, 85, 85);
-    padding: 1%;
+    /* padding: 1%; */
     overflow-y: scroll;
 }
 
@@ -161,7 +161,7 @@
 }
 
 .widAnaInfoSec {
-    height: calc(100%/3);
+    height: calc(100%/3*2);
     text-align: center;
     color: rgb(85, 85, 85);
     width: 100%;

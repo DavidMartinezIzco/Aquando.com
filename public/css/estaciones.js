@@ -119,15 +119,16 @@ function montarWidgetsAnalogicos() {
         var consi = '';
         var widgSec = '';
 
-        if (datosAnalog[indexDato]['consignas'].length > 0) {
-            for (var i = 0; i < datosAnalog[indexDato]['consignas'].length; i++) {
-                consi += '<div class="widAnaInfoSec">' + datosAnalog[indexDato]['consignas'][i]['nombre_tag'] + ': ' + datosAnalog[indexDato]['consignas'][i]['valor'] + '</div>';
-            }
-        } else {
-            consi += '<div class="widAnaInfoSec">sin consignas</div><div class="widAnaInfoSec">sin consignas</div>';
-        }
+        consi += '<div id="gau' + datosAnalog[indexDato]['nombre_tag'].replace(/\s+/g, '') + '" class="widAnaInfoSec"></div>';
+        // if (datosAnalog[indexDato]['consignas'].length > 0) {
+        //     for (var i = 0; i < datosAnalog[indexDato]['consignas'].length; i++) {
+        //         consi += '<div class="widAnaInfoSec">' + datosAnalog[indexDato]['consignas'][i]['nombre_tag'] + ': ' + datosAnalog[indexDato]['consignas'][i]['valor'] + '</div>';
+        //     }
+        // } else {
+        //     consi += '<div class="widAnaInfoSec">sin consignas</div><div class="widAnaInfoSec">sin consignas</div>';
+        // }
         consi += '</div>';
-        var widgGraf = '<div class="widAnaGraf" id="' + datosAnalog[indexDato]['nombre_tag'] + '"></div>';
+        var widgGraf = '<div class="widAnaGraf" id="chart' + datosAnalog[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div>';
         var widget = widgInicio + widgInfo + widgSec + consi + widgGraf + widgFin;
         seccionAnalog.innerHTML += widget;
     }
@@ -139,154 +140,148 @@ function montarGraficosWidget() {
 
     for (var tag in datosAnalog) {
 
-        var option;
-        var nombreDato = datosAnalog[tag]['nombre_tag'];
+        var optionGauge;
+        var nombreDato = datosAnalog[tag]['nombre_tag'].replace(/\s+/g, '');
 
         //gauge para niveles, cloro, caudal
-        if (nombreDato.includes("Nivel") || nombreDato.includes("Cloro") || nombreDato.includes("Caudal")) {
-            var chartDom = document.getElementById("" + nombreDato + "");
-            var grafico = echarts.init(chartDom);
-            var valor = datosAnalog[tag]['valor'];
-            var maximo = 100;
-            var minimo = 0;
-            if (datosAnalog[tag]['consignas'].length >= 1) {
-                maximo = parseInt(datosAnalog[tag]['consignas'][0]['valor']);
-                maximo /= 100;
-                // option['series'][0]['max'] = maximo;
-            }
-            if (datosAnalog[tag]['consignas'].length == 2) {
-                minimo = parseInt(datosAnalog[tag]['consignas'][1]['valor']);
-                minimo /= 100;
-                // option['series'][0]['min'] = minimo;
-            }
 
 
+        var chartDom = document.getElementById('gau' + nombreDato);
+        var chartDom2 = document.getElementById('chart' + nombreDato);
+        var gauge = echarts.init(chartDom);
+        var grafTrend = echarts.init(chartDom2);
+        var valor = datosAnalog[tag]['valor'];
+        var maximo = 10;
+        var maximoGraf = maximo + (maximo * 0.2);
+        var minimo = 0;
+        if (datosAnalog[tag]['consignas'].length >= 1) {
+            maximo = parseInt(datosAnalog[tag]['consignas'][0]['valor']);
+            maximo /= 10;
 
-            option = {
-                grid: {
-                    left: '0%',
-                    right: '0%',
-                    top: '0%',
-                    bottom: '0%',
-                    containLabel: true
-                },
-
-                series: [{
-                    name: nombreDato,
-                    type: 'gauge',
-                    itemStyle: {
-                        color: 'rgb(1, 168, 184)'
-                    },
-                    progress: {
-                        show: true
-                    },
-                    axisLine: {
-                        show: true,
-                        lineStyle: {
-                            width: 6,
-                            color: [
-                                [(minimo), 'tomato'],
-                                [(maximo), 'rgb(39, 45, 79)'],
-                                [1, 'tomato']
-                            ]
-                        }
-
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    axisLabel: {
-                        show: false
-                    },
-                    splitLine: {
-                        show: true
-                    },
-                    pointer: {
-                        icon: 'roundRect',
-                        length: '80%',
-
-                    },
-                    detail: {
-                        show: true,
-                        valueAnimation: true,
-                        formatter: '{value}',
-                    },
-                    data: [{
-                        value: valor,
-                    }]
-                }]
-            };
-
-
-
-            option && grafico.setOption(option, true);
+            // option['series'][0]['max'] = maximo;
+        }
+        if (datosAnalog[tag]['consignas'].length == 2) {
+            minimo = parseInt(datosAnalog[tag]['consignas'][1]['valor']);
+            minimo /= 10;
+            // option['series'][0]['min'] = minimo;
         }
 
-        //chart acumulados
-
-        if (nombreDato.includes("Acumulado")) {
-            var chartDom = document.getElementById("" + nombreDato + "");
-            var grafico = echarts.init(chartDom);
-            var valores = [];
-            var fechas = [];
-            for (var index in todoTrends[tag]) {
-                valores.push(todoTrends[tag][index]['max']);
-                fechas.push(todoTrends[tag][index]['fecha']);
-            }
 
 
-            option = {
-                grid: {
-                    left: '2%',
-                    right: '1%',
-                    top: '8%',
-                    bottom: '2%',
-                    containLabel: true
+        optionGauge = {
+            grid: {
+                left: '0%',
+                right: '0%',
+                top: '0%',
+                bottom: '0%',
+                containLabel: true
+            },
+
+            series: [{
+                name: nombreDato,
+                type: 'gauge',
+                itemStyle: {
+                    color: 'rgb(1, 168, 184)'
                 },
-                tooltip: {
-                    trigger: 'axis',
-                    textStyle: {
-                        fontStyle: 'bold',
-                        fontSize: 20
-                    },
-
-                    axisPointer: {
-                        axis: 'x',
-                        snap: true,
-                        offset: 0,
-                        type: 'line',
-                        label: {
-                            formatter: 'fecha y hora: {value}',
-                            fontStyle: 'bold'
-                        }
-                    }
+                progress: {
+                    show: false
                 },
-                xAxis: {
-                    inverse: true,
+                axisLine: {
                     show: true,
-                    type: 'category',
-                    data: fechas
+                    lineStyle: {
+                        width: 6,
+                        color: [
+                            [(minimo), 'tomato'],
+                            [(maximo), 'rgb(39, 45, 79)'],
+                            [1, 'tomato']
+                        ]
+                    }
+
                 },
-                yAxis: {
-                    type: 'value'
+                axisTick: {
+                    show: false
                 },
-                series: [{
-                    data: valores,
-                    type: 'bar',
-                    // areaStyle: {
-                    //     show: true,
-                    // },
-                    symbol: 'none',
-                    smooth: true
+                axisLabel: {
+                    show: false
+                },
+                splitLine: {
+                    show: false
+                },
+                pointer: {
+                    // icon: 'rect',
+                    length: '80%',
+                    width: 4
+                },
+                max: maximoGraf,
+                min: 0,
+                detail: {
+                    show: true,
+                    valueAnimation: true,
+                    formatter: '{value}',
+                    fontSize: 12
+                },
+                data: [{
+                    value: valor,
                 }]
-            };
+            }]
+        };
 
-            option && grafico.setOption(option);
+        var valores = [];
+        var fechas = [];
+        valores.push(todoTrends[tag]['max']);
+        fechas.push(todoTrends[tag]['fecha']);
+        console.log(valores);
+        optionChart = {
+            grid: {
+                left: '2%',
+                right: '1%',
+                top: '8%',
+                bottom: '2%',
+                containLabel: true
+            },
+            tooltip: {
+                trigger: 'axis',
+                textStyle: {
+                    fontStyle: 'bold',
+                    fontSize: 12
+                },
 
-        }
+                axisPointer: {
+                    axis: 'x',
+                    snap: true,
+                    offset: 0,
+                    type: 'line',
+                    label: {
+                        formatter: 'fecha y hora: {value}',
+                        fontStyle: 'bold'
+                    }
+                }
+            },
+            xAxis: {
+                inverse: true,
+                show: true,
+                type: 'category',
+                data: fechas[0]
+            },
+            yAxis: {
+                name: nombreDato,
+                type: 'value'
+            },
+            series: [{
+                name: nombreDato,
+                data: valores[0],
+                type: 'line',
+                areaStyle: {
+                    show: true,
+                },
+                symbol: 'none',
+                smooth: false
+            }]
+        };
 
+        optionGauge && gauge.setOption(optionGauge, true);
+        optionChart && grafTrend.setOption(optionChart, true);
 
-        //chart caudal
     }
 
 
