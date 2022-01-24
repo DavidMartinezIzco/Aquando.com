@@ -3,6 +3,7 @@ var datosAnalog = Array();
 var consignas = Array();
 var todoDato = Array();
 var todoTrends = Array();
+var tagsAcumulados = Array();
 
 //actualizar la info de la seccion estacion
 //vas a separar este motor para el texto de los widgets con el ultimo dato
@@ -32,8 +33,12 @@ function trendsTags() {
     //tendras que sacar de uno a uno en un bucle js o pasar el bucle a AJAX
     //luego ya veremos que seguro que la cagas asi que tienes tiempo para pensarlo
 
-    var arrTags = JSON.stringify(datosAnalog);
+    var listaTags = datosAnalog.concat(tagsAcumulados);
+    console.log(listaTags);
+    var arrTags = JSON.stringify(listaTags);
     var id_estacion = estacion;
+
+
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
@@ -42,10 +47,9 @@ function trendsTags() {
             url: 'A_Estacion.php?opcion=trends&estacion=' + id_estacion + '&tipo=todos',
             success: function(trends) {
                 todoTrends = trends;
-
             },
             error: function() {
-                console.log("error");
+                console.log("error en las trends");
             },
             dataType: 'json'
         });
@@ -61,11 +65,15 @@ function filtrarDatos(datos) {
         if (datos[indexDato]['valor'] == 't' || datos[indexDato]['valor'] == 'f') {
             datosDigi[indexDato] = datos[indexDato];
         } else {
-            if (datos[indexDato]['nombre_tag'].includes("Consigna")) {
-                consignas[indexDato] = datos[indexDato];
+            if (datos[indexDato]['nombre_tag'].includes("Acumulado") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
+                tagsAcumulados[indexDato] = datos[indexDato];
             } else {
-                datosAnalog[indexDato] = datos[indexDato];
-                datosAnalog[indexDato]['consignas'] = [];
+                if (datos[indexDato]['nombre_tag'].includes("Consigna")) {
+                    consignas[indexDato] = datos[indexDato];
+                } else {
+                    datosAnalog[indexDato] = datos[indexDato];
+                    datosAnalog[indexDato]['consignas'] = [];
+                }
             }
         }
     }
@@ -80,13 +88,17 @@ function filtrarDatos(datos) {
 
     todoDato['tags_digitales'] = datosDigi;
     todoDato['tags_analogicos'] = datosAnalog;
+    todoDato['tags_acu'] = tagsAcumulados;
     todoDato['consignas'] = consignas;
+
+
+    console.log(todoDato);
 
     trendsTags();
     setTimeout(() => {
         montarWidgetsDigi();
         montarWidgetsAnalogicos();
-    }, 1500);
+    }, 2000);
 
 }
 
@@ -108,9 +120,31 @@ function montarWidgetsDigi() {
 }
 
 //montar widgets analógicos
+//max y mins en los gauges (Hover?)
+//acumulados diario + general (en vez de gauge en los widAcu)
+// grid acumulados / analog / digi (3 cols distintas)
+//zona digi reducida
 function montarWidgetsAnalogicos() {
     var seccionAnalog = document.getElementById('estacionDer');
+    var seccionAcu = document.getElementById('estacionCentro');
     seccionAnalog.innerHTML = '';
+    seccionAcu.innerHTML = '';
+
+    for (var indexDato in tagsAcumulados) {
+        if (tagsAcumulados[indexDato]['nombre_tag'].includes("Dia")) {
+            var widgInicio = '<div class="widAna">';
+            var widgFin = '';
+            var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin">' + tagsAcumulados[indexDato]['nombre_tag'] + ': ' + tagsAcumulados[indexDato]['valor'] + ' ' + '</div>';
+            var consi = '';
+            var widgSec = '';
+            consi += '<div class="contador" id="contador' + tagsAcumulados[indexDato]['nombre_tag'].replace(/\s+/g, '') + '" class="widAnaInfoSec"><div class="panelNegro" id="panelNegro' + tagsAcumulados[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div><div class="panelRojo" id="panelRojo' + tagsAcumulados[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div></div>';
+            consi += '</div>';
+            var widgGraf = '<div class="widAnaGraf" id="chart' + tagsAcumulados[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div>';
+            var widget = widgInicio + widgInfo + widgSec + consi + widgGraf + widgFin;
+            seccionAnalog.innerHTML += widget;
+        }
+    }
+
 
     for (var indexDato in datosAnalog) {
         var widgInicio = '<div class="widAna">';
@@ -130,13 +164,82 @@ function montarWidgetsAnalogicos() {
         consi += '</div>';
         var widgGraf = '<div class="widAnaGraf" id="chart' + datosAnalog[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div>';
         var widget = widgInicio + widgInfo + widgSec + consi + widgGraf + widgFin;
-        seccionAnalog.innerHTML += widget;
+        seccionAcu.innerHTML += widget;
     }
+
     montarGraficosWidget();
 }
 
 //render de los graficos
 function montarGraficosWidget() {
+
+
+    for (var tag in tagsAcumulados) {
+        var nombreDato = tagsAcumulados[tag]['nombre_tag'].replace(/\s+/g, '');
+        if (nombreDato.includes("Dia")) {
+            var chartDom2 = document.getElementById('chart' + nombreDato);
+            var grafTrend = echarts.init(chartDom2);
+            var valores = [];
+            var fechas = [];
+            valores.push(todoTrends[tag]['max']);
+            fechas.push(todoTrends[tag]['fecha']);
+            document.getElementById("panelRojo" + nombreDato).innerHTML = valores[0][0];
+
+            optionChart = {
+                grid: {
+                    left: '2%',
+                    right: '1%',
+                    top: '8%',
+                    bottom: '2%',
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    textStyle: {
+                        fontStyle: 'bold',
+                        fontSize: 12
+                    },
+
+                    axisPointer: {
+                        axis: 'x',
+                        snap: true,
+                        offset: 0,
+                        type: 'line',
+                        label: {
+                            formatter: 'fecha y hora: {value}',
+                            fontStyle: 'bold'
+                        }
+                    }
+                },
+                xAxis: {
+                    inverse: true,
+                    show: true,
+                    type: 'category',
+                    data: fechas[0]
+                },
+                yAxis: {
+                    name: nombreDato,
+                    type: 'value'
+                },
+                series: [{
+                    name: tagsAcumulados[tag]['nombre_tag'],
+                    data: valores[0],
+                    type: 'line',
+                    areaStyle: {
+                        show: true,
+                    },
+                    symbol: 'none',
+                    smooth: false
+                }]
+            };
+            optionChart && grafTrend.setOption(optionChart, true);
+
+
+        } else {
+            document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = todoTrends[tag]['max'][0];
+        }
+
+    }
 
     for (var tag in datosAnalog) {
 
@@ -284,18 +387,8 @@ function montarGraficosWidget() {
 
     }
 
-
 }
 
-//para los proximos cambios:
-//
-//      Para cambiar los datos de la sección izquierda
-//      de los widget hay que modificar las funcion de 
-//      actualizar en AJAX y la de montar WidgetAnalogicos 
-//      en este JS
-
-//      para cambiar los trends o su intervalo, hay que modificar
-//      la funcion trendTags de AJAX y la función montar graficos Widgets
 
 
 function ajustes() {

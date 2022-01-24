@@ -17,6 +17,7 @@ if ($opcion == 'actualizar' && $tipo = 'todos') {
 }
 
 if ($opcion == 'trends') {
+    
     $datosAnalog = json_decode($_REQUEST['arrTags']);
     $trendsEstacion = [];
     foreach ($datosAnalog as $indexTag => $datosTag) {

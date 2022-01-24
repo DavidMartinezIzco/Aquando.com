@@ -2,7 +2,7 @@
 
 #estacionIzq {
     position: relative;
-    width: 33%;
+    width: 20%;
     height: 75%;
     border: 1px solid rgb(1, 168, 184);
     border-radius: 10px;
@@ -40,7 +40,20 @@
 }
 
 #seccionInfo i:hover {
-    color: white;
+    color: rgb(253, 247, 247);
+}
+
+.rotante {
+    -webkit-animation: rotar 2s infinite linear;
+}
+
+@keyframes rotar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 
@@ -77,6 +90,7 @@
     width: 100%;
     border: 1px solid rgb(85, 85, 85);
     margin-bottom: 1%;
+    vertical-align: center;
 }
 
 .widDigiIcono {
@@ -85,6 +99,7 @@
     float: right;
     border-left: 1px solid rgb(85, 85, 85);
     text-align: center;
+    vertical-align: center;
 }
 
 .widDigiIcono i {
@@ -98,21 +113,49 @@
     width: 66%;
     float: left;
     font-size: 110%;
+    vertical-align: center;
 }
 
 
-/* ZONA DERECHA CON TAGS VARIOS*/
+/* ZONA CENTRO CON TAGS ACUMULADOS */
 
-#estacionDer {
+#estacionCentro {
     position: relative;
-    width: 59%;
+    width: 35%;
     height: 75%;
     border: 1px solid rgb(1, 168, 184);
     border-radius: 10px;
     bottom: 75%;
-    left: 37%;
+    left: 24%;
     background-color: rgb(85, 85, 85);
     /* padding: 1%; */
+    overflow-y: scroll;
+}
+
+#estacionCentro::-webkit-scrollbar {
+    height: 15px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#estacionCentro::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+
+/* ZONA DERECHA CON TAGS ANALOGICOS*/
+
+#estacionDer {
+    position: relative;
+    width: 38%;
+    height: 75%;
+    border: 1px solid rgb(1, 168, 184);
+    border-radius: 10px;
+    bottom: 150%;
+    left: 60%;
+    background-color: rgb(85, 85, 85);
     overflow-y: scroll;
 }
 
@@ -132,12 +175,11 @@
 /* WIDGET DE DATOS ANALOGICOS 1 */
 
 .widAna {
-    width: 40%;
+    width: 90%;
     height: 30%;
     background-color: white;
     font-size: 80%;
-    border: 1px solid rgb(1, 168, 184);
-    margin: 1% 4.25%;
+    margin: 2% 5% 0% 5%;
     border-radius: 10px;
     display: inline-block;
 }
@@ -182,6 +224,37 @@
     height: 100%;
     float: right;
 }
+
+.contador {
+    height: calc(100%/3*2);
+    text-align: center;
+    color: white;
+    width: 100%;
+    font-size: 90%;
+    vertical-align: center;
+    font-size: 100%;
+}
+
+.panelNegro {
+    width: 60%;
+    float: left;
+    background-color: rgb(45, 45, 45);
+    color: white;
+    padding: 0% 1%;
+    text-align: right;
+    padding: 0% 2%;
+}
+
+.panelRojo {
+    width: 40%;
+    float: right;
+    background-color: tomato;
+    color: white;
+    padding: 0% 1%;
+}
+
+
+/* AJUSTES DE LA ESTACION */
 
 #ajustesEstacion {
     transition: 0.2s;
