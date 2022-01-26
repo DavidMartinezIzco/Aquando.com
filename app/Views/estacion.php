@@ -10,10 +10,10 @@
         <div id="seccionSup">
             <div id="seccionFoto"></div>
             <div id="seccionInfo">
-                <i class="fas fa-sync-alt" id="iconoActu" onclick="updateEstacion()" style="float:right;color: rgb(1, 168, 184);"></i>
-                <i class="fas fa-tools" onclick="ajustes()" style="float:right;color: rgb(1, 168, 184);"></i>
-                <p><?php echo $ultimaConex[0]['nombre_estacion'];  ?></p>
-                <p>Ultima comunicación: <?php echo $ultimaConex[0]['valor_date']  ?></p>
+                <i class="fas fa-sync-alt btnOpci" id="iconoActu" onclick="updateEstacion()"></i>
+                <i class="fas fa-tools btnOpci" onclick="ajustes()"></i>
+                <p style="font-size: 80%;"><?php echo $ultimaConex[0]['nombre_estacion'];  ?></p>
+                <p style="font-size: 80%;">Ultima comunicación: <?php echo $ultimaConex[0]['valor_date']  ?></p>
             </div>
         </div>
         <div id="seccionInf">
@@ -30,17 +30,30 @@
 
     <div id="ajustesEstacion">
         <i class="fas fa-times" id="btnAjustesCerrar" onclick="ajustes()"></i>
-        <h1>Ajustes de estación <?php echo $nombreEstacion; ?></h1>
+        <h1 >Ajustes de estación <?php echo $nombreEstacion; ?></h1>
+        <div id="cuerpoAjustes" class="cuerpoAjustes">
 
-        <table id="tablaConsignas">
+            <form id="formAjustes">
+                <div id="ajustesSeleccion">
+                    <ul id="listaTags">
 
-        </table>
+                    </ul>
+                </div>
+                <div id="ajustesDisplay">
 
+                </div>
+
+
+
+            </form>
+
+        </div>
     </div>
 
     <!---zona alarmas--->
 
     <table id="alarmasSur">
+
     </table>
 
 
@@ -64,13 +77,14 @@
             tiempoFuera("volver")
         });
     }
+
     function updateEstacion() {
         $(document.getElementById("iconoActu")).addClass("rotante");
         actualizar(estacion);
         setTimeout(function() {
             document.getElementById("iconoActu").classList.remove("rotante");
         }, 3000);
-        }
+    }
 </script>
 
 <?= $this->endSection() ?>

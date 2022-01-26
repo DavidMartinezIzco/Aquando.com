@@ -620,7 +620,7 @@ class Database
             "SELECT MAX(datos_historicos.valor_acu) as acu ,MAX(datos_historicos.valor_int) as int ,MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
             from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
             where datos_historicos.id_tag = ".$id_tag." and estacion_tag.id_estacion = ".$id_estacion."
-            and datos_historicos.fecha::date > current_date::date - interval '42 days' GROUP BY datos_historicos.fecha::date";
+            and datos_historicos.fecha::date > current_date::date - interval '44 days' GROUP BY datos_historicos.fecha::date";
             $resTrend = pg_query($this->conexion, $conTrend);
             if($this->consultaExitosa(($resTrend))){
                 $datosTrendTag = pg_fetch_all($resTrend);

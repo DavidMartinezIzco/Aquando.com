@@ -1,3 +1,8 @@
+//por algun motivo hay un overflow x de tipo scroll al hacer hover sobre un chart por primera vez
+//la estacion de colonias falla al conseguir el trend del Nivel y acumulado entrada dia
+//faltan de añadir las opciones para los tags
+
+
 var datosDigi = Array();
 var datosAnalog = Array();
 var consignas = Array();
@@ -6,9 +11,6 @@ var todoTrends = Array();
 var tagsAcumulados = Array();
 
 //actualizar la info de la seccion estacion
-//vas a separar este motor para el texto de los widgets con el ultimo dato
-//de otro que usarás para sacar los ultimos 7 de lo que toque
-
 function actualizar(id_estacion) {
 
     $(document).ready(function() {
@@ -34,7 +36,6 @@ function trendsTags() {
     //luego ya veremos que seguro que la cagas asi que tienes tiempo para pensarlo
 
     var listaTags = datosAnalog.concat(tagsAcumulados);
-    console.log(listaTags);
     var arrTags = JSON.stringify(listaTags);
     var id_estacion = estacion;
 
@@ -120,10 +121,6 @@ function montarWidgetsDigi() {
 }
 
 //montar widgets analógicos
-//max y mins en los gauges (Hover?)
-//acumulados diario + general (en vez de gauge en los widAcu)
-// grid acumulados / analog / digi (3 cols distintas)
-//zona digi reducida
 function montarWidgetsAnalogicos() {
     var seccionAnalog = document.getElementById('estacionDer');
     var seccionAcu = document.getElementById('estacionCentro');
@@ -134,7 +131,7 @@ function montarWidgetsAnalogicos() {
         if (tagsAcumulados[indexDato]['nombre_tag'].includes("Dia")) {
             var widgInicio = '<div class="widAna">';
             var widgFin = '';
-            var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin">' + tagsAcumulados[indexDato]['nombre_tag'] + ': ' + tagsAcumulados[indexDato]['valor'] + ' ' + '</div>';
+            var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=color:rgb(39,45,79);font-weight:bold>' + tagsAcumulados[indexDato]['nombre_tag'] + ': ' + tagsAcumulados[indexDato]['valor'] + '</p> ' + '</div>';
             var consi = '';
             var widgSec = '';
             consi += '<div class="contador" id="contador' + tagsAcumulados[indexDato]['nombre_tag'].replace(/\s+/g, '') + '" class="widAnaInfoSec"><div class="panelNegro" id="panelNegro' + tagsAcumulados[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div><div class="panelRojo" id="panelRojo' + tagsAcumulados[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div></div>';
@@ -149,7 +146,13 @@ function montarWidgetsAnalogicos() {
     for (var indexDato in datosAnalog) {
         var widgInicio = '<div class="widAna">';
         var widgFin = '';
-        var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin">' + datosAnalog[indexDato]['nombre_tag'] + ': ' + datosAnalog[indexDato]['valor'] + ' ' + '</div>';
+        var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=font-weight:bold;margin-bottom:-1.5em;color:rgb(39,45,79)>' + datosAnalog[indexDato]['nombre_tag'] + ': ' + datosAnalog[indexDato]['valor'] + '</p> ';
+        for (var consig in consignas) {
+            if (consignas[consig]['nombre_tag'].includes(datosAnalog[indexDato]['nombre_tag'])) {
+                widgInfo += "<br>" + consignas[consig]['nombre_tag'] + ': ' + consignas[consig]['valor'];
+            }
+        }
+        widgInfo += '</div>';
         var consi = '';
         var widgSec = '';
 
@@ -261,15 +264,12 @@ function montarGraficosWidget() {
             maximo = parseInt(datosAnalog[tag]['consignas'][0]['valor']);
             maximo /= 10;
 
-            // option['series'][0]['max'] = maximo;
         }
         if (datosAnalog[tag]['consignas'].length == 2) {
             minimo = parseInt(datosAnalog[tag]['consignas'][1]['valor']);
             minimo /= 10;
-            // option['series'][0]['min'] = minimo;
+
         }
-
-
 
         optionGauge = {
             grid: {
@@ -329,6 +329,9 @@ function montarGraficosWidget() {
             }]
         };
 
+
+
+
         var valores = [];
         var fechas = [];
         valores.push(todoTrends[tag]['max']);
@@ -367,11 +370,11 @@ function montarGraficosWidget() {
                 data: fechas[0]
             },
             yAxis: {
-                name: nombreDato,
+                name: datosAnalog[tag]['nombre_tag'],
                 type: 'value'
             },
             series: [{
-                name: nombreDato,
+                name: datosAnalog[tag]['nombre_tag'],
                 data: valores[0],
                 type: 'line',
                 areaStyle: {
@@ -385,11 +388,11 @@ function montarGraficosWidget() {
         optionGauge && gauge.setOption(optionGauge, true);
         optionChart && grafTrend.setOption(optionChart, true);
 
+
+
     }
 
 }
-
-
 
 function ajustes() {
     var ajustes = document.getElementById("ajustesEstacion");
@@ -400,6 +403,88 @@ function ajustes() {
     } else {
         ajustes.style.display = 'block';
         setTimeout(function() { ajustes.style.opacity = '100%'; }, 200);
+
+        //sacar los tags analógicos de la estación y listarlos.
+        //de esos tags también sacar sus consignas
+        //dar controles para modificar las consignas de cada uno de esos tags
+        //btn de aplicar y otro de cancelar
+
+        var selec = document.getElementById("listaTags");
+        selec.innerHTML = "";
+        var lista = "";
+        var i = 0;
+        var primero;
+        for (var indexTag in datosAnalog) {
+            lista += "<li class=tagEnLista onclick=mostrarAjustesTag(this.value) id=tag" + datosAnalog[indexTag]['id_tag'] + " value=" + datosAnalog[indexTag]['id_tag'] + ">" + datosAnalog[indexTag]['nombre_tag'] + "</li>";
+            if (i == 0) {
+                primero = datosAnalog[indexTag]['id_tag'];
+            }
+            i++;
+        }
+        selec.innerHTML += lista;
+    }
+    mostrarAjustesTag(primero);
+
+}
+
+function mostrarAjustesTag(id_tag) {
+    var zona = document.getElementById("ajustesDisplay");
+    var tag = datosAnalog[id_tag];
+    if (sessionStorage.getItem('tagViejo') != null) {
+        document.getElementById("tag" + sessionStorage.getItem('tagViejo')).style.backgroundColor = 'rgb(1, 168, 184)';
     }
 
+    sessionStorage.setItem('tagViejo', tag['id_tag']);
+    document.getElementById("tag" + tag['id_tag']).style.backgroundColor = 'rgb(39,45,79)';
+    var lista = "<form class=formAjustesTag><h4>Ajustes de " + tag['nombre_tag'] + "</h4>";
+    lista += "Ajustes de consignas  <i style='font-size:115%' class='far fa-bell'></i><hr>";
+    var e = 0;
+    if (tag['consignas'].length != 0) {
+        for (var consi in tag['consignas']) {
+            e++;
+            lista += tag['consignas'][consi]['nombre_tag'] + ": " + tag['consignas'][consi]['valor'] + "<i onclick='mostrarFormConsigna(" + tag['consignas'][consi]['id_tag'] + ")' class='fas fa-edit'></i><br>";
+        }
+    }
+    while (e < 2) {
+        lista += "Consigna sin definir: <i style='color:tomato' class='fas fa-bell-slash'></i> <i onclick='mostrarFormConsigna(this.value)' value=" + consi + " class='fas fa-edit'></i><br>";
+        e++;
+    }
+    lista += "</form>";
+    zona.innerHTML = lista;
+    sessionStorage.setItem('AjTag', lista);
+
+}
+
+function mostrarFormConsigna(id_consigna) {
+
+    var consigna = consignas[id_consigna];
+    var zona = document.getElementById("ajustesDisplay");
+    var contenido = sessionStorage.getItem('AjTag');
+    var lista = "";
+    if (consigna != null) {
+        lista += "<hr><h4>modificar consigna:</h4>";
+        lista += "Nuevo valor de " + consigna['nombre_tag'] + ": <input type='number' value=" + consigna['valor'] + "><hr>";
+
+    } else {
+        lista += "<hr><h4>Establecer consigna </h4>";
+        var tag = sessionStorage.getItem('tagViejo');
+        var repe = "no";
+        if (datosAnalog[tag]['consignas'].length != 0) {
+            for (var consi in datosAnalog[tag]['consignas']) {
+                console.log(datosAnalog[tag]['consignas'][consi]['nombre_tag']);
+                if (datosAnalog[tag]['consignas'][consi]['nombre_tag'].includes('Maximo')) {
+                    lista += "Nombre:<br>Consigna Minimo " + datosAnalog[tag]['nombre_tag'] + "<br>";
+                } else {
+                    lista += "Nombre:<br>Consigna Maximo " + datosAnalog[tag]['nombre_tag'] + "<br>";
+                }
+            }
+        } else {
+            lista += "Nombre:<br>Consigna <select><option>Maximo</option><option>Minimo</option></select> " + datosAnalog[tag]['nombre_tag'] + "<br>";
+        }
+        lista += "Valor de la consigna: <input type='number'><hr>";
+    }
+    lista += "<p>Mensaje bien explicado sobre que no se actualizará inmediatamente</p>"
+    lista += "<button id=btnAceptarConsigna>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
+
+    zona.innerHTML = contenido + lista;
 }
