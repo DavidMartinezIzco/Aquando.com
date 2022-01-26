@@ -1,12 +1,7 @@
 //hace aparecer o desaparecer la caja de tips
 function ayuda() {
-    document.getElementById("conPrincipal").onclick = function() {
-        if (!document.getElementById("conAyuda").style.opacity == '0') {
-            document.getElementById("conAyuda").style.opacity = '0%';
-            document.getElementById("conAyuda").style.visibility = 'hidden';
-        }
-    };
-    if (document.getElementById("conAyuda").style.opacity == '0') {
+
+    if (document.getElementById("conAyuda").style.opacity == 0) {
         document.getElementById("conAyuda").style.opacity = '100%';
         document.getElementById("conAyuda").style.visibility = 'visible';
         ayudaNext();
@@ -14,6 +9,12 @@ function ayuda() {
         document.getElementById("conAyuda").style.opacity = '0%';
         document.getElementById("conAyuda").style.visibility = 'hidden';
     }
+    document.getElementById("conPrincipal").onclick = function() {
+        if (!document.getElementById("conAyuda").style.opacity == '0') {
+            document.getElementById("conAyuda").style.opacity = '0%';
+            document.getElementById("conAyuda").style.visibility = 'hidden';
+        }
+    };
 
 }
 

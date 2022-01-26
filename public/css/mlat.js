@@ -13,33 +13,20 @@ function abrirCerrar() {
 
 //despliega la zona de debug
 function desplegar(menu) {
-    if (menu == 'pruebas') {
-        if (document.getElementsByClassName('expPruebas')[0].style.height == '0px') {
-            document.getElementsByClassName('expPruebas')[0].style.height = "3.5em";
-            document.getElementsByClassName('expPruebas')[1].style.height = "3.5em";
-            document.getElementsByClassName('expPruebas')[2].style.height = "3.5em";
-            document.getElementsByClassName('expPruebas')[3].style.height = "3.5em";
-        } else {
-            document.getElementsByClassName('expPruebas')[0].style.height = "0px";
-            document.getElementsByClassName('expPruebas')[1].style.height = "0px";
-            document.getElementsByClassName('expPruebas')[2].style.height = "0px";
-            document.getElementsByClassName('expPruebas')[3].style.height = "0px";
-        }
-    }
 
     if (menu == 'estaciones') {
-        if (document.getElementsByClassName('miniEstacion')[0].style.height == '0px') {
+        if (document.getElementsByClassName('miniEstacion')[0].style.height == 0 || document.getElementsByClassName('miniEstacion')[0].style.height == '0%') {
             document.getElementsByClassName('miniEstacion')[0].style.height = '20%';
         } else {
-            document.getElementsByClassName('miniEstacion')[0].style.height = '0px';
+            document.getElementsByClassName('miniEstacion')[0].style.height = '0%';
         }
     }
 
     if (menu == 'grafs') {
-        if (document.getElementsByClassName('miniEstacion')[2].style.height == '0px') {
-            document.getElementsByClassName('miniEstacion')[2].style.height = '20%';
+        if (document.getElementsByClassName('miniEstacion')[2].style.height == 0 || document.getElementsByClassName('miniEstacion')[2].style.height == '0%') {
+            document.getElementsByClassName('miniEstacion')[2].style.height = '24%';
         } else {
-            document.getElementsByClassName('miniEstacion')[2].style.height = '0px';
+            document.getElementsByClassName('miniEstacion')[2].style.height = '0%';
         }
     }
 
@@ -119,12 +106,12 @@ function cerrarMenu() {
 
 //despliega el menu de inactividad
 function tiempoOpciones() {
-    if (document.getElementById("amplificador").style.height == "0px") {
+    if (document.getElementById("amplificador").style.height == 0 || document.getElementById("amplificador").style.height == '0%') {
         document.getElementById("amplificador").style.height = '100%';
         document.getElementById("amplificador").style.padding = '1%';
 
     } else {
-        document.getElementById("amplificador").style.height = '0px';
+        document.getElementById("amplificador").style.height = '0%';
         document.getElementById("amplificador").style.padding = '0%';
     }
 }
