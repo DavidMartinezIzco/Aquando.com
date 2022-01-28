@@ -4,7 +4,7 @@
 <script src='css/echarts.js'></script>
 <link rel="stylesheet" type="text/css" href="css/informes.css">
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
-<main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px;">
+<main id="conPrincipal" style="width:100%; border-radius:10px;">
 
     <div id="informesNorte">
         <button id="btnMenuInformes" onclick="opciones()"><i class="fas fa-sliders-h"></i></button>

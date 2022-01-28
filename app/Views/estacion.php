@@ -3,7 +3,7 @@
 <script src='css/echarts.js'></script>
 <script src='css/estaciones.js'></script>
 <link rel="stylesheet" type="text/css" href="css/estaciones.css">
-<main id="conPrincipal" style="height: 50em; width:100%;border-radius:10px; margin-top:1%">
+<main id="conPrincipal" style="width:100%;border-radius:10px; margin-top:1%">
     <!---zona superior--->
 
     <div id="estacionIzq">
@@ -33,7 +33,7 @@
         <h1 >Ajustes de estación <?php echo $nombreEstacion; ?></h1>
         <div id="cuerpoAjustes" class="cuerpoAjustes">
 
-            <form id="formAjustes">
+            <form id="formAjustes" action="javascript:void(0);">
                 <div id="ajustesSeleccion">
                     <ul id="listaTags">
 
@@ -67,7 +67,7 @@
         actualizarSur('estacion', null, null, null, estacion);
         comprobarTiempo();
         setInterval(fechaYHora, 1000);
-        setInterval(updateEstacion, 60000);
+        // setInterval(updateEstacion, 60000);
         setInterval(actualizarSur('estacion', null, null, null, estacion), 20000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {

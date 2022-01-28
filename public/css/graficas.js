@@ -472,7 +472,6 @@ function renderGrafico(datosR) {
 
     console.log(option);
     option && grafico.setOption(option, true);
-    pantalla();
 }
 
 //muestra o esconde las opciones de los graficos

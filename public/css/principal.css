@@ -1,37 +1,40 @@
-
-  *{
+* {
     font-family: 'Ubuntu', sans-serif;
     /* font-family: Consolas, monaco, monospace; */
-  }
+}
 
-    #conInfo{
-      transition: 0.5s;
-      position: absolute;
-      width: 30%;
-      height: 75%;
-      left: 16%;
-      top: 8%;
-      border-radius:5px;
-    }
-    
-    #widgetsI{
-      margin: 0;
-      padding: 0;
-      overflow-y: scroll;
-      max-height: 85%;
-    }
+#conPrincipal {
+    height: 848px;
+}
 
-    #widgetsI::-webkit-scrollbar {
-      margin-top: 5%;
-    }
-    
-    #widgetsI::-webkit-scrollbar-thumb {
-      background-color: rgb(1, 168, 184);
-      border-radius: 10px;
-    }
+#conInfo {
+    transition: 0.5s;
+    position: absolute;
+    width: 30%;
+    height: 75%;
+    left: 16%;
+    top: 8%;
+    border-radius: 5px;
+}
+
+#widgetsI {
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+    max-height: 85%;
+}
+
+#widgetsI::-webkit-scrollbar {
+    margin-top: 5%;
+}
+
+#widgetsI::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+    border-radius: 10px;
+}
 
 
-    /* #formFiltrosInfo{
+/* #formFiltrosInfo{
       padding: 0 1em;
       margin: 0 5%;
       
@@ -40,103 +43,101 @@
       color: black;
       width: 90%;
     } */
-    
-    #widgetMixto{
-      position: relative;
-      width: 90%;
-      height: 17em;
-      overflow: hidden;
-      margin: 5%;
-      border: 2px solid rgb(1, 168, 184);
-      border-radius: 10px;
-      transition: 0,5s;
-    }
-    #widgetMixto div{
-      transition: 0.5s;
-    }
 
-    #wid{
-      transition: 0.5s;
-      margin: 5%;
-      margin-top: 1%;
-      width: 90%;
-      padding: 0.5em;
-      height: 10em;
-      background-color: lightgray;
-      border: 2px solid gray;
-      border-radius:5px;
-    }
-    
-    #wid:hover{
-      border: 2px solid rgb(2, 112, 122);
-      background-color: rgb(1, 168, 184);
-    }
-    
-    #marcoinfo{
-      position: relative;
-      padding: 2%;
-      right:0%;
-      border: 1px solid black;
-      background-color: white;
-      height: 100%;
-      width: 40%;
-      color: black;
-    }
-    
-    #marcoWid{
-      
-      position: relative;
-      left:45%;
-      bottom: 100%;
-      border: 3px solid black;
-      background-color: rgb(1, 168, 184);
-      height: 100%;
-      width: 55%;
-      overflow:hidden;
-    }
-    
-    #figWid{
-      background-color: white;
-      height: 2em;
-      width: 100%;
-    }
-    
-    #grafWid{
-      height: 250px;
-      width:100%;
-      background-color:white;
-      padding-bottom: 10%;
-      position: relative;
-      bottom: 30%;
-      padding-left: 0%;
-      
-    }
-    
-    
-    /*----------------CARRUSELL----------------------*/
-    
-    #conCarrusel{
-      
-      transition: 0.5s;
-      position: absolute;
-      width: 50%;
-      height: 75%;
-      right: 2%;
-      top: 8%;
-      overflow: hidden;
-      border-radius:5px;
-      
-    }
-    
-    #conCarrusel::-webkit-scrollbar{
-      display: none;
-    }
-    
-    #conCarrusel small{
-      display: none;
-    }
-    
-    /* #conPostTabla{
+#widgetMixto {
+    position: relative;
+    width: 90%;
+    height: 17em;
+    overflow: hidden;
+    margin: 5%;
+    border: 2px solid rgb(1, 168, 184);
+    border-radius: 10px;
+    transition: 0, 5s;
+}
+
+#widgetMixto div {
+    transition: 0.5s;
+}
+
+#wid {
+    transition: 0.5s;
+    margin: 5%;
+    margin-top: 1%;
+    width: 90%;
+    padding: 0.5em;
+    height: 10em;
+    background-color: lightgray;
+    border: 2px solid gray;
+    border-radius: 5px;
+}
+
+#wid:hover {
+    border: 2px solid rgb(2, 112, 122);
+    background-color: rgb(1, 168, 184);
+}
+
+#marcoinfo {
+    position: relative;
+    padding: 2%;
+    right: 0%;
+    border: 1px solid black;
+    background-color: white;
+    height: 100%;
+    width: 40%;
+    color: black;
+}
+
+#marcoWid {
+    position: relative;
+    left: 45%;
+    bottom: 100%;
+    border: 3px solid black;
+    background-color: rgb(1, 168, 184);
+    height: 100%;
+    width: 55%;
+    overflow: hidden;
+}
+
+#figWid {
+    background-color: white;
+    height: 2em;
+    width: 100%;
+}
+
+#grafWid {
+    height: 250px;
+    width: 100%;
+    background-color: white;
+    padding-bottom: 10%;
+    position: relative;
+    bottom: 30%;
+    padding-left: 0%;
+}
+
+
+/*----------------CARRUSELL----------------------*/
+
+#conCarrusel {
+    transition: 0.5s;
+    position: absolute;
+    width: 50%;
+    height: 75%;
+    right: 2%;
+    top: 8%;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+#conCarrusel::-webkit-scrollbar {
+    display: none;
+}
+
+#conCarrusel small {
+    display: none;
+}
+
+
+/* #conPostTabla{
       color: black;
       height: 70%;
       max-width: 95%;

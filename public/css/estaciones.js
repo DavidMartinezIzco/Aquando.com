@@ -6,6 +6,7 @@
 var datosDigi = Array();
 var datosAnalog = Array();
 var consignas = Array();
+var bombas = Array();
 var todoDato = Array();
 var todoTrends = Array();
 var tagsAcumulados = Array();
@@ -57,27 +58,33 @@ function trendsTags() {
         });
     });
 
-
-
 }
 
-//divide los ultimos datos de la estacion según el tipo de señal
+//divide los ultimos datos de la estacion según el tipo de señal  
 function filtrarDatos(datos) {
+    var tagsBombas = Array();
+
     for (var indexDato in datos) {
-        if (datos[indexDato]['valor'] == 't' || datos[indexDato]['valor'] == 'f') {
-            datosDigi[indexDato] = datos[indexDato];
-        } else {
-            if (datos[indexDato]['nombre_tag'].includes("Acumulado") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
-                tagsAcumulados[indexDato] = datos[indexDato];
+        if (!datos[indexDato]['nombre_tag'].includes("Bomba")) {
+            if (datos[indexDato]['valor'] == 't' || datos[indexDato]['valor'] == 'f') {
+                datosDigi[indexDato] = datos[indexDato];
             } else {
-                if (datos[indexDato]['nombre_tag'].includes("Consigna")) {
-                    consignas[indexDato] = datos[indexDato];
+                if (datos[indexDato]['nombre_tag'].includes("Acumulado") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
+                    tagsAcumulados[indexDato] = datos[indexDato];
                 } else {
-                    datosAnalog[indexDato] = datos[indexDato];
-                    datosAnalog[indexDato]['consignas'] = [];
+                    if (datos[indexDato]['nombre_tag'].includes("Consigna")) {
+                        consignas[indexDato] = datos[indexDato];
+                    } else {
+                        datosAnalog[indexDato] = datos[indexDato];
+                        datosAnalog[indexDato]['consignas'] = [];
+                    }
                 }
             }
+        } else {
+            tagsBombas[datos[indexDato]['id_tag']] = datos[indexDato];
         }
+
+
     }
 
     for (var index in datosAnalog) {
@@ -93,6 +100,22 @@ function filtrarDatos(datos) {
     todoDato['tags_acu'] = tagsAcumulados;
     todoDato['consignas'] = consignas;
 
+    var nBombas = 0;
+    for (var bTag in tagsBombas) {
+        if (!tagsBombas[bTag]['nombre_tag'].includes("Bombas")) {
+            if (tagsBombas[bTag]['valor'] == 't' || tagsBombas[bTag]['valor'] == 'f') {
+                nBombas++;
+                var nombre = 'Bomba ' + nBombas;
+                bombas[nombre] = [];
+                for (var BTTag in tagsBombas) {
+                    if (tagsBombas[BTTag]['nombre_tag'].includes('Bomba ' + nBombas)) {
+                        bombas[nombre].push(tagsBombas[BTTag]);
+                    }
+                }
+            }
+        }
+    }
+    todoDato['bombas'] = bombas;
 
     console.log(todoDato);
 
@@ -112,7 +135,7 @@ function montarWidgetsDigi() {
     seccionDigital.innerHTML = '';
     for (var indexDato in datosDigi) {
         if (datosDigi[indexDato]['valor'] == 't') {
-            widg = '<div class="widDigi"><div class="widDigiIcono"><i style="color:darkseagreen;" class="fas fa-check"></i></i></div><div class="widDigiText">' + datosDigi[indexDato]['nombre_tag'] + '</div></div>';
+            widg = '<div class="widDigi"><div class="widDigiIcono"><i style="color:darkseagreen;" class="fas fa-check intermitente"></i></i></div><div class="widDigiText">' + datosDigi[indexDato]['nombre_tag'] + '</div></div>';
         } else {
             widg = '<div class="widDigi"><div class="widDigiIcono"><i style="color:tomato;" class="fas fa-pause"></i></div><div class="widDigiText">' + datosDigi[indexDato]['nombre_tag'] + '</div></div>'
         }
@@ -170,6 +193,64 @@ function montarWidgetsAnalogicos() {
         var widget = widgInicio + widgInfo + widgSec + consi + widgGraf + widgFin;
         seccionAcu.innerHTML += widget;
     }
+
+
+    var widsBombas = "";
+
+
+    for (var bomba in bombas) {
+        var widTiempo = "";
+        var widArranques = "";
+        var widDefecto = "";
+        var bombaNombre = "<div id='widBombaNombre'>";
+        var bombaEstado = "<div id='widBombaEstado'>";
+
+        if (bombas[bomba].length > 0) {
+            //nombre
+            bombaNombre += bomba + '</div>';
+            //estado
+            if (bombas[bomba][0]['valor'] == 't') {
+                bombaEstado += '<i style="color:gray;" class="fas fa-cog rotante"></i></div>';
+            }
+            if (bombas[bomba][0]['valor'] == 'f') {
+                bombaEstado += '<i style="color:darkorange;" class="fas fa-pause intermitente"></i></div>';
+            }
+            for (var index in bombas[bomba]) {
+
+                //tiempos
+                if (bombas[bomba][index]['nombre_tag'].includes("Tiempo")) {
+                    widTiempo = "<b>Tiempo total en marcha: </b>" + bombas[bomba][index]['valor'] + "<hr>";
+                }
+                //arranques
+                else if (bombas[bomba][index]['nombre_tag'].includes("Arranques")) {
+                    widArranques = "<b>Número total de arranques: </b>" + bombas[bomba][index]['valor'] + "<br>";
+                }
+                //defecto
+                else if (bombas[bomba][index]['nombre_tag'].includes("Defecto")) {
+                    if (bombas[bomba][index]['valor'] == 't') {
+                        widDefecto = "<div id='bombaDefecto'>Defecto: <i style='color:darkseagreen;' class='fas fa-check'></i></div>";
+                    } else {
+                        widDefecto = "<div id='bombaDefecto'>Defecto: <i style='color:tomato;' class='fas fa-pause'></i></div>";
+                    }
+
+
+                }
+
+                //orden? ->nada
+                else if (bombas[bomba][index]['nombre_tag'].includes("Orden")) {
+
+                }
+            }
+            var bombaInf = "<div id='widBombaInf'>" + widDefecto + widTiempo + widArranques + "</div>";
+            var widBomba = "<div id='widBomba'>" + bombaNombre + bombaInf + bombaEstado + "</div>";
+            widsBombas += widBomba;
+        }
+
+    }
+
+
+    seccionAnalog.innerHTML += widsBombas;
+
 
     montarGraficosWidget();
 }
@@ -229,8 +310,21 @@ function montarGraficosWidget() {
                     name: tagsAcumulados[tag]['nombre_tag'],
                     data: valores[0],
                     type: 'line',
+                    lineStyle: {
+                        width: 0
+                    },
                     areaStyle: {
                         show: true,
+                        opacity: 0.8,
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgb(1, 168, 184)'
+                            },
+                            {
+                                offset: 1,
+                                color: 'rgb(39, 45, 79)'
+                            }
+                        ])
                     },
                     symbol: 'none',
                     smooth: false
@@ -240,7 +334,10 @@ function montarGraficosWidget() {
 
 
         } else {
-            document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = todoTrends[tag]['max'][0];
+            if (document.getElementById("panelNegro" + nombreDato + "Dia")) {
+                document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = todoTrends[tag]['max'][0];
+            }
+
         }
 
     }
@@ -251,8 +348,6 @@ function montarGraficosWidget() {
         var nombreDato = datosAnalog[tag]['nombre_tag'].replace(/\s+/g, '');
 
         //gauge para niveles, cloro, caudal
-
-
         var chartDom = document.getElementById('gau' + nombreDato);
         var chartDom2 = document.getElementById('chart' + nombreDato);
         var gauge = echarts.init(chartDom);
@@ -335,8 +430,10 @@ function montarGraficosWidget() {
 
         var valores = [];
         var fechas = [];
-        valores.push(todoTrends[tag]['max']);
-        fechas.push(todoTrends[tag]['fecha']);
+        if (todoTrends[tag] != null) {
+            valores.push(todoTrends[tag]['max']);
+            fechas.push(todoTrends[tag]['fecha']);
+        }
 
         optionChart = {
             grid: {
@@ -378,8 +475,20 @@ function montarGraficosWidget() {
                 name: datosAnalog[tag]['nombre_tag'],
                 data: valores[0],
                 type: 'line',
+                lineStyle: {
+                    width: 0
+                },
                 areaStyle: {
                     show: true,
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgb(1, 168, 184)'
+                        },
+                        {
+                            offset: 1,
+                            color: 'rgb(39, 45, 79)'
+                        }
+                    ])
                 },
                 symbol: 'none',
                 smooth: false
@@ -389,8 +498,8 @@ function montarGraficosWidget() {
         optionGauge && gauge.setOption(optionGauge, true);
         optionChart && grafTrend.setOption(optionChart, true);
 
-
-
+        document.getElementsByClassName("btnOpci")[0].style.display = 'block';
+        document.getElementsByClassName("btnOpci")[1].style.display = 'block';
     }
 
 }
@@ -405,10 +514,7 @@ function ajustes() {
         ajustes.style.display = 'block';
         setTimeout(function() { ajustes.style.opacity = '100%'; }, 200);
 
-        //sacar los tags analógicos de la estación y listarlos.
-        //de esos tags también sacar sus consignas
-        //dar controles para modificar las consignas de cada uno de esos tags
-        //btn de aplicar y otro de cancelar
+
 
         var selec = document.getElementById("listaTags");
         selec.innerHTML = "";
@@ -485,6 +591,6 @@ function mostrarFormConsigna(id_consigna) {
     }
     lista += "<p>Mensaje bien explicado sobre que no se actualizará inmediatamente</p>"
     lista += "<button id=btnAceptarConsigna>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
-    lista += "<button id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' onclick='' class='fas fa-backspace'></i></button>"
+    lista += "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>"
     zona.innerHTML = contenido + lista;
 }

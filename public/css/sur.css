@@ -1,17 +1,18 @@
 #alarmasSur {
     border-top: 2px solid rgb(56, 56, 56);
-    position: absolute;
+    position: fixed;
     width: 85%;
     margin: 0px;
-    bottom: 0;
+    top: 81%;
     text-align: center;
     transition: 0.5s;
-    max-height: 10em;
+    max-height: 15%;
     overflow: hidden;
 }
 
 #alarmasSur tr {
     opacity: 85%;
+    height: calc(100%/7);
 }
 
 #alarmasSur tr:hover {
@@ -23,12 +24,14 @@
 }
 
 #alarmasSur tr:first-of-type {
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid rgb(1, 168, 184);
     opacity: 100%;
 }
 
 #alarmasSur tr:first-of-type th {
-    background-color: darkgray;
+    background-color: rgb(85, 85, 85);
+    /* color: rgb(1, 168, 184); */
+    color: whitesmoke;
     padding: 0.1%;
 }
 

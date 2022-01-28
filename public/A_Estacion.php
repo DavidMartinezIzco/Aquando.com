@@ -36,9 +36,10 @@ if ($opcion == 'trends') {
                         }
                     }
                 }
+                $trendsEstacion[$datosTag->id_tag] = $trendFilt;
             }
 
-            $trendsEstacion[$datosTag->id_tag] = $trendFilt;
+            
         }
     }
 

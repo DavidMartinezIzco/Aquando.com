@@ -6,7 +6,7 @@
 <script src='css/html2canvas.min.js'></script>
 <script src='css/html2canvas.esm.js'></script>
 <link rel="stylesheet" type="text/css" href="css/graficasCustom.css">
-<main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px;">
+<main id="conPrincipal" style="width:100%; border-radius:10px;">
 
     <!--necesitamos nombre de estacion, nombre de tags, datos de tags-->
     <div id="display">
@@ -113,7 +113,7 @@
 
         <!--espacio para las graficas--->
         <div id="zonaGraficos">
-            <div id="grafica" style="width: 100%; height: 100%; border-radius:10px;">
+            <div id="grafica">
             </div>
         </div>
     </div>

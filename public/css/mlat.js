@@ -24,7 +24,7 @@ function desplegar(menu) {
 
     if (menu == 'grafs') {
         if (document.getElementsByClassName('miniEstacion')[2].style.height == 0 || document.getElementsByClassName('miniEstacion')[2].style.height == '0%') {
-            document.getElementsByClassName('miniEstacion')[2].style.height = '24%';
+            document.getElementsByClassName('miniEstacion')[2].style.height = '15%';
         } else {
             document.getElementsByClassName('miniEstacion')[2].style.height = '0%';
         }
@@ -124,23 +124,32 @@ function carga() {
 function pantalla() {
 
     var ancho = window.innerWidth;
-    var alto = window.innerHeight;
-    var defectoAlto = 745;
-    var relAlto = alto / defectoAlto;
+    var alto = 0;
+    var defectoAlto = 848;
+    if (document.getElementById("conPrincipal")) {
+        alto = parseInt(document.getElementById("conPrincipal").style.height);
+        var nuevoAlto = (defectoAlto / 100) * alto;
+        document.getElementById("conPrincipal").style.height = nuevoAlto;
+    }
+
     var defectoAncho = 1880;
     var zoom = 100;
     var relAncho = ((zoom * ancho) / defectoAncho);
     document.body.style.zoom = relAncho + '%';
 
     if (document.getElementById("grafica")) {
-
-        var gAlt = document.getElementById("grafica").clientHeight * relAlto + 'px';
-        var gAnc = document.getElementById("grafica").clientWidth * (relAncho / 100) + 'px';
-        sessionStorage.setItem('gAlt', gAlt);
-        sessionStorage.setItem('gAnc', gAnc);
-        document.getElementById("grafica").zoom = '100%';
-
-
+        console.log("aplico en graficas");
+        document.getElementById("zonaGraficos").style.zoom = '100%';
+        var defancho = 900;
+        var defalto = 622;
+        let zonaG = document.getElementById("grafica").firstChild;
+        var gancho = parseInt(zonaG.style.width);
+        var galto = parseInt(zonaG.style.height);
+        var nancho = (gancho * 100) / defancho;
+        var nalto = (galto * 100) / defalto;
+        document.getElementById("grafica").style.width = nancho + '%';
+        document.getElementById("grafica").style.height = nalto + '%';
+        console.log(nancho);
+        console.log(nalto);
     }
-
 }

@@ -235,12 +235,12 @@ class Database
             }
             
             foreach ($tagsEstacion as $index => $tag) {
-                $conFechaMaxTag = "SELECT MAX(datos_valores.fecha) FROM datos_valores INNER JOIN estacion_tag on datos_valores.id_tag = estacion_tag.id_tag  WHERE datos_valores.id_tag = ".$tag['id_tag']." AND estacion_tag.id_estacion = ".$id_estacion."";
+                // $conFechaMaxTag = "SELECT MAX(datos_valores.fecha) FROM datos_valores INNER JOIN estacion_tag on datos_valores.id_tag = estacion_tag.id_tag  WHERE datos_valores.id_tag = ".$tag['id_tag']." AND estacion_tag.id_estacion = ".$id_estacion."";
                 $conUltimoValorTag = "SELECT tags.nombre_tag,
                 datos_valores.*
                 FROM datos_valores INNER JOIN tags ON datos_valores.id_tag = tags.id_tag
                 INNER JOIN estacion_tag ON estacion_tag.id_tag = tags.id_tag
-                WHERE tags.id_tag = ".$tag['id_tag']."AND datos_valores.fecha = ($conFechaMaxTag) AND estacion_tag.id_estacion = ".$id_estacion."";
+                WHERE tags.id_tag = ".$tag['id_tag']." AND estacion_tag.id_estacion = ".$id_estacion."";
 
                 $resulConUltimoValorTag = pg_query($this->conexion, $conUltimoValorTag);
                 if($this->consultaExitosa($resulConUltimoValorTag)){
@@ -617,10 +617,10 @@ class Database
 
 
             $conTrend = 
-            "SELECT MAX(datos_historicos.valor_acu) as acu ,MAX(datos_historicos.valor_int) as int ,MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
+            "SELECT MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
             from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
             where datos_historicos.id_tag = ".$id_tag." and estacion_tag.id_estacion = ".$id_estacion."
-            and datos_historicos.fecha::date > current_date::date - interval '44 days' GROUP BY datos_historicos.fecha::date";
+            and datos_historicos.fecha::date > current_date::date - interval '45 days' GROUP BY datos_historicos.fecha::date";
             $resTrend = pg_query($this->conexion, $conTrend);
             if($this->consultaExitosa(($resTrend))){
                 $datosTrendTag = pg_fetch_all($resTrend);

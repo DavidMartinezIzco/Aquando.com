@@ -399,7 +399,7 @@ function renderGrafico() {
         },
         grid: {
             left: '5%',
-            right: '7%',
+            right: '5%',
             bottom: '10%',
             containLabel: true,
         },

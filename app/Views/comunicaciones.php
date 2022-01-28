@@ -3,7 +3,7 @@
 <script src='css/echarts.js'></script>
 <script src='css/comunicaciones.js'></script>
 <link rel="stylesheet" type="text/css" href="css/comunicaciones.css">
-<main id="conPrincipal" style="height: 53em; width:100%; border-radius:10px; margin-top:1%;">
+<main id="conPrincipal" style="width:100%; border-radius:10px; margin-top:1%;">
 
 
     <!--zona con los estados de conexiones-->

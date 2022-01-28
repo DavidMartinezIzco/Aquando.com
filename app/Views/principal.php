@@ -5,7 +5,7 @@
 <script src="css/reloj.js"></script>
 
 
-<main id="conPrincipal" style="height: 50em; overflow-y:scroll; width:100%;border-radius:10px; margin-top:1%">
+<main id="conPrincipal" style="overflow-y:scroll; width:100%;border-radius:10px; margin-top:1%">
     <div id="conInfo">
         <div id="resumen" style="opacity: 0%; transition: 0.5s; height: 100%">
             <h3 style="margin: 5% 5%; margin-bottom:2%;">Resumen de actividad:</h3>
