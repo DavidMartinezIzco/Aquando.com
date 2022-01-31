@@ -7,7 +7,7 @@ class Database
     // ¿habra que cambiar esto algun dia?
     // puede que si, puede que no
     
-    private $host = "172.16.3.2";
+    private $host = "192.168.1.52";
     private $dbname = "Aquando";
     private $user = "postgres";
     private $password = "123456";
@@ -34,7 +34,7 @@ class Database
                 $id_usu = pg_fetch_all($resultado);
                 return $id_usu;
             } else {
-                echo "<script>alert('error de conexion')</script>";
+                echo '<script language="javascript">alert("Error de conexión")</script>';
                 return false;
             }
         }
@@ -63,6 +63,10 @@ class Database
             } else {
                 return false;
             }
+        }
+        else{
+            echo '<script language="javascript">alert("Error de conexión")</script>';
+            return false;
         }
     }
     //obtiene las estacioenes que pertenecen a un usuario
@@ -615,12 +619,11 @@ class Database
 
         if($this->conectar()){
 
-
             $conTrend = 
             "SELECT MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
             from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
             where datos_historicos.id_tag = ".$id_tag." and estacion_tag.id_estacion = ".$id_estacion."
-            and datos_historicos.fecha::date > current_date::date - interval '45 days' GROUP BY datos_historicos.fecha::date";
+            and datos_historicos.fecha::date > current_date::date - interval '48 days' GROUP BY datos_historicos.fecha::date";
             $resTrend = pg_query($this->conexion, $conTrend);
             if($this->consultaExitosa(($resTrend))){
                 $datosTrendTag = pg_fetch_all($resTrend);

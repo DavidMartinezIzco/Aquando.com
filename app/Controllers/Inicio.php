@@ -60,12 +60,12 @@ class Inicio extends BaseController
                 $id = $_POST['selEmpresa'];
 
                 $this->usuario = new Usuario($nombre, $pwd, $id);
-                if($this->usuario->existeUsuario() == false){
-                    echo '<script language="javascript">';
-                    echo 'alert("Datos Incorrectos")';
-                    echo '</script>';
-                    return view('inicioSesion');
-                }
+                // if($this->usuario->existeUsuario() == false){
+                //     echo '<script language="javascript">';
+                //     echo 'alert("Datos Incorrectos")';
+                //     echo '</script>';
+                //     return view('inicioSesion');
+                // }
 
                 if($this->usuario->existeUsuario() == true) {
                     $_SESSION['nombre'] = $nombre;
@@ -92,8 +92,11 @@ class Inicio extends BaseController
                     $this->usuario->obtenerEstacionesUsuario();
                     return $this->index();
                 }
+
+
+
                 else {
-                    echo '<script language="javascript">alert("Fallo la conexion")</script>';
+                    echo '<script language="javascript">alert("Datos incorrectos")</script>';
                     return view('inicioSesion');
                 }
 

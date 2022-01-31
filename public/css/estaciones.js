@@ -83,8 +83,6 @@ function filtrarDatos(datos) {
         } else {
             tagsBombas[datos[indexDato]['id_tag']] = datos[indexDato];
         }
-
-
     }
 
     for (var index in datosAnalog) {
