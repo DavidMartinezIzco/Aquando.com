@@ -408,9 +408,9 @@ function renderGrafico(datosR) {
         setTimeout(grafico.resize(), 500);
     };
 
-    // document.getElementById('conPrincipal').onmouseover = function() {
-    //     setTimeout(grafico.resize(), 500);
-    // }
+    document.getElementById('conPrincipal').onmouseover = function() {
+        setTimeout(grafico.resize(), 500);
+    }
 
     document.getElementById('grafica').onmouseover = function() {
         setTimeout(grafico.resize(), 500);

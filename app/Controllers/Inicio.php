@@ -15,24 +15,24 @@ class Inicio extends BaseController
     private $usuario;
     private $sesion;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->sesion = \Config\Services::session();
         $this->sesion->start();
     }
 
     //arranque del proyecto
-    public function index(){
+    public function index()
+    {
         if (isset($_GET['log']) && $_GET['log'] == 'out') {
             session_unset();
-            
+
             return view('inicio');
         } else {
             $_SESSION['seccion'] = "inicio";
             if (isset($_SESSION['nombre'])) {
                 $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
                 $_SESSION['estaciones'] = $this->usuario->obtenerEstacionesUsuario();
-               
+
                 return view('principal');
             } else {
                 return view('inicio');
@@ -49,73 +49,65 @@ class Inicio extends BaseController
         if (isset($_SESSION['nombre'])) {
             session_unset();
         }
-        
+
         $nombre = "";
         $pwd = "";
-        
 
-        if(isset($_POST["txtNombre"]) && isset($_POST["txtContrasena"])){
-                $nombre = $_POST["txtNombre"];
-                $pwd = $_POST["txtContrasena"];
-                $id = $_POST['selEmpresa'];
 
-                $this->usuario = new Usuario($nombre, $pwd, $id);
-                // if($this->usuario->existeUsuario() == false){
-                //     echo '<script language="javascript">';
-                //     echo 'alert("Datos Incorrectos")';
-                //     echo '</script>';
-                //     return view('inicioSesion');
-                // }
+        if (isset($_POST["txtNombre"]) && isset($_POST["txtContrasena"])) {
+            $nombre = $_POST["txtNombre"];
+            $pwd = $_POST["txtContrasena"];
+            $id = $_POST['selEmpresa'];
 
-                if($this->usuario->existeUsuario() == true) {
-                    $_SESSION['nombre'] = $nombre;
-                    $_SESSION['pwd'] = $pwd;
-                    $_SESSION['idusu'] = $this->usuario->getCliente();
-                    switch ($this->usuario->getCliente()) {
-                        case 1:
-                            $_SESSION['empresa'] = "Iturri Ederra";
-                            break;
-                        case 2:
-                            $_SESSION['empresa'] = "Amescoa Alta";
-                            break;
-                        case 3:
-                            $_SESSION['empresa'] = "Amescoa Baja";
-                            break;
-                        case 5:
-                            $_SESSION['empresa'] = "Dateando";
-                            break;
-                        default:
+            $this->usuario = new Usuario($nombre, $pwd, $id);
+            // if($this->usuario->existeUsuario() == false){
+            //     echo '<script language="javascript">';
+            //     echo 'alert("Datos Incorrectos")';
+            //     echo '</script>';
+            //     return view('inicioSesion');
+            // }
+
+            if ($this->usuario->existeUsuario() == true) {
+                $_SESSION['nombre'] = $nombre;
+                $_SESSION['pwd'] = $pwd;
+                $_SESSION['idusu'] = $this->usuario->getCliente();
+                switch ($this->usuario->getCliente()) {
+                    case 1:
+                        $_SESSION['empresa'] = "Iturri Ederra";
+                        break;
+                    case 2:
+                        $_SESSION['empresa'] = "Amescoa Alta";
+                        break;
+                    case 3:
+                        $_SESSION['empresa'] = "Amescoa Baja";
+                        break;
+                    case 5:
+                        $_SESSION['empresa'] = "Dateando";
+                        break;
+                    default:
                         $_SESSION['empresa'] = "Desconocida";
-                            break;
-                    }
-
-                    $this->usuario->obtenerEstacionesUsuario();
-                    return $this->index();
+                        break;
                 }
 
-
-
-                else {
-                    echo '<script language="javascript">alert("Datos incorrectos")</script>';
-                    return view('inicioSesion');
-                }
-
-        }
-        else {
+                $this->usuario->obtenerEstacionesUsuario();
+                return $this->index();
+            } else {
+                echo '<script language="javascript">alert("Datos incorrectos")</script>';
+                return view('inicioSesion');
+            }
+        } else {
             return view('inicioSesion');
         }
-
-
-
     }
 
     //muestra la vista de las estaciones
-    public function estacion(){
+    public function estacion()
+    {
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "estacion";
             $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
             foreach ($_SESSION['estaciones'] as $index => $estacion) {
-                if($estacion["id_estacion"] == $_POST["btnEstacion"]){
+                if ($estacion["id_estacion"] == $_POST["btnEstacion"]) {
                     $nombreEstacion = $estacion["nombre_estacion"];
                     $datos['id_estacion'] = $estacion["id_estacion"];
                 }
@@ -123,8 +115,7 @@ class Inicio extends BaseController
             $ultimaConex = $usuario->ultimaConexionEstacion($_POST["btnEstacion"]);
             if ($ultimaConex != false) {
                 $datos['ultimaConex'] = $ultimaConex;
-            }
-            else {
+            } else {
                 $datos['ultimaConex'] = "error";
             }
             $datos['nombreEstacion'] = $nombreEstacion;
@@ -136,27 +127,27 @@ class Inicio extends BaseController
 
     //muestra la vista de graficas (historicos y demas)
     //puede ir a vista rapida o personalizada (a.k.a custom)
-    public function graficas(){
+    public function graficas()
+    {
 
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "graficos";
             $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
             $datos['tagsEstaciones'] = $usuario->obtenerTagsEstaciones();
-            
-            if(isset($_POST['btnGraf']) && $_POST['btnGraf'] == 'rapida'){
+
+            if (isset($_POST['btnGraf']) && $_POST['btnGraf'] == 'rapida') {
                 return view('graficas', $datos);
-            }
-            else{
+            } else {
                 return view('graficasCustom', $datos);
             }
-
-         }else {
+        } else {
             return view('inicio');
         }
     }
 
     // //muestra la zona principal de alarmas
-    public function alarmas(){
+    public function alarmas()
+    {
 
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "alarmas";
@@ -165,12 +156,12 @@ class Inicio extends BaseController
             } else {
                 //falta: cambiar a nueva BD
                 $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
-                
+
                 //alarmas desde principio de año
                 $estaciones = $this->usuario->obtenerEstacionesUsuario();
                 $datos['estaciones'] = $estaciones;
                 // $alarmas = $this->usuario->obtenerAlarmas();
-                
+
                 // $datos['alarmasAll'] = $alarmas;
             }
 
@@ -181,7 +172,8 @@ class Inicio extends BaseController
     }
 
     //muestra la zona de informes
-    public function informes(){
+    public function informes()
+    {
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "infos";
             return view('informes');
@@ -191,8 +183,9 @@ class Inicio extends BaseController
     }
 
     //muestra el estado de las conexiones con las estaciones
-    public function comunicaciones(){
-        
+    public function comunicaciones()
+    {
+
         $_SESSION['seccion'] = "coms";
         if (isset($_SESSION['nombre'])) {
             // $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);

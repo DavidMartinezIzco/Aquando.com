@@ -126,13 +126,13 @@ function tagsEstacionCustom(id_estacion) {
 
 //display de las opciones
 function mostrarOpciones() {
-    if (document.getElementById("zonaControles").style.width == '1%') {
+    if (document.getElementById("zonaControles").style.width == '0px') {
         document.getElementById("zonaControles").style.width = '34.5%';
         document.getElementById("zonaControles").style.left = '65%';
         document.getElementById("zonaGraficos").style.width = '65%';
 
     } else {
-        document.getElementById("zonaControles").style.width = '1%';
+        document.getElementById("zonaControles").style.width = 0;
         document.getElementById("zonaControles").style.left = '100%';
         document.getElementById("zonaGraficos").style.width = '98%';
 
@@ -440,7 +440,7 @@ function renderGrafico() {
             },
             xAxisIndex: 0,
             start: 0,
-            end: 10,
+            end: 30,
             filterMode: 'filter',
             zlevel: 10
         },
@@ -453,7 +453,7 @@ function renderGrafico() {
             },
             xAxisIndex: 0,
             start: 0,
-            end: 10,
+            end: 30,
             filterMode: 'filter',
             zlevel: 10
         },
@@ -535,10 +535,16 @@ function renderGrafico() {
     $(window).keyup(function() {
         graficoCustom.resize();
     });
+    $(window).keydown(function() {
+        graficoCustom.resize();
+    });
+    $(window).keypress(function() {
+        graficoCustom.resize();
+    });
 
-    document.getElementById("conPrincipal").onclick = function() {
-        setTimeout(graficoCustom.resize(), 500);
-    };
+    // document.getElementById("conPrincipal").onmousemove = function() {
+    //     setTimeout(graficoCustom.resize(), 500);
+    // };
 
     document.getElementById('grafica').onmouseover = function() {
         setTimeout(graficoCustom.resize(), 500);

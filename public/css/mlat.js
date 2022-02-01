@@ -9,6 +9,15 @@ function abrirCerrar() {
     } else {
         abrirMenu();
     }
+
+    if (typeof grafico !== 'undefined') {
+        grafico.resize();
+    }
+    if (typeof graficoCustom !== 'undefined') {
+        graficoCustom.resize();
+    }
+
+
 }
 
 //despliega la zona de debug
@@ -65,6 +74,10 @@ function abrirMenu() {
     if (document.getElementById("btnOpcionesgraficas")) {
         document.getElementById("btnOpcionesgraficas").style.left = '81%';
     }
+
+
+
+
 }
 
 //cierra el menu y aplica las nuevas dimensiones

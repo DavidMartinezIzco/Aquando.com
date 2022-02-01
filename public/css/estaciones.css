@@ -83,6 +83,7 @@
     border: 1px solid rgb(1, 168, 184);
     margin-bottom: 3%;
     vertical-align: center;
+    transition: 0.2;
 }
 
 .widDigiIcono {
@@ -176,6 +177,7 @@
     margin: 2% 5% 0% 5%;
     border-radius: 10px;
     display: inline-block;
+    transition: 0.2;
 }
 
 .widAnaInfo {

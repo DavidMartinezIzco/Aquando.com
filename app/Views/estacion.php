@@ -30,7 +30,7 @@
 
     <div id="ajustesEstacion">
         <i class="fas fa-times" id="btnAjustesCerrar" onclick="ajustes()"></i>
-        <h1 >Ajustes de estación <?php echo $nombreEstacion; ?></h1>
+        <h1>Ajustes de estación <?php echo $nombreEstacion; ?></h1>
         <div id="cuerpoAjustes" class="cuerpoAjustes">
 
             <form id="formAjustes" action="javascript:void(0);">
@@ -67,7 +67,7 @@
         actualizarSur('estacion', null, null, null, estacion);
         comprobarTiempo();
         setInterval(fechaYHora, 1000);
-        // setInterval(updateEstacion, 60000);
+        setInterval(updateEstacion, 60000 * 5);
         setInterval(actualizarSur('estacion', null, null, null, estacion), 20000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {
@@ -83,7 +83,7 @@
         actualizar(estacion);
         setTimeout(function() {
             document.getElementById("iconoActu").classList.remove("rotante");
-        }, 3000);
+        }, 4000);
     }
 </script>
 

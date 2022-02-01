@@ -171,8 +171,8 @@
 
 #grafica {
     transition: 0.5s;
-    width: 1210px;
-    height: 622px;
+    width: 100%;
+    height: 100%;
 }
 
 #alarmasGraficas {

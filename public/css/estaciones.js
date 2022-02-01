@@ -65,23 +65,25 @@ function filtrarDatos(datos) {
     var tagsBombas = Array();
 
     for (var indexDato in datos) {
-        if (!datos[indexDato]['nombre_tag'].includes("Bomba")) {
-            if (datos[indexDato]['valor'] == 't' || datos[indexDato]['valor'] == 'f') {
-                datosDigi[indexDato] = datos[indexDato];
-            } else {
-                if (datos[indexDato]['nombre_tag'].includes("Acumulado") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
-                    tagsAcumulados[indexDato] = datos[indexDato];
+        if (!datos[indexDato]['nombre_tag'].includes("Comunicacion")) {
+            if (!datos[indexDato]['nombre_tag'].includes("Bomba")) {
+                if (datos[indexDato]['valor'] == 't' || datos[indexDato]['valor'] == 'f') {
+                    datosDigi[indexDato] = datos[indexDato];
                 } else {
-                    if (datos[indexDato]['nombre_tag'].includes("Consigna")) {
-                        consignas[indexDato] = datos[indexDato];
+                    if (datos[indexDato]['nombre_tag'].includes("Acumulado") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
+                        tagsAcumulados[indexDato] = datos[indexDato];
                     } else {
-                        datosAnalog[indexDato] = datos[indexDato];
-                        datosAnalog[indexDato]['consignas'] = [];
+                        if (datos[indexDato]['nombre_tag'].includes("Consigna")) {
+                            consignas[indexDato] = datos[indexDato];
+                        } else {
+                            datosAnalog[indexDato] = datos[indexDato];
+                            datosAnalog[indexDato]['consignas'] = [];
+                        }
                     }
                 }
+            } else {
+                tagsBombas[datos[indexDato]['id_tag']] = datos[indexDato];
             }
-        } else {
-            tagsBombas[datos[indexDato]['id_tag']] = datos[indexDato];
         }
     }
 
@@ -121,7 +123,7 @@ function filtrarDatos(datos) {
     setTimeout(() => {
         montarWidgetsDigi();
         montarWidgetsAnalogicos();
-    }, 2000);
+    }, 3000);
 
 }
 
@@ -424,11 +426,9 @@ function montarGraficosWidget() {
         };
 
 
-
-
         var valores = [];
         var fechas = [];
-        if (todoTrends[tag] != null) {
+        if (todoTrends[tag] != null && todoTrends[tag] != 'undefined') {
             valores.push(todoTrends[tag]['max']);
             fechas.push(todoTrends[tag]['fecha']);
         }

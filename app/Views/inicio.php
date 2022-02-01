@@ -138,16 +138,14 @@ if (isset($_GET['log'])) {
                 $estaciones = $_SESSION['estaciones'];
                 echo "<ul class='miniEstacion'>";
                 foreach ($estaciones as $index => $estacion) {
-                    if ($index != 0) {
-                        echo
-                        '<li>
+                    echo
+                    '<li>
                                 <form action=' . base_url() . '/estacion method="POST">
                                     <button class="btn me-2 btn-block" name="btnEstacion" value="' . $estacion['id_estacion'] . '""
                                     style="padding:0.1em;width:100%; border-radius:0; color:white;">' . $estacion['nombre_estacion'] . '
                                     </button>
                                 </form>
                             </li>';
-                    }
                 }
                 echo "</ul>";
                 echo "<hr class='miniEstacion'>";
@@ -290,6 +288,7 @@ if (isset($_GET['log'])) {
         <?php $this->renderSection('content'); ?>
         <?php
         if (!isset($_SESSION['nombre'])) {
+            echo '<img src="../public/logo.png"';
             echo "<h1 id='txtDesconectado' style='width:30%;margin:25% 40%;color:grey; transition:1.5s;opacity:60%'>Desconectado</h1>";
         }
 
