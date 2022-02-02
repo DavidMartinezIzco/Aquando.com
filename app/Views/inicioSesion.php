@@ -15,15 +15,7 @@
 
   <form method="POST" id="formulario">
     <p id="mayusAct" style="text-align:center"><br></p>
-    <div class="form-floating" style="margin-bottom: 15px;">
-      <select class="form-control" name="selEmpresa">
-        <option value="1">Iturri Ederra</option>
-        <option value="2">Amescoa Alta</option>
-        <option value="3">Amescoa Baja</option>
-        <option value="5">Dateando</option>
-      </select>
-      <label for="floatingInput" style="color:black">Empresa</label>
-    </div>
+
     <div class="form-floating" style="margin-bottom: 15px;">
       <input type="text" name="txtNombre" class="form-control">
       <label for="floatingInput" style="color:black">Usuario</label>
@@ -34,7 +26,7 @@
 
     </div>
 
-    <button id="btnForm" class="w-100 btn btn-lg " style="background-color: rgb(56, 56, 56);margin-bottom: 100em; opacity:100%; color: white" type="submit">Iniciar Sesión</button>
+    <button id="btnForm" type="submit">Iniciar Sesión</button>
   </form>
 </main>
 

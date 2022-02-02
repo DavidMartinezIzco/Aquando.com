@@ -3,10 +3,6 @@
     /* font-family: Consolas, monaco, monospace; */
 }
 
-#conPrincipal {
-    height: 848px;
-}
-
 #conInfo {
     transition: 0.5s;
     position: absolute;

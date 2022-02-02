@@ -3,7 +3,8 @@
 <script src='css/echarts.js'></script>
 <script src='css/estaciones.js'></script>
 <link rel="stylesheet" type="text/css" href="css/estaciones.css">
-<main id="conPrincipal" style="width:100%;border-radius:10px; margin-top:1%">
+<link rel="stylesheet" type="text/css" href="css/sur.css">
+<main id="conPrincipal" style="height:848px;width:100%;border-radius:10px; margin-top:1%">
     <!---zona superior--->
 
     <div id="estacionIzq">
@@ -64,11 +65,11 @@
     var estacion = <?php echo $id_estacion ?>;
     window.onload = function() {
         updateEstacion();
-        actualizarSur('estacion', null, null, null, estacion);
+        actualizarSur('estacion', null, null, estacion);
         comprobarTiempo();
         setInterval(fechaYHora, 1000);
         setInterval(updateEstacion, 60000 * 5);
-        setInterval(actualizarSur('estacion', null, null, null, estacion), 20000);
+        setInterval(actualizarSur('estacion', null, null, estacion), 20000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {
             tiempoFuera("");

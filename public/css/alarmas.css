@@ -114,9 +114,11 @@
 #zonaAlarmas {
     margin: 1%;
     margin-top: 0;
-    padding-bottom: 1%;
+    padding: 1%;
+    padding-top: 0%;
     overflow-y: scroll;
     max-height: 85%;
+    background-color: rgb(85, 85, 85);
     border: 2px solid rgb(56, 56, 56);
     border-radius: 10px;
 }
@@ -135,7 +137,7 @@
 }
 
 #zonaAlarmas::-webkit-scrollbar-track {
-    background-color: lightgrey;
+    background-color: rgb(105, 105, 105);
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
 }
@@ -146,42 +148,19 @@
     border-bottom-right-radius: 7px;
 }
 
-#tablaAlarmas tr {
-    opacity: 95%;
+.activaNo {
+    transition: 0s;
+    animation-duration: 2000ms;
+    animation-name: alerta;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
-#tablaAlarmas tr:hover {
-    opacity: 100%;
-}
-
-#tablaAlarmas tr:first-of-type {
-    border-bottom: 1px solid black;
-}
-
-#tablaAlarmas tr:first-of-type th {
-    background-color: darkgray;
-    padding: 0.5%;
-}
-
-#tablaAlarmas tr:first-of-type th:hover {
+.activaNo {
     color: white;
-    background-color: gray;
-}
-
-.activaNo td {
-    color: white;
-    background-color: tomato;
-    padding: 0.5%;
-    transition: 0.5s;
+    /* background-color: tomato; */
+    /* padding: 0.5%; */
     font-size: 110%;
-}
-
-table tr td i {
-    opacity: 10%;
-}
-
-table tr td i:hover {
-    opacity: 100%;
 }
 
 .activaSi {
@@ -197,4 +176,47 @@ table tr td i:hover {
 .restSi {
     color: white;
     background-color: darkolivegreen;
+}
+
+@keyframes alerta {
+    from {
+        background-color: tomato;
+    }
+    to {
+        background-color: rgb(241, 68, 37);
+    }
+}
+
+#tablaAlarmas tr {
+    opacity: 90%;
+}
+
+#tablaAlarmas tr:hover {
+    opacity: 100%;
+}
+
+#tablaAlarmas tr:first-of-type {
+    border-bottom: 2px solid rgb(1, 168, 184);
+    opacity: 100%;
+}
+
+#tablaAlarmas tr:first-of-type th {
+    background-color: rgb(85, 85, 85);
+    /* color: rgb(1, 168, 184); */
+    color: whitesmoke;
+    padding: 0.1%;
+    font-size: 110%;
+}
+
+#tablaAlarmas tr:first-of-type th:hover {
+    color: white;
+    background-color: rgb(1, 168, 184);
+}
+
+table tr td i {
+    opacity: 10%;
+}
+
+table tr td i:hover {
+    opacity: 100%;
 }

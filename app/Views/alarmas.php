@@ -7,6 +7,7 @@
 <script src='css/html2canvas.esm.js'></script>
 <script src="css/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
+
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
 
     <!--opciones de filtrado de las alarmas--->
@@ -42,11 +43,10 @@
         </div>
 
         <div id="fechas">
-
-            <input type="date" id="radioFecha" disabled name="fechaInicio">
-            <label for="radioFecha">Inicio</label><br>
-            <input type="date" id="radioMotivo" disabled name="fechaFin">
-            <label for="radioMotivo">Fin</label>
+            <label for="fecha">Hasta</label>
+            <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
+            <label for="fecha">Desde</label>
+            <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin" value="2022-01-25">
         </div>
 
         <div id="acciones">
@@ -67,17 +67,15 @@
 
 <script>
     window.onload = function() {
+        inicioFin();
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
-        var idusu = <?php echo $_SESSION['idusu'] ?>;
         sessionStorage.setItem('nousu', usu);
         sessionStorage.setItem('pwd', pwd);
-        sessionStorage.setItem('emp', idusu);
         actualizar(null);
         setInterval(fechaYHora, 1000);
         setInterval(actualizar(null), 20000);
         setInterval(comprobarTiempo, 1000);
-        setInterval(efectoAlerta, 3000);
         $(window).blur(function() {
             tiempoFuera("");
         });

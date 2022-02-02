@@ -13,11 +13,9 @@ class Database
     private $password = "123456";
     private $conexion;
 
-
     public function __construct()
     {
     }
-
 
     //conecta con la BD
     //uso interno
@@ -28,10 +26,10 @@ class Database
 
     //obtiene el ID de un usuario dadas sus credenciales en caso de que exista
     //apaño para algunas secciones
-    public function obtenerIdUsuario($nombre, $pwd, $id_cliente)
+    public function obtenerIdUsuario($nombre, $pwd)
     {
         if ($this->conectar()) {
-            $consulta = "SELECT id_usuario FROM usuarios WHERE nombre ='$nombre' AND password ='$pwd' AND id_cliente = " . $id_cliente . "";
+            $consulta = "SELECT id_usuario FROM usuarios WHERE nombre ='$nombre' AND password ='$pwd'";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $id_usu = pg_fetch_all($resultado);
@@ -58,10 +56,10 @@ class Database
     //comprueba que un usuario exite en la BD
     //está pendiente de cambios (encriptación)
     //se usa en el login
-    public function existeUsuario($nombre, $pwd, $id_cliente)
+    public function existeUsuario($nombre, $pwd)
     {
         if ($this->conectar()) {
-            $consulta = "SELECT * FROM public.usuarios WHERE nombre ='$nombre' AND password ='$pwd' AND id_cliente = '$id_cliente'";
+            $consulta = "SELECT * FROM public.usuarios WHERE nombre ='$nombre' AND password ='$pwd'";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 return true;
@@ -92,7 +90,7 @@ class Database
 
     //obtiene las alarmas en general de un usuario
     //se usa en varias cosas
-    public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido)
+    public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido, $fechaInicio, $fechaFin)
     {
         if ($this->conectar()) {
 
@@ -137,16 +135,40 @@ class Database
             $conAlarmas = "SELECT 
                 estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
                 FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
-                WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . " ORDER BY $prioridad DESC LIMIT 100";
+                WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'];
+
+            //obtener fechas de inicio y fin
+            //comprobar cuales están definidas
+            //filtrar
+
+
+
+
+
+            if ($fechaInicio != null) {
+                $ini = strtotime($fechaInicio);
+                $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) < " . $ini;
+            }
+            if ($fechaFin != null) {
+                $fin = strtotime($fechaFin);
+                $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) > " . $fin;
+            }
 
             if ($sentido != null) {
                 if ($sentido == 'ASC') {
-                    $conAlarmas = "SELECT 
-                    estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
-                    FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
-                    WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . " ORDER BY $prioridad ASC LIMIT 100";
+                    $conAlarmas .= " ORDER BY $prioridad ASC LIMIT 200";
+                } else {
+                    $conAlarmas .= " ORDER BY $prioridad DESC LIMIT 200";
                 }
+            } else {
+                $conAlarmas .= " ORDER BY $prioridad DESC LIMIT 200";
             }
+
+
+
+
+
+
 
             $resulAlarmas = pg_query($conAlarmas);
             if ($this->consultaExitosa($resulAlarmas)) {
@@ -210,13 +232,26 @@ class Database
 
             $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
             FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
-            WHERE estacion_tag.id_estacion = '$id_estacion' ORDER BY $prioridad DESC LIMIT 100";
+            WHERE estacion_tag.id_estacion = '$id_estacion'";
+
+
+            if ($fechaInicio != null) {
+                $ini = strtotime($fechaInicio);
+                $consulta .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) < " . $ini;
+            }
+            if ($fechaFin != null) {
+                $fin = strtotime($fechaFin);
+                $consulta .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) > " . $fin;
+            }
+
             if ($sentido != null) {
                 if ($sentido == 'ASC') {
-                    $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
-                    FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
-                    WHERE estacion_tag.id_estacion = '$id_estacion' ORDER BY $prioridad ASC LIMIT 100";
+                    $consulta .= " ORDER BY $prioridad ASC LIMIT 300";
+                } else {
+                    $consulta .= " ORDER BY $prioridad DESC LIMIT 300";
                 }
+            } else {
+                $consulta .= " ORDER BY $prioridad DESC LIMIT 300";
             }
 
             $resultado = pg_query($this->conexion, $consulta);
@@ -353,7 +388,10 @@ class Database
     public function historicosTagEstacion($id_estacion, $id_tag)
     {
         if ($this->conectar()) {
-            $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.calidad, datos_historicos.valor_bool, datos_historicos.valor_int, datos_historicos.valor_acu, datos_historicos.valor_float, datos_historicos.valor_string, datos_historicos.valor_date FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . " ORDER BY datos_historicos.fecha DESC";
+            $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.calidad, datos_historicos.valor_bool, datos_historicos.valor_int, datos_historicos.valor_acu, datos_historicos.valor_float, datos_historicos.valor_string, datos_historicos.valor_date 
+            FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
+            WHERE datos_historicos.fecha::date > current_date::date - interval '50 days' AND estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion .
+                " ORDER BY datos_historicos.fecha DESC";
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
             if ($this->consultaExitosa($resulHistoTagEst)) {
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
@@ -629,14 +667,11 @@ class Database
     //hasta que no tengamos comunicación en TR hay que sumar dias al intervalo
     public function tagTrend($id_tag, $id_estacion)
     {
-
         if ($this->conectar()) {
-
-            $conTrend =
-                "SELECT MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
+            $conTrend = "SELECT MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
             from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
             where datos_historicos.id_tag = " . $id_tag . " and estacion_tag.id_estacion = " . $id_estacion . "
-            and datos_historicos.fecha::date > current_date::date - interval '49 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
+            and datos_historicos.fecha::date > current_date::date - interval '51 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
             $resTrend = pg_query($this->conexion, $conTrend);
             if ($this->consultaExitosa(($resTrend))) {
                 $datosTrendTag = pg_fetch_all($resTrend);

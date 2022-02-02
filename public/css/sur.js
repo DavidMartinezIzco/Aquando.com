@@ -1,18 +1,17 @@
-function actualizarSur(entorno, nombre, pwd, idemp, estacion) {
+function actualizarSur(entorno, nombre, pwd, estacion) {
 
     if (entorno == "general") {
 
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_Sur.php?caso=general&nombre=' + nombre + '&pwd=' + pwd + '&emp=' + idemp,
+                url: 'A_Sur.php?caso=general&nombre=' + nombre + '&pwd=' + pwd,
                 success: function(alarmas) {
                     document.getElementById("alarmasSur").innerHTML = alarmas;
                 },
                 error: function() {
                     console.log("error");
                 }
-
             });
         });
     }

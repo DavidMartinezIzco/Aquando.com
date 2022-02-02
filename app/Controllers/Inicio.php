@@ -30,7 +30,7 @@ class Inicio extends BaseController
         } else {
             $_SESSION['seccion'] = "inicio";
             if (isset($_SESSION['nombre'])) {
-                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
+                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
                 $_SESSION['estaciones'] = $this->usuario->obtenerEstacionesUsuario();
 
                 return view('principal');
@@ -57,9 +57,9 @@ class Inicio extends BaseController
         if (isset($_POST["txtNombre"]) && isset($_POST["txtContrasena"])) {
             $nombre = $_POST["txtNombre"];
             $pwd = $_POST["txtContrasena"];
-            $id = $_POST['selEmpresa'];
+            
 
-            $this->usuario = new Usuario($nombre, $pwd, $id);
+            $this->usuario = new Usuario($nombre, $pwd);
             // if($this->usuario->existeUsuario() == false){
             //     echo '<script language="javascript">';
             //     echo 'alert("Datos Incorrectos")';
@@ -70,24 +70,6 @@ class Inicio extends BaseController
             if ($this->usuario->existeUsuario() == true) {
                 $_SESSION['nombre'] = $nombre;
                 $_SESSION['pwd'] = $pwd;
-                $_SESSION['idusu'] = $this->usuario->getCliente();
-                switch ($this->usuario->getCliente()) {
-                    case 1:
-                        $_SESSION['empresa'] = "Iturri Ederra";
-                        break;
-                    case 2:
-                        $_SESSION['empresa'] = "Amescoa Alta";
-                        break;
-                    case 3:
-                        $_SESSION['empresa'] = "Amescoa Baja";
-                        break;
-                    case 5:
-                        $_SESSION['empresa'] = "Dateando";
-                        break;
-                    default:
-                        $_SESSION['empresa'] = "Desconocida";
-                        break;
-                }
 
                 $this->usuario->obtenerEstacionesUsuario();
                 return $this->index();
@@ -105,7 +87,7 @@ class Inicio extends BaseController
     {
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "estacion";
-            $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
+            $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
             foreach ($_SESSION['estaciones'] as $index => $estacion) {
                 if ($estacion["id_estacion"] == $_POST["btnEstacion"]) {
                     $nombreEstacion = $estacion["nombre_estacion"];
@@ -132,7 +114,7 @@ class Inicio extends BaseController
 
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "graficos";
-            $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
+            $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
             $datos['tagsEstaciones'] = $usuario->obtenerTagsEstaciones();
 
             if (isset($_POST['btnGraf']) && $_POST['btnGraf'] == 'rapida') {
@@ -155,7 +137,7 @@ class Inicio extends BaseController
                 $datos['alarmas'] = $_SESSION['alarmas'];
             } else {
                 //falta: cambiar a nueva BD
-                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
+                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
 
                 //alarmas desde principio de año
                 $estaciones = $this->usuario->obtenerEstacionesUsuario();

@@ -12,7 +12,6 @@
             
         $nombre = $_GET['nombre'];
         $pwd = $_GET['pwd'];
-        $emp = $_GET['emp'];
 
 
         $estaciones = $db->mostrarEstacionesCliente($nombre, $pwd);

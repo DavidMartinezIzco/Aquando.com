@@ -6,6 +6,7 @@
 <script src='css/html2canvas.min.js'></script>
 <script src='css/html2canvas.esm.js'></script>
 <link rel="stylesheet" type="text/css" href="css/graficas.css">
+<link rel="stylesheet" type="text/css" href="css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
 
     <!--necesitamos nombre de estacion, nombre de tags, datos de tags-->
@@ -61,10 +62,9 @@
 
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
-        var idusu = <?php echo $_SESSION['idusu'] ?>;
         comprobarTiempo();
         iniciar();
-        setInterval(actualizarSur('general', usu, pwd, idusu, null), 20000);
+        setInterval(actualizarSur('general', usu, pwd, null), 20000);
         setTimeout(aplicarOpciones, 1500);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);

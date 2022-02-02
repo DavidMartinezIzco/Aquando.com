@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/estilos.css">
     <link rel="stylesheet" type="text/css" href="css/inicio.css">
     <link rel="stylesheet" type="text/css" href="css/principal.css">
-    <link rel="stylesheet" type="text/css" href="css/sur.css">
+
 
     <!--cosillas de Fuentes-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,6 +56,7 @@ if (isset($_GET['log'])) {
         <div style="width: 100%; padding-left: 1em">powered by
             <img src="../public/logo.png" style="height: 3.5em; margin-left: 1%;" onclick="pantalla()">
             <i style="margin-left: 1%" class="far fa-lightbulb" id="iconoAyuda" onclick="ayuda()"></i>
+            <i class="fas fa-tools" id="iconoAyuda" onclick="ajustes()"></i>
             <!----zona secciones---->
             <?php
             if (isset($_SESSION['seccion'])) {
@@ -99,7 +100,8 @@ if (isset($_GET['log'])) {
         </div>
         <div id="usuario">
             <?php if (isset($_SESSION['nombre'])) {
-                echo "Usuario: " . $_SESSION['nombre'] . "<br>Empresa: " . $_SESSION['empresa'];
+                // hay que añador la empresa
+                echo "Usuario: " . $_SESSION['nombre'] . "<br>Empresa: ";
             } else {
                 echo "";
             }
@@ -126,10 +128,11 @@ if (isset($_GET['log'])) {
 
             <!---estaciones--->
             <li class="Func">
-                <button class="btn me-2 btn-block" name="btnFuncion" value="estaciones" onclick="desplegar(this.value)" <?php if (!isset($_SESSION["nombre"])) {
-                                                                                                                            echo "disabled";
-                                                                                                                        } ?> style="padding:1em;width:100%;border-radius:0;  color:white;">
-                    <i class="fas fa-broadcast-tower" style="margin-right:5%"></i>Estaciones
+                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnFuncion" value="estaciones" onclick="desplegar(this.value)">
+                    <?php if (!isset($_SESSION["nombre"])) {
+                        echo "disabled";
+                    } ?>
+                    <i class="fas fa-broadcast-tower" style="margin-right:5%"></i>Estaciones<i class="fas fa-caret-down"></i>
                 </button>
             </li>
             <!---wrap estaciones--->
@@ -156,8 +159,8 @@ if (isset($_GET['log'])) {
 
             <!-- wrap de graficas -->
             <li class="Func">
-                <button class="btn me-2 btn-block" name="btnGraf" value="grafs" onclick="desplegar(this.value)" style="padding:1em;width:100%;border-radius:0;  color:white;">
-                    <i class="far fa-chart-bar" style="margin-right:5%"></i>Graficas
+                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnGraf" value="grafs" onclick="desplegar(this.value)">
+                    <i class="far fa-chart-bar" style="margin-right:5%"></i>Graficas<i class="fas fa-caret-down"></i>
                 </button>
             </li>
             <ul class='miniEstacion'>
@@ -288,7 +291,7 @@ if (isset($_GET['log'])) {
         <?php $this->renderSection('content'); ?>
         <?php
         if (!isset($_SESSION['nombre'])) {
-            echo '<img src="../public/logo.png"';
+            // echo '<img src="../public/logo.png"';
             echo "<h1 id='txtDesconectado' style='width:30%;margin:25% 40%;color:grey; transition:1.5s;opacity:60%'>Desconectado</h1>";
         }
 

@@ -10,9 +10,9 @@ $db = new Database();
 if ($caso == "general") {
     $nombre = $_GET['nombre'];
     $pwd = $_GET['pwd'];
-    $id_emp = $_GET['emp'];
+    
 
-    $id_usuario = $db->obtenerIdUsuario($nombre, $pwd, $id_emp);
+    $id_usuario = $db->obtenerIdUsuario($nombre, $pwd);
     $alarmasSur = $db->alarmasSur($id_usuario);
 
     echo "<tr>        

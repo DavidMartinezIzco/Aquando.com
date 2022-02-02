@@ -47,7 +47,6 @@ i {
 }
 
 #iconoAyuda:hover {
-    font-size: 130%;
     color: rgb(1, 168, 184);
 }
 
@@ -171,6 +170,17 @@ i {
 
 #menuIzq::-webkit-scrollbar {
     display: none;
+}
+
+#btnDesplegable {
+    padding: 1em;
+    width: 100%;
+    border-radius: 0;
+    color: white;
+}
+
+#btnDesplegable:hover {
+    color: rgb(1, 168, 184);
 }
 
 
@@ -300,4 +310,11 @@ footer {
     top: 100%;
     left: 50%;
     margin-left: -60px;
+}
+
+#conPrincipal {
+    height: 848px;
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 1%;
 }

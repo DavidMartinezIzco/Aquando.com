@@ -51,7 +51,7 @@ function formatearTiempo(segs) {
     if (hours < 10) { hours = "0" + hours; }
     if (minutos < 10) { minutos = "0" + minutos; }
     if (segundos < 10) { segundos = "0" + segundos; }
-    document.getElementById("restante").innerText = minutos + ':' + segundos;
+    document.getElementById("restante").innerHTML = minutos + ':' + segundos + ' <i class="fas fa-caret-down"></i>';
 }
 
 //modifica el tiempo de inactividad para el cliente

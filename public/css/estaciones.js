@@ -266,9 +266,16 @@ function montarGraficosWidget() {
             var grafTrend = echarts.init(chartDom2);
             var valores = [];
             var fechas = [];
-            valores.push(todoTrends[tag]['max']);
-            fechas.push(todoTrends[tag]['fecha']);
-            document.getElementById("panelRojo" + nombreDato).innerHTML = valores[0][0];
+            if (todoTrends[tag] !== undefined) {
+                valores.push(todoTrends[tag]['max']);
+                fechas.push(todoTrends[tag]['fecha']);
+            }
+            if (valores.length > 0) {
+                document.getElementById("panelRojo" + nombreDato).innerHTML = valores[0][0];
+            } else {
+                document.getElementById("panelRojo" + nombreDato).innerHTML = 'sin trends';
+            }
+
 
             optionChart = {
                 grid: {
@@ -334,8 +341,10 @@ function montarGraficosWidget() {
 
 
         } else {
-            if (document.getElementById("panelNegro" + nombreDato + "Dia")) {
+            if (document.getElementById("panelNegro" + nombreDato + "Dia") && todoTrends[tag] !== undefined) {
                 document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = todoTrends[tag]['max'][0];
+            } else {
+                document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'sin trends de señal';
             }
 
         }
@@ -538,8 +547,9 @@ function mostrarAjustesTag(id_tag) {
     if (sessionStorage.getItem('tagViejo') !== null && sessionStorage.getItem('tagViejo') != 'null') {
         document.getElementById("tag" + sessionStorage.getItem('tagViejo')).style.backgroundColor = 'rgb(1, 168, 184)';
     }
-
-    sessionStorage.setItem('tagViejo', tag['id_tag']);
+    if (tag['id_tag'] != undefined && tag['id_tag'] != null) {
+        sessionStorage.setItem('tagViejo', tag['id_tag']);
+    }
     document.getElementById("tag" + tag['id_tag']).style.backgroundColor = 'rgb(39,45,79)';
     var lista = "<form class=formAjustesTag><h4>Ajustes de " + tag['nombre_tag'] + "</h4>";
     lista += "Ajustes de consignas  <i style='font-size:115%' class='far fa-bell'></i><hr>";

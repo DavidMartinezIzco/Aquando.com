@@ -8,6 +8,21 @@ function limpiar() {
     actualizar();
 }
 
+
+//establece los valores por defecto de los inputs de fecha
+//traduce y establece la fecha actual como predeterminado
+function inicioFin() {
+    Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0, 10);
+    });
+    $(document).ready(function() {
+        $('#fechaInicio').val(new Date().toDateInputValue());
+    });
+}
+
+
 //saca una captura de las alarmas
 function imprimir() {
     html2canvas(document.querySelector('#tablaAlarmas')).then(function(canvas) {
@@ -69,6 +84,12 @@ function actualizar(reorden) {
             sentido = 'ASC';
         }
 
+        var fechaInicio = document.getElementById('fechaInicio').value;
+        var fechaFin = document.getElementById('fechaFin').value;
+
+
+
+
         var nombre = sessionStorage.getItem('nousu');
         var pwd = sessionStorage.getItem('pwd');
         var emp = sessionStorage.getItem('emp');
@@ -76,7 +97,7 @@ function actualizar(reorden) {
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_Alarmas.php?funcion=actualizar&nombre=' + nombre + '&pwd=' + pwd + '&emp=' + emp + '&sentido=' + sentido + '&orden=' + orden,
+                url: 'A_Alarmas.php?funcion=actualizar&nombre=' + nombre + '&pwd=' + pwd + '&emp=' + emp + '&sentido=' + sentido + '&orden=' + orden + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin,
                 success: function(alarmas) {
                     document.getElementById("tablaAlarmas").innerHTML = alarmas;
                 },
@@ -91,7 +112,8 @@ function actualizar(reorden) {
 }
 
 function filtrarPorEstacion() {
-
+    var fechaInicio = document.getElementById('fechaInicio').value;
+    var fechaFin = document.getElementById('fechaFin').value;
     var id_estacion = document.getElementById("estaciones").value;
     if (id_estacion == 'all') {
         actualizar();
@@ -110,7 +132,7 @@ function filtrarPorEstacion() {
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_Alarmas.php?funcion=estacion&sentido=' + sentido + '&orden=' + orden + '&estacion=' + id_estacion,
+                url: 'A_Alarmas.php?funcion=estacion&sentido=' + sentido + '&orden=' + orden + '&estacion=' + id_estacion + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin,
                 success: function(alarmas) {
                     document.getElementById("tablaAlarmas").innerHTML = alarmas;
                 },
@@ -147,19 +169,19 @@ function reconocer(id_alarma) {
 
 }
 
-function efectoAlerta() {
+// function efectoAlerta() {
 
-    var alertas = document.getElementsByClassName('activaNo');
-    for (var i = 0, max = alertas.length; i < max; i++) {
-        setInterval(resaltar(alertas[i]), 1000);
-    }
+//     var alertas = document.getElementsByClassName('activaNo');
+//     for (var i = 0, max = alertas.length; i < max; i++) {
+//         setInterval(resaltar(alertas[i]), 1000);
+//     }
 
-}
+// }
 
-function resaltar(elem) {
-    elem.style.backgroundColor = "red";
-    setTimeout(function() { elem.style.backgroundColor = "tomato" }, 1000);
-}
+// function resaltar(elem) {
+//     elem.style.backgroundColor = "red";
+//     setTimeout(function() { elem.style.backgroundColor = "tomato" }, 1000);
+// }
 
 function reordenar(opcion) {
 

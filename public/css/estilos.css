@@ -12,6 +12,22 @@
     opacity: 100%;
 }
 
+#btnForm {
+    background-color: rgb(39, 45, 79);
+    width: 100%;
+    padding: 1% 1%;
+    color: white;
+    border-radius: 10px;
+    font-size: 115%;
+    font-weight: bold;
+    transition: 0.2s;
+    border: none;
+}
+
+#btnForm:hover {
+    background-color: rgb(1, 168, 184);
+}
+
 #formulario button:hover {
     opacity: 100%;
 }

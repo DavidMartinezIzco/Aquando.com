@@ -3,6 +3,7 @@
 <script src='css/echarts.js'></script>
 <script src='css/comunicaciones.js'></script>
 <link rel="stylesheet" type="text/css" href="css/comunicaciones.css">
+<link rel="stylesheet" type="text/css" href="css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px; margin-top:1%;">
 
 
@@ -46,11 +47,10 @@
         sessionStorage.setItem('usu', usu);
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         sessionStorage.setItem('pwd', pwd);
-        var idusu = <?php echo $_SESSION['idusu'] ?>;
-        sessionStorage.setItem('idusu', idusu);
-        actualizarSur('general', usu, pwd, idusu, null);
+        
+        actualizarSur('general', usu, pwd, null);
 
-        setInterval(actualizarConexiones(usu, pwd, idusu), 1000 * 60 * 5);
+        setInterval(actualizarConexiones(usu, pwd), 1000 * 60 * 5);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
         setInterval(parpadeoProblema, 3000);

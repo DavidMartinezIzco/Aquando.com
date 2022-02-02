@@ -1,4 +1,4 @@
-function actualizarConexiones(nombre, pwd, idemp) {
+function actualizarConexiones(nombre, pwd) {
 
     $(document.getElementById("iconoActu")).addClass("rotante");
     setTimeout(function() {
@@ -8,7 +8,7 @@ function actualizarConexiones(nombre, pwd, idemp) {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Conexiones.php?nombre=' + nombre + '&pwd=' + pwd + '&emp=' + idemp + '&opcion=conex',
+            url: 'A_Conexiones.php?nombre=' + nombre + '&pwd=' + pwd + '&opcion=conex',
             success: function(conex) {
                 document.getElementById("tablaConex").innerHTML = conex;
             },

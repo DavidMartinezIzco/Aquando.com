@@ -2,6 +2,7 @@
 
 require '../app/Database/Database.php';
 $db = new Database();
+
     //declaraciones de variables
 
     //actualiza el listado de alarmas con la configuracion establecida por el usuario
@@ -12,9 +13,12 @@ $db = new Database();
         $emp = $_GET['emp'];
         $orden = $_GET['orden'];
         $sentido = $_GET['sentido'];
+        $fechaIni = $_GET['fechaInicio'];
+        $fechaFin = $_GET['fechaFin'];
+        
         $idusu = $db->obtenerIdUsuario($nombre,$pwd, $emp);
 
-        $alarmas = $db->obtenerAlarmasUsuario($idusu, $orden , $sentido);
+        $alarmas = $db->obtenerAlarmasUsuario($idusu, $orden , $sentido, $fechaIni, $fechaFin);
 
         $alarmasLimpio = array();
         foreach ($alarmas as $estacion => $alarmas) {
@@ -89,6 +93,8 @@ $db = new Database();
 
         $orden = $_GET['orden'];
         $sentido = $_GET['sentido'];
+        $fechaIni = $_GET['fechaInicio'];
+        $fechaFin = $_GET['fechaFin'];
         $id_estacion = $_GET['estacion'];
         $alarmasEstacion = $db->obtenerAlarmasEstacion($id_estacion,$orden, $sentido, null, null);
         if($alarmasEstacion != false){

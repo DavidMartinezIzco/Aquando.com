@@ -37,8 +37,11 @@
 
 .activaNo td {
     color: white;
-    background-color: tomato;
-    transition: 0.5s;
+    animation-duration: 1000ms;
+    /* transition: 0.1s; */
+    animation-name: alerta;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 #alarmasSur tr td i {
@@ -62,4 +65,13 @@
 .restSi {
     color: white;
     background-color: darkolivegreen;
+}
+
+@keyframes alerta {
+    from {
+        background-color: tomato;
+    }
+    to {
+        background-color: rgb(241, 68, 37);
+    }
 }

@@ -6,6 +6,7 @@
 <script src='css/html2canvas.min.js'></script>
 <script src='css/html2canvas.esm.js'></script>
 <link rel="stylesheet" type="text/css" href="css/graficasCustom.css">
+<link rel="stylesheet" type="text/css" href="css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
 
     <!--necesitamos nombre de estacion, nombre de tags, datos de tags-->
@@ -91,7 +92,7 @@
                     <label for="fecha">Hasta</label>
                     <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
                     <label for="fecha">Desde</label>
-                    <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin" value="2020-12-01">
+                    <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin" value="2021-12-01">
                     <hr>
                     <label for="opciones">Estación:</label>
                     <select class="controlSel" id="opciones" style="transition: 0.5s;" name="opciones" onchange="iniciar(this.value)">
@@ -131,7 +132,7 @@
         inicioFin();
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
-        var idusu = <?php echo $_SESSION['idusu'] ?>;
+
         //handlers para los controles de tags , meta y colores
         $(document).on('change', 'input[type=color]', function() {
             this.parentNode.style.color = this.value;
@@ -144,7 +145,7 @@
             }
         });
         comprobarTiempo();
-        setInterval(actualizarSur('general', usu, pwd, idusu, null), 20000);
+        setInterval(actualizarSur('general', usu, pwd, null), 20000);
         //setTimeout(aplicarOpciones, 1500);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
