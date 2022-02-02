@@ -4,7 +4,7 @@
 <script src='css/echarts.js'></script>
 <link rel="stylesheet" type="text/css" href="css/informes.css">
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
-<main id="conPrincipal" style="width:100%; border-radius:10px;">
+<main id="conPrincipal" style="width:100%;">
 
     <div id="informesNorte">
         <button id="btnMenuInformes" onclick="opciones()"><i class="fas fa-sliders-h"></i></button>
@@ -12,12 +12,12 @@
         <!--tipo de representacion--->
         <div id="tipoInforme">
             <form>
-                <input type="radio" name="tipoInforme" value="tabla" checked />
-                <label for="tipoInforme">Tabla</label><br>
-                <input type="radio" name="tipoInforme" value="grafico" />
-                <label for="tipoInforme">Gráfico</label><br>
-                <input type="radio" name="tipoInforme" value="esquema" />
-                <label for="tipoInforme">Esquema</label>
+                <input type="radio" id="radInforme" value="cau" checked/>Caudales<br>
+                <!-- <label for="tipoInforme">Caudales</label><br> -->
+                <input type="radio" id="radInforme" value="niv" />Niveles<br>
+                <!-- <label for="tipoInforme">Niveles</label><br> -->
+                <input type="radio" id="radInforme" value="acu" />Acumulados
+                <!-- <label for="tipoInforme">Acumulados</label> -->
             </form>
 
         </div>
@@ -29,41 +29,32 @@
             <button id="btnBus" value="sig" disabled><i class="fas fa-angle-double-right"></i></button>
             <br>
             <form>
-                <select style="margin-top:1.5%;margin-left:3%;width:100%" id="opcionesEstacion" name="opcionesEstacion">
-                    <option value="Estacion">Estacion x</option>
-                    <option value="Estacion">Estacion x</option>
-                    <option value="Estacion">Estacion x</option>
-                    <option value="Estacion">Estacion x</option>
-                    <option value="Estacion">Estacion x</option>
+                <select style="margin-top:1.5%;margin-left:3%;width:97%" id="opcionesEstacion" multiple name="opcionesEstacion">
+                    
+                    <?php
+                        foreach ($_SESSION['estaciones'] as $index => $estacion) {
+                            echo '<option value='. $estacion['id_estacion'] .'>'. $estacion['nombre_estacion'] .'</option>';
+                        }
+                    ?>
+
                 </select><br>
-                <input type="date" id="radioFecha" name="fechaInicio">
-                <label for="fecha">Inicio</label>
-                <input type="date" id="radioMotivo" name="fechaFin">
-                <label for="fecha">Fin</label>
+                
             </form>
         </div>
         <!--campos posibles para representar--->
         <div id="camposInforme">
             <form>
-                <input type="radio" name="radioCampo1" value="" checked />
-                <label for="radioCampo1">Campo 1</label>
-                <input type="radio" name="radioCampo2" value="" checked />
-                <label for="radioCampo1">Campo 2</label><br>
-                <input type="radio" name="radioCampo3" value="" checked />
-                <label for="radioCampo1">Campo 3</label>
-                <input type="radio" name="radioCampo4" value="" checked />
-                <label for="radioCampo1">Campo 4</label><br>
-                <input type="radio" name="radioCampo5" value="" checked />
-                <label for="radioCampo1">Campo 5</label>
-                <input type="radio" name="radioCampo6" value="" checked />
-                <label for="radioCampo1">Campo 6</label>
+            <input type="date" id="radioFecha" name="fechaInicio">
+                <label for="fecha">Inicio</label>
+                <input type="date" id="radioMotivo" name="fechaFin" value="2022-01-01">
+                <label for="fecha">Fin</label>
             </form>
         </div>
 
 
         <div id="controlesInforme">
             <div id="controles">
-                <button id="btnInforme" value="aplicar" name="btnControl">ver informe</button><br>
+                <button id="btnInforme" name="btnControl" onclick="obtenerInforme()">ver informe</button><br>
                 <button id="btnInforme" onclick=limpiar() value="reset" name="btnControlReset">reset</button><br>
                 <button id="btnInforme" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
             </div>
@@ -79,7 +70,7 @@
 
 <script>
     window.onload = function() {
-
+        inicioFin();
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {
@@ -90,10 +81,10 @@
         });
     }
 
-    $(window).keydown(function(e) {
-        if (e.ctrlKey)
-            opciones();
-    });
+    // $(window).keydown(function(e) {
+    //     if (e.ctrlKey)
+    //         opciones();
+    // });
 </script>
 
 

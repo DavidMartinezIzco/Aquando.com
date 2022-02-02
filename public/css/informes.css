@@ -1,26 +1,26 @@
 /*INFORMES NORTE*/
 
-#btnMenuInformes{
+#btnMenuInformes {
     position: absolute;
     z-index: 9999;
     top: 19.5%;
     left: 95%;
     padding: 0.2% 1%;
     color: grey;
-    background-color:rgba(56, 56, 56);
-    border:none;
+    background-color: rgba(56, 56, 56);
+    border: none;
     opacity: 33%;
     transition: 0.2s;
 }
 
-#btnMenuInformes:hover{
+#btnMenuInformes:hover {
     background-color: rgb(1, 168, 184);
     color: white;
     opacity: 100%;
 }
 
-
-#informesNorte{
+#informesNorte {
+    margin-top: -1%;
     width: 100%;
     height: 15%;
     background-color: grey;
@@ -30,26 +30,23 @@
     border-bottom: 2px solid rgb(1, 168, 184);
 }
 
-#tipoInforme{
+#tipoInforme {
     padding: 1% 1%;
     font-size: 120%;
-    text-align:left;
+    text-align: left;
     position: relative;
     width: 20%;
     height: 100%;
     left: 5%;
 }
 
-#tipoInforme form{
+#tipoInforme form {
     padding: 1% 3%;
     border: 1px solid white;
     border-radius: 10px;
 }
 
-
-
-
-#opcionesInforme{
+#opcionesInforme {
     text-align: left;
     font-size: small;
     padding: 1%;
@@ -60,45 +57,43 @@
     bottom: 100%;
 }
 
-#btnBus{
+#btnBus {
     border: 1px solid black;
     background-color: lightgrey;
 }
 
-#btnBus:hover{
+#btnBus:hover {
     background-color: rgb(1, 168, 184);
     border: 1px solid white;
     color: white;
 }
 
-#opcionesInforme form input{
+#opcionesInforme form input {
     margin-top: 1.5%;
     margin-left: 3%;
 }
 
-#camposInforme{
+#camposInforme {
     position: relative;
     text-align: left;
     width: 20%;
     left: 55%;
     height: 100%;
     bottom: 200%;
-    padding:1%;
-    
+    padding: 1%;
 }
 
-#camposInforme form{
+#camposInforme form {
     border: 1px solid white;
     border-radius: 10px;
     padding: 1.5%;
 }
 
-#camposInforme form input{
+#camposInforme form input {
     margin: 0% 5%;
 }
 
-
-#controlesInforme{
+#controlesInforme {
     position: relative;
     text-align: left;
     width: 20%;
@@ -108,24 +103,23 @@
     padding: 1%;
 }
 
-#btnInforme{
+#btnInforme {
     background-color: rgb(1, 168, 184);
     color: white;
     border: none;
     height: 100%;
     width: 70%;
-    margin:1% 15%;
-    
+    margin: 1% 15%;
 }
 
-#btnInforme:hover{
+#btnInforme:hover {
     border: 1px solid white;
 }
 
 
 /**INFORMES SUR*/
 
-#informesSur{
+#informesSur {
     width: 100%;
     height: 120%;
     overflow-y: scroll;
@@ -136,16 +130,14 @@
 
 #informesSur::-webkit-scrollbar {
     margin-top: 5%;
-  }
-  
-  #informesSur::-webkit-scrollbar-thumb {
+}
+
+#informesSur::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
-    
-  }
+}
 
-  #espacioInforme{
-      background-color: white;
-      width: 100%;
-      height: 200%;
-  }
-
+#espacioInforme {
+    background-color: white;
+    width: 100%;
+    height: 200%;
+}

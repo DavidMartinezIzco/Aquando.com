@@ -679,4 +679,104 @@ class Database
             }
         }
     }
+
+    //obtiene los informes de un tipo de señal de un grupo de estaciones de un usuario en concreto
+    public function informeSeñalEstacion($id_estacion, $señal, $fechaIni, $fechaFin)
+    {
+
+        $ini = strtotime($fechaIni);
+        $fin = strtotime($fechaFin);
+
+        if ($this->conectar()) {
+            if ($señal == 'cau') {
+                $tagscaudales = array();
+                $informeTags = array();
+
+
+                $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag 
+                    FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
+                    WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Caudal%')";
+
+                $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
+                if ($this->consultaExitosa($resTagsCaudales)) {
+
+                    $tagscaudales = pg_fetch_all($resTagsCaudales);
+                    foreach ($tagscaudales as $index => $tag) {
+
+                        $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as valor, datos_historicos.fecha::date
+                            from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "
+                            GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
+
+                        $resAgregTag = pg_query($this->conexion, $conAgregTag);
+                        if ($this->consultaExitosa($resAgregTag)) {
+                            $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
+                        }
+                    }
+                }
+
+                return $informeTags;
+            }
+
+            if ($señal == 'niv') {
+                $tagscaudales = array();
+                $informeTags = array();
+
+
+                $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag 
+                    FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
+                    WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Nivel%')";
+
+                $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
+                if ($this->consultaExitosa($resTagsCaudales)) {
+
+                    $tagscaudales = pg_fetch_all($resTagsCaudales);
+                    foreach ($tagscaudales as $index => $tag) {
+
+                        $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as valor, datos_historicos.fecha::date
+                            from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "
+                            GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
+
+                        $resAgregTag = pg_query($this->conexion, $conAgregTag);
+                        if ($this->consultaExitosa($resAgregTag)) {
+                            $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
+                        }
+                    }
+                }
+
+                return $informeTags;
+            }
+
+            if ($señal == 'acu') {
+                $tagscaudales = Array();
+                $informeTags = Array();
+            
+                
+                    $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag 
+                    FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
+                    WHERE id_estacion = ". $id_estacion ." AND tags.nombre_tag LIKE('Acumulado%')";
+    
+                    $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
+                    if($this->consultaExitosa($resTagsCaudales)){
+    
+                        $tagscaudales = pg_fetch_all($resTagsCaudales);
+                        foreach ($tagscaudales as $index => $tag) {
+                            
+                            $conAgregTag = "SELECT MAX(datos_historicos.valor_acu) as valor, datos_historicos.fecha::date
+                            from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "
+                            GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
+    
+                            $resAgregTag = pg_query($this->conexion, $conAgregTag);
+                            if($this->consultaExitosa($resAgregTag)){
+                                $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
+                            }
+                        }
+                    }
+                
+                return $informeTags;
+            }
+        }
+    }
 }
