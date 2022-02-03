@@ -128,10 +128,10 @@ if (isset($_GET['log'])) {
 
             <!---estaciones--->
             <li class="Func">
-                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnFuncion" value="estaciones" onclick="desplegar(this.value)">
+                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnFuncion" value="estaciones" onclick="desplegar(this.value)"
                     <?php if (!isset($_SESSION["nombre"])) {
                         echo "disabled";
-                    } ?>
+                    } ?>>
                     <i class="fas fa-broadcast-tower" style="margin-right:5%"></i>Estaciones<i class="fas fa-caret-down"></i>
                 </button>
             </li>
@@ -159,7 +159,9 @@ if (isset($_GET['log'])) {
 
             <!-- wrap de graficas -->
             <li class="Func">
-                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnGraf" value="grafs" onclick="desplegar(this.value)">
+                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnGraf" value="grafs" onclick="desplegar(this.value)"<?php if (!isset($_SESSION["nombre"])) {
+                        echo "disabled";
+                    } ?>>
                     <i class="far fa-chart-bar" style="margin-right:5%"></i>Graficas<i class="fas fa-caret-down"></i>
                 </button>
             </li>

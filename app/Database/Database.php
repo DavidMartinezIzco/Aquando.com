@@ -705,7 +705,7 @@ class Database
 
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as valor, datos_historicos.fecha::date
                             from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "
+                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
                             GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
 
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
