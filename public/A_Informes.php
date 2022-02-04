@@ -6,6 +6,7 @@ require_once '../app/Models/InformeCaudales.php';
 
 use \koolreport\widgets\koolphp\Table;
 
+
 $db = new Database();
 $opcion = $_GET['opcion'];
 $fechaIni = $_GET['fechaIni'];
@@ -18,11 +19,159 @@ if ($opcion == "cau") {
     $estaciones = json_decode(($_REQUEST['arrEstaciones']));
     $informesDep = array();
     $informeDep = array();
-    $informeTabla = array(['estacion', 'señal', 'fecha', 'valor']);
+    $informeTabla = array(['estacion', 'señal', 'fecha', 'maximo', 'minimo', 'media']);
 
     foreach ($estaciones as $index => $estacion) {
         // $informesDep[] = $estacion;
         $informeDep = $db->informeSeñalEstacion($estacion, 'cau', $fechaIni, $fechaFin);
+        if ($informeDep != null && !empty($informeDep)) {
+            $informesDep[$estacion] = $informeDep;
+            foreach ($informeDep as $señal => $info) {
+                foreach ($info as $index => $datos) {
+                    $informeTabla[] = [$nombres[$estacion], $señal, $datos['fecha'], $datos['maximo'], $datos['minimo'], $datos['media']];
+                }
+            }
+        }
+    }
+
+    //crea obj KR y configs en su archivo aparte (Models)
+    $informe = new InformeCaudales($informeTabla);
+    $informe->run()->render();
+
+    $table = Table::create(array(
+        "dataSource" => $informeTabla,
+
+        "columns" => array(
+            // "estacion"=>array(
+            //     "cssStyle"=>"font-weight:bold;text-align:center"
+            // ),
+            // "señal"=>array(
+            //     "cssStyle"=>"text-align:left"
+            //     ),
+            "fecha" => array(
+                "cssStyle" => "text-align:center"
+            ),
+            "maximo" => array(
+                "cssStyle" => "text-align:center"
+            ),
+            "minimo" => array(
+                "cssStyle" => "text-align:center"
+            ),
+            "media" => array(
+                "cssStyle" => "text-align:center"
+            ),
+
+
+        ),
+        "grouping" => array(
+            "estacion" => array(
+                "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
+                
+
+            ),
+            "señal" => array(
+                "calculate" => array(
+                    "{max}" => array("max", "maximo"),
+                    "{med}" => array("avg", "media"),
+                    "{min}" => array("min", "minimo")
+                ),
+                "top" => "<td colspan=4 style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>",
+                "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Máximo: {max}</td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Mínimo: {min}</td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: {med}</td>",
+            )
+        ),
+        "showHeader" => true,
+        "cssClass" => array(
+            // "table" => "table table-hover table-bordered",
+        ),
+    ));
+}
+
+if ($opcion == "niv") {
+    $estaciones = json_decode(($_REQUEST['arrEstaciones']));
+    $informesDep = array();
+    $informeDep = array();
+    $informeTabla = array(['estacion', 'señal', 'fecha', 'maximo', 'minimo', 'media']);
+
+    foreach ($estaciones as $index => $estacion) {
+        // $informesDep[] = $estacion;
+        $informeDep = $db->informeSeñalEstacion($estacion, 'niv', $fechaIni, $fechaFin);
+        if ($informeDep != null && !empty($informeDep)) {
+            $informesDep[$estacion] = $informeDep;
+            foreach ($informeDep as $señal => $info) {
+                foreach ($info as $index => $datos) {
+                    $informeTabla[] = [$nombres[$estacion], $señal, $datos['fecha'], $datos['maximo'], $datos['minimo'], $datos['media']];
+                }
+            }
+        }
+    }
+
+    //crea obj KR y configs en su archivo aparte (Models)
+    $informe = new InformeCaudales($informeTabla);
+    $informe->run()->render();
+
+    $table = Table::create(array(
+        "dataSource" => $informeTabla,
+
+        "columns" => array(
+            // "estacion"=>array(
+            //     "cssStyle"=>"font-weight:bold;text-align:center"
+            // ),
+            // "señal"=>array(
+            //     "cssStyle"=>"text-align:left"
+            //     ),
+            "fecha" => array(
+                "cssStyle" => "text-align:center"
+            ),
+            "maximo" => array(
+                "cssStyle" => "text-align:center"
+            ),
+            "minimo" => array(
+                "cssStyle" => "text-align:center"
+            ),
+            "media" => array(
+                "cssStyle" => "text-align:center"
+            ),
+
+
+        ),
+        "grouping" => array(
+            "estacion" => array(
+                "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
+                
+
+            ),
+            "señal" => array(
+                "calculate" => array(
+                    "{max}" => array("max", "maximo"),
+                    "{med}" => array("avg", "media"),
+                    "{min}" => array("min", "minimo")
+                ),
+                "top" => "<td colspan=4 style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>",
+                "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Máximo: {max}</td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Mínimo: {min}</td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: {med}</td>",
+            )
+        ),
+        "showHeader" => true,
+        "cssClass" => array(
+            // "table" => "table table-hover table-bordered",
+        ),
+    ));
+}
+
+if ($opcion == "acu") {
+    $estaciones = json_decode(($_REQUEST['arrEstaciones']));
+    $informesDep = array();
+    $informeDep = array();
+    $informeTabla = array(['estacion', 'señal', 'fecha', 'valor']);
+
+    foreach ($estaciones as $index => $estacion) {
+        // $informesDep[] = $estacion;
+        $informeDep = $db->informeSeñalEstacion($estacion, 'acu', $fechaIni, $fechaFin);
         if ($informeDep != null && !empty($informeDep)) {
             $informesDep[$estacion] = $informeDep;
             foreach ($informeDep as $señal => $info) {
@@ -39,6 +188,7 @@ if ($opcion == "cau") {
 
     $table = Table::create(array(
         "dataSource" => $informeTabla,
+
         "columns" => array(
             // "estacion"=>array(
             //     "cssStyle"=>"font-weight:bold;text-align:center"
@@ -46,61 +196,35 @@ if ($opcion == "cau") {
             // "señal"=>array(
             //     "cssStyle"=>"text-align:left"
             //     ),
-            "valor" => array(
-                "cssStyle" => "text-align:center"
-            ),
             "fecha" => array(
                 "cssStyle" => "text-align:center"
             ),
+            "valor" => array(
+                "cssStyle" => "text-align:left"
+            ),
+            
+
+
         ),
         "grouping" => array(
             "estacion" => array(
-                "top" => "<td style='background-color:rgba(56, 56, 56);color:white'>{estacion}:</td>",
+                "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
+                
+
             ),
             "señal" => array(
                 "calculate" => array(
-                    "{sumAmount}" => array("sum", "valor")
+                    "{maxi}" => array("max", "valor"),
                 ),
-                "top" => "<b>{señal}:</b>",
-                "bottom" => "<td class='lineaEspecial'><b>Total de {señal}:</b></td><td><b>{sumAmount}</b></td>",
+                "top" => "<td colspan=2 style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>",
+                "bottom" => "<td  style='background-color:grey;font-size:100%;color:white;'><b>Total de {señal}:</b></td>
+                                <td style='background-color:grey;font-size:100%;color:white;text-align:left'><b>{maxi}</b></td>",
             )
         ),
+        "showHeader" => true,
         "cssClass" => array(
-            "table" => "table-bordered",
-
+            // "table" => "table table-hover table-bordered",
         ),
-
     ));
 }
 
-if ($opcion == "niv") {
-    $estaciones = json_decode(($_REQUEST['arrEstaciones']));
-    $informesDep = array();
-    $informeDep = array();
-
-    foreach ($estaciones as $index => $estacion) {
-        // $informesDep[] = $estacion;
-        $informeDep = $db->informeSeñalEstacion($estacion, 'niv', $fechaIni, $fechaFin);
-        if ($informeDep != null && !empty($informeDep)) {
-            $informesDep[$estacion] = $informeDep;
-        }
-    }
-
-    echo json_encode($informesDep);
-}
-
-if ($opcion == "acu") {
-    $estaciones = json_decode(($_REQUEST['arrEstaciones']));
-    $informesDep = array();
-    $informeDep = array();
-
-    foreach ($estaciones as $index => $estacion) {
-        // $informesDep[] = $estacion;
-        $informeDep = $db->informeSeñalEstacion($estacion, 'acu', $fechaIni, $fechaFin);
-        if ($informeDep != null && !empty($informeDep)) {
-            $informesDep[$estacion] = $informeDep;
-        }
-    }
-
-    echo json_encode($informesDep);
-}

@@ -7,7 +7,7 @@ class Database
     // ¿habra que cambiar esto algun dia?
     // puede que si, puede que no
 
-    private $host = "192.168.1.52";
+    private $host = "172.16.3.2";
     private $dbname = "Aquando";
     private $user = "postgres";
     private $password = "123456";
@@ -703,7 +703,7 @@ class Database
                     $tagscaudales = pg_fetch_all($resTagsCaudales);
                     foreach ($tagscaudales as $index => $tag) {
 
-                        $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as valor, datos_historicos.fecha::date
+                        $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, AVG(datos_historicos.valor_float) as media, datos_historicos.fecha::date
                             from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                             where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
                             GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
@@ -733,9 +733,9 @@ class Database
                     $tagscaudales = pg_fetch_all($resTagsCaudales);
                     foreach ($tagscaudales as $index => $tag) {
 
-                        $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as valor, datos_historicos.fecha::date
+                        $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, AVG(datos_historicos.valor_float) as media, datos_historicos.fecha::date
                             from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "
+                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
                             GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
 
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
@@ -755,7 +755,7 @@ class Database
                 
                     $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag 
                     FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
-                    WHERE id_estacion = ". $id_estacion ." AND tags.nombre_tag LIKE('Acumulado%')";
+                    WHERE id_estacion = ". $id_estacion ." AND tags.nombre_tag LIKE('Acumulado%') AND tags.nombre_tag LIKE('%Dia')";
     
                     $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
                     if($this->consultaExitosa($resTagsCaudales)){
@@ -765,7 +765,7 @@ class Database
                             
                             $conAgregTag = "SELECT MAX(datos_historicos.valor_acu) as valor, datos_historicos.fecha::date
                             from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "
+                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) >= " . $fin . " 
                             GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
     
                             $resAgregTag = pg_query($this->conexion, $conAgregTag);

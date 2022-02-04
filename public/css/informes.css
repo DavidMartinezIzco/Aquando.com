@@ -147,16 +147,25 @@
 }
 
 #espacioInforme {
-    background-color: white;
+    background-color: lightgray;
     width: 100%;
+    padding: 5%;
+    margin-bottom: 20%;
+    min-height: 70%;
 }
 
 .lineaEspecial {
-    background-color: rgba(56, 56, 56);
+    background-color: lightgray;
     color: rgb(1, 168, 184);
 }
 
 .cabezaEspecial {
     background-color: rgb(1, 168, 184);
     color: rgba(56, 56, 56);
+}
+
+.cabezaEstacion {
+    background-color: #383838;
+    color: white;
+    font-size: 110%;
 }

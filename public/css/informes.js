@@ -51,7 +51,7 @@ function inicioFin() {
 }
 
 function obtenerInforme() {
-    tipo = document.getElementById('radInforme').value;
+    tipo = document.querySelector('input[name="radInforme"]:checked').value;
     var opcion = '';
 
     if (tipo == 'cau') {
@@ -92,6 +92,7 @@ function obtenerInforme() {
                 // console.log(informe);
                 document.getElementById('espacioInforme').innerHTML = "";
                 document.getElementById('espacioInforme').innerHTML = informe;
+
             },
             error: function(error) {
                 console.log(error);

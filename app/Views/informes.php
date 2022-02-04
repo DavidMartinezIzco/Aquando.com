@@ -7,7 +7,7 @@
 <script src='css/html2canvas.esm.js'></script>
 <link rel="stylesheet" type="text/css" href="css/informes.css">
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
-<main id="conPrincipal" style="width:100%;padding-bottom:5%">
+<main id="conPrincipal" style="width:100%;">
 
     <div id="informesNorte">
         <button id="btnMenuInformes" onclick="opciones()"><i class="fas fa-sliders-h"></i></button>
@@ -15,12 +15,10 @@
         <!--tipo de representacion--->
         <div id="tipoInforme">
             <form>
-                <input type="radio" id="radInforme" value="cau" checked />Caudales<br>
-                <!-- <label for="tipoInforme">Caudales</label><br> -->
-                <input type="radio" id="radInforme" value="niv" />Niveles<br>
-                <!-- <label for="tipoInforme">Niveles</label><br> -->
-                <input type="radio" id="radInforme" value="acu" />Acumulados
-                <!-- <label for="tipoInforme">Acumulados</label> -->
+                
+                <label><input type="radio" name="radInforme" id="radInforme" value="cau" checked />Caudales</label><br>
+                <label><input type="radio" name="radInforme" id="radInforme" value="niv" />Niveles</label><br>
+                <label><input type="radio" name="radInforme" id="radInforme" value="acu" /> Acumulados</label>
             </form>
 
         </div>
@@ -65,6 +63,7 @@
     </div>
 </main>
 
+
 <script>
     window.onload = function() {
         inicioFin();
@@ -85,6 +84,10 @@
     //     if (e.ctrlKey)
     //         opciones();
     // });
+
+    
+
+
 </script>
 
 
