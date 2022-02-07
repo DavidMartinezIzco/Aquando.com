@@ -52,7 +52,7 @@
         <div id="controlesInforme">
             <div id="controles">
                 <button id="btnInforme" name="btnControl" onclick="obtenerInforme()">ver informe</button><br>
-                <button id="btnInforme" onclick=limpiar() value="reset" name="btnControlReset">reset</button><br>
+                <button id="btnInforme" onclick=reset() value="reset" name="btnControlReset">reset</button><br>
                 <button id="btnInforme" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
             </div>
         </div>

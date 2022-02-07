@@ -20,7 +20,6 @@ function imprimir() {
     // });
 }
 
-
 //descarga la captura de las alarmas 
 function guardar(uri, filename) {
     console.log('guardamos');
@@ -39,22 +38,26 @@ function guardar(uri, filename) {
 }
 
 function pasarAPDF() {
-    var doc = new jsPDF();
-    doc.setTextColor('#FFFFF')
+    var doc = new jsPDF('p', 'pt', 'letter', true);
     doc.addHTML($('#espacioInforme')[0], function() {
         doc.save('informe.pdf');
     });
 
 }
 
+function reset() {
+    document.getElementById('espacioInforme').innerHTML = "";
+}
+
 //abre o cierra la cabeza de opciones para el informe
 function opciones() {
-    if (document.getElementById("informesNorte").style.height == 0) {
-        document.getElementById("informesNorte").style.height = '15%';
-        document.getElementById("btnMenuInformes").style.top = '19.5%';
-    } else {
+    if (document.getElementById("informesNorte").style.height == '15%') {
         document.getElementById("informesNorte").style.height = 0;
         document.getElementById("btnMenuInformes").style.top = '6%';
+
+    } else {
+        document.getElementById("informesNorte").style.height = '15%';
+        document.getElementById("btnMenuInformes").style.top = '19.5%';
     }
 }
 
@@ -114,7 +117,7 @@ function obtenerInforme() {
             success: function(informe) {
 
                 // console.log(informe);
-                document.getElementById('espacioInforme').innerHTML = "";
+                reset();
                 var currentdate = new Date();
                 var fechahora = "" + currentdate.getDate() + "/" +
                     (currentdate.getMonth() + 1) + "/" +

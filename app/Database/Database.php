@@ -135,7 +135,7 @@ class Database
             $conAlarmas = "SELECT 
                 estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
                 FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
-                WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'];
+                WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . "AND alarmas.fecha_origen::date > current_date::date - interval '30 days'";
 
             //obtener fechas de inicio y fin
             //comprobar cuales están definidas

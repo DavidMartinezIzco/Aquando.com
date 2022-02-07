@@ -80,10 +80,20 @@ if ($opcion == "cau") {
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
 
-                "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
-                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Máximo: {max}</td>
-                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Mínimo: {min}</td>
-                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: {med}</td>",
+                "bottom" => function($val)
+                {
+                   $fila = "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
+                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Máximo: ".$val['{max}']."</td>
+                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Mínimo: ".$val['{min}']."</td>
+                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: ".number_format($val['{med}'], 2)."</td>";
+                   return $fila;
+                }    
+
+                // "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
+                // <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Máximo: {max}</td>
+                // <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Mínimo: {min}</td>
+                // <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: {med}</td>",
+
             )
         ),
         "showHeader" => false,
