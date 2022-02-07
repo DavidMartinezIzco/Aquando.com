@@ -5,6 +5,8 @@
 <script src='css/html2canvas.js'></script>
 <script src='css/html2canvas.min.js'></script>
 <script src='css/html2canvas.esm.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="css/informes.css">
 <link rel="stylesheet" type="text/css" href="css/alarmas.css">
 <main id="conPrincipal" style="width:100%;">
@@ -57,7 +59,7 @@
     </div>
 
     <div id="informesSur">
-        <div id="espacioInforme">
+        <div id="espacioInforme" style="color: black;">
 
         </div>
     </div>
@@ -65,6 +67,7 @@
 
 
 <script>
+    var nomusuario = "<?php echo $_SESSION['nombre'];?>";
     window.onload = function() {
         inicioFin();
         setInterval(fechaYHora, 1000);
@@ -75,7 +78,7 @@
         $(window).focus(function() {
             tiempoFuera("volver")
         });
-
+        
 
 
     }

@@ -20,6 +20,7 @@ function actualizar(id_estacion) {
             type: 'GET',
             url: 'A_Estacion.php?opcion=actualizar&estacion=' + id_estacion + '&tipo=todos',
             success: function(datos) {
+
                 filtrarDatos(datos);
             },
             error: function() {
@@ -65,6 +66,16 @@ function filtrarDatos(datos) {
     var tagsBombas = Array();
 
     for (var indexDato in datos) {
+
+        // var nombreDato = "";
+        // if (datos[indexDato]['unidad'] != 'undefined') {
+        //     nombreDato = "" + datos[indexDato]['nombre_tag'] + " (" + datos[indexDato]['unidad'] + ") ";
+        // } else {
+        //     nombreDato = "" + datos[indexDato]['nombre_tag'];
+        // }
+        // datos[indexDato]['nombre_tag'] = nombreDato;
+
+
         if (!datos[indexDato]['nombre_tag'].includes("Comunicacion")) {
             if (!datos[indexDato]['nombre_tag'].includes("Bomba")) {
                 if (datos[indexDato]['valor'] == 't' || datos[indexDato]['valor'] == 'f') {
@@ -117,7 +128,7 @@ function filtrarDatos(datos) {
     }
     todoDato['bombas'] = bombas;
 
-    console.log(todoDato);
+
 
     trendsTags();
     setTimeout(() => {
@@ -155,7 +166,7 @@ function montarWidgetsAnalogicos() {
         if (tagsAcumulados[indexDato]['nombre_tag'].includes("Dia")) {
             var widgInicio = '<div class="widAna">';
             var widgFin = '';
-            var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=color:rgb(39,45,79);font-weight:bold>' + tagsAcumulados[indexDato]['nombre_tag'] + ': ' + tagsAcumulados[indexDato]['valor'] + '</p> ' + '</div>';
+            var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=color:rgb(39,45,79);font-weight:bold>' + tagsAcumulados[indexDato]['nombre_tag'] + ' (' + tagsAcumulados[indexDato]['unidad'] + '): ' + tagsAcumulados[indexDato]['valor'] + '</p> ' + '</div>';
             var consi = '';
             var widgSec = '';
             consi += '<div class="contador" id="contador' + tagsAcumulados[indexDato]['nombre_tag'].replace(/\s+/g, '') + '" class="widAnaInfoSec"><div class="panelNegro" id="panelNegro' + tagsAcumulados[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div><div class="panelRojo" id="panelRojo' + tagsAcumulados[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div></div>';
@@ -170,7 +181,7 @@ function montarWidgetsAnalogicos() {
     for (var indexDato in datosAnalog) {
         var widgInicio = '<div class="widAna">';
         var widgFin = '';
-        var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=font-weight:bold;margin-bottom:-1.5em;color:rgb(39,45,79)>' + datosAnalog[indexDato]['nombre_tag'] + ': ' + datosAnalog[indexDato]['valor'] + '</p> ';
+        var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=font-weight:bold;margin-bottom:-1.5em;color:rgb(39,45,79)>' + datosAnalog[indexDato]['nombre_tag'] + ' (' + datosAnalog[indexDato]['unidad'] + '): ' + datosAnalog[indexDato]['valor'] + '</p> ';
         for (var consig in consignas) {
             if (consignas[consig]['nombre_tag'].includes(datosAnalog[indexDato]['nombre_tag'])) {
                 widgInfo += "<br>" + consignas[consig]['nombre_tag'] + ': ' + consignas[consig]['valor'];

@@ -49,7 +49,7 @@ if ($opcion == "cau") {
             //     "cssStyle"=>"text-align:left"
             //     ),
             "fecha" => array(
-                "cssStyle" => "text-align:center"
+                "cssStyle" => "text-align:left"
             ),
             "maximo" => array(
                 "cssStyle" => "text-align:center"
@@ -75,16 +75,20 @@ if ($opcion == "cau") {
                     "{med}" => array("avg", "media"),
                     "{min}" => array("min", "minimo")
                 ),
-                "top" => "<td colspan=4 style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>",
+                "top" => "<td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Maximo:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
+
                 "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Máximo: {max}</td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Mínimo: {min}</td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: {med}</td>",
             )
         ),
-        "showHeader" => true,
+        "showHeader" => false,
         "cssClass" => array(
-            // "table" => "table table-hover table-bordered",
+            "table" => "table table-hover table-bordered",
         ),
     ));
 }
@@ -149,16 +153,20 @@ if ($opcion == "niv") {
                     "{med}" => array("avg", "media"),
                     "{min}" => array("min", "minimo")
                 ),
-                "top" => "<td colspan=4 style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>",
+                "top" => "<td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Maximo:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
+                
                 "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Máximo: {max}</td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Mínimo: {min}</td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: {med}</td>",
             )
         ),
-        "showHeader" => true,
+        "showHeader" => false,
         "cssClass" => array(
-            // "table" => "table table-hover table-bordered",
+            "table" => "table table-hover table-bordered",
         ),
     ));
 }
@@ -185,7 +193,6 @@ if ($opcion == "acu") {
     //crea obj KR y configs en su archivo aparte (Models)
     $informe = new InformeCaudales($informeTabla);
     $informe->run()->render();
-
     $table = Table::create(array(
         "dataSource" => $informeTabla,
 
@@ -197,14 +204,12 @@ if ($opcion == "acu") {
             //     "cssStyle"=>"text-align:left"
             //     ),
             "fecha" => array(
-                "cssStyle" => "text-align:center"
-            ),
-            "valor" => array(
                 "cssStyle" => "text-align:left"
             ),
+            "valor" => array(
+                "cssStyle" => "text-align:center"
+            ),
             
-
-
         ),
         "grouping" => array(
             "estacion" => array(
@@ -214,16 +219,18 @@ if ($opcion == "acu") {
             ),
             "señal" => array(
                 "calculate" => array(
-                    "{maxi}" => array("max", "valor"),
+                    "{maxi}" => array("sum", "valor"),
                 ),
-                "top" => "<td colspan=2 style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>",
+                "top" => "<td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:left'><b>{señal}:</b></td>
+                            <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>acumulado:</b></td>",
+
                 "bottom" => "<td  style='background-color:grey;font-size:100%;color:white;'><b>Total de {señal}:</b></td>
-                                <td style='background-color:grey;font-size:100%;color:white;text-align:left'><b>{maxi}</b></td>",
+                            <td style='background-color:grey;font-size:100%;color:white;text-align:center'><b>{maxi}</b></td>",
             )
         ),
-        "showHeader" => true,
+        "showHeader" => false,
         "cssClass" => array(
-            // "table" => "table table-hover table-bordered",
+            "table" => "table table-hover table-bordered",
         ),
     ));
 }
