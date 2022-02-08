@@ -3,75 +3,70 @@
 <script src='css/echarts.js'></script>
 <script src="css/principal.js"></script>
 <script src="css/reloj.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 <link rel="stylesheet" type="text/css" href="css/sur.css">
 
-<main id="conPrincipal" >
-    <div id="conInfo">
-        <div id="resumen" style="opacity: 0%; transition: 0.5s; height: 100%">
-            <h3 style="margin: 5% 5%; margin-bottom:2%;">Resumen de actividad:</h3>
-            <!-- <form id="formFiltrosInfo">
-                <input type="checkbox" checked><label style="margin: 0 5px;">Depósito 1</label></input>
-                <input type="checkbox" checked><label style="margin: 0 5px;">Depósito X</label></input>
-            </form> -->
 
-            <!-----WIDGET DE PRUEBA PEPINA---->
-            <div id="widgetsI">
-                <?php
-                $cont = 1;
-                while ($cont <= 4) {
-                    echo '
-                    <div id="widgetMixto" onclick="transicion(' . $cont . ');">
-                    <div id="widVal' . $cont . '" style="height: 20em; width:100%;">   
-                    </div>
-                <!--conexion-->
-                    <div id="widConex' . $cont . '" style="height: 20em; width:100%;">
-                    </div>
-                <!--minimos-->
-                    <div id="widMin' . $cont . '" style="height: 20em; width:100%;">
-                    </div>
-                <!--alarmas-->
-                    <div id="widAla' . $cont . '" style="padding:5% 0%;position: relative;right:5%;height: 20em; width:100%;">
-                    
-                        <ul style="color:white;list-style:none;">
-                            <h6>Alarmas:</h6>
-                            <li>info de alarma</li>
-                            <li>info de alarma</li>
-                            <li>info de alarma</li>
-                        </ul>
-                    </div>
-                </div>
-                    
-                    ';
-                    $cont++;
-                }
-                ?>
+<main id="conPrincipal" style="width:100%; border-radius:10px; margin-top:1%;">
+
+    <!-- zona IZQUIERDA -->
+    <div id="prinIzq">
+
+        <div id="prinIzqSup">
+            <!-- zona del mapa -->
+            <div id="conMapa">
+
+            </div>
+
+        </div>
+        <div id="prinIzqInf">
+
+            <!-- zona de wid digitales -->
+            <div id="widSup">
+                <div class="digiIzq"></div>
+                <div class="digiDer"></div>
+            </div>
+            <div id="widInf">
+                <div class="digiIzq"></div>
+                <div class="digiDer"></div>
             </div>
         </div>
     </div>
-    <div id="conCarrusel">
-        <h3 style="margin: 3% 0%">Mapa</h3>
-        <iframe width="100%" height="80%" frameborder="0" scrolling="yes" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=-1.6398355364799502%2C42.753842721248496%2C-1.635463535785675%2C42.75560341523702&amp;layer=hot&amp;marker=42.75472307449567%2C-1.6376495361328125" style="border: 1px solid black"></iframe>
+
+    <!-- ZONA DERECHA -->
+
+    <div id="prinDer">
+        <div id="widSup">
+            <!-- AQUI IRAN LOS WIDS EN CARRUSEL -->
+            <div class="digiIzq"></div>
+            <div class="digiDer"></div>
+        </div>
+        <div id="widInf">
+            <!-- AQUI IRAN LOS WIDS EN CARRUSEL -->
+            <div class="digiIzq"></div>
+            <div class="digiDer"></div>
+        </div>
     </div>
+
     <!---zona alarmas--->
     <table id="alarmasSur">
     </table>
 </main>
 
-<script>
-    var nwids = 0;
-    var e = 1;
-    var posiciones = {};
 
+
+<script>
     window.onload = function() {
+        mapas();
         comprobarTiempo();
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
+        sessionStorage.setItem('nousu', usu);
+        sessionStorage.setItem('pwd', pwd);
         actualizarSur('general', usu, pwd, null);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
-
-        mostrarResumen();
-        cargarDatos();
         $(window).blur(function() {
             tiempoFuera("");
         });

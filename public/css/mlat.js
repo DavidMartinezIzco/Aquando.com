@@ -78,6 +78,7 @@ function abrirMenu() {
 
 
 
+
 }
 
 //cierra el menu y aplica las nuevas dimensiones
@@ -113,7 +114,6 @@ function cerrarMenu() {
         document.getElementById("seccionDetalles2").style.width = '40%';
         document.getElementById("seccionDetalles2").style.left = '58%';
     }
-
 
 }
 

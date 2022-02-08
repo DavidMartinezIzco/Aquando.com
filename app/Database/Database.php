@@ -133,9 +133,9 @@ class Database
             }
 
             $conAlarmas = "SELECT 
-                estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
-                FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
-                WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . "AND alarmas.fecha_origen::date > current_date::date - interval '30 days'";
+            estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+            FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
+            WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . "AND alarmas.fecha_origen::date > current_date::date - interval '30 days'";
 
             //obtener fechas de inicio y fin
             //comprobar cuales están definidas
@@ -231,8 +231,8 @@ class Database
         if ($this->conectar()) {
 
             $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
-            FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
-            WHERE estacion_tag.id_estacion = '$id_estacion'";
+        FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
+        WHERE estacion_tag.id_estacion = '$id_estacion'";
 
 
             if ($fechaInicio != null) {
@@ -284,10 +284,10 @@ class Database
             foreach ($tagsEstacion as $index => $tag) {
                 // $conFechaMaxTag = "SELECT MAX(datos_valores.fecha) FROM datos_valores INNER JOIN estacion_tag on datos_valores.id_tag = estacion_tag.id_tag  WHERE datos_valores.id_tag = ".$tag['id_tag']." AND estacion_tag.id_estacion = ".$id_estacion."";
                 $conUltimoValorTag = "SELECT tags.nombre_tag, tags.unidad,
-                datos_valores.id_tag, datos_valores.fecha, datos_valores.valor_bool, datos_valores.valor_int, datos_valores.valor_float, datos_valores.valor_acu, datos_valores.valor_string, datos_valores.valor_date 
-                FROM datos_valores INNER JOIN tags ON datos_valores.id_tag = tags.id_tag
-                INNER JOIN estacion_tag ON estacion_tag.id_tag = tags.id_tag
-                WHERE tags.id_tag = " . $tag['id_tag'] . " AND estacion_tag.id_estacion = " . $id_estacion . "";
+            datos_valores.id_tag, datos_valores.fecha, datos_valores.valor_bool, datos_valores.valor_int, datos_valores.valor_float, datos_valores.valor_acu, datos_valores.valor_string, datos_valores.valor_date 
+            FROM datos_valores INNER JOIN tags ON datos_valores.id_tag = tags.id_tag
+            INNER JOIN estacion_tag ON estacion_tag.id_tag = tags.id_tag
+            WHERE tags.id_tag = " . $tag['id_tag'] . " AND estacion_tag.id_estacion = " . $id_estacion . "";
 
                 $resulConUltimoValorTag = pg_query($this->conexion, $conUltimoValorTag);
                 if ($this->consultaExitosa($resulConUltimoValorTag)) {
@@ -335,7 +335,7 @@ class Database
     public function todosTagsEstacion($id_estacion)
     {
         if ($this->conectar()) {
-            $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = $id_estacion";
+            $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = ". $id_estacion['id_estacion'];
             $resulTags = pg_query($this->conexion, $conTags);
             if ($this->consultaExitosa($resulTags)) {
                 $tagsEstacion = pg_fetch_all($resulTags);
@@ -389,8 +389,8 @@ class Database
     {
         if ($this->conectar()) {
             $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.calidad, datos_historicos.valor_bool, datos_historicos.valor_int, datos_historicos.valor_acu, datos_historicos.valor_float, datos_historicos.valor_string, datos_historicos.valor_date 
-            FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
-            WHERE datos_historicos.fecha::date > current_date::date - interval '50 days' AND estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion .
+        FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
+        WHERE datos_historicos.fecha::date > current_date::date - interval '50 days' AND estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion .
                 " ORDER BY datos_historicos.fecha DESC";
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
             if ($this->consultaExitosa($resulHistoTagEst)) {
@@ -450,9 +450,9 @@ class Database
 
             //obtener "Series" del TAG delimitado por las fechas (supongo) (falta el WHERE)
             $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.calidad, datos_historicos.valor_bool, datos_historicos.valor_int, datos_historicos.valor_acu, datos_historicos.valor_float, datos_historicos.valor_string, datos_historicos.valor_date 
-            FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
-            WHERE  estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . " AND cast(extract(epoch from datos_historicos.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
-            ORDER BY datos_historicos.fecha DESC";
+        FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
+        WHERE  estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . " AND cast(extract(epoch from datos_historicos.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+        ORDER BY datos_historicos.fecha DESC";
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
             if ($this->consultaExitosa($resulHistoTagEst)) {
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
@@ -519,8 +519,8 @@ class Database
     {
         if ($this->conectar()) {
             $conAlarmas = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
-            FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
-            WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . " ORDER BY alarmas.fecha_origen DESC limit 7";
+        FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
+        WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . " ORDER BY alarmas.fecha_origen DESC limit 7";
 
             $resulAlarmas = pg_query($conAlarmas);
             if ($this->consultaExitosa($resulAlarmas)) {
@@ -540,8 +540,8 @@ class Database
     {
         if ($this->conectar()) {
             $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
-            FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
-            WHERE estacion_tag.id_estacion = '$id_estacion' ORDER BY alarmas.fecha_origen DESC LIMIT 7";
+        FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
+        WHERE estacion_tag.id_estacion = '$id_estacion' ORDER BY alarmas.fecha_origen DESC LIMIT 7";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $alarmasEstacion = pg_fetch_all($resultado);
@@ -669,9 +669,9 @@ class Database
     {
         if ($this->conectar()) {
             $conTrend = "SELECT MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
-            from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-            where datos_historicos.id_tag = " . $id_tag . " and estacion_tag.id_estacion = " . $id_estacion . "
-            and datos_historicos.fecha::date > current_date::date - interval '7 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
+        from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+        where datos_historicos.id_tag = " . $id_tag . " and estacion_tag.id_estacion = " . $id_estacion . "
+        and datos_historicos.fecha::date > current_date::date - interval '7 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
             $resTrend = pg_query($this->conexion, $conTrend);
             if ($this->consultaExitosa(($resTrend))) {
                 $datosTrendTag = pg_fetch_all($resTrend);
@@ -694,8 +694,8 @@ class Database
 
 
                 $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad
-                    FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
-                    WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Caudal%')";
+                FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
+                WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Caudal%')";
 
                 $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
                 if ($this->consultaExitosa($resTagsCaudales)) {
@@ -704,18 +704,17 @@ class Database
                     foreach ($tagscaudales as $index => $tag) {
 
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
-                            from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
-                            GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
+                        from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+                        GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
 
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
-                            if($tag['unidad'] != null){
-                                $nombretag = $tag['nombre_tag'] ." (".$tag['unidad'].")";
+                            if ($tag['unidad'] != null) {
+                                $nombretag = $tag['nombre_tag'] . " (" . $tag['unidad'] . ")";
 
-                                $informeTags[$nombretag] = pg_fetch_all($resAgregTag);    
-                            }
-                            else {
+                                $informeTags[$nombretag] = pg_fetch_all($resAgregTag);
+                            } else {
                                 $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
                             }
                         }
@@ -730,8 +729,8 @@ class Database
 
 
                 $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad
-                    FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
-                    WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Nivel%')";
+                FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
+                WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Nivel%')";
 
                 $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
                 if ($this->consultaExitosa($resTagsCaudales)) {
@@ -740,21 +739,19 @@ class Database
                     foreach ($tagscaudales as $index => $tag) {
 
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
-                            from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
-                            GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
+                        from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+                        GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
 
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
-                            if($tag['unidad'] != null){
-                                $nombretag = $tag['nombre_tag'] ." (".$tag['unidad'].")";
+                            if ($tag['unidad'] != null) {
+                                $nombretag = $tag['nombre_tag'] . " (" . $tag['unidad'] . ")";
 
-                                $informeTags[$nombretag] = pg_fetch_all($resAgregTag);    
-                            }
-                            else {
+                                $informeTags[$nombretag] = pg_fetch_all($resAgregTag);
+                            } else {
                                 $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
                             }
-                            
                         }
                     }
                 }
@@ -763,41 +760,86 @@ class Database
             }
 
             if ($señal == 'acu') {
-                $tagscaudales = Array();
-                $informeTags = Array();
-                
-                
-                    $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad 
-                    FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
-                    WHERE id_estacion = ". $id_estacion ." AND tags.nombre_tag LIKE('Acumulado%') AND tags.nombre_tag LIKE('%Dia')";
-    
-                    $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
-                    if($this->consultaExitosa($resTagsCaudales)){
-    
-                        $tagscaudales = pg_fetch_all($resTagsCaudales);
-                        foreach ($tagscaudales as $index => $tag) {
-                            
-                            $conAgregTag = "SELECT MAX(datos_historicos.valor_acu) as valor, datos_historicos.fecha::date
-                            from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                            where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
-                            GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
-    
-                            $resAgregTag = pg_query($this->conexion, $conAgregTag);
-                            if($this->consultaExitosa($resAgregTag)){
-                                if($tag['unidad'] != null){
-                                    $nombretag = $tag['nombre_tag'] ." (".$tag['unidad'].")";
-    
-                                    $informeTags[$nombretag] = pg_fetch_all($resAgregTag);    
-                                }
-                                else {
-                                    $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
-                                }
+                $tagscaudales = array();
+                $informeTags = array();
+
+
+                $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad 
+                FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
+                WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Acumulado%') AND tags.nombre_tag LIKE('%Dia')";
+
+                $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
+                if ($this->consultaExitosa($resTagsCaudales)) {
+
+                    $tagscaudales = pg_fetch_all($resTagsCaudales);
+                    foreach ($tagscaudales as $index => $tag) {
+
+                        $conAgregTag = "SELECT MAX(datos_historicos.valor_acu) as valor, datos_historicos.fecha::date
+                        from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+                        GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
+
+                        $resAgregTag = pg_query($this->conexion, $conAgregTag);
+                        if ($this->consultaExitosa($resAgregTag)) {
+                            if ($tag['unidad'] != null) {
+                                $nombretag = $tag['nombre_tag'] . " (" . $tag['unidad'] . ")";
+
+                                $informeTags[$nombretag] = pg_fetch_all($resAgregTag);
+                            } else {
+                                $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
                             }
                         }
                     }
-                
+                }
+
                 return $informeTags;
             }
+        }
+    }
+
+    public function feedPrincipalDigital($estaciones)
+    {
+        if ($this->conectar()) {
+
+            //recorrer estaciones y sacar tags digitales
+            //ver si esa estación tiene alarmas activas recientes de tags digitales y coger la mas reciente
+            //guardarlas en un array
+
+
+            $feed = array();
+            foreach ($estaciones as $index => $estacion) {
+                $id_estacion = $estacion['id_estacion'];
+
+                $conTagsDigi = "SELECT tags.id_tag, tags.nombre_tag 
+                FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag 
+                WHERE estacion_tag.id_estacion = $id_estacion AND tags.type_tag = 1";
+
+                $resTagsDigi = pg_query($this->conexion, $conTagsDigi);
+                if ($this->consultaExitosa($resTagsDigi)) {
+                    $tagsDigiEstacion = pg_fetch_all($resTagsDigi);
+
+                    foreach ($tagsDigiEstacion as $index => $tag) {
+                        $id = $tag['id_tag'];
+                        $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
+                        FROM alarmas WHERE estado = 1 AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '1 days' 
+                        ORDER BY fecha_origen DESC LIMIT 1";
+
+                        $resAlarmas = pg_query($this->conexion, $conAlarma);
+                        if ($this->consultaExitosa($resAlarmas)) {
+                            $alarmasTagDigi = pg_fetch_all($resAlarmas);
+                            $alarmasTagDigi[0]['nombre'] = $tag['nombre_tag'];
+                            $feed[$estacion['nombre_estacion']][$id] = $alarmasTagDigi[0];
+                        } 
+
+                    }
+                } else {
+                    return false;
+                }
+            }
+            return $feed;
+        }
+        else {
+            return false;
         }
     }
 }

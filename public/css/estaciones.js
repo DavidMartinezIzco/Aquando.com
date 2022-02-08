@@ -327,23 +327,24 @@ function montarGraficosWidget() {
                 series: [{
                     name: tagsAcumulados[tag]['nombre_tag'],
                     data: valores[0],
-                    type: 'line',
-                    lineStyle: {
-                        width: 0
-                    },
-                    areaStyle: {
-                        show: true,
-                        opacity: 0.8,
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgb(1, 168, 184)'
-                            },
-                            {
-                                offset: 1,
-                                color: 'rgb(39, 45, 79)'
-                            }
+                    type: 'bar',
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+
+                            { offset: 0, color: '#01a8b8' },
+                            { offset: 1, color: '#272d4f' }
+
                         ])
                     },
+                    emphasis: {
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: '#272d4f' },
+                                { offset: 1, color: '#01a8b8' }
+                            ])
+                        }
+                    },
+
                     symbol: 'none',
                     smooth: false
                 }]

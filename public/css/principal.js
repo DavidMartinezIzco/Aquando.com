@@ -1,220 +1,53 @@
-//(provisional) establece los datos para los widgets
-function cargarDatos() {
-    var datos1 = { 1: { "nivel": 55, "max": 0.8, "min": 0.15 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [100, 190, 110, 215, 150, 190, 120] } };
-    var datos2 = { 1: { "nivel": 75, "max": 0.9, "min": 0.2 }, 2: { "conexiones": [200, 190, 180, 150, 190, 200, 215] }, 3: { "minimos": [200, 195, 170, 155, 185, 190, 220] } };
-    var datos3 = { 1: { "nivel": 41, "max": 0.9, "min": 0.3 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [100, 190, 200, 215, 185, 190, 120] } };
-    var datos4 = { 1: { "nivel": 87, "max": 0.87, "min": 0.2 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [100, 200, 110, 145, 150, 185, 120] } };
-    var datos5 = { 1: { "nivel": 62, "max": 0.85, "min": 0.1 }, 2: { "conexiones": [100, 190, 150, 120, 90, 100, 115] }, 3: { "minimos": [185, 190, 150, 154, 200, 190, 120] } };
-    var datos = { 1: datos1, 2: datos2, 3: datos3, 4: datos4, 5: datos5 };
+var feedDigital = new Array();
 
-    var i = 5;
-    nwids = i;
+//faltaría conseguir las coordenadas de cada estación para poder hacer mapas dinámicos
 
-    while (e <= nwids) {
-        posiciones[e] = 1;
-        e++;
-    }
+function mapas() {
+    var map = L.map('conMapa').setView([42.77219, -1.62511], 11);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoicmdyYXZlc3MiLCJhIjoiY2t6ZTFycXlkMmV3aDJ2bjk1d2Z0dzJvayJ9.LE3efQIzvbIOWOBDqazqyA'
+    }).addTo(map);
 
-    var c = 1;
-    while (c <= i) {
-        generarWid(c, datos);
-        c++;
-    }
+    //los marker ya veré como hacerlos dinámicos
+    var berroa = L.marker([42.77238, -1.62480]).addTo(map);
+    var cein = L.marker([42.75458, -1.63709]).addTo(map);
+    cein.bindPopup("<b>Esto es Cein</b><br>ubi 2").openPopup();
+    berroa.bindPopup("<b>Esto es Berroa</b><br>ubi 1").openPopup();
 
 }
 
-//actualiza la posicion de un widget
-function transicion(widget) {
+function actualizar() {
 
-    var posicion = posiciones[widget];
+    var datos = {};
+    datos['nombre'] = sessionStorage.getItem('nousu');
+    datos['pwd'] = sessionStorage.getItem('pwd');
 
-    if (posicion <= 4) {
-
-        document.getElementById("widVal" + widget + "").style.bottom = 'calc(' + posicion + ' * 20em)';
-        document.getElementById("widConex" + widget + "").style.bottom = 'calc(' + posicion + ' * 20em)';
-        document.getElementById("widMin" + widget + "").style.bottom = 'calc(' + posicion + ' * 20em)';
-        document.getElementById("widAla" + widget + "").style.bottom = 'calc(' + posicion + ' * 20em)';
-        posiciones[widget] = posicion + 1;
-
-    }
-    if (posicion == 4) {
-
-        document.getElementById("widVal" + widget + "").style.bottom = '0em';
-        document.getElementById("widConex" + widget + "").style.bottom = '0em';
-        document.getElementById("widMin" + widget + "").style.bottom = '0em';
-        document.getElementById("widAla" + widget + "").style.bottom = '0em';
-        posiciones[widget] = 1;
-    }
-
+    var arrdatos = JSON.stringify(datos);
+    console.log(arrdatos);
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_Principal.php?opcion=refresh',
+            data: {
+                arrdatos: arrdatos
+            },
+            success: function(feedDigi) {
+                feedDigital = feedDigi;
+                // console.log(feedDigi);
+            },
+            error: function(e) {
+                console.log(e);
+            },
+            dataType: 'json'
+        });
+    });
 }
 
-//animacion de carga
-
-function mostrarResumen() {
-    document.getElementById("resumen").style.opacity = '100%';
-}
-
-//crea los widgets en funcion de los datos cargados antes
-function generarWid(widget, datos) {
-
-
-    var chartDom = document.getElementById("widVal" + widget + "");
-    var grafiGauge = echarts.init(chartDom);
-
-    var gauge = {
-        title: {
-            text: 'Nivel',
-            textStyle: {
-                left: "center",
-                top: "center",
-                fontSize: 15,
-                color: 'rgb(1, 168, 184)'
-            }
-        },
-        tooltip: {
-            formatter: '{b} : {c} L'
-        },
-        series: [{
-            name: 'Nivel',
-            type: 'gauge',
-            progress: {
-                show: false,
-                width: 8
-            },
-            detail: {
-                formatter: '{value}',
-                valueAnimation: true,
-                color: 'rgb(1, 168, 184)',
-            },
-            axisLabel: {
-                distance: 15,
-                color: 'rgb(1, 168, 184)',
-                fontSize: 15
-            },
-            axisLine: {
-                lineStyle: {
-                    width: 10,
-                    color: [
-                        [datos[widget][1]["min"], '#d0ff00'],
-                        [datos[widget][1]["max"], '#00fff7'],
-                        [1, '#ff0000']
-                    ]
-                }
-            },
-            axisTick: {
-                show: true,
-                lineStyle: {
-                    color: 'rgb(1, 168, 184)'
-                }
-            },
-            splitLine: {
-                length: 10,
-                lineStyle: {
-                    width: 2,
-                    color: 'rgb(1, 168, 184)'
-                }
-            },
-            color: 'rgb(1, 168, 184)',
-            data: [{
-                value: datos[widget][1]["nivel"],
-                name: 'Nivel'
-            }]
-        }]
-    };
-
-
-    var chartDom2 = document.getElementById('widConex' + widget + '');
-    var grafiConex = echarts.init(chartDom2);
-    var conex = {
-        title: {
-            text: 'Calidad de Conexión',
-            textStyle: {
-                left: "center",
-                top: "center",
-                fontSize: 15,
-                color: 'rgb(1, 168, 184)'
-            }
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'line',
-                label: {
-                    backgroundColor: '#6a7985 0.1'
-                }
-            }
-        },
-        xAxis: {
-            type: 'category',
-            data: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'],
-
-        },
-        yAxis: {
-
-        },
-        series: [{
-            color: 'rgb(1, 168, 184)',
-            name: 'Calidad',
-            type: 'line',
-            stack: 'Total',
-            areaStyle: {},
-            emphasis: {
-                focus: 'series'
-            },
-            data: datos[widget][2]["conexiones"]
-        }, ]
-    };
-
-
-    var chartDom3 = document.getElementById('widMin' + widget + '');
-    var grafiMin = echarts.init(chartDom3);
-    var min = {
-        title: {
-            text: 'Mínino Acumulado Nocturno',
-            textStyle: {
-                left: "center",
-                top: "center",
-                fontSize: 15,
-                color: 'rgb(1, 168, 184)'
-            }
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
-        },
-        xAxis: {
-            type: 'category',
-            data: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']
-        },
-        yAxis: {
-
-        },
-        series: [{
-                name: 'mínimo acumulado',
-                data: datos[widget][3]["minimos"],
-                type: 'bar',
-                color: 'rgb(1, 168, 184)'
-            }
-            // {
-            // name: 'maximo',
-            // data: [200, 200, 200, 200, 200, 200, 200],
-            // type: 'line',
-            // color: '#ff7700'
-            // },
-            // {
-            // name: 'minimo',
-            // data: [10, 10, 10, 10, 10, 10, 10],
-            // type: 'line',
-            // color: '#ff7700'
-            // }
-
-        ]
-    };
-
-    gauge && grafiGauge.setOption(gauge, true);
-    conex && grafiConex.setOption(conex, true);
-    min && grafiMin.setOption(min, true);
+function renderFeedDigi() {
+    //recorrer el feed digital y crear un widget para cada uno
 
 }

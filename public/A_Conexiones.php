@@ -149,7 +149,6 @@ function sacarCalidad($valor)
         case 82:
             return "Sensor inpreciso";
             break;
-
         case 83:
             return "Sensor inpreciso";
             break;
@@ -178,7 +177,7 @@ function sacarCalidad($valor)
             return "Incierto (sub-normal val)";
             break;
         case 180:
-            return "Buena";
+            return "Buena (old)";
             break;
         case 192:
             return "Buena";
