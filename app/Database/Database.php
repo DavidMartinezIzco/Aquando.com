@@ -335,7 +335,7 @@ class Database
     public function todosTagsEstacion($id_estacion)
     {
         if ($this->conectar()) {
-            $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = ". $id_estacion['id_estacion'];
+            $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = ". $id_estacion;
             $resulTags = pg_query($this->conexion, $conTags);
             if ($this->consultaExitosa($resulTags)) {
                 $tagsEstacion = pg_fetch_all($resulTags);
@@ -821,7 +821,9 @@ class Database
                     foreach ($tagsDigiEstacion as $index => $tag) {
                         $id = $tag['id_tag'];
                         $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
-                        FROM alarmas WHERE estado = 1 AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '1 days' 
+                        FROM alarmas 
+                        WHERE estado = 1 AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '2 days' 
+                        AND NOT valor_alarma = '' 
                         ORDER BY fecha_origen DESC LIMIT 1";
 
                         $resAlarmas = pg_query($this->conexion, $conAlarma);

@@ -8,7 +8,7 @@ $tipo = $_GET['tipo'];
 
 // echo json_encode($DB->tagTrend(141, $id_estacion));
 
-if ($opcion == 'actualizar' && $tipo = 'todos') {
+if ($opcion == 'actualizar' && $tipo == 'todos') {
     try {
         echo json_encode($DB->datosEstacion($id_estacion, true));
     } catch (Throwable $e) {

@@ -27,7 +27,7 @@ function actualizar() {
     datos['pwd'] = sessionStorage.getItem('pwd');
 
     var arrdatos = JSON.stringify(datos);
-    console.log(arrdatos);
+
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
@@ -37,7 +37,7 @@ function actualizar() {
             },
             success: function(feedDigi) {
                 feedDigital = feedDigi;
-                // console.log(feedDigi);
+                renderFeedDigi();
             },
             error: function(e) {
                 console.log(e);
@@ -48,6 +48,60 @@ function actualizar() {
 }
 
 function renderFeedDigi() {
+    var pos = 1;
+    var divSup = '<div id="widSup">';
+    var divInf = '<div id="widInf">';
+    var gridWidDigi = document.getElementById("prinIzqInf");
     //recorrer el feed digital y crear un widget para cada uno
+    for (var tag in feedDigital) {
+        if (pos == 1) {
+            divSup += '<div class="digiIzq">' + feedDigital[tag]['nombre'] + '<br>' + feedDigital[tag]['valor_alarma'] + '<br>' + feedDigital[tag]['estacion'] + '  </div>';
+        }
+        if (pos == 2) {
+            divSup += '<div class="digiDer">' + feedDigital[tag]['nombre'] + '<br>' + feedDigital[tag]['valor_alarma'] + '<br>' + feedDigital[tag]['estacion'] + '  </div>';
+        }
+        if (pos == 3) {
+            divInf += '<div class="digiIzq">' + feedDigital[tag]['nombre'] + '<br>' + feedDigital[tag]['valor_alarma'] + '<br>' + feedDigital[tag]['estacion'] + '  </div>';
+        }
+        if (pos == 4) {
+            divInf += '<div class="digiDer">' + feedDigital[tag]['nombre'] + '<br>' + feedDigital[tag]['valor_alarma'] + '<br>' + feedDigital[tag]['estacion'] + '  </div>';
+        }
+        pos++;
+    }
+    divSup += '</div>';
+    divInf += '</div>';
+    gridWidDigi.innerHTML = divSup + divInf;
 
+}
+
+function renderFeedGene() {
+    //obtener en actualizar los datos del feed de los widgets ya definidos por el ususaro
+    //orderarlos y crear un widget para cada uno
+    //render esos widgets
+}
+
+function rotarCarrusel(carr) {
+    var elem = carr.children[0];
+    var posi = elem.style.right;
+    var compo = elem.children;
+    if (posi != '200%') {
+        if (posi == '100%') {
+            posi = '200%';
+            compo[0].style.opacity = '0%';
+            compo[1].style.opacity = '0%';
+            compo[2].style.opacity = '100%';
+        }
+        if (posi == 0 || posi == '0px' || posi == '0%') {
+            posi = '100%';
+            compo[0].style.opacity = '0%';
+            compo[1].style.opacity = '100%';
+            compo[2].style.opacity = '0%';
+        }
+    } else {
+        posi = 0;
+        compo[0].style.opacity = '100%';
+        compo[1].style.opacity = '0%';
+        compo[2].style.opacity = '0%';
+    }
+    elem.style.right = posi;
 }
