@@ -106,31 +106,17 @@
     <!-- mucho del codigo es provisional -->
     <div id="ajustesSeccion">
         <div id="seccionSel">
-            
-        <ul style="list-style: none; padding-left: 0;width:100%;height:100%">
-            <li>widget 1</li>
-            <li>widget 2</li>
-            <li>widget 3</li>
-            <li>widget 4</li>
-        </ul>
+            <ul id="widList" style="list-style: none; padding-left: 0;width:100%;height:100%">
+                <li value="w1">widget 1</li>
+                <li value="w2">widget 2</li>
+                <li value="w3">widget 3</li>
+                <li value="w4">widget 4</li>
+            </ul>
         </div>
         <div id="seccionDisplay">
-        <i class="fas fa-times" style="color:tomato;font-size: 250%;float:right;" id="" onclick=""></i>
-        <div id="seccionAjustes">
-            <h4>texto de prueba</h4><hr>
-            <form>
-                <h5>ajustes de lo que toque</h5>
-                seleccionar valor
-                <select>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>  
-                </select><br>
-                <button>aceptar</button>
-                <button>cancelar</button>
-                <button>otra historia</button>
-            </form>
-        </div>
+            <i class="fas fa-times" id="btnAjustesCerrar" onclick="ajustes()"></i>
+            <div id="seccionAjustes">
+            </div>
         </div>
     </div>
 
@@ -141,17 +127,19 @@
 
 
 <script>
-    var nomusuario = "<?php echo $_SESSION['nombre'];?>";
-    
-
+    var estacionesUsu = <?php echo json_encode($_SESSION['estaciones']); ?>;
+    var usu = '<?php echo $_SESSION['nombre'] ?>';
+    var pwd = '<?php echo $_SESSION['pwd'] ?>';
+    sessionStorage.setItem('nousu', usu);
+    sessionStorage.setItem('pwd', pwd);
     window.onload = function() {
         mapas();
         actualizar();
+        ajustes();
+        ajustes();
+
         comprobarTiempo();
-        var usu = '<?php echo $_SESSION['nombre'] ?>';
-        var pwd = '<?php echo $_SESSION['pwd'] ?>';
-        sessionStorage.setItem('nousu', usu);
-        sessionStorage.setItem('pwd', pwd);
+
         actualizarSur('general', usu, pwd, null);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);

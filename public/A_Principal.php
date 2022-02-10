@@ -6,6 +6,10 @@ $digiVip= [];
 $analogVip = [];
 $db = new Database();
 
+//falta alguna funcion para sacar los tags de la config de usuario
+//y que despues saque el valor actual, trend y agregación semanal de cada uno
+//para pasarla al render de widgets
+
 if($_GET['opcion'] == 'refresh') {
 
     $datos = json_decode($_REQUEST['arrdatos']);
@@ -32,15 +36,32 @@ if($_GET['opcion'] == 'refresh') {
 }
 
 if($_GET['opcion'] == 'ajustes'){
-    $datos = json_decode($_REQUEST['arrdatos']);
-    $tagsDisponibles = Array();
-    $nombre = $datos->nombre;
-    $pwd = $datos->pwd;
-    $estacionesUsuario = $db->mostrarEstacionesCliente($nombre, $pwd);
-    foreach ($estacionesEstaciones as $index => $estacion) {
-        $tagsDisponibles[$estacion['nombre_estacion']] = $db->tagsEstacion($estacion['id_estacion']);
+    $datos = json_decode($_REQUEST['arrEstaciones']);
+    
+    $datosAnalog = $db->tagsAnalogHisto($datos);
+    echo json_encode($datosAnalog);
+}
+
+if($_GET['opcion'] == 'confirmar'){
+    $widget = $_GET['wid'];
+    $tag = $_GET['tag'];
+    $usu = $_GET['usu'];
+    $pwd = $_GET['pwd'];
+
+    $id_usuario = $db->obtenerIdUsuario($usu, $pwd);
+    if($id_usuario){
+        $db->confirmarWidget($widget, $tag, $id_usuario[0]['id_usuario']);
     }
-    echo json_encode($tagsDisponibles);
+
+}
+
+if($_GET['opcion'] == 'feed'){
+    $usu = $_GET['usu'];
+    $pwd = $_GET['pwd'];
+    $id_usuario = $db->obtenerIdUsuario($usu, $pwd);
+    if($id_usuario){
+        echo json_encode($db->feedPrincipalCustom($id_usuario[0]['id_usuario']));
+    }
 }
 
 ?>

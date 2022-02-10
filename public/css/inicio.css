@@ -330,10 +330,22 @@ footer {
     top: 10%;
     background-color: lightgray;
     z-index: 9999;
-    /* display: none; */
+    display: none;
     border: 5px solid rgb(56, 56, 56);
     border-radius: 10px;
     color: white;
+}
+
+#btnAjustesCerrar {
+    float: right;
+    transition: 0.2s;
+    color: black;
+    font-size: 200%;
+}
+
+#btnAjustesCerrar:hover {
+    color: tomato;
+    font-size: 220%;
 }
 
 #seccionSel {
@@ -365,5 +377,44 @@ footer {
 }
 
 #seccionAjustes {
-    padding: 1%;
+    padding: 2%;
+}
+
+#seccionAjustes form {
+    padding: 2% 1%;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+#btnAceptarWidget {
+    border: 1px solid whitesmoke;
+    background-color: rgb(1, 168, 184);
+    border-radius: 10px;
+    font-size: 110%;
+    color: whitesmoke;
+    transition: 0.2s;
+}
+
+#btnAceptarWidget:hover {
+    color: black;
+    background-color: whitesmoke;
+    border: 1px solid black;
+}
+
+#btnCancelarWidget {
+    border: 1px solid white;
+    margin-left: 2%;
+    border-radius: 10px;
+    font-size: 110%;
+    color: white;
+    background-color: tomato;
+    transition: 0.2s;
+}
+
+#btnCancelarWidget:hover {
+    color: black;
+    border: 1px solid black;
+    background-color: whitesmoke;
 }
