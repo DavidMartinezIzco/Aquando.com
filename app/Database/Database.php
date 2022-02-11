@@ -351,14 +351,14 @@ class Database
 
     public function tagsAnalogHisto($estaciones)
     {
-        $tagsAnalogsHisto = Array();
+        $tagsAnalogsHisto = array();
         if ($this->conectar()) {
 
             foreach ($estaciones as $index) {
                 $id = $index->id_estacion;
                 $conAnalog = "select tags.id_tag,tags.nombre_tag, estaciones.id_estacion, estaciones.nombre_estacion from tags inner join estacion_tag on tags.id_tag = estacion_tag.id_tag inner join estaciones on estaciones.id_estacion = estacion_tag.id_estacion
                 where tags.type_tag > 2 and tags.type_tag < 5 and tags.historizar = true and tags.disabled = false
-                and estaciones.id_estacion = ".$id."
+                and estaciones.id_estacion = " . $id . "
                 order by estaciones.nombre_estacion asc";
 
                 $resAnalog = pg_query($this->conexion, $conAnalog);
@@ -866,98 +866,113 @@ class Database
         }
     }
 
-    public function confirmarWidget($wid, $tag, $id_usuario){
+    public function confirmarWidget($wid, $tag, $id_usuario)
+    {
         // $configBD = "w1:126-w2:260-w3:261-w4:167";
         $configBD = "";
-        $configuracionWidgetsUsuario = Array();
-        if($this->conectar()){
+        $configuracionWidgetsUsuario = array();
+        if ($this->conectar()) {
             $configVieja = $this->obtenerConfigInicio($id_usuario);
-            if($configVieja){
-                $configArr = explode( "-", $configVieja['configuracion_inicio']);
+            if ($configVieja) {
+                $configArr = explode("-", $configVieja['configuracion_inicio']);
                 foreach ($configArr as $index => $configWid) {
                     $arrConfigWid = explode(":", $configWid);
                     $configuracionWidgetsUsuario[$arrConfigWid[0]] = $arrConfigWid[1];
                 }
-                if($wid == 'w1'){
+                if ($wid == 'w1') {
                     $configuracionWidgetsUsuario['w1'] = $tag;
                 }
-                if($wid == 'w2'){
+                if ($wid == 'w2') {
                     $configuracionWidgetsUsuario['w2'] = $tag;
                 }
-                if($wid == 'w3'){
+                if ($wid == 'w3') {
                     $configuracionWidgetsUsuario['w3'] = $tag;
                 }
-                if($wid == 'w4'){
+                if ($wid == 'w4') {
                     $configuracionWidgetsUsuario['w4'] = $tag;
                 }
-            }else {
-                $configuracionWidgetsUsuario = ['w1' => '', 'w2'=>'','w3'=>'','w4'=>''];
+            } else {
+                $configuracionWidgetsUsuario = ['w1' => '', 'w2' => '', 'w3' => '', 'w4' => ''];
             }
-            $configBD = "w1:".$configuracionWidgetsUsuario['w1']."-w2:".$configuracionWidgetsUsuario['w2']."-w3:".$configuracionWidgetsUsuario['w3']."-w4:".$configuracionWidgetsUsuario['w4'];
-            $secuencia = "UPDATE usuarios SET configuracion_inicio = '". $configBD ."' WHERE id_usuario = ". $id_usuario;
+            $configBD = "w1:" . $configuracionWidgetsUsuario['w1'] . "-w2:" . $configuracionWidgetsUsuario['w2'] . "-w3:" . $configuracionWidgetsUsuario['w3'] . "-w4:" . $configuracionWidgetsUsuario['w4'];
+            $secuencia = "UPDATE usuarios SET configuracion_inicio = '" . $configBD . "' WHERE id_usuario = " . $id_usuario;
             $envio = pg_query($this->conexion, $secuencia);
-            if($this->consultaExitosa($envio)){
+            if ($this->consultaExitosa($envio)) {
                 return true;
             }
         }
         return false;
     }
 
-    private function obtenerConfigInicio($id_usuario){
-        if($this->conectar()){
-            $consulta = "SELECT configuracion_inicio FROM usuarios WHERE id_usuario = ".$id_usuario."" ;
+    private function obtenerConfigInicio($id_usuario)
+    {
+        if ($this->conectar()) {
+            $consulta = "SELECT configuracion_inicio FROM usuarios WHERE id_usuario = " . $id_usuario . "";
             $res = pg_query($this->conexion, $consulta);
-            if($this->consultaExitosa($res)){
+            if ($this->consultaExitosa($res)) {
                 $config = pg_fetch_all($res)[0];
                 return $config;
             }
-
         }
         return false;
-    }   
+    }
 
-    public function feedPrincipalCustom($id_usuario){
+    public function feedPrincipalCustom($id_usuario)
+    {
 
-        if($this->conectar()){
-            $configuracionWidgetsUsuario = Array();
+        if ($this->conectar()) {
+            $configuracionWidgetsUsuario = array();
             $config = $this->obtenerConfigInicio($id_usuario);
-            if($config){
-                $configArr = explode( "-", $config['configuracion_inicio']);
+            if ($config) {
+                $configArr = explode("-", $config['configuracion_inicio']);
                 foreach ($configArr as $index => $configWid) {
                     $arrConfigWid = explode(":", $configWid);
                     $configuracionWidgetsUsuario[$arrConfigWid[0]] = $arrConfigWid[1];
                 }
             }
 
-            $ultvalor ="";
-            $trendDia = Array();
-            $agregSemana = Array();
-            $infoTag = Array();
+            $ultvalor = "";
+            $trendDia = array();
+            $agregSemana = array();
+            $infoTag = array();
 
             foreach ($configuracionWidgetsUsuario as $widget => $tag) {
                 $tag = intval($tag);
                 //ultimo valor del tag
-                $conUltimoValor ="SELECT datos_valores.valor_acu, datos_valores.valor_float,datos_valores.valor_int,datos_valores.id_tag,datos_valores.fecha FROM datos_valores WHERE id_tag=" . $tag;
+                $conUltimoValor = "SELECT tags.unidad,estaciones.nombre_estacion, tags.nombre_tag, datos_valores.valor_acu, datos_valores.valor_float,datos_valores.valor_int,datos_valores.id_tag,datos_valores.fecha 
+                FROM datos_valores inner join tags on tags.id_tag = datos_valores.id_tag
+                inner join estacion_tag on tags.id_tag = estacion_tag.id_tag
+                inner join estaciones on estaciones.id_estacion = estacion_tag.id_estacion
+                WHERE datos_valores.id_tag=" . $tag;
                 $resUltimoValor = pg_query($this->conexion, $conUltimoValor);
-                if($this->consultaExitosa($resUltimoValor)){
+                if ($this->consultaExitosa($resUltimoValor)) {
                     $ultvalor = pg_fetch_all($resUltimoValor)[0];
-                    $ultValorLimpio = Array();
+                    $ultValorLimpio = array();
                     foreach ($ultvalor as $factor => $valor) {
-                        if($valor != null){
+                        if (str_contains($factor, 'valor_')) {
+                            if ($valor != null) {
+                                $ultValorLimpio['valor'] = $valor;
+                            }
+                        } else {
                             $ultValorLimpio[$factor] = $valor;
                         }
                     }
                     $ultvalor = $ultValorLimpio;
                 }
                 //tredn diario del tag
-                $conTrendDia = "SELECT datos_historicos.fecha,datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag ."AND datos_historicos.fecha::date > current_date::date - interval '1 days' ORDER BY fecha desc";
+                $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . "AND datos_historicos.fecha::date > current_date::date - interval '1 days' ORDER BY fecha desc";
                 $resTrendDia = pg_query($this->conexion, $conTrendDia);
-                if($this->consultaExitosa($resTrendDia)){
+                if ($this->consultaExitosa($resTrendDia)) {
                     $trendDia = pg_fetch_all($resTrendDia);
-                    $trendDiaLimpio= Array();
+                    $trendDiaLimpio = array();
                     foreach ($trendDia as $index => $dato) {
                         foreach ($dato as $factor => $valor) {
-                            if ($valor != null) {
+                            if (str_contains($factor, 'valor_')) {
+                                if ($valor != null) {
+                                    $trendDiaLimpio[$index]['valor'] = $valor;
+                                } 
+                            }
+                            else {
                                 $trendDiaLimpio[$index][$factor] = $valor;
                             }
                         }
@@ -972,12 +987,15 @@ class Database
                 and datos_historicos.fecha::date > current_date::date - interval '7 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
 
                 $resAgregSemanal = pg_query($this->conexion, $conAgregSemanal);
-                if($this->consultaExitosa($resAgregSemanal)){
+                if ($this->consultaExitosa($resAgregSemanal)) {
                     $agregSemana = pg_fetch_all($resAgregSemanal);
-                    $agregSemanaLimpio = Array();
+                    $agregSemanaLimpio = array();
                     foreach ($agregSemana as $index => $dato) {
                         foreach ($dato as $factor => $valor) {
-                            if ($valor != null) {
+                            if ($valor != null && $factor != 'fecha') {
+                                $agregSemanaLimpio[$index]['valor'] = $valor;
+                            }
+                            else {
                                 $agregSemanaLimpio[$index][$factor] = $valor;
                             }
                         }
@@ -986,11 +1004,9 @@ class Database
 
                 }
 
-                $infoTag[$widget] = ["ultimo_valor" => $ultvalor,"trend_dia"=> $trendDia,"agreg_semana"=> $agregSemana];
-                
+                $infoTag[$widget] = ["unidad"=>$ultvalor['unidad'], "widget" => $widget, "nombre" => $ultvalor['nombre_tag'], "estacion" => $ultvalor['nombre_estacion'], "ultimo_valor" => $ultvalor, "trend_dia" => $trendDia, "agreg_semana" => $agregSemana];
             }
             return $infoTag;
         }
     }
-
 }

@@ -110,12 +110,15 @@
     width: 49%;
     height: 95%;
     float: left;
-    margin-bottom: 0%;
-    margin-right: 0%;
+    margin: 0;
+    padding: 0;
     border: 1px solid rgb(1, 168, 184);
     border-radius: 10px;
-    opacity: 90%;
+    opacity: 100%;
     transition: 0.2s;
+    overflow: hidden;
+    background-color: white;
+    color: black;
 }
 
 .anaIzq:hover {
@@ -130,11 +133,13 @@
     float: right;
     border: 1px solid rgb(1, 168, 184);
     border-radius: 10px;
-    margin-bottom: 0%;
-    margin-left: 0%;
+    margin: 0;
+    padding: 0;
     opacity: 90%;
     transition: 0.2s;
     overflow: hidden;
+    background-color: white;
+    color: black;
 }
 
 .anaDer:hover {
@@ -144,21 +149,29 @@
 }
 
 #carrusel {
-    width: 300%;
+    width: 301%;
     height: 100%;
     position: relative;
-    right: 0%;
+    right: 0;
     transition: 0.2s;
 }
 
 #carrusel div {
     width: 33%;
+    text-align: center;
     margin: 0px;
-    padding: 1%;
+    height: 100%;
+    padding: 0%;
     display: inline-block;
     opacity: 0%;
+    font-size: 70%;
 }
 
 #carrusel div:first-child {
     opacity: 100%;
+    float: left;
+}
+
+#carrusel div:last-child {
+    float: right;
 }

@@ -157,21 +157,21 @@ function pantalla() {
         console.log("aplico en graficas");
 
 
-        // document.getElementById("zonaGraficos").style.zoom = '100%';
-        // document.getElementById("grafica").style.zoom = '100%';
-        // var defancho = 1210;
-        // var defalto = 622;
-        // let zonaG = document.getElementById("grafica").firstChild;
-        // var gancho = parseInt(zonaG.style.width);
-        // var galto = parseInt(zonaG.style.height);
-        // var nancho = (gancho * 100) / defancho;
-        // var nalto = (galto * 100) / defalto;
+        //     // document.getElementById("zonaGraficos").style.zoom = '100%';
+        //     // document.getElementById("grafica").style.zoom = '100%';
+        //     // var defancho = 1210;
+        //     // var defalto = 622;
+        //     // let zonaG = document.getElementById("grafica").firstChild;
+        //     // var gancho = parseInt(zonaG.style.width);
+        //     // var galto = parseInt(zonaG.style.height);
+        //     // var nancho = (gancho * 100) / defancho;
+        //     // var nalto = (galto * 100) / defalto;
 
 
-        // document.getElementById("grafica").style.width = nancho + '%';
-        // document.getElementById("grafica").style.height = nalto + '%';
-        // console.log(nancho);
-        // console.log(nalto);
+        //     // document.getElementById("grafica").style.width = nancho + '%';
+        //     // document.getElementById("grafica").style.height = nalto + '%';
+        //     // console.log(nancho);
+        //     // console.log(nalto);
     } else {
         document.body.style.zoom = relAncho + '%';
     }

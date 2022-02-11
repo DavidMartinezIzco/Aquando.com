@@ -38,6 +38,7 @@ function actualizar() {
             success: function(feedDigi) {
                 feedDigital = feedDigi;
                 renderFeedDigi();
+                feedPrincipalCustom();
             },
             error: function(e) {
                 console.log(e);
@@ -154,7 +155,6 @@ function ajustes() {
         sessionStorage.setItem('widget', wid.value);
         widgetSelec(wid.innerHTML);
     };
-
 }
 
 
@@ -193,7 +193,6 @@ function confirmarAjustesWidget(wid) {
         $.ajax({
             type: 'GET',
             url: 'A_Principal.php?opcion=confirmar&wid=' + widget + '&tag=' + tag + '&usu=' + usu + '&pwd=' + pwd,
-
             success: function() {
                 console.log("widget configurado con exito");
             },
@@ -218,6 +217,8 @@ function feedPrincipalCustom() {
 
             success: function(feedAna) {
                 console.log(feedAna);
+                renderPrincipalCustom(feedAna);
+                // document.getElementById("prinDer").innerHTML = feedAna;
             },
             error: function(e) {
                 console.log(e);
@@ -225,4 +226,428 @@ function feedPrincipalCustom() {
             dataType: 'json'
         });
     });
+}
+
+function renderPrincipalCustom(feed) {
+    document.getElementById("prinDer").innerHTML = "";
+    var w1 = "";
+    var w2 = "";
+    var w3 = "";
+    var w4 = "";
+
+    for (var wid in feed) {
+
+        if (feed[wid]['widget'] == 'w1') {
+            w1 += '<div  class="anaIzq" onclick="rotarCarrusel(this)">';
+            w1 += '<div id="carrusel">';
+            //primera vista
+            w1 += '<div class="carr" id="gauw1">';
+            // w1 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w1 += '<p>' + feed[wid]['ultimo_valor']['valor'] + '</p>';
+            w1 += "</div>";
+
+            //segunda vista
+            w1 += '<div class="carr" id="trendw1">';
+            // w1 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w1 += '<p>' + 'aquí irá el trend diario' + '</p>';
+            w1 += "</div>";
+
+            //segunda vista
+            w1 += '<div class="carr" id="agregw1">';
+            // w1 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w1 += '<p>' + 'aquí irá el trend semanal' + '</p>';
+            w1 += "</div>";
+
+            w1 += "</div></div>";
+
+            //gauge + chart trend + chart agreg
+
+
+
+
+        }
+        if (feed[wid]['widget'] == 'w2') {
+            w2 += '<div class="anaDer" onclick="rotarCarrusel(this)">';
+            w2 += '<div id="carrusel">';
+            //primera vista
+            w2 += '<div class="carr" id="gauw2">';
+            // w2 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w2 += '<p>' + feed[wid]['ultimo_valor']['valor'] + '</p>';
+            w2 += "</div>";
+
+            //segunda vista
+            w2 += '<div class="carr" id="trendw2">';
+            // w2 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w2 += '<p>' + 'aquí irá el trend diario' + '</p>';
+            w2 += "</div>";
+
+            //segunda vista
+            w2 += '<div class="carr" id="agregw2">';
+            // w2 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w2 += '<p>' + 'aquí irá el trend semanal' + '</p>';
+            w2 += "</div>";
+
+            w2 += "</div></div>";
+        }
+        if (feed[wid]['widget'] == 'w3') {
+            w3 += '<div class="anaIzq" onclick="rotarCarrusel(this)">';
+            w3 += '<div id="carrusel">';
+            //primera vista
+            w3 += '<div class="carr" id="gauw3">';
+            // w3 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w3 += '<p>' + feed[wid]['ultimo_valor']['valor'] + '</p>';
+            w3 += "</div>";
+
+            //segunda vista
+            w3 += '<div class="carr" id="trendw3">';
+            w3 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            w3 += '<p>' + 'aquí irá el trend diario' + '</p>';
+            w3 += "</div>";
+
+            //segunda vista
+            w3 += '<div class="carr" id="agregw3">';
+            // w3 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w3 += '<p>' + 'aquí irá el trend semanal' + '</p>';
+            w3 += "</div>";
+
+            w3 += "</div></div>";
+        }
+        if (feed[wid]['widget'] == 'w4') {
+            w4 += '<div class="anaDer" onclick="rotarCarrusel(this)">';
+            w4 += '<div id="carrusel">';
+            //primera vista
+            w4 += '<div class="carr" id="gauw4">';
+            // w4 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w4 += '<p>' + feed[wid]['ultimo_valor']['valor'] + '</p>';
+            w4 += "</div>";
+
+            //segunda vista
+            w4 += '<div class="carr" id="trendw4">';
+            // w4 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w4 += '<p>' + 'aquí irá el trend diario' + '</p>';
+            w4 += "</div>";
+
+            //segunda vista
+            w4 += '<div class="carr" id="agregw4">';
+            // w4 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
+            // w4 += '<p>' + 'aquí irá el trend semanal' + '</p>';
+            w4 += "</div>";
+
+            w4 += "</div></div>";
+        }
+
+    }
+    var widSup = "<div id='widSup'>" + w1 + w2 + "</div>";
+    var widInf = "<div id='widInf'>" + w3 + w4 + "</div>";
+    var conPrinDer = widSup + widInf;
+    document.getElementById("prinDer").innerHTML = conPrinDer;
+    crearWidgetsChartsCustom(feed);
+}
+
+function crearWidgetsChartsCustom(feed) {
+    var gauges = new Array();
+    var trends = new Array();
+    var agregs = new Array();
+
+
+    for (var wid in feed) {
+        var gaugeDom = document.getElementById("gau" + feed[wid]['widget']);
+        var grafGau = echarts.init(gaugeDom);
+        gauges[wid] = grafGau;
+        var trendDom = document.getElementById('trend' + feed[wid]['widget']);
+        var grafTrend = echarts.init(trendDom);
+        trends[wid] = grafTrend;
+        var agregDom = document.getElementById('agreg' + feed[wid]['widget']);
+        var grafAgreg = echarts.init(agregDom);
+        agregs[wid] = grafAgreg;
+
+        var valor_actual = feed[wid]['ultimo_valor']['valor'];
+        var nombre_dato = feed[wid]['ultimo_valor']['nombre_tag'] + " (" + feed[wid]['unidad'] + ") ";
+        var nombre_estacion = feed[wid]['ultimo_valor']['nombre_estacion'];
+        var trend_dia = feed[wid]['trend_dia'];
+        var agreg_semanal = feed[wid]['agreg_semana'];
+
+        //gauge con val actual
+        var optGau = {
+            grid: {
+                left: '0%',
+                right: '0%',
+                top: '5%',
+                bottom: '0%',
+                containLabel: true
+            },
+            title: {
+                left: 'center',
+                text: "Valor actual de " + nombre_dato + " de " + nombre_estacion,
+                textStyle: {
+                    fontStyle: 'bold',
+                    fontSize: 10
+                },
+            },
+            series: [{
+                name: nombre_dato + " : " + nombre_estacion,
+                type: 'gauge',
+                itemStyle: {
+                    color: 'rgb(1, 168, 184)'
+                },
+                progress: {
+                    show: true
+                },
+                axisLine: {
+                    show: true,
+                    // lineStyle: {
+                    //     width: 6,
+                    //     color: [
+                    //         [(minimo), 'tomato'],
+                    //         [(maximo), 'rgb(39, 45, 79)'],
+                    //         [1, 'tomato']
+                    //     ]
+                    // }
+
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLabel: {
+                    show: false
+                },
+                splitLine: {
+                    show: false
+                },
+                pointer: {
+                    // icon: 'rect',
+                    length: '80%',
+                    width: 4
+                },
+                // max: maximoGraf,
+                // min: 0,
+                detail: {
+                    show: true,
+                    valueAnimation: true,
+                    formatter: '{value}',
+                    fontSize: 12
+                },
+                data: [{
+                    value: valor_actual,
+                }]
+            }]
+        };
+        optGau && grafGau.setOption(optGau, true);
+
+
+        //chart lineas trend diario
+        var datos_dia = [];
+        var horas_dia = [];
+        for (var index in trend_dia) {
+            datos_dia.push(trend_dia[index]['valor']);
+            horas_dia.push(trend_dia[index]['fecha']);
+        }
+
+        optDia = {
+            grid: {
+                left: '5%',
+                right: '5%',
+                top: '12%',
+                bottom: '1%',
+                containLabel: true
+            },
+            title: {
+                left: 'center',
+                text: "Últimas 24h de " + nombre_dato + " de " + nombre_estacion,
+                textStyle: {
+                    fontStyle: 'bold',
+                    fontSize: 10
+                },
+            },
+            tooltip: {
+                trigger: 'axis',
+                icon: 'none',
+                textStyle: {
+                    fontStyle: 'bold',
+                    fontSize: 10
+                },
+                axisPointer: {
+                    type: 'line',
+                    label: {
+                        formatter: 'fecha y hora: {value}',
+                        fontStyle: 'bold'
+                    }
+                }
+            },
+            xAxis: {
+                inverse: true,
+                show: true,
+                type: 'category',
+                data: horas_dia
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                name: nombre_dato,
+                data: datos_dia,
+                type: 'line',
+                lineStyle: {
+                    width: 0
+                },
+                areaStyle: {
+                    show: true,
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgb(1, 168, 184)'
+                        },
+                        {
+                            offset: 1,
+                            color: 'rgb(39, 45, 79)'
+                        }
+                    ])
+                },
+                symbol: 'none',
+                smooth: false
+            }]
+        };
+        optDia && grafTrend.setOption(optDia, true);
+
+
+        //chart barras de agregados semanal
+
+        var datos_agreg = [];
+        var fechas_agreg = [];
+        for (var index in agreg_semanal) {
+            datos_agreg.push(agreg_semanal[index]['valor']);
+            fechas_agreg.push(agreg_semanal[index]['fecha']);
+        }
+
+        optionSemanal = {
+            legend: {
+                x: 'center',
+                y: 'top',
+                textStyle: {
+                    fontWeight: 'normal',
+                    fontSize: 10,
+                },
+                padding: 1,
+                show: false
+            },
+            grid: {
+                left: '5%',
+                right: '5%',
+                top: '12%',
+                bottom: '1%',
+                containLabel: true
+            },
+            title: {
+                left: 'center',
+                text: "Máximos semanales " + nombre_dato + " de " + nombre_estacion,
+                textStyle: {
+                    fontStyle: 'bold',
+                    fontSize: 10
+                },
+            },
+            tooltip: {
+                trigger: 'axis',
+                icon: 'none',
+                textStyle: {
+                    fontStyle: 'bold',
+                    fontSize: 20
+                },
+                axisPointer: {
+                    type: 'line',
+                    label: {
+                        formatter: 'fecha y hora: {value}',
+                        fontStyle: 'bold'
+                    }
+                }
+            },
+            xAxis: {
+                inverse: true,
+                show: true,
+                type: 'category',
+                data: fechas_agreg
+            },
+            yAxis: {
+                // name: nombre_dato + ' : ' + nombre_estacion,
+                type: 'value'
+            },
+            series: [{
+                name: nombre_dato,
+                data: datos_agreg,
+                type: 'bar',
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+
+                        { offset: 0, color: '#01a8b8' },
+                        { offset: 1, color: '#272d4f' }
+
+                    ])
+                },
+                emphasis: {
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#272d4f' },
+                            { offset: 1, color: '#01a8b8' }
+                        ])
+                    }
+                },
+                symbol: 'none',
+                smooth: false
+            }]
+        };
+        optionSemanal && grafAgreg.setOption(optionSemanal, true);
+
+        //ajustes de pantalla para los graficos
+        $(window).keyup(function() {
+            for (var wid in gauges) {
+                gauges[wid].resize();
+                trends[wid].resize();
+                agregs[wid].resize();
+            }
+        });
+        $(window).keydown(function() {
+
+            for (var wid in gauges) {
+                gauges[wid].resize();
+                trends[wid].resize();
+                agregs[wid].resize();
+            }
+
+            // grafGau.resize();
+            // grafTrend.resize();
+            // grafAgreg.resize();
+        });
+        $(window).keypress(function() {
+            for (var wid in gauges) {
+                gauges[wid].resize();
+                trends[wid].resize();
+                agregs[wid].resize();
+            }
+        });
+        $('#conPrincipal').click(function() {
+            for (var wid in gauges) {
+                setTimeout(gauges[wid].resize(), 1000);
+                setTimeout(trends[wid].resize(), 1000);
+                setTimeout(agregs[wid].resize(), 1000);
+            }
+        });
+        // document.getElementById('prinDer').onmouseover = function() {
+
+        //     for (var wid in gauges) {
+        //         setTimeout(gauges[wid].resize(), 500);
+        //         setTimeout(trends[wid].resize(), 500);
+        //         setTimeout(agregs[wid].resize(), 500);
+        //     }
+
+
+        // }
+        document.getElementById('prinIzq').onmouseover = function() {
+            for (var wid in gauges) {
+                setTimeout(gauges[wid].resize(), 500);
+                setTimeout(trends[wid].resize(), 500);
+                setTimeout(agregs[wid].resize(), 500);
+            }
+        }
+
+    }
+
+
 }

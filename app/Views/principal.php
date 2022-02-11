@@ -41,13 +41,13 @@
             <!-- AQUI IRAN LOS WIDS EN CARRUSEL -->
             <div class="anaIzq" onclick="rotarCarrusel(this)">
                 <div id="carrusel">
-                    <div class="carr" name="carru1">
+                    <div class="carr" name="ult_valor">
                         <!-- valor actual -->pincha aqui para configurar tu widget
                     </div>
-                    <div class="carr" name="carru1">
+                    <div class="carr" name="trend_dia">
                         <!-- trend dia -->2
                     </div>
-                    <div class="carr" name="carru1">
+                    <div class="carr" name="agreg_semana">
                         <!-- trend semanal -->3
                     </div>
                 </div>
@@ -120,8 +120,6 @@
         </div>
     </div>
 
-
-
 </main>
 
 
@@ -135,7 +133,7 @@
     window.onload = function() {
         mapas();
         actualizar();
-        ajustes();
+        // ajustes();
         ajustes();
 
         comprobarTiempo();
