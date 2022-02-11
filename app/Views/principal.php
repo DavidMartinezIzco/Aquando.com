@@ -107,10 +107,10 @@
     <div id="ajustesSeccion">
         <div id="seccionSel">
             <ul id="widList" style="list-style: none; padding-left: 0;width:100%;height:100%">
-                <li value="w1">widget 1</li>
-                <li value="w2">widget 2</li>
-                <li value="w3">widget 3</li>
-                <li value="w4">widget 4</li>
+                <li id="w1" value="w1">widget 1</li>
+                <li id="w2" value="w2">widget 2</li>
+                <li id="w3" value="w3">widget 3</li>
+                <li id="w4" value="w4">widget 4</li>
             </ul>
         </div>
         <div id="seccionDisplay">
@@ -133,7 +133,7 @@
     window.onload = function() {
         mapas();
         actualizar();
-        // ajustes();
+        ajustes();
         ajustes();
 
         comprobarTiempo();

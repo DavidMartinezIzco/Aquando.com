@@ -4,7 +4,7 @@ var listaTags = new Array();
 
 function mapas() {
     var map = L.map('conMapa').setView([42.77219, -1.62511], 11);
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}', {
         maxZoom: 18,
         id: 'mapbox/streets-v11',
         tileSize: 512,
@@ -111,33 +111,52 @@ function cargarAjustes() {
     var sel = document.getElementById("tagSel");
     sel.innerHTML = "";
     var arrEstaciones = JSON.stringify(estacionesUsu);
-    $(document).ready(function() {
-        $.ajax({
-            type: 'GET',
-            url: 'A_Principal.php?opcion=ajustes',
-            data: {
-                arrEstaciones: arrEstaciones
-            },
-            success: function(tagsAnalog) {
-                listaTags = tagsAnalog;
-                console.log(tagsAnalog);
-                for (var deposito in tagsAnalog) {
-                    sel.innerHTML += "<optgroup label = '" + tagsAnalog[deposito][0]['nombre_estacion'] + "'>";
-                    for (var tag in tagsAnalog[deposito]) {
-                        var n_tag = tagsAnalog[deposito][tag]['nombre_tag'];
-                        var id_tag = tagsAnalog[deposito][tag]['id_tag'];
-                        sel.innerHTML += "<option value=" + id_tag + ">" + n_tag + "</option>";
-                    }
-                    sel.innerHTML += "</optgroup>";
-                }
+    var i = 0;
+    for (var index in listaTags) {
+        i++;
+    }
+    if (i > 0) {
+        console.log(listaTags);
+        for (var deposito in listaTags) {
+            sel.innerHTML += "<optgroup label = '" + listaTags[deposito][0]['nombre_estacion'] + "'>";
+            for (var tag in listaTags[deposito]) {
+                var n_tag = listaTags[deposito][tag]['nombre_tag'];
+                var id_tag = listaTags[deposito][tag]['id_tag'];
+                sel.innerHTML += "<option value=" + id_tag + ">" + n_tag + "</option>";
+            }
+            sel.innerHTML += "</optgroup>";
+        }
+    } else {
 
-            },
-            error: function(e) {
-                console.log(e);
-            },
-            dataType: 'json'
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'A_Principal.php?opcion=ajustes',
+                data: {
+                    arrEstaciones: arrEstaciones
+                },
+                success: function(tagsAnalog) {
+                    listaTags = tagsAnalog;
+
+                    for (var deposito in tagsAnalog) {
+                        sel.innerHTML += "<optgroup label = '" + tagsAnalog[deposito][0]['nombre_estacion'] + "'>";
+                        for (var tag in tagsAnalog[deposito]) {
+                            var n_tag = tagsAnalog[deposito][tag]['nombre_tag'];
+                            var id_tag = tagsAnalog[deposito][tag]['id_tag'];
+                            sel.innerHTML += "<option value=" + id_tag + ">" + n_tag + "</option>";
+                        }
+                        sel.innerHTML += "</optgroup>";
+                    }
+
+                },
+                error: function(e) {
+                    console.log(e);
+                },
+                dataType: 'json'
+            });
         });
-    });
+    }
+
 }
 
 function ajustes() {
@@ -152,9 +171,9 @@ function ajustes() {
     var ul = document.getElementById('widList');
     ul.onclick = function(event) {
         var wid = getEventTarget(event);
-        sessionStorage.setItem('widget', wid.value);
         widgetSelec(wid.innerHTML);
     };
+    widgetSelec('widget 1');
 }
 
 
@@ -164,21 +183,37 @@ function widgetSelec(wid) {
     if (wid == 'widget 1') {
         var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>arriba a la izquierda</b></p><p>Señales disponibles:<select id="tagSel"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w1")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
         seccion.innerHTML = msg;
+        document.getElementById("w1").style.backgroundColor = 'rgb(1, 168, 184)';
+        document.getElementById("w2").style.backgroundColor = 'rgb(39, 45, 79)';
+        document.getElementById("w3").style.backgroundColor = 'rgb(39, 45, 79)';
+        document.getElementById("w4").style.backgroundColor = 'rgb(39, 45, 79)';
         cargarAjustes();
     }
     if (wid == 'widget 2') {
         var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>arriba a la derecha</b></p><p>Señales disponibles:<select id="tagSel"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w2")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
         seccion.innerHTML = msg;
+        document.getElementById("w2").style.backgroundColor = 'rgb(1, 168, 184)';
+        document.getElementById("w1").style.backgroundColor = 'rgb(39, 45, 79)';
+        document.getElementById("w3").style.backgroundColor = 'rgb(39, 45, 79)';
+        document.getElementById("w4").style.backgroundColor = 'rgb(39, 45, 79)';
         cargarAjustes();
     }
     if (wid == 'widget 3') {
         var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>abajo a la izquierda</b></p><p>Señales disponibles:<select id="tagSel"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w3")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
         seccion.innerHTML = msg;
+        document.getElementById("w3").style.backgroundColor = 'rgb(1, 168, 184)';
+        document.getElementById("w2").style.backgroundColor = 'rgb(39, 45, 79)';
+        document.getElementById("w1").style.backgroundColor = 'rgb(39, 45, 79)';
+        document.getElementById("w4").style.backgroundColor = 'rgb(39, 45, 79)';
         cargarAjustes();
     }
     if (wid == 'widget 4') {
         var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>abajo a la derecha</b></p><p>Señales disponibles:<select id="tagSel"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w4")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
         seccion.innerHTML = msg;
+        document.getElementById("w4").style.backgroundColor = 'rgb(1, 168, 184)';
+        document.getElementById("w2").style.backgroundColor = 'rgb(39, 45, 79)';
+        document.getElementById("w3").style.backgroundColor = 'rgb(39, 45, 79)';
+        document.getElementById("w1").style.backgroundColor = 'rgb(39, 45, 79)';
         cargarAjustes();
     }
 
@@ -194,7 +229,9 @@ function confirmarAjustesWidget(wid) {
             type: 'GET',
             url: 'A_Principal.php?opcion=confirmar&wid=' + widget + '&tag=' + tag + '&usu=' + usu + '&pwd=' + pwd,
             success: function() {
-                console.log("widget configurado con exito");
+
+                document.getElementById("seccionAjustes").innerHTML += "<br>widget configurado con éxito";
+                feedPrincipalCustom();
             },
             error: function(e) {
                 console.log(e);
@@ -216,9 +253,7 @@ function feedPrincipalCustom() {
             url: 'A_Principal.php?opcion=feed&usu=' + usu + '&pwd=' + pwd,
 
             success: function(feedAna) {
-                console.log(feedAna);
                 renderPrincipalCustom(feedAna);
-                // document.getElementById("prinDer").innerHTML = feedAna;
             },
             error: function(e) {
                 console.log(e);
@@ -624,9 +659,9 @@ function crearWidgetsChartsCustom(feed) {
         });
         $('#conPrincipal').click(function() {
             for (var wid in gauges) {
-                setTimeout(gauges[wid].resize(), 1000);
-                setTimeout(trends[wid].resize(), 1000);
-                setTimeout(agregs[wid].resize(), 1000);
+                setTimeout(gauges[wid].resize(), 3000);
+                setTimeout(trends[wid].resize(), 2000);
+                setTimeout(agregs[wid].resize(), 2000);
             }
         });
         // document.getElementById('prinDer').onmouseover = function() {
@@ -639,13 +674,13 @@ function crearWidgetsChartsCustom(feed) {
 
 
         // }
-        document.getElementById('prinIzq').onmouseover = function() {
-            for (var wid in gauges) {
-                setTimeout(gauges[wid].resize(), 500);
-                setTimeout(trends[wid].resize(), 500);
-                setTimeout(agregs[wid].resize(), 500);
-            }
-        }
+        // document.getElementById('prinIzq').onmouseover = function() {
+        //     for (var wid in gauges) {
+        //         setTimeout(gauges[wid].resize(), 500);
+        //         setTimeout(trends[wid].resize(), 500);
+        //         setTimeout(agregs[wid].resize(), 500);
+        //     }
+        // }
 
     }
 
