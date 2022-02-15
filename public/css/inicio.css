@@ -338,14 +338,13 @@ footer {
 
 #btnAjustesCerrar {
     float: right;
-    transition: 0.2s;
+    transition: 0.1s;
     color: black;
     font-size: 200%;
 }
 
 #btnAjustesCerrar:hover {
     color: tomato;
-    font-size: 220%;
 }
 
 #seccionSel {
@@ -360,8 +359,9 @@ footer {
 #seccionSel ul li {
     background-color: rgb(39, 45, 79);
     width: 100%;
-    height: 10%;
-    padding: 0.5em 1em;
+    height: 3em;
+    padding: 0.5em;
+    /* padding: 0.5em 2em; */
 }
 
 #seccionSel ul li:hover {
@@ -417,4 +417,15 @@ footer {
     color: black;
     border: 1px solid black;
     background-color: whitesmoke;
+}
+
+#ajustesRespuesta {
+    background-color: darkseagreen;
+    color: rgb(56, 56, 56);
+    font-style: bold;
+    padding: 2% 1%;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
 }

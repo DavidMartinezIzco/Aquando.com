@@ -819,7 +819,7 @@ class Database
             }
         }
     }
-
+    
     public function feedPrincipalDigital($estaciones)
     {
         if ($this->conectar()) {
@@ -917,6 +917,7 @@ class Database
         return false;
     }
 
+
     public function feedPrincipalCustom($id_usuario)
     {
 
@@ -959,7 +960,7 @@ class Database
                     }
                     $ultvalor = $ultValorLimpio;
                 }
-                //tredn diario del tag
+                //trend diario del tag
                 $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . "AND datos_historicos.fecha::date > current_date::date - interval '1 days' ORDER BY fecha desc";
                 $resTrendDia = pg_query($this->conexion, $conTrendDia);
                 if ($this->consultaExitosa($resTrendDia)) {
@@ -981,7 +982,8 @@ class Database
                 }
 
                 //trend semanal de agregados del tag
-                $conAgregSemanal = "SELECT MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
+                $conAgregSemanal = "SELECT MAX(datos_historicos.valor_acu) as max_acu, MAX(datos_historicos.valor_int) as max_int, MAX(datos_historicos.valor_float) as max_float,
+                MIN(datos_historicos.valor_acu) as min_acu, MIN(datos_historicos.valor_int) as min_int, MIN(datos_historicos.valor_float) as min_float,datos_historicos.fecha::date
                 from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                 where datos_historicos.id_tag = " . $tag . "
                 and datos_historicos.fecha::date > current_date::date - interval '7 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
@@ -993,7 +995,12 @@ class Database
                     foreach ($agregSemana as $index => $dato) {
                         foreach ($dato as $factor => $valor) {
                             if ($valor != null && $factor != 'fecha') {
-                                $agregSemanaLimpio[$index]['valor'] = $valor;
+                                if(strpos($factor, 'max') !== false){
+                                    $agregSemanaLimpio[$index]['max'] = $valor;
+                                }
+                                if(strpos($factor, 'min') !== false){
+                                    $agregSemanaLimpio[$index]['min'] = $valor;
+                                }
                             }
                             else {
                                 $agregSemanaLimpio[$index][$factor] = $valor;

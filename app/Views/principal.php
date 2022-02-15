@@ -42,7 +42,7 @@
             <div class="anaIzq" onclick="rotarCarrusel(this)">
                 <div id="carrusel">
                     <div class="carr" name="ult_valor">
-                        <!-- valor actual -->pincha aqui para configurar tu widget
+                        <!-- valor actual --><h4 onclick="ajustes()">pincha aqui para configurar tu widget</h4>
                     </div>
                     <div class="carr" name="trend_dia">
                         <!-- trend dia -->2
@@ -56,7 +56,7 @@
             <div class="anaDer" onclick="rotarCarrusel(this)">
                 <div id="carrusel">
                     <div class="carr" name="carru1">
-                        <!-- valor actual -->pincha aqui para configurar tu widget
+                        <!-- valor actual --><h4 onclick="ajustes()">pincha aqui para configurar tu widget</h4>
                     </div>
                     <div class="carr" name="carru1">
                         <!-- trend dia -->2
@@ -72,7 +72,7 @@
             <div class="anaIzq" onclick="rotarCarrusel(this)">
                 <div id="carrusel">
                     <div class="carr" name="carru1">
-                        <!-- valor actual -->pincha aqui para configurar tu widget
+                        <!-- valor actual --><h4 onclick="ajustes()">pincha aqui para configurar tu widget</h4>
                     </div>
                     <div class="carr" name="carru1">
                         <!-- trend dia -->2
@@ -85,7 +85,7 @@
             <div class="anaDer" onclick="rotarCarrusel(this)">
                 <div id="carrusel">
                     <div class="carr" name="carru1">
-                        <!-- valor actual -->pincha aqui para configurar tu widget
+                        <!-- valor actual --><h4 onclick="ajustes()">pincha aqui para configurar tu widget</h4>
                     </div>
                     <div class="carr" name="carru1">
                         <!-- trend dia -->2
@@ -107,10 +107,10 @@
     <div id="ajustesSeccion">
         <div id="seccionSel">
             <ul id="widList" style="list-style: none; padding-left: 0;width:100%;height:100%">
-                <li id="w1" value="w1">widget 1</li>
-                <li id="w2" value="w2">widget 2</li>
-                <li id="w3" value="w3">widget 3</li>
-                <li id="w4" value="w4">widget 4</li>
+                <li id="w1" value="w1">Widget 1</li>
+                <li id="w2" value="w2">Widget 2</li>
+                <li id="w3" value="w3">Widget 3</li>
+                <li id="w4" value="w4">Widget 4</li>
             </ul>
         </div>
         <div id="seccionDisplay">
@@ -134,13 +134,11 @@
         mapas();
         actualizar();
         ajustes();
-        ajustes();
-
         comprobarTiempo();
-
         actualizarSur('general', usu, pwd, null);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
+        setInterval(actualizar, 1000*60*10);
         $(window).blur(function() {
             tiempoFuera("");
         });

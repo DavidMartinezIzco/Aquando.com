@@ -56,16 +56,16 @@ function renderFeedDigi() {
     //recorrer el feed digital y crear un widget para cada uno
     for (var tag in feedDigital) {
         if (pos == 1) {
-            divSup += '<div class="digiIzq">' + feedDigital[tag]['nombre'] + '<br>' + feedDigital[tag]['valor_alarma'] + '<br>' + feedDigital[tag]['estacion'] + '  </div>';
+            divSup += '<div class="digiIzq"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje">' + feedDigital[tag]['valor_alarma'] + '  </div></div>';
         }
         if (pos == 2) {
-            divSup += '<div class="digiDer">' + feedDigital[tag]['nombre'] + '<br>' + feedDigital[tag]['valor_alarma'] + '<br>' + feedDigital[tag]['estacion'] + '  </div>';
+            divSup += '<div class="digiDer"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje">' + feedDigital[tag]['valor_alarma'] + '  </div></div>';
         }
         if (pos == 3) {
-            divInf += '<div class="digiIzq">' + feedDigital[tag]['nombre'] + '<br>' + feedDigital[tag]['valor_alarma'] + '<br>' + feedDigital[tag]['estacion'] + '  </div>';
+            divInf += '<div class="digiIzq"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje">' + feedDigital[tag]['valor_alarma'] + '  </div></div>';
         }
         if (pos == 4) {
-            divInf += '<div class="digiDer">' + feedDigital[tag]['nombre'] + '<br>' + feedDigital[tag]['valor_alarma'] + '<br>' + feedDigital[tag]['estacion'] + '  </div>';
+            divInf += '<div class="digiDer"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje">' + feedDigital[tag]['valor_alarma'] + '  </div></div>';
         }
         pos++;
     }
@@ -106,17 +106,21 @@ function rotarCarrusel(carr) {
     }
     elem.style.right = posi;
 }
-
+//w1:260-w2:261-w3:51-w4:72
 function cargarAjustes() {
     var sel = document.getElementById("tagSel");
     sel.innerHTML = "";
     var arrEstaciones = JSON.stringify(estacionesUsu);
+
+    if (sessionStorage.getItem('listaTags') != null && sessionStorage.getItem('listaTags') != undefined) {
+        listaTags = sessionStorage.getItem('listaTags');
+        listaTags = JSON.parse(listaTags);
+    }
     var i = 0;
     for (var index in listaTags) {
         i++;
     }
     if (i > 0) {
-        console.log(listaTags);
         for (var deposito in listaTags) {
             sel.innerHTML += "<optgroup label = '" + listaTags[deposito][0]['nombre_estacion'] + "'>";
             for (var tag in listaTags[deposito]) {
@@ -137,7 +141,7 @@ function cargarAjustes() {
                 },
                 success: function(tagsAnalog) {
                     listaTags = tagsAnalog;
-
+                    sessionStorage.setItem('listaTags', JSON.stringify(listaTags));
                     for (var deposito in tagsAnalog) {
                         sel.innerHTML += "<optgroup label = '" + tagsAnalog[deposito][0]['nombre_estacion'] + "'>";
                         for (var tag in tagsAnalog[deposito]) {
@@ -173,15 +177,14 @@ function ajustes() {
         var wid = getEventTarget(event);
         widgetSelec(wid.innerHTML);
     };
-    widgetSelec('widget 1');
+    widgetSelec('w1');
 }
 
-
-function widgetSelec(wid) {
+function widgetSelec(val) {
     var seccion = document.getElementById('seccionAjustes');
-
-    if (wid == 'widget 1') {
-        var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>arriba a la izquierda</b></p><p>Señales disponibles:<select id="tagSel"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w1")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
+    console.log(val);
+    if (val == 'Widget 1') {
+        var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>arriba a la izquierda</b></p><p>Señales disponibles:<select id="tagSel" style="margin-left:1%"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w1")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
         seccion.innerHTML = msg;
         document.getElementById("w1").style.backgroundColor = 'rgb(1, 168, 184)';
         document.getElementById("w2").style.backgroundColor = 'rgb(39, 45, 79)';
@@ -189,8 +192,8 @@ function widgetSelec(wid) {
         document.getElementById("w4").style.backgroundColor = 'rgb(39, 45, 79)';
         cargarAjustes();
     }
-    if (wid == 'widget 2') {
-        var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>arriba a la derecha</b></p><p>Señales disponibles:<select id="tagSel"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w2")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
+    if (val == 'Widget 2') {
+        var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>arriba a la derecha</b></p><p>Señales disponibles:<select id="tagSel" style="margin-left:1%"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w2")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
         seccion.innerHTML = msg;
         document.getElementById("w2").style.backgroundColor = 'rgb(1, 168, 184)';
         document.getElementById("w1").style.backgroundColor = 'rgb(39, 45, 79)';
@@ -198,8 +201,8 @@ function widgetSelec(wid) {
         document.getElementById("w4").style.backgroundColor = 'rgb(39, 45, 79)';
         cargarAjustes();
     }
-    if (wid == 'widget 3') {
-        var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>abajo a la izquierda</b></p><p>Señales disponibles:<select id="tagSel"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w3")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
+    if (val == 'Widget 3') {
+        var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>abajo a la izquierda</b></p><p>Señales disponibles:<select id="tagSel" style="margin-left:1%"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w3")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
         seccion.innerHTML = msg;
         document.getElementById("w3").style.backgroundColor = 'rgb(1, 168, 184)';
         document.getElementById("w2").style.backgroundColor = 'rgb(39, 45, 79)';
@@ -207,8 +210,8 @@ function widgetSelec(wid) {
         document.getElementById("w4").style.backgroundColor = 'rgb(39, 45, 79)';
         cargarAjustes();
     }
-    if (wid == 'widget 4') {
-        var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>abajo a la derecha</b></p><p>Señales disponibles:<select id="tagSel"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w4")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
+    if (val == 'Widget 4') {
+        var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>abajo a la derecha</b></p><p>Señales disponibles:<select id="tagSel" style="margin-left:1%"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w4")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
         seccion.innerHTML = msg;
         document.getElementById("w4").style.backgroundColor = 'rgb(1, 168, 184)';
         document.getElementById("w2").style.backgroundColor = 'rgb(39, 45, 79)';
@@ -230,7 +233,7 @@ function confirmarAjustesWidget(wid) {
             url: 'A_Principal.php?opcion=confirmar&wid=' + widget + '&tag=' + tag + '&usu=' + usu + '&pwd=' + pwd,
             success: function() {
 
-                document.getElementById("seccionAjustes").innerHTML += "<br>widget configurado con éxito";
+                document.getElementById("seccionAjustes").innerHTML += "<br><div id='ajustesRespuesta'>widget configurado con éxito</div>";
                 feedPrincipalCustom();
             },
             error: function(e) {
@@ -277,20 +280,14 @@ function renderPrincipalCustom(feed) {
             w1 += '<div id="carrusel">';
             //primera vista
             w1 += '<div class="carr" id="gauw1">';
-            // w1 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w1 += '<p>' + feed[wid]['ultimo_valor']['valor'] + '</p>';
             w1 += "</div>";
 
             //segunda vista
             w1 += '<div class="carr" id="trendw1">';
-            // w1 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w1 += '<p>' + 'aquí irá el trend diario' + '</p>';
             w1 += "</div>";
 
             //segunda vista
             w1 += '<div class="carr" id="agregw1">';
-            // w1 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w1 += '<p>' + 'aquí irá el trend semanal' + '</p>';
             w1 += "</div>";
 
             w1 += "</div></div>";
@@ -407,8 +404,8 @@ function crearWidgetsChartsCustom(feed) {
             grid: {
                 left: '0%',
                 right: '0%',
-                top: '5%',
-                bottom: '0%',
+                top: '0%',
+                bottom: '-5%',
                 containLabel: true
             },
             title: {
@@ -416,10 +413,12 @@ function crearWidgetsChartsCustom(feed) {
                 text: "Valor actual de " + nombre_dato + " de " + nombre_estacion,
                 textStyle: {
                     fontStyle: 'bold',
-                    fontSize: 10
+                    fontSize: 12
                 },
             },
             series: [{
+                max: 10,
+                min: 0,
                 name: nombre_dato + " : " + nombre_estacion,
                 type: 'gauge',
                 itemStyle: {
@@ -441,26 +440,29 @@ function crearWidgetsChartsCustom(feed) {
 
                 },
                 axisTick: {
-                    show: false
+                    show: true
                 },
                 axisLabel: {
                     show: false
                 },
                 splitLine: {
-                    show: false
+                    show: true
                 },
                 pointer: {
                     // icon: 'rect',
                     length: '80%',
-                    width: 4
+                    width: 4,
+                    itemStyle: {
+                        color: 'tomato'
+                    },
                 },
                 // max: maximoGraf,
                 // min: 0,
                 detail: {
                     show: true,
                     valueAnimation: true,
-                    formatter: '{value}',
-                    fontSize: 12
+                    formatter: nombre_dato + ':{value}',
+                    fontSize: 8
                 },
                 data: [{
                     value: valor_actual,
@@ -546,10 +548,12 @@ function crearWidgetsChartsCustom(feed) {
 
         //chart barras de agregados semanal
 
-        var datos_agreg = [];
+        var max_agreg = [];
+        var min_agreg = [];
         var fechas_agreg = [];
         for (var index in agreg_semanal) {
-            datos_agreg.push(agreg_semanal[index]['valor']);
+            max_agreg.push(agreg_semanal[index]['max']);
+            min_agreg.push(agreg_semanal[index]['min']);
             fechas_agreg.push(agreg_semanal[index]['fecha']);
         }
 
@@ -561,7 +565,7 @@ function crearWidgetsChartsCustom(feed) {
                     fontWeight: 'normal',
                     fontSize: 10,
                 },
-                padding: 1,
+                padding: 2,
                 show: false
             },
             grid: {
@@ -572,19 +576,22 @@ function crearWidgetsChartsCustom(feed) {
                 containLabel: true
             },
             title: {
+                show: true,
                 left: 'center',
-                text: "Máximos semanales " + nombre_dato + " de " + nombre_estacion,
+                text: "Máximos y mínimos semanales " + nombre_dato + " de " + nombre_estacion,
                 textStyle: {
                     fontStyle: 'bold',
-                    fontSize: 10
+                    fontSize: 10,
+                    margin: 5
                 },
             },
             tooltip: {
+                show: true,
                 trigger: 'axis',
                 icon: 'none',
                 textStyle: {
                     fontStyle: 'bold',
-                    fontSize: 20
+                    fontSize: 8
                 },
                 axisPointer: {
                     type: 'line',
@@ -605,9 +612,10 @@ function crearWidgetsChartsCustom(feed) {
                 type: 'value'
             },
             series: [{
-                name: nombre_dato,
-                data: datos_agreg,
+                name: 'Máximos de ' + nombre_dato,
+                data: max_agreg,
                 type: 'bar',
+
                 itemStyle: {
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
 
@@ -626,6 +634,29 @@ function crearWidgetsChartsCustom(feed) {
                 },
                 symbol: 'none',
                 smooth: false
+            }, {
+                name: 'Mínimos de ' + nombre_dato,
+                data: min_agreg,
+                type: 'bar',
+
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+
+                        { offset: 0, color: '#1aff00' },
+                        { offset: 1, color: '#307a27' }
+
+                    ])
+                },
+                emphasis: {
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#1aff00' },
+                            { offset: 1, color: '#307a27' }
+                        ])
+                    }
+                },
+                symbol: 'none',
+                smooth: false
             }]
         };
         optionSemanal && grafAgreg.setOption(optionSemanal, true);
@@ -638,18 +669,7 @@ function crearWidgetsChartsCustom(feed) {
                 agregs[wid].resize();
             }
         });
-        $(window).keydown(function() {
 
-            for (var wid in gauges) {
-                gauges[wid].resize();
-                trends[wid].resize();
-                agregs[wid].resize();
-            }
-
-            // grafGau.resize();
-            // grafTrend.resize();
-            // grafAgreg.resize();
-        });
         $(window).keypress(function() {
             for (var wid in gauges) {
                 gauges[wid].resize();
@@ -664,23 +684,7 @@ function crearWidgetsChartsCustom(feed) {
                 setTimeout(agregs[wid].resize(), 2000);
             }
         });
-        // document.getElementById('prinDer').onmouseover = function() {
 
-        //     for (var wid in gauges) {
-        //         setTimeout(gauges[wid].resize(), 500);
-        //         setTimeout(trends[wid].resize(), 500);
-        //         setTimeout(agregs[wid].resize(), 500);
-        //     }
-
-
-        // }
-        // document.getElementById('prinIzq').onmouseover = function() {
-        //     for (var wid in gauges) {
-        //         setTimeout(gauges[wid].resize(), 500);
-        //         setTimeout(trends[wid].resize(), 500);
-        //         setTimeout(agregs[wid].resize(), 500);
-        //     }
-        // }
 
     }
 

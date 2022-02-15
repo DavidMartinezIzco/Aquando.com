@@ -52,19 +52,18 @@
 .digiIzq {
     width: 47%;
     height: 95%;
-    padding: 1%;
     float: left;
     margin: 1%;
     margin-bottom: 0%;
     margin-right: 0%;
-    border: 1px solid rgb(1, 168, 184);
+    /* border: 1px solid rgb(1, 168, 184); */
     border-radius: 10px;
-    opacity: 90%;
+    opacity: 85%;
     transition: 0.2s;
 }
 
 .digiIzq:hover {
-    border: 1px solid white;
+    /* border: 1px solid rgb(85, 85, 85); */
     opacity: 100%;
     color: white;
 }
@@ -72,21 +71,56 @@
 .digiDer {
     width: 48%;
     height: 95%;
-    padding: 1%;
     float: right;
     margin: 1%;
-    border: 1px solid rgb(1, 168, 184);
+    /* border: 1px solid rgb(1, 168, 184); */
     border-radius: 10px;
     margin-bottom: 0%;
     margin-left: 0%;
-    opacity: 90%;
+    opacity: 85%;
     transition: 0.2s;
 }
 
 .digiDer:hover {
-    border: 1px solid white;
+    /* border: 1px solid rgb(85, 85, 85); */
     opacity: 100%;
     color: white;
+}
+
+#digiWidTitulo {
+    width: 100%;
+    height: 15%;
+    margin: 0;
+    text-align: center;
+    background-color: rgb(1, 168, 184);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    color: white;
+}
+
+#digiWidOrigen {
+    width: 100%;
+    height: 15%;
+    background-color: gray;
+    color: white;
+    text-align: center;
+}
+
+#digiWidMensaje {
+    font-style: bold;
+    text-align: center;
+    width: 100%;
+    height: 70%;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 5%;
+    background-color: white;
+    color: rgb(85, 85, 85);
+    transition: 0s;
+    animation-duration: 2000ms;
+    animation-name: parpadeo;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
 }
 
 
@@ -125,7 +159,7 @@
 .anaIzq:hover {
     border: 1px solid white;
     opacity: 100%;
-    color: white;
+    color: rgb(1, 168, 184)
 }
 
 .anaDer {
@@ -146,7 +180,7 @@
 .anaDer:hover {
     border: 1px solid white;
     opacity: 100%;
-    color: white;
+    color: rgb(1, 168, 184);
 }
 
 #carrusel {
@@ -175,4 +209,16 @@
 
 #carrusel div:last-child {
     float: right;
+}
+
+
+/* OTRAS HISTORIAS Y ANIMACIONES */
+
+@keyframes parpadeo {
+    from {
+        color: tomato;
+    }
+    to {
+        color: rgb(85, 85, 85);
+    }
 }
