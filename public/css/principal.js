@@ -177,7 +177,7 @@ function ajustes() {
         var wid = getEventTarget(event);
         widgetSelec(wid.innerHTML);
     };
-    widgetSelec('w1');
+    widgetSelec('Widget 1');
 }
 
 function widgetSelec(val) {
