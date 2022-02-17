@@ -139,12 +139,13 @@
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
         setInterval(actualizar, 1000*60*10);
-        $(window).blur(function() {
-            tiempoFuera("");
-        });
-        $(window).focus(function() {
-            tiempoFuera("volver")
-        });
+        $("#menuIzq").trigger('widthChange');
+        // $(window).blur(function() {
+        //     tiempoFuera("");
+        // });
+        // $(window).focus(function() {
+        //     tiempoFuera("volver")
+        // });
         setInterval(actualizarSur('general', usu, pwd, null), 20000);
     }
 </script>

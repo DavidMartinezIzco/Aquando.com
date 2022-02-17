@@ -4,20 +4,20 @@ $(window).resize(function() {
 
 //abre o cierra el menu lateral
 function abrirCerrar() {
+
     if (document.getElementById("menuIzq").style.width == '15%') {
         cerrarMenu();
+
     } else {
         abrirMenu();
     }
-
     if (typeof grafico !== 'undefined') {
         grafico.resize();
     }
     if (typeof graficoCustom !== 'undefined') {
         graficoCustom.resize();
     }
-
-
+    $("#menuIzq").trigger('widthChange');
 }
 
 //despliega la zona de debug
@@ -48,12 +48,12 @@ function abrirMenu() {
         document.getElementById("contenido").style.paddingLeft = '15%';
         document.getElementById("btnMenuIzq").style.left = '15%';
         document.getElementById("btnMenuIzq").style.visibility = 'hidden';
+        document.getElementById("menuIzq").value = 'abierto';
     }
     if (document.getElementById("conInfo")) {
         document.getElementById("conInfo").style.left = '16%';
         document.getElementById("conCarrusel").style.right = '2%';
     }
-
     if (document.getElementById("logoGrande")) {
         document.getElementById("logoGrande").style.left = '39%';
         document.getElementById("logoGrande").style.top = '15%';
@@ -62,7 +62,6 @@ function abrirMenu() {
         document.getElementById("alarmasSur").style.marginLeft = '0%';
         document.getElementById("alarmasSur").style.width = '85%';
     }
-
     if (document.getElementById("displayComs")) {
         document.getElementById("displayComs").style.left = '20%';
         document.getElementById("displayComs").style.width = '50%';
@@ -75,37 +74,30 @@ function abrirMenu() {
         document.getElementById("btnOpcionesgraficas").style.left = '81%';
     }
 
-
-
-
-
 }
 
 //cierra el menu y aplica las nuevas dimensiones
 function cerrarMenu() {
-
+    $("#menuIzq").trigger('widthChange');
     if (document.getElementById("menuIzq")) {
         document.getElementById("menuIzq").style.width = "0%";
         document.getElementById("contenido").style.paddingLeft = '0%';
         document.getElementById("btnMenuIzq").style.visibility = 'visible';
         document.getElementById("btnMenuIzq").style.left = '0%';
+        document.getElementById("menuIzq").value = 'cerrado';
     }
-
     if (document.getElementById("conInfo")) {
         document.getElementById("conInfo").style.left = '8%';
         document.getElementById("conCarrusel").style.right = '10%';
     }
-
     if (document.getElementById("logoGrande")) {
         document.getElementById("logoGrande").style.left = '32%';
         document.getElementById("logoGrande").style.top = '30%';
     }
-
     if (document.getElementById("alarmasSur")) {
         document.getElementById("alarmasSur").style.width = '100%';
 
     }
-
     if (document.getElementById("displayComs")) {
         document.getElementById("displayComs").style.left = '5%';
         document.getElementById("displayComs").style.width = '50%';

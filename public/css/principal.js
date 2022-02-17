@@ -1,5 +1,6 @@
 var feedDigital = new Array();
 var listaTags = new Array();
+
 //faltaría conseguir las coordenadas de cada estación para poder hacer mapas dinámicos
 
 function mapas() {
@@ -54,18 +55,45 @@ function renderFeedDigi() {
     var divInf = '<div id="widInf">';
     var gridWidDigi = document.getElementById("prinIzqInf");
     //recorrer el feed digital y crear un widget para cada uno
+
+    //iconos:
+    // alarma gen <i style="red" class="far fa-bell"></i>
+    // alerta gen max min <i style="yellow" class="fas fa-exclamation-triangle"></i>
+    // marcha gen <i style="gray" class="fas fa-cog"></i>
+    // paro gen <i style="darkorange" class="fas fa-pause"></i>
+    // ON <i style="color:lightseagreen" class="fas fa-power-off"></i>
+    // OFF <i style="color:tomato" class="fas fa-power-off"></i> 
+
     for (var tag in feedDigital) {
+
+        var iconoAlarma = '<i style="color:tomato" class="far fa-bell parpadeante"></i>';
+        if (feedDigital[tag]['valor_alarma'].includes("Min") || feedDigital[tag]['valor_alarma'].includes("Max")) {
+            iconoAlarma = '<i style="yellow" class="fas fa-exclamation-triangle"></i>';
+        }
+        if (feedDigital[tag]['valor_alarma'].includes("Marcha")) {
+            iconoAlarma = '<i style="gray" class="fas fa-cog rotante"></i>';
+        }
+        if (feedDigital[tag]['valor_alarma'].includes("Paro")) {
+            iconoAlarma = '<i style="tomato" class="fas fa-pause parpadeante"></i>';
+        }
+        if (feedDigital[tag]['valor_alarma'].includes("ON")) {
+            iconoAlarma = '<i style="color:lightseagreen" class="fas fa-power-off"></i>';
+        }
+        if (feedDigital[tag]['valor_alarma'].includes("OFF")) {
+            iconoAlarma = '<i style="color:tomato" class="fas fa-power-off parpadeante"></i> ';
+        }
+
         if (pos == 1) {
-            divSup += '<div class="digiIzq"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje">' + feedDigital[tag]['valor_alarma'] + '  </div></div>';
+            divSup += '<div class="digiIzq"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje"><span class="tooltiptext">' + feedDigital[tag]['valor_alarma'] + '</span>' + iconoAlarma + '  </div></div>';
         }
         if (pos == 2) {
-            divSup += '<div class="digiDer"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje">' + feedDigital[tag]['valor_alarma'] + '  </div></div>';
+            divSup += '<div class="digiDer"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje"><span class="tooltiptext">' + feedDigital[tag]['valor_alarma'] + '</span>' + iconoAlarma + '  </div></div>';
         }
         if (pos == 3) {
-            divInf += '<div class="digiIzq"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje">' + feedDigital[tag]['valor_alarma'] + '  </div></div>';
+            divInf += '<div class="digiIzq"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje"><span class="tooltiptext">' + feedDigital[tag]['valor_alarma'] + '</span>' + iconoAlarma + '  </div></div>';
         }
         if (pos == 4) {
-            divInf += '<div class="digiDer"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje">' + feedDigital[tag]['valor_alarma'] + '  </div></div>';
+            divInf += '<div class="digiDer"><div id="digiWidTitulo">' + feedDigital[tag]['nombre'] + '</div><div id="digiWidOrigen">' + feedDigital[tag]['estacion'] + '</div><div id="digiWidMensaje"><span class="tooltiptext">' + feedDigital[tag]['valor_alarma'] + '</span>' + iconoAlarma + '  </div></div>';
         }
         pos++;
     }
@@ -106,7 +134,7 @@ function rotarCarrusel(carr) {
     }
     elem.style.right = posi;
 }
-//w1:260-w2:261-w3:51-w4:72
+
 function cargarAjustes() {
     var sel = document.getElementById("tagSel");
     sel.innerHTML = "";
@@ -660,33 +688,13 @@ function crearWidgetsChartsCustom(feed) {
             }]
         };
         optionSemanal && grafAgreg.setOption(optionSemanal, true);
-
-        //ajustes de pantalla para los graficos
-        $(window).keyup(function() {
-            for (var wid in gauges) {
-                gauges[wid].resize();
-                trends[wid].resize();
-                agregs[wid].resize();
-            }
-        });
-
-        $(window).keypress(function() {
-            for (var wid in gauges) {
-                gauges[wid].resize();
-                trends[wid].resize();
-                agregs[wid].resize();
-            }
-        });
-        $('#conPrincipal').click(function() {
-            for (var wid in gauges) {
-                setTimeout(gauges[wid].resize(), 3000);
-                setTimeout(trends[wid].resize(), 2000);
-                setTimeout(agregs[wid].resize(), 2000);
-            }
-        });
-
-
     }
-
+    $('#menuIzq').bind('widthChange', function() {
+        for (var wid in gauges) {
+            gauges[wid].resize();
+            trends[wid].resize();
+            agregs[wid].resize();
+        }
+    });
 
 }

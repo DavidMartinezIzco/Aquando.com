@@ -115,7 +115,7 @@ if (isset($_GET['log'])) {
     </header>
     <!-- HEADER: MENU + HEROE SECTION -->
     <button class="btn me-2 btn-block" id="btnMenuIzq" title="ocultar/mostrar menú" onclick="abrirCerrar()">☰</button>
-    <div class="d-flex flex-column flex-shrink-0 text-light container-fluid" id="menuIzq" style="width: 15%;">
+    <div class="d-flex flex-column flex-shrink-0 text-light container-fluid" value="abierto" id="menuIzq" style="width: 15%;">
         <form action="<?php echo base_url(); ?>" id="contenidoMenuIzq1" method="POST">
             <button name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio" style="width: 100%; border-radius:0px; font-size:2em; color:white; <?php if (isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio') {
                                                                                                                                                                             echo "background-color:rgb(1, 168, 184)";
@@ -289,7 +289,7 @@ if (isset($_GET['log'])) {
 
 
     <!--render de las distintas vistas--->
-    <div id="contenido" style="padding-top: 3.8%; padding-left:15%; color:lightgrey;" onclick="cerrarMenu();">
+    <div id="contenido" style="padding-top: 3.8%; padding-left:15%; color:lightgrey;" onclick="cerrarMenuEsp();">
         <?php $this->renderSection('content'); ?>
         <?php
         if (!isset($_SESSION['nombre'])) {
@@ -301,6 +301,11 @@ if (isset($_GET['log'])) {
     </div>
 
 </body>
-
+<script>
+    function cerrarMenuEsp() {
+        cerrarMenu();
+        $("#menuIzq").trigger('widthChange');
+    }
+</script>
 
 </html>
