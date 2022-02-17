@@ -56,14 +56,6 @@ function renderFeedDigi() {
     var gridWidDigi = document.getElementById("prinIzqInf");
     //recorrer el feed digital y crear un widget para cada uno
 
-    //iconos:
-    // alarma gen <i style="red" class="far fa-bell"></i>
-    // alerta gen max min <i style="yellow" class="fas fa-exclamation-triangle"></i>
-    // marcha gen <i style="gray" class="fas fa-cog"></i>
-    // paro gen <i style="darkorange" class="fas fa-pause"></i>
-    // ON <i style="color:lightseagreen" class="fas fa-power-off"></i>
-    // OFF <i style="color:tomato" class="fas fa-power-off"></i> 
-
     for (var tag in feedDigital) {
 
         var iconoAlarma = '<i style="color:tomato" class="far fa-bell parpadeante"></i>';
@@ -77,7 +69,7 @@ function renderFeedDigi() {
             iconoAlarma = '<i style="tomato" class="fas fa-pause parpadeante"></i>';
         }
         if (feedDigital[tag]['valor_alarma'].includes("ON")) {
-            iconoAlarma = '<i style="color:lightseagreen" class="fas fa-power-off"></i>';
+            iconoAlarma = '<i style="color:yellowgreen" class="fas fa-power-off"></i>';
         }
         if (feedDigital[tag]['valor_alarma'].includes("OFF")) {
             iconoAlarma = '<i style="color:tomato" class="fas fa-power-off parpadeante"></i> ';
@@ -689,6 +681,7 @@ function crearWidgetsChartsCustom(feed) {
         };
         optionSemanal && grafAgreg.setOption(optionSemanal, true);
     }
+
     $('#menuIzq').bind('widthChange', function() {
         for (var wid in gauges) {
             gauges[wid].resize();

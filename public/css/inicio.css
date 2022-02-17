@@ -313,7 +313,8 @@ footer {
 }
 
 #conPrincipal {
-    height: 848px;
+    height: 850px;
+    max-height: 100%;
     width: 100%;
     border-radius: 10px;
     margin-top: 1%;

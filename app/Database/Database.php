@@ -141,10 +141,6 @@ class Database
             //comprobar cuales están definidas
             //filtrar
 
-
-
-
-
             if ($fechaInicio != null) {
                 $ini = strtotime($fechaInicio);
                 $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) < " . $ini;
@@ -163,12 +159,6 @@ class Database
             } else {
                 $conAlarmas .= " ORDER BY $prioridad DESC LIMIT 200";
             }
-
-
-
-
-
-
 
             $resulAlarmas = pg_query($conAlarmas);
             if ($this->consultaExitosa($resulAlarmas)) {
@@ -306,7 +296,6 @@ class Database
                     }
                 }
             }
-
             return $ultimosDatosEstacionLimpio;
         }
     }

@@ -143,13 +143,75 @@ function montarWidgetsDigi() {
 
     var seccionDigital = document.getElementById('seccionInf');
     var widg = "";
+    var msg;
+    var iconoAlarma = "";
     seccionDigital.innerHTML = '';
     for (var indexDato in datosDigi) {
-        if (datosDigi[indexDato]['valor'] == 't') {
-            widg = '<div class="widDigi"><div class="widDigiIcono"><i style="color:darkseagreen;" class="fas fa-check intermitente"></i></i></div><div class="widDigiText">' + datosDigi[indexDato]['nombre_tag'] + '</div></div>';
+        //GENERICO
+        if (datosDigi[indexDato]['valor'] == 'f') {
+            iconoAlarma = '<i style="color:yellowgreen" class="fas fa-check"></i>';
+            msg = "BIEN";
         } else {
-            widg = '<div class="widDigi"><div class="widDigiIcono"><i style="color:tomato;" class="fas fa-pause"></i></div><div class="widDigiText">' + datosDigi[indexDato]['nombre_tag'] + '</div></div>'
+            iconoAlarma = '<i style="color:tomato" class="fas fa-exclamation-triangle parpadeante"></i>';
+            msg = "ALARMA";
         }
+        //PUERTAS
+        if (datosDigi[indexDato]['nombre_tag'].includes("Puerta")) {
+            if (datosDigi[indexDato]['valor'] == 't') {
+                iconoAlarma = '<i class="fas fa-lock-open"></i>';
+                msg = "ABIERTA";
+            } else {
+                iconoAlarma = '<i class="fas fa-lock"></i>';
+                msg = "CERRADA";
+            }
+        }
+
+        //varistores
+        if (datosDigi[indexDato]['nombre_tag'].includes("Varistores")) {
+            if (datosDigi[indexDato]['valor'] == 'f') {
+                iconoAlarma = '<i style="color:yellowgreen" class="fas fa-shield-alt"></i>';
+                msg = "SEGURO";
+            } else {
+                iconoAlarma = '<i style="color:tomato" class="fas fa-bolt parpadeante"></i>';
+                msg = "PROBLEMA";
+            }
+        }
+
+        //red 220
+        if (datosDigi[indexDato]['nombre_tag'].includes("Red 220")) {
+            if (datosDigi[indexDato]['valor'] == 'f') {
+                iconoAlarma = '<i style="color:yellowgreen" class="fas fa-plug"></i>';
+                msg = "BIEN";
+            } else {
+                iconoAlarma = '<i style="color:tomato" class="fas fa-plug parpadeante"></i>';
+                msg = "PROBLEMA";
+            }
+        }
+
+        //bateria 
+        if (datosDigi[indexDato]['nombre_tag'].includes("Bateria")) {
+            if (datosDigi[indexDato]['valor'] == 'f') {
+                iconoAlarma = '<i style="color:yellowgreen" class="fas fa-battery-full"></i>';
+                msg = "BIEN";
+            } else {
+                iconoAlarma = '<i style="color:tomato" class="fas fa-battery-empty parpadeante"></i>';
+                msg = "PROBLEMA";
+            }
+        }
+
+        //ELECTROVALVULAS
+        if (datosDigi[indexDato]['nombre_tag'].includes("Electrovalvula")) {
+            if (datosDigi[indexDato]['valor'] == 't') {
+                iconoAlarma = '<i style="color:yellowgreen" class="fas fa-power-off"></i>';
+                msg = "ABIERTA";
+            } else {
+                iconoAlarma = '<i style="color:tomato" class="fas fa-power-off"></i> ';
+                msg = "CERRADA";
+            }
+        }
+
+        widg = '<div class="widDigi"><div id="digiWidTitulo">' + datosDigi[indexDato]['nombre_tag'] + '</div><div id="digiWidMensaje">' + iconoAlarma + '</div><span class="tooltiptext">' + msg + '</span></div>';
+
         seccionDigital.innerHTML += widg;
     }
 

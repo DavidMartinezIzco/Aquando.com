@@ -129,43 +129,9 @@ function carga() {
 function pantalla() {
 
     var ancho = window.innerWidth;
-    var alto = 0;
-    var defectoAlto = 848;
-    if (document.getElementById("conPrincipal")) {
-        alto = parseInt(document.getElementById("conPrincipal").style.height);
-        var nuevoAlto = (defectoAlto / 100) * alto;
-        document.getElementById("conPrincipal").style.height = nuevoAlto;
-    }
-
-    var defectoAncho = 1880;
+    var defectoAncho = 1879;
     var zoom = 100;
     var relAncho = ((zoom * ancho) / defectoAncho);
     document.body.style.zoom = relAncho + '%';
-
-    if (document.getElementById("grafica")) {
-
-        document.getElementById("zonaControles").style.zoom = relAncho + '%';
-        document.getElementById("alarmasSur").style.zoom = relAncho + '%';
-        console.log("aplico en graficas");
-
-
-        //     // document.getElementById("zonaGraficos").style.zoom = '100%';
-        //     // document.getElementById("grafica").style.zoom = '100%';
-        //     // var defancho = 1210;
-        //     // var defalto = 622;
-        //     // let zonaG = document.getElementById("grafica").firstChild;
-        //     // var gancho = parseInt(zonaG.style.width);
-        //     // var galto = parseInt(zonaG.style.height);
-        //     // var nancho = (gancho * 100) / defancho;
-        //     // var nalto = (galto * 100) / defalto;
-
-
-        //     // document.getElementById("grafica").style.width = nancho + '%';
-        //     // document.getElementById("grafica").style.height = nalto + '%';
-        //     // console.log(nancho);
-        //     // console.log(nalto);
-    } else {
-        document.body.style.zoom = relAncho + '%';
-    }
 
 }

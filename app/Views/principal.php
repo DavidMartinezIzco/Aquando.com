@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="css/sur.css">
 
 
-<main id="conPrincipal" style="width:100%; border-radius:10px; margin-top:1%;">
+<main id="conPrincipal" style="border-radius:10px; margin-top:0.5%;">
 
     <!-- zona IZQUIERDA -->
     <div id="prinIzq">
@@ -131,6 +131,7 @@
     sessionStorage.setItem('nousu', usu);
     sessionStorage.setItem('pwd', pwd);
     window.onload = function() {
+        
         mapas();
         actualizar();
         ajustes();
@@ -147,6 +148,7 @@
         //     tiempoFuera("volver")
         // });
         setInterval(actualizarSur('general', usu, pwd, null), 20000);
+        pantalla();
     }
 </script>
 

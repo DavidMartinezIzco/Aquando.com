@@ -117,7 +117,8 @@
     padding: 1%;
     padding-top: 0%;
     overflow-y: scroll;
-    max-height: 85%;
+    height: 100%;
+    max-height: 700px;
     background-color: rgb(85, 85, 85);
     border: 2px solid rgb(56, 56, 56);
     border-radius: 10px;
@@ -148,17 +149,18 @@
     border-bottom-right-radius: 7px;
 }
 
-.activaNo {
+
+/* .activaNo {
     transition: 0s;
     animation-duration: 2000ms;
     animation-name: alerta;
     animation-iteration-count: infinite;
     animation-direction: alternate;
-}
+} */
 
 .activaNo {
     color: white;
-    /* background-color: tomato; */
+    background-color: tomato;
     /* padding: 0.5%; */
     font-size: 110%;
 }

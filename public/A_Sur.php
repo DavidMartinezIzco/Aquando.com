@@ -76,7 +76,7 @@ if ($caso == "estacion") {
 
     $estacion = $_GET['estacion'];
     $alarmasSur = $db->alarmasEstacionSur($estacion);
-
+    
     echo "<tr>        
         <th>Estación</th>
         <th>Señal </th>
