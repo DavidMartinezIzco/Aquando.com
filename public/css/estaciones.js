@@ -683,9 +683,11 @@ function fotoEstacion(id_estacion) {
             type: 'GET',
             url: 'A_Estacion.php?opcion=foto&estacion=' + id_estacion,
             success: function(foto) {
-                var ima = 'url("data:image/jpg;base64,' + foto + '")';
-                console.log(ima);
-                document.getElementById('seccionFoto').style.backgroundImage = ima;
+                var ima;
+                if (foto != '') {
+                    ima = 'url("data:image/jpg;base64,' + foto + '")';
+                    document.getElementById('seccionFoto').style.backgroundImage = ima;
+                }
             },
             error: function() {
                 console.log("error");

@@ -32,7 +32,15 @@ function mapas() {
         var estilo = "style='width:100%;border-radius:10px;padding:1% 2%;background-color:rgb(1, 168, 184);border:1px solid white;color:white'";
         var btn = "<form action='" + accion + "' method=POST><button " + estilo + " id='btnEstacion' name='btnEstacion' value=" + parseInt(id_est) + ">ver detalles</button></form>";
         var estacion = L.marker(ubi).addTo(map);
-        estacion.bindPopup(msg + btn).openPopup();
+        if (estacionesUbis[index][0]['foto'] != null) {
+            var foto = 'url("data:image/jpg;base64,' + estacionesUbis[index][0]['foto'] + '")';
+            var imagen = "<div style='height:60px;width:100%;background-image:" + foto + ";background-size:cover;background-position:center' ></div><br>";
+            console.log(imagen);
+            estacion.bindPopup(imagen + msg + btn).openPopup();
+        } else {
+            estacion.bindPopup(msg + btn).openPopup();
+        }
+        // estacion.bindPopup(msg + btn).openPopup();
     }
 
 }
