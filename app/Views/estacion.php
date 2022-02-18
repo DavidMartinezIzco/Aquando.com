@@ -65,6 +65,7 @@
     var estacion = <?php echo $id_estacion ?>;
     window.onload = function() {
         updateEstacion();
+        fotoEstacion(estacion);
         actualizarSur('estacion', null, null, estacion);
         comprobarTiempo();
         setInterval(fechaYHora, 1000);

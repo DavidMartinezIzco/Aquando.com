@@ -4,7 +4,10 @@ require '../app/Database/Database.php';
 $DB = new Database();
 $opcion = $_GET['opcion'];
 $id_estacion = $_GET['estacion'];
-$tipo = $_GET['tipo'];
+$tipo = "";
+if(isset($_GET['tipo'])){
+    $tipo = $_GET['tipo'];
+}
 
 // echo json_encode($DB->tagTrend(141, $id_estacion));
 
@@ -42,4 +45,9 @@ if ($opcion == 'trends') {
     }
 
     echo json_encode($trendsEstacion);
+}
+
+if($opcion == 'foto'){
+    $foto = $DB->obtenerFotoEstacion($id_estacion);
+    echo $foto;
 }

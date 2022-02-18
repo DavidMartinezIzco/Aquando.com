@@ -3,87 +3,56 @@
 require(APPPATH . "Database/Database.php");
 
 
-class Usuario{
-    
+class Usuario
+{
+
     private $nombre;
     private $contrasena;
     private $cliente;
     private $DB;
-    
+
 
     public function __construct($nombre, $contrasena)
     {
         $this->nombre = $nombre;
         $this->contrasena = $contrasena;
-        
+
 
         //falta: cambiar a nueva BD
         $this->DB = new Database($this->nombre, $this->contrasena);
-        
     }
 
-    public function existeUsuario(){
+    public function existeUsuario()
+    {
         try {
             return $this->DB->existeUsuario($this->nombre, $this->contrasena);
-        } catch (\Throwable $th) {   
+        } catch (\Throwable $th) {
         }
     }
 
-    public function obtenerEstacionesUsuario(){
-        try{
+    public function obtenerEstacionesUsuario()
+    {
+        try {
             return $this->DB->mostrarEstacionesCliente($this->nombre, $this->contrasena);
-        }
-        catch(Throwable $e){
+        } catch (Throwable $e) {
             return false;
         }
     }
 
-    // public function obtenerAlarmas(){
-    //     $estaciones = $this->obtenerEstacionesUsuario();
-    //     $alarmas = array();
-    //     foreach ($estaciones as $index => $estacion) {
-    //         $alarmas[$estacion['nombre_estacion']] = $this->obtenerAlarmasEstacion($estacion['id_estacion'], null,null);
-    //     }
-    //     $alarmasLimpio = array();
-    //     foreach ($alarmas as $estacion => $alarmas) {
-    //         if($alarmas != false){
-    //             $alarmasLimpio[$estacion] = $alarmas;
-    //         }
-    //     }
-    //     return $alarmasLimpio;
-    // }
-
-    // public function obtenerAlarmas(){
-
-
-    //     $id_usuario = $this->DB->obtenerIdUsuario($this->nombre, $this->contrasena, $_SESSION['idusu']);
-    //     $alarmas = $this->DB->obtenerAlarmasUsuario($id_usuario, null , null);
-
-    //     $alarmasLimpio = array();
-    //     foreach ($alarmas as $estacion => $alarmas) {
-    //         if($alarmas != false){
-    //             $alarmasLimpio[$estacion] = $alarmas;
-    //         }
-    //     }
-    //     return $alarmasLimpio;
-    // }
-
-
-
-    public function obtenerUltimaInfoEstacion($id_estacion){
-        try{
+    public function obtenerUltimaInfoEstacion($id_estacion)
+    {
+        try {
             return $this->DB->datosEstacion($id_estacion, true);
-        }
-        catch(Throwable $e){
+        } catch (Throwable $e) {
             return $e;
         }
     }
 
-    public function obtenerHistoricosEstacion($id_estacion, $fechaInicio, $fechaFinal){
-        if($fechaFinal == null){
+    public function obtenerHistoricosEstacion($id_estacion, $fechaInicio, $fechaFinal)
+    {
+        if ($fechaFinal == null) {
             $fechaFinal = "";
-        }
-        else if($fechaInicio == null){
+        } else if ($fechaInicio == null) {
             $fechaInicio = "";
         }
         try {
@@ -91,10 +60,10 @@ class Usuario{
         } catch (\Throwable $th) {
             return $th;
         }
-
     }
 
-    public function obtenerTagsEstaciones(){
+    public function obtenerTagsEstaciones()
+    {
 
         $estaciones = $this->obtenerEstacionesUsuario();
         $tagsEstacion = array();
@@ -105,25 +74,25 @@ class Usuario{
         return $tagsEstacion;
     }
 
-
-    public function ultimasConexiones(){
+    public function ultimasConexiones()
+    {
 
         $estaciones = $this->obtenerEstacionesUsuario();
-        if($estaciones != false){
+        if ($estaciones != false) {
             $ultimasConexiones = array();
             foreach ($estaciones as $index => $estacion) {
                 $ultimasConexiones[$estacion['nombre_estacion']] = $this->DB->ultimaComunicacionEstacion($estacion['id_estacion']);
             }
             foreach ($ultimasConexiones as $estacion => $datos) {
                 foreach ($datos[0] as $dato => $valor) {
-                    if($dato == 'valor_date'){
-                        $ultima = new Datetime($valor);
+                    if ($dato == 'valor_date') {
+                        $ultima = new DateTime;
+                        $ultima = DateTime::createFromFormat('Y-m-d H:i:s', $valor);
                         $ahora = new DateTime("now");
                         $dif = $ahora->diff($ultima);
-                        if($dif->h >= 24){
+                        if ($dif->days >= 1) {
                             $ultimasConexiones[$estacion][0]['estado'] = "error";
-                        }
-                        else {
+                        } else {
                             $ultimasConexiones[$estacion][0]['estado'] = "correcto";
                         }
                     }
@@ -131,14 +100,12 @@ class Usuario{
             }
             return $ultimasConexiones;
         }
-
-
-
     }
 
-    public function ultimaConexionEstacion($id_estacion){
+    public function ultimaConexionEstacion($id_estacion)
+    {
         $ultimaConex = $this->DB->ultimaComunicacionEstacion($id_estacion);
-        if($ultimaConex != false){
+        if ($ultimaConex != false) {
             return $ultimaConex;
         }
         return false;
@@ -148,7 +115,7 @@ class Usuario{
 
     /**
      * Get the value of contrasena
-     */ 
+     */
     public function getContrasena()
     {
         return $this->contrasena;
@@ -157,7 +124,7 @@ class Usuario{
      * Set the value of contrasena
      *
      * @return  self
-     */ 
+     */
     public function setContrasena($contrasena)
     {
         $this->contrasena = $contrasena;
@@ -165,7 +132,7 @@ class Usuario{
     }
     /**
      * Get the value of nombre
-     */ 
+     */
     public function getNombre()
     {
         return $this->nombre;
@@ -174,7 +141,7 @@ class Usuario{
      * Set the value of nombre
      *
      * @return  self
-     */ 
+     */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
@@ -183,7 +150,7 @@ class Usuario{
 
     /**
      * Get the value of cliente
-     */ 
+     */
     public function getCliente()
     {
         return $this->cliente;
@@ -193,7 +160,7 @@ class Usuario{
      * Set the value of cliente
      *
      * @return  self
-     */ 
+     */
     public function setCliente($cliente)
     {
         $this->cliente = $cliente;

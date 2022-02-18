@@ -4,7 +4,10 @@ var listaTags = new Array();
 //faltaría conseguir las coordenadas de cada estación para poder hacer mapas dinámicos
 
 function mapas() {
-    var map = L.map('conMapa').setView([42.77219, -1.62511], 11);
+
+
+    var ubiIni = [estacionesUsu[0]['latitud'], estacionesUsu[0]['longitud']];
+    var map = L.map('conMapa').setView(ubiIni, 12);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}', {
         maxZoom: 18,
         id: 'mapbox/streets-v11',
@@ -13,11 +16,24 @@ function mapas() {
         accessToken: 'pk.eyJ1IjoicmdyYXZlc3MiLCJhIjoiY2t6ZTFycXlkMmV3aDJ2bjk1d2Z0dzJvayJ9.LE3efQIzvbIOWOBDqazqyA'
     }).addTo(map);
 
-    //los marker ya veré como hacerlos dinámicos
-    var berroa = L.marker([42.77238, -1.62480]).addTo(map);
-    var cein = L.marker([42.75458, -1.63709]).addTo(map);
-    cein.bindPopup("<b>Esto es Cein</b><br>ubi 2").openPopup();
-    berroa.bindPopup("<b>Esto es Berroa</b><br>ubi 1").openPopup();
+    for (var index in estacionesUbis) {
+        var accion = 'http://172.16.1.128/Aquando/public/estacion';
+        var nombre = estacionesUbis[index][0]['nombre_estacion'];
+        var ubi = [estacionesUbis[index][0]['latitud'], estacionesUbis[index][0]['longitud']];
+        var ultimaConex = estacionesUbis[index][0]['valor_date'].slice(0, 10);
+        var estado = estacionesUbis[index][0]['estado'];
+        var id_est = estacionesUbis[index][0]['id_estacion'];
+        if (estado == 'correcto') {
+            estado = '<i style="color:yellowgreen" class="fas fa-check"></i>';
+        } else {
+            estado = '<i style="color:tomato" class="fas fa-exclamation-triangle parpadeante"></i>';
+        }
+        var msg = "<b>Estación: " + nombre + "</b><br>Última conexión: " + ultimaConex + "<br>Estado: " + estado + "<br>";
+        var estilo = "style='width:100%;border-radius:10px;padding:1% 2%;background-color:rgb(1, 168, 184);border:1px solid white;color:white'";
+        var btn = "<form action='" + accion + "' method=POST><button " + estilo + " id='btnEstacion' name='btnEstacion' value=" + parseInt(id_est) + ">ver detalles</button></form>";
+        var estacion = L.marker(ubi).addTo(map);
+        estacion.bindPopup(msg + btn).openPopup();
+    }
 
 }
 

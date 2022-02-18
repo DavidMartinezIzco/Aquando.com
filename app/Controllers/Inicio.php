@@ -25,15 +25,14 @@ class Inicio extends BaseController
     {
         if (isset($_GET['log']) && $_GET['log'] == 'out') {
             session_unset();
-
             return view('inicio');
         } else {
             $_SESSION['seccion'] = "inicio";
             if (isset($_SESSION['nombre'])) {
                 $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
                 $_SESSION['estaciones'] = $this->usuario->obtenerEstacionesUsuario();
-
-                return view('principal');
+                $datos['estacionesUbis'] = $this->usuario->ultimasConexiones();
+                return view('principal', $datos);
             } else {
                 return view('inicio');
             }

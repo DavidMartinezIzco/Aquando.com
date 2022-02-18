@@ -77,7 +77,10 @@ class Database
     public function mostrarEstacionesCliente($nombre, $pwd)
     {
         if ($this->conectar()) {
-            $consulta = "SELECT estaciones.nombre_estacion, estaciones.id_estacion FROM usuarios INNER JOIN usuario_estacion ON usuarios.id_usuario = usuario_estacion.id_usuario INNER JOIN estaciones ON usuario_estacion.id_estacion = estaciones.id_estacion WHERE usuarios.nombre ='$nombre' AND usuarios.password ='$pwd'";
+            $consulta = "SELECT estaciones.nombre_estacion, estaciones.id_estacion, estaciones.latitud, estaciones.longitud 
+            FROM usuarios INNER JOIN usuario_estacion ON usuarios.id_usuario = usuario_estacion.id_usuario 
+            INNER JOIN estaciones ON usuario_estacion.id_estacion = estaciones.id_estacion 
+            WHERE usuarios.nombre ='$nombre' AND usuarios.password ='$pwd'";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $estacionesArr = pg_fetch_all($resultado);
@@ -87,6 +90,22 @@ class Database
             }
         }
     }
+
+    public function obtenerFotoEstacion($id_estacion){
+        if ($this->conectar()) {
+            $consulta = "SELECT foto as foto
+            FROM estaciones
+            WHERE id_estacion = ".$id_estacion;
+            $resultado = pg_query($this->conexion, $consulta);
+            if ($this->consultaExitosa($resultado)) {
+                $foto = pg_fetch_all($resultado)[0]['foto'];
+                return $foto;
+            } else {
+                return false;
+            }
+        }
+    }
+
 
     //obtiene las alarmas en general de un usuario
     //se usa en varias cosas
@@ -569,7 +588,7 @@ class Database
     public function ultimaComunicacionEstacion($id_estacion)
     {
         if ($this->conectar()) {
-            $consulta = "SELECT estaciones.id_estacion,estaciones.nombre_estacion, datos_valores.valor_date, tags.nombre_tag FROM estaciones INNER JOIN estacion_tag ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag INNER JOIN datos_valores ON estacion_tag.id_tag = datos_valores.id_tag WHERE tags.nombre_tag LIKE 'Ultima Comunicacion%' AND estaciones.id_estacion = " . $id_estacion . " ORDER BY estaciones.nombre_estacion DESC";
+            $consulta = "SELECT estaciones.id_estacion, estaciones.nombre_estacion, datos_valores.valor_date, tags.nombre_tag,estaciones.latitud,estaciones.longitud  FROM estaciones INNER JOIN estacion_tag ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag INNER JOIN datos_valores ON estacion_tag.id_tag = datos_valores.id_tag WHERE tags.nombre_tag LIKE 'Ultima Comunicacion%' AND estaciones.id_estacion = " . $id_estacion . " ORDER BY estaciones.nombre_estacion DESC";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $ultimaConexion = pg_fetch_all($resultado);

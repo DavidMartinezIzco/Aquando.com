@@ -676,3 +676,21 @@ function mostrarFormConsigna(id_consigna) {
     lista += "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>"
     zona.innerHTML = contenido + lista;
 }
+
+function fotoEstacion(id_estacion) {
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_Estacion.php?opcion=foto&estacion=' + id_estacion,
+            success: function(foto) {
+                var ima = 'url("data:image/jpg;base64,' + foto + '")';
+                console.log(ima);
+                document.getElementById('seccionFoto').style.backgroundImage = ima;
+            },
+            error: function() {
+                console.log("error");
+            },
+
+        });
+    });
+}
