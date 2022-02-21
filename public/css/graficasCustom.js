@@ -729,7 +729,7 @@ function borrarPreset() {
 }
 
 function guardarPreset() {
-
+    var checkTags = document.querySelectorAll('input[name=checkTag]:checked');
     var nombre_preset = nombre_estacion_activa + ": " + document.getElementById('txtPreset').value;
     var datosPreset = {};
     var tags_colores = new Array();
