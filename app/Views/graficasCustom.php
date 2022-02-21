@@ -15,8 +15,9 @@
             <div id="panelOpciones">
                 <form action="javascript:void(0);" id="formOpciones">
                     <h3>Vista Personalizada</h3>
-
+                    <select id="selPresets" onchange='ajustesPresets("cargar")'>Predefinidos:</select>
                     <!--selector de tag/tags-->
+                    
                     <h6>Mostrar:</h6>
                     <ul class='listaGrafCustom' id="opcionesTag" name="opcionesTag" onchange=""></ul>
 
@@ -105,9 +106,10 @@
                         ?>
                     </select>
                     <!--controles-->
-                    <button id="btnControlCustom" style="background-color: yellowgreen;" value="aplicar" onclick="aplicarCustom()" name="btnControlAplicar">aplicar</button>
-                    <button id="btnControlCustom" type="reset" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
-                    <button id="btnControlCustom" style="background-color: darkseagreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
+                    <button id="btnControlCustom" style="background-color: yellowgreen;border: 2px solid green;" value="aplicar" onclick="aplicarCustom()" name="btnControlAplicar">aplicar</button>
+                    <button id="btnControlCustom" type="reset" onclick=limpiar() style="background-color: tomato;border: 2px solid red;" value="reset" name="btnControlReset">reset</button>
+                    <button id="btnControlCustom" style="background-color: darkseagreen;border: 2px solid rgb(0, 128, 58);" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
+                    <button id="btnControlCustom" style="background-color: rgb(1, 168, 184);border: 2px solid rgb(39, 45, 79);" value="guardar" onclick="ajustesPresets('guardar')" name="btnControlPrint"><i class="fas fa-save"></i></button>
                 </form>
             </div>
         </div>
@@ -117,6 +119,12 @@
             <div id="grafica">
             </div>
         </div>
+
+        <div id="ajustesPresets">
+            
+        </div>
+
+
     </div>
     <!---alarmas--->
     <table id="alarmasSur">
@@ -126,13 +134,13 @@
 <script>
     var chartDom = document.getElementById('grafica');
     var graficoCustom = echarts.init(chartDom);
+    var usu = '<?php echo $_SESSION['nombre'] ?>';
+    var pwd = '<?php echo $_SESSION['pwd'] ?>';
     //Falta de momento: actualizar los controles, control de colores en las series
     window.onload = function() {
         iniciar();
         inicioFin();
-        var usu = '<?php echo $_SESSION['nombre'] ?>';
-        var pwd = '<?php echo $_SESSION['pwd'] ?>';
-
+        mostrarPresets();
         //handlers para los controles de tags , meta y colores
         $(document).on('change', 'input[type=color]', function() {
             this.parentNode.style.color = this.value;
@@ -162,6 +170,7 @@
     function iniciar() {
         if (document.getElementById("opciones")) {
             var estacion = document.getElementById("opciones").value;
+            nombre_estacion_activa = document.getElementById("opciones").options[document.getElementById("opciones").selectedIndex].text;
             tagsEstacionCustom(estacion);
         }
     }

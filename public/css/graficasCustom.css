@@ -108,18 +108,17 @@
 }
 
 #btnControlCustom {
-    width: 30%;
-    margin: 0 1%;
-    margin-top: 5%;
-    color: white;
-    border: none;
-    border-radius: 10px;
+    margin-right: 2%;
     transition: 0.2s;
-    padding: 0%, 0.2%;
+    padding: 1% 0%;
+    opacity: 80%;
+    border-radius: 5px;
+    color: white;
+    width: 22%;
 }
 
 #btnControlCustom:hover {
-    color: rgb(1, 168, 184);
+    opacity: 100%;
 }
 
 
@@ -200,6 +199,59 @@
     border-bottom: 1px solid black;
     background-color: rgb(1, 168, 184);
     color: white;
+}
+
+#selPresets {
+    padding: 0.5% 2%;
+    font-size: 80%;
+    border-radius: 7px;
+    background-color: rgb(56, 56, 56);
+    color: white;
+    width: 50%;
+    float: right
+}
+
+#ajustesPresets {
+    text-align: center;
+    display: none;
+    position: absolute;
+    width: 25%;
+    left: 25%;
+    top: 30%;
+    background-color: lightgray;
+    border: 1px solid gray;
+    color: black;
+    border-radius: 10px;
+    padding: 1em;
+}
+
+#ajustesPresets button {
+    margin-right: 2%;
+    transition: 0.2s;
+    padding: 1% 0.5%;
+    opacity: 80%;
+    border-radius: 5px;
+    color: white;
+    width: 30%;
+}
+
+.btnPresetOk {
+    background-color: rgb(1, 168, 184);
+    border: 2px solid rgb(39, 45, 79);
+}
+
+.btnPresetCancelar {
+    background-color: yellowgreen;
+    border: 2px solid green;
+}
+
+.btnPresetBorrar {
+    background-color: tomato;
+    border: 2px solid red;
+}
+
+#ajustesPresets button:hover {
+    opacity: 100%;
 }
 
 

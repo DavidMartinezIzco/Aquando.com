@@ -64,16 +64,6 @@ if($_GET['opcion'] == 'feed'){
         // $datosFeedCustom = $db->feedPrincipalCustom($id_usuario[0]['id_usuario']);
     }
 
-    //ideas pre-pitillo:
-
-    //hacer los widgets aqui?
-    //reciclar widgets de estaciones?
-    //necesitamos:
-        // vista1 -> valor actual
-        // vista2 -> feed diario
-        // vista3 -> feed semanal
-    //el feed diario tiene mucho peso, habrá que ver que tal se porta
-
 }
 
 ?>

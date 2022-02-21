@@ -925,7 +925,6 @@ class Database
         return false;
     }
 
-
     public function feedPrincipalCustom($id_usuario)
     {
 
@@ -1024,4 +1023,48 @@ class Database
             return $infoTag;
         }
     }
+
+    public function borrarPreset($n_preset, $id_usuario){
+        if($this->conectar()){
+            $sec = "DELETE FROM graficas WHERE id_usuario = ".$id_usuario[0]['id_usuario']." AND configuracion LIKE('".$n_preset."%')";
+            pg_query($this->conexion, $sec);
+            return true;
+        }
+        else{return false;}
+    }
+
+    public function leerPresets($id_usuario){
+        if($this->conectar()){
+            $conPresets = "SELECT configuracion FROM graficas WHERE id_usuario = ".$id_usuario[0]['id_usuario']."";
+            $resPresets = pg_query($this->conexion, $conPresets);
+            if($this->consultaExitosa($resPresets)){
+                $presets = pg_fetch_all($resPresets);
+                return $presets;
+            }
+        }
+        return false;
+    }
+
+    public function guardarPreset($usuario,$pwd,$nombre, $estacion, $tags_colores){
+        // nombre@6?/1:12#fffff-23#gggg-45#kkkkk/2:xxxxxx/3:xxxxx
+        // nombre@id_estacion?/tag:color-tag:color-tag:color-
+
+        $codigo = $nombre."@".$estacion."?";
+        foreach ($tags_colores as $tag => $color) {
+            if($color != null){
+                $codigo .= "/".$tag.":".$color.""; 
+            }
+        }
+
+        $id_usuario = $this->obtenerIdUsuario($usuario, $pwd);
+
+        if($id_usuario){
+            $secu = "INSERT INTO graficas(id_usuario, configuracion)
+            VALUES (".$id_usuario[0]['id_usuario'].", '".$codigo."')";
+            pg_query($this->conexion, $secu);
+            return true;
+        }
+        return false;
+    }
+
 }

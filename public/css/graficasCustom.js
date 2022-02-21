@@ -1,9 +1,11 @@
 //configs globales
 var datosTagCustom = new Array;
 var ejesYTagCustom = new Array;
+var nombre_estacion_activa = "";
 datosTagCustom['serie'] = [];
 datosTagCustom['fechas'] = [];
 var serie = {};
+var presets_config = new Array();
 
 //reestablece los filtros por defecto
 //aun no reestablece los colores de los tags ni meta
@@ -145,35 +147,44 @@ function aplicarCustom() {
     //mirar a ver si en vez de actualizar todo, ver si se pueden reutilizar
     //los estados anteriores (x optimizar vaya)
 
-    document.getElementsByName('btnControlAplicar')[0].innerHTML = "cargando...";
+
 
     datosTagCustom = new Array;
     datosTagCustom['serie'] = [];
     datosTagCustom['fechas'] = [];
     var ajustesTag = [];
-    var checkTags = document.querySelectorAll('input[name=checkTag]:checked')
-    for (var i = 0; i < checkTags.length; i++) {
-        ajustesTag.push(checkTags[i].value)
-    }
-    var ajustesMeta = [];
-    var checkMetas = document.querySelectorAll('input[name=checkMeta]:checked')
-    for (var i = 0; i < checkMetas.length; i++) {
-        ajustesMeta.push(checkMetas[i].value)
-    }
+    var checkTags = document.querySelectorAll('input[name=checkTag]:checked');
+    if (checkTags.length > 0) {
+        document.getElementsByName('btnControlAplicar')[0].innerHTML = "cargando...";
 
-    var fechaInicio = document.getElementById('fechaInicio').value;
-    var fechaFin = document.getElementById('fechaFin').value;
-    var id_estacion = document.getElementById('opciones').value;
+        for (var i = 0; i < checkTags.length; i++) {
+            ajustesTag.push(checkTags[i].value)
+        }
+        var ajustesMeta = [];
+        var checkMetas = document.querySelectorAll('input[name=checkMeta]:checked')
+        for (var i = 0; i < checkMetas.length; i++) {
+            ajustesMeta.push(checkMetas[i].value)
+        }
 
-    var metas = "";
+        var fechaInicio = document.getElementById('fechaInicio').value;
+        var fechaFin = document.getElementById('fechaFin').value;
+        var id_estacion = document.getElementById('opciones').value;
 
-    for (var meta in ajustesMeta) {
-        metas += ajustesMeta[meta] + "/";
-    }
+        var metas = "";
 
-    for (var ajusteTag in ajustesTag) {
-        infoTags(id_estacion, ajustesTag, ajustesTag[ajusteTag], metas, fechaInicio, fechaFin);
+        for (var meta in ajustesMeta) {
+            metas += ajustesMeta[meta] + "/";
+        }
 
+        for (var ajusteTag in ajustesTag) {
+            infoTags(id_estacion, ajustesTag, ajustesTag[ajusteTag], metas, fechaInicio, fechaFin);
+        }
+    } else {
+        document.getElementsByName('btnControlAplicar')[0].innerHTML = "¡sin señales!";
+        limpiar();
+        setTimeout(function() {
+            document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
+        }, 1000);
     }
 
 }
@@ -182,7 +193,7 @@ function aplicarCustom() {
 function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
     var nTags = ajustesTag.length;
 
-    console.log(nTags);
+
     $.ajax({
         type: 'GET',
         url: 'A_GraficasCustom.php?estacion=' + estacion + '&id_tag=' + tag + '&fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&meta=' + metas + '&opcion=tag',
@@ -192,8 +203,8 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
                 setTimeout(renderGrafico, (nTags * 500));
             }
         },
-        error: function() {
-            console.log("error");
+        error: function(e) {
+            console.log(e);
         },
         dataType: 'json'
     });
@@ -557,5 +568,203 @@ function renderGrafico() {
     setTimeout(function() {
         document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
     }, 1000);
+
+}
+
+//
+function ajustesPresets(modo) {
+
+    var con = document.getElementById('ajustesPresets');
+    if (con.style.display == 'block') {
+        con.style.display = 'none';
+    } else {
+        con.style.display = 'block';
+        if (modo == 'cargar') {
+            con.innerHTML = "";
+            var pre = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;
+            var msg = "<h3>Cargar Preset</h3><p>¿quieres cargar <b>" + pre + "</b>?</p>";
+            var btns = "<button class='btnPresetOk' onclick='cargarPreset()'>Cargar</button><button <button class='btnPresetCancelar' onclick='ajustesPresets(null)'>Cancelar</button><button onclick='borrarPreset()' class='btnPresetBorrar'>Borrar</button>";
+            con.innerHTML = msg + btns;
+        }
+        if (modo == 'guardar') {
+            con.innerHTML = "";
+            var msg = "<h3>Guardar Preset</h3>Nombre:<br><input style='margin-left:2%;' id='txtPreset' type=text><br><br>";
+            var btns = "<button class='btnPresetOk' onclick='guardarPreset()'>Guardar</button><button class='btnPresetCancelar' onclick='ajustesPresets(null)'>Cancelar</button>";
+            con.innerHTML = msg + btns;
+        }
+        if (modo == 'vacio') {
+            con.innerHTML = "";
+            var msg = "<h3>Guardar Preset</h3>No has seleccionado ninguna señal<br><br>";
+            var btns = "<button class='btnPresetCancelar' onclick='ajustesPresets(null)'>Cancelar</button>";
+            con.innerHTML = msg + btns;
+        }
+
+
+    }
+
+
+
+
+}
+
+function leerPresets(para) {
+
+    var datos = {};
+    datos['nombre'] = usu;
+    datos['pwd'] = pwd;
+    if (para == null || para == 'mostrar') {
+        para = 'mostrar';
+        var arrdatos = JSON.stringify(datos);
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'A_GraficasCustom.php?opcion=leerPresets&para=' + para,
+                data: {
+                    arrdatos: arrdatos
+                },
+                success: function(presets) {
+                    document.getElementById("selPresets").innerHTML = presets;
+
+                },
+                error: function(e) {
+                    console.log(e);
+                },
+                // dataType: 'json'
+            });
+        });
+    }
+    if (para == 'cargar') {
+        para = 'cargar';
+        var arrdatos = JSON.stringify(datos);
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'A_GraficasCustom.php?opcion=leerPresets&para=' + para,
+                data: {
+                    arrdatos: arrdatos
+                },
+                success: function(presets) {
+                    presets_config = presets;
+                },
+                error: function(e) {
+                    console.log(e);
+                },
+                dataType: 'json'
+            });
+        });
+    }
+
+}
+
+function mostrarPresets() {
+    leerPresets('mostrar');
+}
+
+function cargarPreset() {
+    limpiar();
+    var n_preset = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;
+    if (n_preset.includes(nombre_estacion_activa)) {
+        leerPresets('cargar');
+        for (var index in presets_config) {
+            if (presets_config[index]['configuracion'].includes(n_preset)) {
+                var config = presets_config[index]['configuracion'];
+                config = config.substring(config.indexOf("@") + 1);
+                var id_est = config.substring(0, config.indexOf("?"));
+                var config_tags = config.substring(config.indexOf("/") + 1);
+                var tagsycolores = config_tags.split("/");
+                var config_tags_colores = new Array();
+                for (var index in tagsycolores) {
+                    var info = tagsycolores[index].split(":");
+                    config_tags_colores[info[0]] = info[1];
+                    document.getElementById(info[0]).checked = 'true';
+                    document.getElementById('color' + info[0]).value = info[1];
+                    if (document.getElementById(info[0]).parentNode.style.backgroundColor == 'darkgray') {
+                        document.getElementById(info[0]).parentNode.style.backgroundColor = 'lightgray';
+                    } else {
+                        document.getElementById(info[0]).parentNode.style.backgroundColor = 'darkgray';
+                    }
+                    document.getElementById('color' + info[0]).parentNode.style.color = info[1];
+                }
+                aplicarCustom();
+                ajustesPresets(null);
+            }
+        }
+
+    } else {
+        document.getElementById('ajustesPresets').innerHTML += '<br><br>El preset no pertenece a esta estacion';
+    }
+
+
+}
+
+function borrarPreset() {
+    ajustesPresets(null);
+    var n_preset = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;
+    var datos = {};
+    datos['nombre'] = usu;
+    datos['pwd'] = pwd;
+    var arrdatos = JSON.stringify(datos);
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_GraficasCustom.php?opcion=borrar&preset=' + n_preset,
+            data: {
+                arrdatos: arrdatos
+            },
+            success: function() {
+
+                leerPresets('mostrar');
+                setTimeout(ajustesPresets(null), 1000);
+            },
+            error: function(e) {
+                console.log(e);
+            },
+            dataType: 'json'
+        });
+    });
+    mostrarPresets();
+
+
+}
+
+function guardarPreset() {
+
+    var nombre_preset = nombre_estacion_activa + ": " + document.getElementById('txtPreset').value;
+    var datosPreset = {};
+    var tags_colores = new Array();
+    for (var i = 0; i < checkTags.length; i++) {
+        tags_colores[checkTags[i].value] = document.getElementById('color' + checkTags[i].value).value;
+    }
+    datosPreset['usuario'] = usu;
+    datosPreset['pwd'] = pwd;
+    datosPreset['nombre'] = nombre_preset;
+    datosPreset['id_estacion'] = document.getElementById('opciones').value;
+    datosPreset['tags_colores'] = tags_colores;
+    console.log(datosPreset);
+
+    var arrDatosPreset = JSON.stringify(datosPreset);
+
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'A_GraficasCustom.php?opcion=guardar',
+            data: {
+                arrDatosPreset: arrDatosPreset
+            },
+            success: function(info) {
+
+                document.getElementById('ajustesPresets').innerHTML += 'preset guardado';
+                leerPresets('mostrar');
+                setTimeout(ajustesPresets(null), 1000);
+            },
+            error: function(e) {
+                console.log(e);
+            },
+            dataType: 'json'
+        });
+    });
+
 
 }
