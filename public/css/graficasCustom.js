@@ -56,7 +56,7 @@ function limpiar() {
 //saca una captura del grafico en panatalla
 function imprimir() {
     var al = $("#grafica").height();
-    var an = $("#grafica").width();
+    var an = $("#zonaGraficos").width();
     var hoy = new Date();
     var fechaHoy = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
     var nombre_informe = 'Historico ' + fechaHoy + '.pdf';
@@ -70,9 +70,7 @@ function imprimir() {
     };
 
     var exp_informe = new html2pdf(informe, opt);
-    exp_informe.getPdf(true).then((pdf) => {
-
-    });
+    exp_informe.getPdf(true).then((pdf) => {});
 }
 
 
@@ -411,7 +409,7 @@ function renderGrafico() {
         },
         grid: {
             left: '5%',
-            right: '7%',
+            right: '1%',
             bottom: '10%',
             containLabel: true,
         },
@@ -483,7 +481,7 @@ function renderGrafico() {
     for (var eje in ejesYTagCustom) {
 
         if (mul >= 1) {
-            ejesYTagCustom[eje]['offset'] = (100) * (mul - 1);
+            ejesYTagCustom[eje]['offset'] = (75) * (mul - 1);
             option['grid']['right'] = (7) * (mul - 1) + '%';
             option['dataZoom'].push({
                 type: 'slider',

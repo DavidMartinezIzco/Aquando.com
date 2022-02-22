@@ -42,12 +42,6 @@ if ($opcion == "cau") {
         "dataSource" => $informeTabla,
 
         "columns" => array(
-            // "estacion"=>array(
-            //     "cssStyle"=>"font-weight:bold;text-align:center"
-            // ),
-            // "señal"=>array(
-            //     "cssStyle"=>"text-align:left"
-            //     ),
             "fecha" => array(
                 "cssStyle" => "text-align:left"
             ),
@@ -82,17 +76,12 @@ if ($opcion == "cau") {
 
                 "bottom" => function($val)
                 {
-                   $fila = "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
+                   $fila = "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de ".$val['{señal}'].":</b></td>
                    <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Máximo: ".$val['{max}']."</td>
                    <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Mínimo: ".$val['{min}']."</td>
                    <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: ".number_format($val['{med}'], 2)."</td>";
                    return $fila;
                 }    
-
-                // "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
-                // <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Máximo: {max}</td>
-                // <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Mínimo: {min}</td>
-                // <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: {med}</td>",
 
             )
         ),
