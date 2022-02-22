@@ -828,6 +828,8 @@ class Database
         }
     }
     
+    //obtiene toda la informacion de las señales digitales de inicio
+    //busca tags digitales con alarma en un periodo de 48h
     public function feedPrincipalDigital($estaciones)
     {
         if ($this->conectar()) {
@@ -874,9 +876,11 @@ class Database
         }
     }
 
+    //función para guardar la configuracion de usuario en los ajustes de inicio
+    //Ejemplo de codigo de config --> "w1:126-w2:260-w3:261-w4:167";
     public function confirmarWidget($wid, $tag, $id_usuario)
     {
-        // $configBD = "w1:126-w2:260-w3:261-w4:167";
+        
         $configBD = "";
         $configuracionWidgetsUsuario = array();
         if ($this->conectar()) {
@@ -912,6 +916,8 @@ class Database
         return false;
     }
 
+    //obtiene la configuracion de widgets de un usuario
+    //es una funcion para feedPrincipalCustom
     private function obtenerConfigInicio($id_usuario)
     {
         if ($this->conectar()) {
@@ -925,6 +931,8 @@ class Database
         return false;
     }
 
+    //obtiene el ultimo dato, el trend diario y los agregados semanales de los widgets definidos por el 
+    //usuario en su configuracion
     public function feedPrincipalCustom($id_usuario)
     {
 
@@ -1024,6 +1032,7 @@ class Database
         }
     }
 
+    //funcion para la seccion de graficosCustom. Borra un preset seleccionado del usuario
     public function borrarPreset($n_preset, $id_usuario){
         if($this->conectar()){
             $sec = "DELETE FROM graficas WHERE id_usuario = ".$id_usuario[0]['id_usuario']." AND configuracion LIKE('".$n_preset."%')";
@@ -1033,6 +1042,7 @@ class Database
         else{return false;}
     }
 
+    //obtiene la lista de presets guardada de un usuario
     public function leerPresets($id_usuario){
         if($this->conectar()){
             $conPresets = "SELECT configuracion FROM graficas WHERE id_usuario = ".$id_usuario[0]['id_usuario']."";
@@ -1045,10 +1055,10 @@ class Database
         return false;
     }
 
+    // guarda un preset nuevo para un usuario
+    //ejemplo de codigo --> nombre@6?/1:12#fffff-23#gggg-45#kkkkk/2:xxxxxx/3:xxxxx
+    //estructura de config --> nombre@id_estacion?/tag:color-tag:color-tag:color-
     public function guardarPreset($usuario,$pwd,$nombre, $estacion, $tags_colores){
-        // nombre@6?/1:12#fffff-23#gggg-45#kkkkk/2:xxxxxx/3:xxxxx
-        // nombre@id_estacion?/tag:color-tag:color-tag:color-
-
         $codigo = $nombre."@".$estacion."?";
         foreach ($tags_colores as $tag => $color) {
             if($color != null){

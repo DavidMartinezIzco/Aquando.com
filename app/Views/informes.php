@@ -5,6 +5,7 @@
 <script src='css/html2canvas.js'></script>
 <script src='css/html2canvas.min.js'></script>
 <script src='css/html2canvas.esm.js'></script>
+<script src="css/html2pdf/lib/html2pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/informes.css">

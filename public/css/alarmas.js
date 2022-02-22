@@ -25,31 +25,28 @@ function inicioFin() {
 
 //saca una captura de las alarmas
 function imprimir() {
-    html2canvas(document.querySelector('#tablaAlarmas')).then(function(canvas) {
-        guardar(canvas.toDataURL(), 'alarmas.png');
+
+    var hoy = new Date();
+    var fechaHoy = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
+    var nombre_informe = 'Alarmas ' + fechaHoy + '.pdf';
+    var informe = document.getElementById('tablaAlarmas');
+    var opt = {
+        margin: 0,
+        filename: nombre_informe,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+    };
+
+    var exp_informe = new html2pdf(informe, opt);
+    exp_informe.getPdf(true).then((pdf) => {
+
     });
 
+
 }
 
-//descarga la captura de las alarmas
-function guardar(uri, filename) {
 
-    var link = document.createElement('a');
-
-    if (typeof link.download === 'string') {
-
-        link.href = uri;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-    } else {
-
-        window.open(uri);
-
-    }
-}
 
 //esconde o muestra las opciones
 function opciones() {

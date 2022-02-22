@@ -5,6 +5,7 @@
 <script src='css/html2canvas.js'></script>
 <script src='css/html2canvas.min.js'></script>
 <script src='css/html2canvas.esm.js'></script>
+<script src="css/html2pdf/lib/html2pdf.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/graficasCustom.css">
 <link rel="stylesheet" type="text/css" href="css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px;">

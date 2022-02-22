@@ -3,21 +3,13 @@ function imprimir() {
 
 
     document.getElementsByName('btnControlPrint')[0].innerText = 'cargando...';
+    document.getElementById('informesSur').style.overflowY = 'unset';
     pasarAPDF();
+    document.getElementById('informesSur').style.overflowY = 'scroll';
     setTimeout(() => {
         document.getElementsByName('btnControlPrint')[0].innerHTML = '<i class="fas fa-print"></i>';
     }, 4000);
 
-    // var w = document.getElementById("espacioInforme").innerWidth;
-    // var h = document.getElementById("espacioInforme").innerHeight;
-    // console.log('imprimimos');
-    // html2canvas(document.querySelector('#espacioInforme'), {
-    //     scale: 1,
-    //     dpi: 300,
-    // }).then(function(canvas) {
-    //     guardar(canvas.toDataURL(), 'informe.png');
-    //     pasarAPDF();
-    // });
 }
 
 //descarga la captura de las alarmas 
@@ -38,11 +30,25 @@ function guardar(uri, filename) {
 }
 
 function pasarAPDF() {
-    var doc = new jsPDF('p', 'pt', 'letter', true);
-    doc.addHTML($('#espacioInforme')[0], function() {
-        doc.save('informe.pdf');
-    });
+    //https://openbase.com/js/js-html2pdf/documentation
+    var hoy = new Date();
+    var al = $("#espacioInforme").height();
+    console.log(al);
+    var an = $("#espacioInforme").width();
+    console.log(an);
+    var fechaHoy = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
+    var nombre_informe = 'informe ' + fechaHoy + '.pdf';
+    var informe = document.getElementById('espacioInforme');
+    var opt = {
+        margin: [10, 0, 10, 0],
+        filename: nombre_informe,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
 
+    var exp_informe = new html2pdf(informe, opt);
+    exp_informe.getPdf(true).then((pdf) => {});
 }
 
 function reset() {
@@ -118,14 +124,14 @@ function obtenerInforme() {
 
                 // console.log(informe);
                 reset();
-                var currentdate = new Date();
-                var fechahora = "" + currentdate.getDate() + "/" +
-                    (currentdate.getMonth() + 1) + "/" +
-                    currentdate.getFullYear() + " a las " +
-                    currentdate.getHours() + ":" +
-                    currentdate.getMinutes();
+                var ahora = new Date();
+                var fechahora = "" + ahora.getDate() + "-" +
+                    (ahora.getMonth() + 1) + "-" +
+                    ahora.getFullYear() + " a las " +
+                    ahora.getHours() + ":" +
+                    ahora.getMinutes();
 
-                var cabecera = "<h1 style='color:rgb(1, 168, 184);'>Informe sobre " + tipoInf + "</h1><hr><p style='color:rgb(65, 65, 65);'>desde: " + fInicio + " hasta: " + fFin + " </p><p style='color:rgb(65, 65, 65);'>Por " + nomusuario + " el " + fechahora + "</p><br>";
+                var cabecera = "<h1 style='color:rgb(1, 168, 184);'>Informe sobre " + tipoInf + "</h1><hr><p style='color:rgb(65, 65, 65);'>Desde: " + fInicio + " hasta: " + fFin + " </p><p style='color:rgb(65, 65, 65);'>Por " + nomusuario + " el " + fechahora + "</p><br>";
                 var pie = '<p style="text-align:center">powered by <img src="../public/logo.png" style="height: 3.5em; margin-left: 1%;"></p>';
 
                 document.getElementById('espacioInforme').innerHTML += cabecera;

@@ -55,30 +55,27 @@ function limpiar() {
 
 //saca una captura del grafico en panatalla
 function imprimir() {
-    html2canvas(document.querySelector('#grafica')).then(function(canvas) {
-        guardar(canvas.toDataURL(), 'grafico.png');
+    var al = $("#grafica").height();
+    var an = $("#grafica").width();
+    var hoy = new Date();
+    var fechaHoy = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
+    var nombre_informe = 'Historico ' + fechaHoy + '.pdf';
+    var informe = document.getElementById('grafica');
+    var opt = {
+        margin: 0,
+        filename: nombre_informe,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
+        jsPDF: { unit: 'px', format: [an, al], orientation: 'l' }
+    };
+
+    var exp_informe = new html2pdf(informe, opt);
+    exp_informe.getPdf(true).then((pdf) => {
+
     });
 }
 
-//descarga la captura del grafico
-function guardar(uri, filename) {
 
-    var link = document.createElement('a');
-
-    if (typeof link.download === 'string') {
-
-        link.href = uri;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-    } else {
-
-        window.open(uri);
-
-    }
-}
 
 //establece los valores por defecto de los inputs de fecha
 //traduce y establece la fecha actual como predeterminado
@@ -179,6 +176,9 @@ function aplicarCustom() {
         for (var ajusteTag in ajustesTag) {
             infoTags(id_estacion, ajustesTag, ajustesTag[ajusteTag], metas, fechaInicio, fechaFin);
         }
+        setTimeout(function() {
+            document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
+        }, 1000);
     } else {
         document.getElementsByName('btnControlAplicar')[0].innerHTML = "¡sin señales!";
         limpiar();
@@ -385,6 +385,7 @@ function prepararTag(info, tag) {
     datosTagCustom['serie'].push(serie);
     datosTagCustom['fechas'].push(fechasTag);
 
+
 }
 
 //crea el grafico con varios ajustes y con los objetos series
@@ -410,7 +411,7 @@ function renderGrafico() {
         },
         grid: {
             left: '5%',
-            right: '5%',
+            right: '7%',
             bottom: '10%',
             containLabel: true,
         },
@@ -483,7 +484,7 @@ function renderGrafico() {
 
         if (mul >= 1) {
             ejesYTagCustom[eje]['offset'] = (100) * (mul - 1);
-            option['grid']['right'] = (5) * (mul - 1) + '%';
+            option['grid']['right'] = (7) * (mul - 1) + '%';
             option['dataZoom'].push({
                 type: 'slider',
                 textStyle: {
@@ -543,13 +544,21 @@ function renderGrafico() {
     }
 
     //ajustes de pantalla para el grafico
-    $(window).keyup(function() {
+    // $(window).keyup(function() {
+    //     graficoCustom.resize();
+    // });
+    // $(window).keydown(function() {
+    //     graficoCustom.resize();
+    // });
+    // $(window).keypress(function() {
+    //     graficoCustom.resize();
+    // });
+
+    $('#menuIzq').bind('widthChange', function() {
         graficoCustom.resize();
     });
-    $(window).keydown(function() {
-        graficoCustom.resize();
-    });
-    $(window).keypress(function() {
+
+    $('#zonaControles').bind('widthChange', function() {
         graficoCustom.resize();
     });
 
@@ -557,21 +566,21 @@ function renderGrafico() {
     //     setTimeout(graficoCustom.resize(), 500);
     // };
 
-    document.getElementById('grafica').onmouseover = function() {
-        setTimeout(graficoCustom.resize(), 500);
-    }
-    document.getElementById('zonaControles').onmouseover = function() {
-        setTimeout(graficoCustom.resize(), 500);
-    }
+    // document.getElementById('grafica').onmouseover = function() {
+    //     setTimeout(graficoCustom.resize(), 500);
+    // }
+    // document.getElementById('zonaControles').onmouseover = function() {
+    //     setTimeout(graficoCustom.resize(), 500);
+    // }
     option && graficoCustom.setOption(option, true);
 
-    setTimeout(function() {
-        document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
-    }, 1000);
+    // setTimeout(function() {
+    //     document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
+    // }, 1000);
 
 }
 
-//
+// despliega las ventanas de opciones de los presets
 function ajustesPresets(modo) {
 
     var con = document.getElementById('ajustesPresets');
@@ -583,13 +592,13 @@ function ajustesPresets(modo) {
             con.innerHTML = "";
             var pre = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;
             var msg = "<h3>Cargar Preset</h3><p>¿quieres cargar <b>" + pre + "</b>?</p>";
-            var btns = "<button class='btnPresetOk' onclick='cargarPreset()'>Cargar</button><button <button class='btnPresetCancelar' onclick='ajustesPresets(null)'>Cancelar</button><button onclick='borrarPreset()' class='btnPresetBorrar'>Borrar</button>";
+            var btns = "<button class='btnPresetOk' onclick='cargarPreset()'>Cargar</button><button <button class='btnPresetCancelar' onclick='ajustesPresets(null)'>Cancelar</button><button onclick='borrarPreset()' class='btnPresetBorrar'>Borrar</button><br><br><p id=txtPresetError></p>";
             con.innerHTML = msg + btns;
         }
         if (modo == 'guardar') {
             con.innerHTML = "";
             var msg = "<h3>Guardar Preset</h3>Nombre:<br><input style='margin-left:2%;' id='txtPreset' type=text><br><br>";
-            var btns = "<button class='btnPresetOk' onclick='guardarPreset()'>Guardar</button><button class='btnPresetCancelar' onclick='ajustesPresets(null)'>Cancelar</button>";
+            var btns = "<button class='btnPresetOk' onclick='guardarPreset()'>Guardar</button><button class='btnPresetCancelar' onclick='ajustesPresets(null)'>Cancelar</button><br><br><p id=txtPresetError></p>";
             con.innerHTML = msg + btns;
         }
         if (modo == 'vacio') {
@@ -607,6 +616,7 @@ function ajustesPresets(modo) {
 
 }
 
+//busca los presets del usuario y los lista o los carga
 function leerPresets(para) {
 
     var datos = {};
@@ -656,10 +666,12 @@ function leerPresets(para) {
 
 }
 
+//saca los presets en una lista
 function mostrarPresets() {
     leerPresets('mostrar');
 }
 
+//a traves de AJAX lee la config de un preset y lo aplica con aplicarCustom()
 function cargarPreset() {
     limpiar();
     var n_preset = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;
@@ -691,12 +703,13 @@ function cargarPreset() {
         }
 
     } else {
-        document.getElementById('ajustesPresets').innerHTML += '<br><br>El preset no pertenece a esta estacion';
+        document.getElementById('txtPresetError').innerHTML += 'El preset no pertenece a esta estación';
     }
 
 
 }
 
+//a traves de AJAX busca en la config de usuario un preset y lo elimina
 function borrarPreset() {
     ajustesPresets(null);
     var n_preset = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;
@@ -728,43 +741,51 @@ function borrarPreset() {
 
 }
 
+//llama a AJAX para guardar un preset en la configuracion de usuario
 function guardarPreset() {
-    var checkTags = document.querySelectorAll('input[name=checkTag]:checked');
-    var nombre_preset = nombre_estacion_activa + ": " + document.getElementById('txtPreset').value;
-    var datosPreset = {};
-    var tags_colores = new Array();
-    for (var i = 0; i < checkTags.length; i++) {
-        tags_colores[checkTags[i].value] = document.getElementById('color' + checkTags[i].value).value;
-    }
-    datosPreset['usuario'] = usu;
-    datosPreset['pwd'] = pwd;
-    datosPreset['nombre'] = nombre_preset;
-    datosPreset['id_estacion'] = document.getElementById('opciones').value;
-    datosPreset['tags_colores'] = tags_colores;
-    console.log(datosPreset);
-
-    var arrDatosPreset = JSON.stringify(datosPreset);
 
 
-    $(document).ready(function() {
-        $.ajax({
-            type: 'GET',
-            url: 'A_GraficasCustom.php?opcion=guardar',
-            data: {
-                arrDatosPreset: arrDatosPreset
-            },
-            success: function(info) {
+    if (document.getElementById('txtPreset').value != null && document.getElementById('txtPreset').value != '' && !document.getElementById('txtPreset').value.includes(":") && !document.getElementById('txtPreset').value.includes("/") && !document.getElementById('txtPreset').value.includes("@")) {
 
-                document.getElementById('ajustesPresets').innerHTML += 'preset guardado';
-                leerPresets('mostrar');
-                setTimeout(ajustesPresets(null), 1000);
-            },
-            error: function(e) {
-                console.log(e);
-            },
-            dataType: 'json'
+        var checkTags = document.querySelectorAll('input[name=checkTag]:checked');
+        var nombre_preset = nombre_estacion_activa + ": " + document.getElementById('txtPreset').value;
+        var datosPreset = {};
+        var tags_colores = new Array();
+        for (var i = 0; i < checkTags.length; i++) {
+            tags_colores[checkTags[i].value] = document.getElementById('color' + checkTags[i].value).value;
+        }
+        datosPreset['usuario'] = usu;
+        datosPreset['pwd'] = pwd;
+        datosPreset['nombre'] = nombre_preset;
+        datosPreset['id_estacion'] = document.getElementById('opciones').value;
+        datosPreset['tags_colores'] = tags_colores;
+        console.log(datosPreset);
+
+        var arrDatosPreset = JSON.stringify(datosPreset);
+
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'A_GraficasCustom.php?opcion=guardar',
+                data: {
+                    arrDatosPreset: arrDatosPreset
+                },
+                success: function(info) {
+
+                    document.getElementById('ajustesPresets').innerHTML += 'preset guardado';
+                    leerPresets('mostrar');
+                    setTimeout(ajustesPresets(null), 1000);
+                },
+                error: function(e) {
+                    console.log(e);
+                },
+                dataType: 'json'
+            });
         });
-    });
+    } else {
+        document.getElementById('txtPresetError').innerHTML = 'Introduce un nombre válido';
+    }
+
 
 
 }

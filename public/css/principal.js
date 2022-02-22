@@ -1,8 +1,10 @@
 var feedDigital = new Array();
 var listaTags = new Array();
 
-//faltaría conseguir las coordenadas de cada estación para poder hacer mapas dinámicos
 
+//con los datos de coordenadas de estaciones, se hace un mapa con las estaciones que le pertenezcan al usuario
+//esas estaciones se listan con pines en el mapa y al hacer click tienen un popup con foto + nombre + ultima conex + enlace
+//utiliza OSM y Leaflet.
 function mapas() {
 
 
@@ -45,6 +47,8 @@ function mapas() {
 
 }
 
+//hace las llamadas a las funciones que consiguen los datos de las señales digitales y analógicas
+//se debe lanzar cada 10 minutos
 function actualizar() {
 
     var datos = {};
@@ -73,6 +77,7 @@ function actualizar() {
     });
 }
 
+//crea los widgets de las señales deigitales del inicio
 function renderFeedDigi() {
     var pos = 1;
     var divSup = '<div id="widSup">';
@@ -119,12 +124,7 @@ function renderFeedDigi() {
 
 }
 
-function renderFeedGene() {
-    //obtener en actualizar los datos del feed de los widgets ya definidos por el ususaro
-    //orderarlos y crear un widget para cada uno
-    //render esos widgets
-}
-
+//desplaza un widget de un carrusel
 function rotarCarrusel(carr) {
     var elem = carr.children[0];
     var posi = elem.style.right;
@@ -151,6 +151,7 @@ function rotarCarrusel(carr) {
     elem.style.right = posi;
 }
 
+//obtiene los tags de cada estacion que sean compatibles con los widgets de inico
 function cargarAjustes() {
     var sel = document.getElementById("tagSel");
     sel.innerHTML = "";
@@ -207,6 +208,7 @@ function cargarAjustes() {
 
 }
 
+//despliega u oculta la ventana de ajustes de los widgets de inicio
 function ajustes() {
     var menu = document.getElementById("ajustesSeccion");
     if (menu.style.display == 'none') {
@@ -224,6 +226,7 @@ function ajustes() {
     widgetSelec('Widget 1');
 }
 
+//funciones de control de la interfaz de la ventana de ajustes de los widgets de inicio
 function widgetSelec(val) {
     var seccion = document.getElementById('seccionAjustes');
     console.log(val);
@@ -266,6 +269,8 @@ function widgetSelec(val) {
 
 }
 
+//acepta y guarda la configuracion del usuario para los widgets
+//de señales analogicas en inicio
 function confirmarAjustesWidget(wid) {
 
     var widget = wid;
@@ -288,11 +293,13 @@ function confirmarAjustesWidget(wid) {
     });
 }
 
+//captador de eventos custom
 function getEventTarget(e) {
     e = e || window.event;
     return e.target || e.srcElement;
 }
 
+//llama a AJAX para obtener los datos de inicio
 function feedPrincipalCustom() {
     $(document).ready(function() {
         $.ajax({
@@ -310,6 +317,7 @@ function feedPrincipalCustom() {
     });
 }
 
+//crea los widgets para las señales analogicas definidas en inicio
 function renderPrincipalCustom(feed) {
     document.getElementById("prinDer").innerHTML = "";
     var w1 = "";
@@ -420,6 +428,8 @@ function renderPrincipalCustom(feed) {
     crearWidgetsChartsCustom(feed);
 }
 
+//render de los gaugue trend y agregados de las señales analogicas definidas 
+//para los widgets en inicio . usa la config de echarts
 function crearWidgetsChartsCustom(feed) {
     var gauges = new Array();
     var trends = new Array();

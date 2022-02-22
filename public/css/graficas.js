@@ -490,8 +490,23 @@ function mostrarOpciones() {
 
 //saca una captura del grafico en panatalla
 function imprimir() {
-    html2canvas(document.querySelector('#grafica')).then(function(canvas) {
-        guardar(canvas.toDataURL(), 'grafico.png');
+    var al = $("#grafica").height();
+    var an = $("#grafica").width();
+    var hoy = new Date();
+    var fechaHoy = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
+    var nombre_informe = 'Historico ' + fechaHoy + '.pdf';
+    var informe = document.getElementById('grafica');
+    var opt = {
+        margin: 0,
+        filename: nombre_informe,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
+        jsPDF: { unit: 'px', format: [an, al], orientation: 'l' }
+    };
+
+    var exp_informe = new html2pdf(informe, opt);
+    exp_informe.getPdf(true).then((pdf) => {
+
     });
 }
 
