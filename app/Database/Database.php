@@ -91,11 +91,12 @@ class Database
         }
     }
 
-    public function obtenerFotoEstacion($id_estacion){
+    public function obtenerFotoEstacion($id_estacion)
+    {
         if ($this->conectar()) {
             $consulta = "SELECT foto as foto
             FROM estaciones
-            WHERE id_estacion = ".$id_estacion;
+            WHERE id_estacion = " . $id_estacion;
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $foto = pg_fetch_all($resultado)[0]['foto'];
@@ -827,7 +828,7 @@ class Database
             }
         }
     }
-    
+
     //obtiene toda la informacion de las señales digitales de inicio
     //busca tags digitales con alarma en un periodo de 48h
     public function feedPrincipalDigital($estaciones)
@@ -880,7 +881,7 @@ class Database
     //Ejemplo de codigo de config --> "w1:126-w2:260-w3:261-w4:167";
     public function confirmarWidget($wid, $tag, $id_usuario)
     {
-        
+
         $configBD = "";
         $configuracionWidgetsUsuario = array();
         if ($this->conectar()) {
@@ -931,6 +932,37 @@ class Database
         return false;
     }
 
+    private function obetenerNombreTag($id_tag)
+    {
+        if ($this->conectar()) {
+            $con = "SELECT nombre_tag FROM tags WHERE id_tag = " . $id_tag;
+            $res = pg_query($this->conexion, $con);
+            if ($this->consultaExitosa($res)) {
+                return pg_fetch_all($res)[0]['nombre_tag'];
+            }
+        }
+    }
+
+    private function obtenerConsignasTag($id_tag){
+
+        $nombre_tag = $this->obetenerNombreTag($id_tag);
+
+        if ($this->conectar()) {
+            $con = "SELECT estaciones.nombre_estacion,tags.nombre_tag,tags.unidad, datos_valores.valor_float 
+            from datos_valores inner join tags on tags.id_tag = datos_valores.id_tag 
+            inner join estacion_tag on estacion_tag.id_tag = tags.id_tag
+            inner join estaciones on estaciones.id_estacion = estacion_tag.id_estacion
+            WHERE tags.nombre_tag LIKE('Consigna ".$nombre_tag."%') and estaciones.id_estacion = (select id_estacion from estacion_tag where id_tag = ".$id_tag.")
+            order by estaciones.nombre_estacion";
+            $res = pg_query($this->conexion, $con);
+            if ($this->consultaExitosa($res)) {
+                return pg_fetch_all($res);
+            }
+        }
+        return false;
+    }
+
+
     //obtiene el ultimo dato, el trend diario y los agregados semanales de los widgets definidos por el 
     //usuario en su configuracion
     public function feedPrincipalCustom($id_usuario)
@@ -951,9 +983,12 @@ class Database
             $trendDia = array();
             $agregSemana = array();
             $infoTag = array();
+            $consignas_tag = array();
+
 
             foreach ($configuracionWidgetsUsuario as $widget => $tag) {
                 $tag = intval($tag);
+                $consignas_tag= $this->obtenerConsignasTag($tag);
                 //ultimo valor del tag
                 $conUltimoValor = "SELECT tags.unidad,estaciones.nombre_estacion, tags.nombre_tag, datos_valores.valor_acu, datos_valores.valor_float,datos_valores.valor_int,datos_valores.id_tag,datos_valores.fecha 
                 FROM datos_valores inner join tags on tags.id_tag = datos_valores.id_tag
@@ -975,8 +1010,15 @@ class Database
                     }
                     $ultvalor = $ultValorLimpio;
                 }
-                //trend diario del tag
-                $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . "AND datos_historicos.fecha::date > current_date::date - interval '1 days' ORDER BY fecha desc";
+
+                //trend diario (o semanal si es acumulado) del tag
+                $conTrendDia = "";
+                $n_tag = $this->obetenerNombreTag($tag);
+                if (strpos($n_tag, 'Acumulado') !== false) {
+                    $conTrendDia = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date > current_date::date - interval '7 days' ORDER BY fecha desc";
+                } else {
+                    $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date > current_date::date - interval '1 days' ORDER BY fecha desc";
+                }
                 $resTrendDia = pg_query($this->conexion, $conTrendDia);
                 if ($this->consultaExitosa($resTrendDia)) {
                     $trendDia = pg_fetch_all($resTrendDia);
@@ -986,9 +1028,8 @@ class Database
                             if (str_contains($factor, 'valor_')) {
                                 if ($valor != null) {
                                     $trendDiaLimpio[$index]['valor'] = $valor;
-                                } 
-                            }
-                            else {
+                                }
+                            } else {
                                 $trendDiaLimpio[$index][$factor] = $valor;
                             }
                         }
@@ -996,58 +1037,101 @@ class Database
                     $trendDia = $trendDiaLimpio;
                 }
 
-                //trend semanal de agregados del tag
-                $conAgregSemanal = "SELECT MAX(datos_historicos.valor_acu) as max_acu, MAX(datos_historicos.valor_int) as max_int, MAX(datos_historicos.valor_float) as max_float,
-                MIN(datos_historicos.valor_acu) as min_acu, MIN(datos_historicos.valor_int) as min_int, MIN(datos_historicos.valor_float) as min_float,datos_historicos.fecha::date
-                from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                where datos_historicos.id_tag = " . $tag . "
-                and datos_historicos.fecha::date > current_date::date - interval '7 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
+                //trend semanal de agregados (o solo maximos y 2 semanas si es acumulado) del tag
 
-                $resAgregSemanal = pg_query($this->conexion, $conAgregSemanal);
-                if ($this->consultaExitosa($resAgregSemanal)) {
-                    $agregSemana = pg_fetch_all($resAgregSemanal);
-                    $agregSemanaLimpio = array();
-                    foreach ($agregSemana as $index => $dato) {
-                        foreach ($dato as $factor => $valor) {
-                            if ($valor != null && $factor != 'fecha') {
-                                if(strpos($factor, 'max') !== false){
-                                    $agregSemanaLimpio[$index]['max'] = $valor;
+                $conAgregSemanal = "";
+                if (strpos($n_tag, 'Acumulado') !== false) {
+                    $conAgregSemanal = "SELECT MAX(datos_historicos.valor_acu) as max_acu, MAX(datos_historicos.valor_int) as max_int, MAX(datos_historicos.valor_float) as max_float,datos_historicos.fecha::date
+                    from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+                    where datos_historicos.id_tag = " . $tag . "
+                    and datos_historicos.fecha::date > current_date::date - interval '14 days' GROUP BY datos_historicos.fecha::date LIMIT 14";
+
+                    $resAgregSemanal = pg_query($this->conexion, $conAgregSemanal);
+                    if ($this->consultaExitosa($resAgregSemanal)) {
+                        $agregSemana = pg_fetch_all($resAgregSemanal);
+                        $agregSemanaLimpio = array();
+                        foreach ($agregSemana as $index => $dato) {
+                            foreach ($dato as $factor => $valor) {
+                                if ($valor != null && $factor != 'fecha') {
+                                    if (strpos($factor, 'max') !== false) {
+                                        $agregSemanaLimpio[$index]['max'] = $valor;
+                                    }
+                                    // if (strpos($factor, 'min') !== false) {
+                                    //     $agregSemanaLimpio[$index]['min'] = $valor;
+                                    // }
+                                    // if (strpos($factor, 'avg') !== false) {
+                                    //     $agregSemanaLimpio[$index]['avg'] = $valor;
+                                    // }
+                                } else {
+                                    $agregSemanaLimpio[$index][$factor] = $valor;
                                 }
-                                if(strpos($factor, 'min') !== false){
-                                    $agregSemanaLimpio[$index]['min'] = $valor;
-                                }
-                            }
-                            else {
-                                $agregSemanaLimpio[$index][$factor] = $valor;
                             }
                         }
+                        $agregSemana = $agregSemanaLimpio;
                     }
-                    $agregSemana = $agregSemanaLimpio;
+                } else {
+                    $conAgregSemanal = "SELECT MAX(datos_historicos.valor_acu) as max_acu, MAX(datos_historicos.valor_int) as max_int, MAX(datos_historicos.valor_float) as max_float,
+                    MIN(datos_historicos.valor_acu) as min_acu, MIN(datos_historicos.valor_int) as min_int, MIN(datos_historicos.valor_float) as min_float,
+                    AVG(datos_historicos.valor_acu) as avg_acu, AVG(datos_historicos.valor_int) as avg_int, AVG(datos_historicos.valor_float) as avg_float,datos_historicos.fecha::date
+                    from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+                    where datos_historicos.id_tag = " . $tag . "
+                    and datos_historicos.fecha::date > current_date::date - interval '7 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
 
+                    $resAgregSemanal = pg_query($this->conexion, $conAgregSemanal);
+                    if ($this->consultaExitosa($resAgregSemanal)) {
+                        $agregSemana = pg_fetch_all($resAgregSemanal);
+                        $agregSemanaLimpio = array();
+                        foreach ($agregSemana as $index => $dato) {
+                            foreach ($dato as $factor => $valor) {
+                                if ($valor != null && $factor != 'fecha') {
+                                    if (strpos($factor, 'max') !== false) {
+                                        $agregSemanaLimpio[$index]['max'] = $valor;
+                                    }
+                                    if (strpos($factor, 'min') !== false) {
+                                        $agregSemanaLimpio[$index]['min'] = $valor;
+                                    }
+                                    if (strpos($factor, 'avg') !== false) {
+                                        $agregSemanaLimpio[$index]['avg'] = $valor;
+                                    }
+                                } else {
+                                    $agregSemanaLimpio[$index][$factor] = $valor;
+                                }
+                            }
+                        }
+                        $agregSemana = $agregSemanaLimpio;
+                    }
                 }
 
-                $infoTag[$widget] = ["unidad"=>$ultvalor['unidad'], "widget" => $widget, "nombre" => $ultvalor['nombre_tag'], "estacion" => $ultvalor['nombre_estacion'], "ultimo_valor" => $ultvalor, "trend_dia" => $trendDia, "agreg_semana" => $agregSemana];
+                if($consignas_tag != false){
+                    $infoTag[$widget] = ["unidad" => $ultvalor['unidad'],"consignas"=>$consignas_tag, "widget" => $widget, "nombre" => $ultvalor['nombre_tag'], "estacion" => $ultvalor['nombre_estacion'], "ultimo_valor" => $ultvalor, "trend_dia" => $trendDia, "agreg_semana" => $agregSemana];
+                }
+                else {
+                    $infoTag[$widget] = ["unidad" => $ultvalor['unidad'], "widget" => $widget, "nombre" => $ultvalor['nombre_tag'], "estacion" => $ultvalor['nombre_estacion'], "ultimo_valor" => $ultvalor, "trend_dia" => $trendDia, "agreg_semana" => $agregSemana];
+                }
             }
             return $infoTag;
         }
     }
 
     //funcion para la seccion de graficosCustom. Borra un preset seleccionado del usuario
-    public function borrarPreset($n_preset, $id_usuario){
-        if($this->conectar()){
-            $sec = "DELETE FROM graficas WHERE id_usuario = ".$id_usuario[0]['id_usuario']." AND configuracion LIKE('".$n_preset."%')";
+    public function borrarPreset($n_preset, $id_usuario)
+    {
+        if ($this->conectar()) {
+            $sec = "DELETE FROM graficas WHERE id_usuario = " . $id_usuario[0]['id_usuario'] . " AND configuracion LIKE('" . $n_preset . "%')";
             pg_query($this->conexion, $sec);
             return true;
+        } else {
+            return false;
         }
-        else{return false;}
     }
 
     //obtiene la lista de presets guardada de un usuario
-    public function leerPresets($id_usuario){
-        if($this->conectar()){
-            $conPresets = "SELECT configuracion FROM graficas WHERE id_usuario = ".$id_usuario[0]['id_usuario']."";
+    public function leerPresets($id_usuario)
+    {
+        if ($this->conectar()) {
+            $conPresets = "SELECT configuracion FROM graficas WHERE id_usuario = " . $id_usuario[0]['id_usuario'] . "";
             $resPresets = pg_query($this->conexion, $conPresets);
-            if($this->consultaExitosa($resPresets)){
+            if ($this->consultaExitosa($resPresets)) {
                 $presets = pg_fetch_all($resPresets);
                 return $presets;
             }
@@ -1058,23 +1142,23 @@ class Database
     // guarda un preset nuevo para un usuario
     //ejemplo de codigo --> nombre@6?/1:12#fffff-23#gggg-45#kkkkk/2:xxxxxx/3:xxxxx
     //estructura de config --> nombre@id_estacion?/tag:color-tag:color-tag:color-
-    public function guardarPreset($usuario,$pwd,$nombre, $estacion, $tags_colores){
-        $codigo = $nombre."@".$estacion."?";
+    public function guardarPreset($usuario, $pwd, $nombre, $estacion, $tags_colores)
+    {
+        $codigo = $nombre . "@" . $estacion . "?";
         foreach ($tags_colores as $tag => $color) {
-            if($color != null){
-                $codigo .= "/".$tag.":".$color.""; 
+            if ($color != null) {
+                $codigo .= "/" . $tag . ":" . $color . "";
             }
         }
 
         $id_usuario = $this->obtenerIdUsuario($usuario, $pwd);
 
-        if($id_usuario){
+        if ($id_usuario) {
             $secu = "INSERT INTO graficas(id_usuario, configuracion)
-            VALUES (".$id_usuario[0]['id_usuario'].", '".$codigo."')";
+            VALUES (" . $id_usuario[0]['id_usuario'] . ", '" . $codigo . "')";
             pg_query($this->conexion, $secu);
             return true;
         }
         return false;
     }
-
 }

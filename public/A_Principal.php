@@ -37,9 +37,21 @@ if($_GET['opcion'] == 'refresh') {
 
 if($_GET['opcion'] == 'ajustes'){
     $datos = json_decode($_REQUEST['arrEstaciones']);
-    
     $datosAnalog = $db->tagsAnalogHisto($datos);
-    echo json_encode($datosAnalog);
+    $datosSinAcus = Array();
+    foreach($datosAnalog as $estacion=>$tags){
+        foreach($tags as $index => $tag){
+            if(strpos($tag['nombre_tag'],"Acumulado") !== false){
+                if(strpos($tag['nombre_tag'], "Dia") !== false){
+                    $datosSinAcus[$estacion][] = $tag;
+                }
+            }
+            else{
+                $datosSinAcus[$estacion][] = $tag;
+            }
+        }
+    }
+    echo json_encode($datosSinAcus);
 }
 
 if($_GET['opcion'] == 'confirmar'){

@@ -117,7 +117,7 @@ if (isset($_GET['log'])) {
     <button class="btn me-2 btn-block" id="btnMenuIzq" title="ocultar/mostrar menú" onclick="abrirCerrar()">☰</button>
     <div class="d-flex flex-column flex-shrink-0 text-light container-fluid" value="abierto" id="menuIzq" style="width: 15%;">
         <form action="<?php echo base_url(); ?>" id="contenidoMenuIzq1" method="POST">
-            <button name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio" style="width: 100%; border-radius:0px; font-size:2em; color:white; <?php if (isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio') {
+            <button name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio" style="width: 100%; border-radius:0px; font-size:200%; color:white; <?php if (isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio') {
                                                                                                                                                                             echo "background-color:rgb(1, 168, 184)";
                                                                                                                                                                         } ?>">
                 <i class="fas fa-home"></i>Inicio
@@ -128,11 +128,11 @@ if (isset($_GET['log'])) {
 
             <!---estaciones--->
             <li class="Func">
-                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnFuncion" value="estaciones" onclick="desplegar(this.value)"
+                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnFuncion" value="estaciones" style="font-size:100%;" onclick="desplegar(this.value)"
                     <?php if (!isset($_SESSION["nombre"])) {
                         echo "disabled";
                     } ?>>
-                    <i class="fas fa-broadcast-tower" style="margin-right:5%"></i>Estaciones<i class="fas fa-caret-down"></i>
+                    <i class="fas fa-broadcast-tower" style="margin-right:5%;font-size:80%"></i>Estaciones<i class="fas fa-caret-down"></i>
                 </button>
             </li>
             <!---wrap estaciones--->
@@ -159,10 +159,10 @@ if (isset($_GET['log'])) {
 
             <!-- wrap de graficas -->
             <li class="Func">
-                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnGraf" value="grafs" onclick="desplegar(this.value)"<?php if (!isset($_SESSION["nombre"])) {
+                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnGraf" value="grafs" style="font-size:100%;" onclick="desplegar(this.value)"<?php if (!isset($_SESSION["nombre"])) {
                         echo "disabled";
                     } ?>>
-                    <i class="far fa-chart-bar" style="margin-right:5%"></i>Graficas<i class="fas fa-caret-down"></i>
+                    <i class="far fa-chart-bar" style="margin-right:5%"></i>Graficas <i class="fas fa-caret-down"></i>
                 </button>
             </li>
             <ul class='miniEstacion'>
@@ -175,7 +175,7 @@ if (isset($_GET['log'])) {
                 </li>
                 <li>
                     <form action="<?php echo base_url(); ?>/graficas" method="POST">
-                        <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" value="custom" style="padding:1em;width:100%;border-radius:0;  color:white;">
+                        <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" value="custom" style="padding:1em;width:100%;border-radius:0;color:white;">
                             Vista Personalizada <i class="fas fa-search"></i>
                         </button>
                     </form>
@@ -186,7 +186,7 @@ if (isset($_GET['log'])) {
                 <form action="<?php echo base_url(); ?>/alarmas" method="POST">
                     <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if (!isset($_SESSION["nombre"])) {
                                                                                                 echo "disabled";
-                                                                                            } ?> style="padding:1em;width:100%;border-radius:0;  color:white;">
+                                                                                            } ?> style="font-size:100%;padding:1em;width:100%;border-radius:0;color:white;">
                         <i class="fas fa-bell" style="margin-right:5%"></i>Alarmas
                     </button>
                 </form>
@@ -195,7 +195,7 @@ if (isset($_GET['log'])) {
                 <form action="<?php echo base_url(); ?>/informes" method="POST">
                     <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if (!isset($_SESSION["nombre"])) {
                                                                                                 echo "disabled";
-                                                                                            } ?> style="padding:1em;width:100%;border-radius:0;  color:white;">
+                                                                                            } ?> style="font-size:100%;padding:1em;width:100%;border-radius:0;  color:white;">
                         <i class="fas fa-file" style="margin-right:5%"></i>Informes
                     </button>
                 </form>
@@ -204,13 +204,12 @@ if (isset($_GET['log'])) {
                 <form action="<?php echo base_url(); ?>/comunicaciones" method="POST">
                     <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if (!isset($_SESSION["nombre"])) {
                                                                                                 echo "disabled";
-                                                                                            } ?> style="padding:1em;width:100%;border-radius:0;  color:white;">
+                                                                                            } ?> style="font-size:100%;padding:1em;width:100%;border-radius:0;  color:white;">
                         <i class="fas fa-satellite-dish" style="margin-right:5%"></i>Comunicaciones
                     </button>
                 </form>
             </li>
 
-            <!---debug--->
 
             <hr>
             <!---LOGIN---->
@@ -228,11 +227,11 @@ if (isset($_GET['log'])) {
                 </form>
             </li>
             <li id="conRest" style="text-align: center;" onclick="tiempoOpciones()">
-                <h6>Inactividad restante:</h6>
+                <h6>Tiempo de inactividad restante:</h6>
                 <p id="restante"></p>
             </li>
             <li>
-                <ul id="amplificador">
+                <ul id="amplificador" style="font-size: 80%;">
                     <p> Opciones para modificar Inactividad
                         <i class="fas fa-stopwatch"></i>
 

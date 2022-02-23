@@ -37,7 +37,7 @@ function mapas() {
         if (estacionesUbis[index][0]['foto'] != null) {
             var foto = 'url("data:image/jpg;base64,' + estacionesUbis[index][0]['foto'] + '")';
             var imagen = "<div style='height:90px;width:100%;background-image:" + foto + ";background-size:cover;background-position:center' ></div><br>";
-            console.log(imagen);
+
             estacion.bindPopup(imagen + msg + btn).openPopup();
         } else {
             estacion.bindPopup(msg + btn).openPopup();
@@ -229,7 +229,7 @@ function ajustes() {
 //funciones de control de la interfaz de la ventana de ajustes de los widgets de inicio
 function widgetSelec(val) {
     var seccion = document.getElementById('seccionAjustes');
-    console.log(val);
+
     if (val == 'Widget 1') {
         var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>arriba a la izquierda</b></p><p>Señales disponibles:<select id="tagSel" style="margin-left:1%"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w1")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
         seccion.innerHTML = msg;
@@ -452,78 +452,115 @@ function crearWidgetsChartsCustom(feed) {
         var nombre_estacion = feed[wid]['ultimo_valor']['nombre_estacion'];
         var trend_dia = feed[wid]['trend_dia'];
         var agreg_semanal = feed[wid]['agreg_semana'];
+        var consignas_tag = {};
+        if (feed[wid]['consignas'] !== undefined) {
+            consignas_tag = feed[wid]['consignas']
+        }
 
-        //gauge con val actual
-        var optGau = {
-            grid: {
-                left: '0%',
-                right: '0%',
-                top: '0%',
-                bottom: '-5%',
-                containLabel: true
-            },
-            title: {
-                left: 'center',
-                text: "Valor actual de " + nombre_dato + " de " + nombre_estacion,
-                textStyle: {
-                    fontStyle: 'bold',
-                    fontSize: 12
-                },
-            },
-            series: [{
-                max: 10,
-                min: 0,
-                name: nombre_dato + " : " + nombre_estacion,
-                type: 'gauge',
-                itemStyle: {
-                    color: 'rgb(1, 168, 184)'
-                },
-                progress: {
-                    show: true
-                },
-                axisLine: {
-                    show: true,
-                    // lineStyle: {
-                    //     width: 6,
-                    //     color: [
-                    //         [(minimo), 'tomato'],
-                    //         [(maximo), 'rgb(39, 45, 79)'],
-                    //         [1, 'tomato']
-                    //     ]
-                    // }
+        //numero de contador
+        if (nombre_dato.includes('Acumulado')) {
 
+            var txt_actual = valor_actual.toString();
+            var estilo = "border:1px solid black;font-size:500%;background-color:grey;color:white";
+            var widCon = "<table style='text-align:center;width:80%;height:40%;margin:15% 10% 20% 10%;'><tr style='border-radius:10px'>";
+            for (var carac in txt_actual) {
+                if (txt_actual[carac] == '.') {
+                    // widCon += '<td style="border:1px solid black;font-size:500%;">' + txt_actual[carac] + '</td>';
+                    estilo = "border:1px solid black;font-size:500%;background-color:tomato;color:white";
+                } else {
+                    widCon += '<td style="' + estilo + '">' + txt_actual[carac] + '</td>';
+                }
+            }
+            widCon += "</tr></table>"
+            document.getElementById("gau" + feed[wid]['widget']).innerHTML = 'Valor de ' + nombre_dato + '<br> ' + widCon;
+
+        } else {
+            var con_max = 0;
+            var con_min = 0;
+
+            for (var index in consignas_tag) {
+                if (consignas_tag[index]['nombre_tag'].includes('Max')) {
+                    con_max = consignas_tag[index]['valor_float'];
+                }
+                if (consignas_tag[index]['nombre_tag'].includes('Min')) {
+                    con_min = consignas_tag[index]['valor_float'];
+                }
+            }
+
+
+
+            //gauge con val actual
+            var optGau = {
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    top: '5%',
+                    bottom: '1%',
+                    containLabel: true
                 },
-                axisTick: {
-                    show: true
-                },
-                axisLabel: {
-                    show: false
-                },
-                splitLine: {
-                    show: true
-                },
-                pointer: {
-                    // icon: 'rect',
-                    length: '80%',
-                    width: 4,
-                    itemStyle: {
-                        color: 'tomato'
+                title: {
+                    left: 'center',
+                    text: "Valor actual: " + nombre_dato + " de " + nombre_estacion,
+                    textStyle: {
+                        fontStyle: 'bold',
+                        fontSize: 18
                     },
                 },
-                // max: maximoGraf,
-                // min: 0,
-                detail: {
-                    show: true,
-                    valueAnimation: true,
-                    formatter: nombre_dato + ':{value}',
-                    fontSize: 8
-                },
-                data: [{
-                    value: valor_actual,
+                series: [{
+                    max: 10,
+                    min: 0,
+                    name: nombre_dato + " : " + nombre_estacion,
+                    type: 'gauge',
+                    itemStyle: {
+                        color: 'rgb(1, 168, 184)'
+                    },
+                    progress: {
+                        show: true
+                    },
+                    axisLine: {
+                        show: true,
+                        // lineStyle: {
+                        //     width: 6,
+                        //     color: [
+                        //         [(minimo), 'tomato'],
+                        //         [(maximo), 'rgb(39, 45, 79)'],
+                        //         [1, 'tomato']
+                        //     ]
+                        // }
+
+                    },
+                    axisTick: {
+                        show: true
+                    },
+                    axisLabel: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: true
+                    },
+                    pointer: {
+                        // icon: 'rect',
+                        length: '80%',
+                        width: 4,
+                        itemStyle: {
+                            color: 'tomato'
+                        },
+                    },
+                    // max: maximoGraf,
+                    // min: 0,
+                    detail: {
+                        show: true,
+                        valueAnimation: true,
+                        formatter: nombre_dato + ':{value}',
+                        fontSize: 8
+                    },
+                    data: [{
+                        value: valor_actual,
+                    }]
                 }]
-            }]
-        };
-        optGau && grafGau.setOption(optGau, true);
+            };
+            optGau && grafGau.setOption(optGau, true);
+        }
 
 
         //chart lineas trend diario
@@ -544,10 +581,10 @@ function crearWidgetsChartsCustom(feed) {
             },
             title: {
                 left: 'center',
-                text: "Últimas 24h de " + nombre_dato + " de " + nombre_estacion,
+                text: "Dia: " + nombre_dato + " de " + nombre_estacion,
                 textStyle: {
                     fontStyle: 'bold',
-                    fontSize: 10
+                    fontSize: 16
                 },
             },
             tooltip: {
@@ -555,7 +592,7 @@ function crearWidgetsChartsCustom(feed) {
                 icon: 'none',
                 textStyle: {
                     fontStyle: 'bold',
-                    fontSize: 10
+                    fontSize: 16
                 },
                 axisPointer: {
                     type: 'line',
@@ -566,7 +603,7 @@ function crearWidgetsChartsCustom(feed) {
                 }
             },
             xAxis: {
-                inverse: true,
+                inverse: false,
                 show: true,
                 type: 'category',
                 data: horas_dia
@@ -604,115 +641,232 @@ function crearWidgetsChartsCustom(feed) {
 
         var max_agreg = [];
         var min_agreg = [];
+        var avg_agreg = [];
         var fechas_agreg = [];
-        for (var index in agreg_semanal) {
-            max_agreg.push(agreg_semanal[index]['max']);
-            min_agreg.push(agreg_semanal[index]['min']);
-            fechas_agreg.push(agreg_semanal[index]['fecha']);
+
+        if (nombre_dato.includes('Acumulado')) {
+            for (var index in agreg_semanal) {
+                max_agreg.push(agreg_semanal[index]['max']);
+                fechas_agreg.push(agreg_semanal[index]['fecha']);
+            }
+            optionSemanal = {
+                legend: {
+                    x: 'center',
+                    y: 'top',
+                    textStyle: {
+                        fontWeight: 'normal',
+                        fontSize: 16,
+                    },
+                    padding: 2,
+                    show: false
+                },
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    top: '12%',
+                    bottom: '1%',
+                    containLabel: true
+                },
+                title: {
+                    show: true,
+                    left: 'center',
+                    text: "Semanal: " + nombre_dato + " de " + nombre_estacion,
+                    textStyle: {
+                        fontStyle: 'bold',
+                        fontSize: 16,
+
+                    },
+                },
+                tooltip: {
+                    show: true,
+                    trigger: 'axis',
+                    icon: 'none',
+                    textStyle: {
+                        fontStyle: 'bold',
+                        fontSize: 14
+                    },
+                    axisPointer: {
+                        type: 'line',
+                        label: {
+                            formatter: 'fecha y hora: {value}',
+                            fontStyle: 'bold'
+                        }
+                    }
+                },
+                xAxis: {
+                    inverse: true,
+                    show: true,
+                    type: 'category',
+                    data: fechas_agreg
+                },
+                yAxis: {
+                    // name: nombre_dato + ' : ' + nombre_estacion,
+                    type: 'value'
+                },
+                series: [{
+                    name: 'Máximos de ' + nombre_dato,
+                    data: max_agreg,
+                    type: 'bar',
+
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+
+                            { offset: 0, color: '#01a8b8' },
+                            { offset: 1, color: '#272d4f' }
+
+                        ])
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: '#01a8b8' },
+                                { offset: 1, color: '#272d4f' }
+                            ])
+                        }
+                    },
+                    symbol: 'none',
+                    smooth: false
+                }]
+            };
+
+
+        } else {
+            for (var index in agreg_semanal) {
+                max_agreg.push(agreg_semanal[index]['max']);
+                min_agreg.push(agreg_semanal[index]['min']);
+                avg_agreg.push(agreg_semanal[index]['avg']);
+                fechas_agreg.push(agreg_semanal[index]['fecha']);
+            }
+            optionSemanal = {
+                legend: {
+                    x: 'center',
+                    y: 'top',
+                    textStyle: {
+                        fontWeight: 'normal',
+                        fontSize: 16,
+                    },
+                    padding: 2,
+                    show: false
+                },
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    top: '12%',
+                    bottom: '1%',
+                    containLabel: true
+                },
+                title: {
+                    show: true,
+                    left: 'center',
+                    text: "Semanal: " + nombre_dato + " de " + nombre_estacion,
+                    textStyle: {
+                        fontStyle: 'bold',
+                        fontSize: 16,
+
+                    },
+                },
+                tooltip: {
+                    show: true,
+                    trigger: 'axis',
+                    icon: 'none',
+                    textStyle: {
+                        fontStyle: 'bold',
+                        fontSize: 14
+                    },
+                    axisPointer: {
+                        type: 'line',
+                        label: {
+                            formatter: 'fecha y hora: {value}',
+                            fontStyle: 'bold'
+                        }
+                    }
+                },
+                xAxis: {
+                    inverse: true,
+                    show: true,
+                    type: 'category',
+                    data: fechas_agreg
+                },
+                yAxis: {
+                    // name: nombre_dato + ' : ' + nombre_estacion,
+                    type: 'value'
+                },
+                series: [{
+                        name: 'Máximos de ' + nombre_dato,
+                        data: max_agreg,
+                        type: 'bar',
+
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+
+                                { offset: 0, color: '#01a8b8' },
+                                { offset: 1, color: '#272d4f' }
+
+                            ])
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                    { offset: 0, color: '#01a8b8' },
+                                    { offset: 1, color: '#272d4f' }
+                                ])
+                            }
+                        },
+                        symbol: 'none',
+                        smooth: false
+                    }, {
+                        name: 'Medias de ' + nombre_dato,
+                        data: avg_agreg,
+                        type: 'bar',
+
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+
+                                { offset: 0, color: 'yellow' },
+                                { offset: 1, color: 'darkorange' }
+
+                            ])
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                    { offset: 0, color: 'yellow' },
+                                    { offset: 1, color: 'darkorange' }
+                                ])
+                            }
+                        },
+                        symbol: 'none',
+                        smooth: false
+                    },
+                    {
+                        name: 'Mínimos de ' + nombre_dato,
+                        data: min_agreg,
+                        type: 'bar',
+
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+
+                                { offset: 0, color: '#1aff00' },
+                                { offset: 1, color: '#307a27' }
+
+                            ])
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                    { offset: 0, color: '#1aff00' },
+                                    { offset: 1, color: '#307a27' }
+                                ])
+                            }
+                        },
+                        symbol: 'none',
+                        smooth: false
+                    }
+
+                ]
+            };
+
         }
-
-        optionSemanal = {
-            legend: {
-                x: 'center',
-                y: 'top',
-                textStyle: {
-                    fontWeight: 'normal',
-                    fontSize: 10,
-                },
-                padding: 2,
-                show: false
-            },
-            grid: {
-                left: '5%',
-                right: '5%',
-                top: '12%',
-                bottom: '1%',
-                containLabel: true
-            },
-            title: {
-                show: true,
-                left: 'center',
-                text: "Máximos y mínimos semanales " + nombre_dato + " de " + nombre_estacion,
-                textStyle: {
-                    fontStyle: 'bold',
-                    fontSize: 10,
-                    margin: 5
-                },
-            },
-            tooltip: {
-                show: true,
-                trigger: 'axis',
-                icon: 'none',
-                textStyle: {
-                    fontStyle: 'bold',
-                    fontSize: 8
-                },
-                axisPointer: {
-                    type: 'line',
-                    label: {
-                        formatter: 'fecha y hora: {value}',
-                        fontStyle: 'bold'
-                    }
-                }
-            },
-            xAxis: {
-                inverse: true,
-                show: true,
-                type: 'category',
-                data: fechas_agreg
-            },
-            yAxis: {
-                // name: nombre_dato + ' : ' + nombre_estacion,
-                type: 'value'
-            },
-            series: [{
-                name: 'Máximos de ' + nombre_dato,
-                data: max_agreg,
-                type: 'bar',
-
-                itemStyle: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-
-                        { offset: 0, color: '#01a8b8' },
-                        { offset: 1, color: '#272d4f' }
-
-                    ])
-                },
-                emphasis: {
-                    itemStyle: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                            { offset: 0, color: '#272d4f' },
-                            { offset: 1, color: '#01a8b8' }
-                        ])
-                    }
-                },
-                symbol: 'none',
-                smooth: false
-            }, {
-                name: 'Mínimos de ' + nombre_dato,
-                data: min_agreg,
-                type: 'bar',
-
-                itemStyle: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-
-                        { offset: 0, color: '#1aff00' },
-                        { offset: 1, color: '#307a27' }
-
-                    ])
-                },
-                emphasis: {
-                    itemStyle: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                            { offset: 0, color: '#1aff00' },
-                            { offset: 1, color: '#307a27' }
-                        ])
-                    }
-                },
-                symbol: 'none',
-                smooth: false
-            }]
-        };
         optionSemanal && grafAgreg.setOption(optionSemanal, true);
     }
 
