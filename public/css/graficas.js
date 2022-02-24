@@ -238,8 +238,8 @@ function renderGrafico(datosR) {
                 fontWeight: 'bold'
             },
             xAxisIndex: 0,
-            start: 0,
-            end: 10,
+            start: 80,
+            end: 100,
             filterMode: 'filter',
             z: 100
         },
@@ -262,8 +262,8 @@ function renderGrafico(datosR) {
                 fontWeight: 'bold'
             },
             xAxisIndex: 0,
-            start: 0,
-            end: 10,
+            start: 80,
+            end: 100,
             filterMode: 'filter',
             z: 100
         },

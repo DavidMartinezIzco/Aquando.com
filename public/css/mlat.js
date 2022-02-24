@@ -62,14 +62,11 @@ function abrirMenu() {
         document.getElementById("alarmasSur").style.marginLeft = '0%';
         document.getElementById("alarmasSur").style.width = '85%';
     }
-    if (document.getElementById("displayComs")) {
-        document.getElementById("displayComs").style.left = '20%';
-        document.getElementById("displayComs").style.width = '50%';
-        document.getElementById("seccionDetalles1").style.left = '72%';
-        document.getElementById("seccionDetalles1").style.width = '25%';
-        document.getElementById("seccionDetalles2").style.width = '25%';
-        document.getElementById("seccionDetalles2").style.left = '72%';
-    }
+    // if (document.getElementById("displayComs")) {
+    //     document.getElementById("displayComs").style.left = '20%';
+    //     document.getElementById("displayComs").style.width = '50%';
+
+    // }
     if (document.getElementById("btnOpcionesgraficas")) {
         document.getElementById("btnOpcionesgraficas").style.left = '81%';
     }
@@ -98,14 +95,10 @@ function cerrarMenu() {
         document.getElementById("alarmasSur").style.width = '100%';
 
     }
-    if (document.getElementById("displayComs")) {
-        document.getElementById("displayComs").style.left = '5%';
-        document.getElementById("displayComs").style.width = '50%';
-        document.getElementById("seccionDetalles1").style.left = '58%';
-        document.getElementById("seccionDetalles1").style.width = '40%';
-        document.getElementById("seccionDetalles2").style.width = '40%';
-        document.getElementById("seccionDetalles2").style.left = '58%';
-    }
+    // if (document.getElementById("displayComs")) {
+    //     document.getElementById("displayComs").style.left = '5%';
+    //     document.getElementById("displayComs").style.width = '50%';
+    // }
 
 }
 

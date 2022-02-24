@@ -105,7 +105,6 @@ function actualizar(reorden) {
             });
         });
     }
-
 }
 
 function filtrarPorEstacion() {
@@ -140,20 +139,16 @@ function filtrarPorEstacion() {
             });
         });
     }
-
-
 }
 
 function reconocer(id_alarma) {
     var fecha_ack = Date.now();
-    console.log(fecha_ack);
-
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
             url: 'A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
-            success: function(exito) {
-                actualizar();
+            success: function() {
+                actualizar(null);
             },
             error: function() {
                 console.log("error en la update");
@@ -161,18 +156,13 @@ function reconocer(id_alarma) {
 
         });
     });
-
-
-
 }
 
 // function efectoAlerta() {
-
 //     var alertas = document.getElementsByClassName('activaNo');
 //     for (var i = 0, max = alertas.length; i < max; i++) {
 //         setInterval(resaltar(alertas[i]), 1000);
 //     }
-
 // }
 
 // function resaltar(elem) {

@@ -15,24 +15,7 @@
         </table>
     </div>
 
-    <!--sitio para el grafico de resumen del estado-->
-    <div id="seccionDetalles1">
-        <h4 id="calidadSenales">Calidad de señales:</h4>
-        <table id="seccionCalidad">
-        </table>
-    </div>
-
-    <!--sitio para mas informacion-->
-    <div id="seccionDetalles2">
-        <table>
-            <tr>
-                <td><button id="btnControl" value="actualizar" onclick="actu()" name=""><i id="iconoActu" class="fas fa-sync"></i></button></td>
-                <td><button id="btnControl" value="ir" onclick="" style="font-size: 185%;" value="reset" name=""><i class="fas fa-broadcast-tower"></i></i></button></td>
-                <td><button id="btnControl" value="ajustes" onclick="" name=""><i class="fas fa-cog"></i></button></td>
-            </tr>
-        </table>
-
-    </div>
+   
     <!--alarmas de abajo-->
     <table id="alarmasSur">
     </table>

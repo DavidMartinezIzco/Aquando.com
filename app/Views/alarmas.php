@@ -24,7 +24,6 @@
                 ?>
             </select>
         </div>
-
         <div id="filtros2">
             <input type="radio" id="radioFecha" name="filtro" value="Fecha" checked>
             <label for="radioFecha">Fecha</label>
@@ -35,7 +34,6 @@
             <input type="radio" id="radioEstacion" name="filtro" value="estacion">
             <label for="radioEstacion">Estación</label>
         </div>
-
         <div id="orden">
             <input type="radio" id="radioAsc" name="orden" value="ASC">
             <label for="radioAsc">Ascendente</label>
@@ -78,21 +76,21 @@
         setInterval(fechaYHora, 1000);
         setInterval(actualizar(null), 20000);
         setInterval(comprobarTiempo, 1000);
-        $(window).blur(function() {
-            tiempoFuera("");
-        });
-        $(window).focus(function() {
-            tiempoFuera("volver")
-        });
+        // $(window).blur(function() {
+        //     tiempoFuera("");
+        // });
+        // $(window).focus(function() {
+        //     tiempoFuera("volver")
+        // });
 
     }
 
 
     //muestra / oculta las opciones
-    $(window).keydown(function(e) {
-        if (e.ctrlKey)
-            opciones();
-    });
+    // $(window).keydown(function(e) {
+    //     if (e.ctrlKey)
+    //         opciones();
+    // });
 </script>
 
 <?= $this->endSection() ?>

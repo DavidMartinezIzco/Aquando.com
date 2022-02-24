@@ -3,7 +3,7 @@
     position: fixed;
     width: 85%;
     margin: 0px;
-    top: 81%;
+    top: 80%;
     text-align: center;
     transition: 0.5s;
     height: 180px;
@@ -20,7 +20,7 @@
 }
 
 #alarmasSur tr td {
-    font-size: 80%;
+    font-size: 100%;
 }
 
 #alarmasSur tr:first-of-type {

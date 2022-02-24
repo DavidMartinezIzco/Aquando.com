@@ -24,12 +24,12 @@
 
             <!-- zona de wid digitales -->
             <div id="widSup">
-                <div class="digiIzq"></div>
-                <div class="digiDer"></div>
+                <!-- <div class="digiIzq"></div>
+                <div class="digiDer"></div> -->
             </div>
             <div id="widInf">
-                <div class="digiIzq"></div>
-                <div class="digiDer"></div>
+                <!-- <div class="digiIzq"></div>
+                <div class="digiDer"></div> -->
             </div>
         </div>
     </div>

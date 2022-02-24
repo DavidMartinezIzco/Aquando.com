@@ -163,11 +163,11 @@ class Database
 
             if ($fechaInicio != null) {
                 $ini = strtotime($fechaInicio);
-                $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) < " . $ini;
+                $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) <= " . $ini;
             }
             if ($fechaFin != null) {
                 $fin = strtotime($fechaFin);
-                $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) > " . $fin;
+                $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) >= " . $fin;
             }
 
             if ($sentido != null) {
@@ -247,11 +247,11 @@ class Database
 
             if ($fechaInicio != null) {
                 $ini = strtotime($fechaInicio);
-                $consulta .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) < " . $ini;
+                $consulta .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) <= " . $ini;
             }
             if ($fechaFin != null) {
                 $fin = strtotime($fechaFin);
-                $consulta .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) > " . $fin;
+                $consulta .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) >= " . $fin;
             }
 
             if ($sentido != null) {
@@ -856,7 +856,7 @@ class Database
                         $id = $tag['id_tag'];
                         $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
                         FROM alarmas 
-                        WHERE estado = 1 AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '2 days' 
+                        WHERE estado = 1 AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '1 days' 
                         AND NOT valor_alarma = '' 
                         ORDER BY fecha_origen DESC LIMIT 1";
 
@@ -990,7 +990,7 @@ class Database
                 $tag = intval($tag);
                 $consignas_tag= $this->obtenerConsignasTag($tag);
                 //ultimo valor del tag
-                $conUltimoValor = "SELECT tags.unidad,estaciones.nombre_estacion, tags.nombre_tag, datos_valores.valor_acu, datos_valores.valor_float,datos_valores.valor_int,datos_valores.id_tag,datos_valores.fecha 
+                $conUltimoValor = "SELECT tags.unidad,tags.r_min,tags.r_max,estaciones.nombre_estacion, tags.nombre_tag, datos_valores.valor_acu, datos_valores.valor_float,datos_valores.valor_int,datos_valores.id_tag,datos_valores.fecha 
                 FROM datos_valores inner join tags on tags.id_tag = datos_valores.id_tag
                 inner join estacion_tag on tags.id_tag = estacion_tag.id_tag
                 inner join estaciones on estaciones.id_estacion = estacion_tag.id_estacion
@@ -1010,6 +1010,9 @@ class Database
                     }
                     $ultvalor = $ultValorLimpio;
                 }
+                else{
+                    $ultvalor = false;
+                }
 
                 //trend diario (o semanal si es acumulado) del tag
                 $conTrendDia = "";
@@ -1017,7 +1020,7 @@ class Database
                 if (strpos($n_tag, 'Acumulado') !== false) {
                     $conTrendDia = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date > current_date::date - interval '7 days' ORDER BY fecha desc";
                 } else {
-                    $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date > current_date::date - interval '1 days' ORDER BY fecha desc";
+                    $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 hours' ORDER BY fecha desc";
                 }
                 $resTrendDia = pg_query($this->conexion, $conTrendDia);
                 if ($this->consultaExitosa($resTrendDia)) {
@@ -1035,6 +1038,9 @@ class Database
                         }
                     }
                     $trendDia = $trendDiaLimpio;
+                }
+                else {
+                    $trendDia = false;
                 }
 
                 //trend semanal de agregados (o solo maximos y 2 semanas si es acumulado) del tag
@@ -1099,6 +1105,9 @@ class Database
                             }
                         }
                         $agregSemana = $agregSemanaLimpio;
+                    }
+                    else{
+                        $agregSemana = false;
                     }
                 }
 

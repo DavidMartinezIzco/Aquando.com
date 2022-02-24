@@ -119,12 +119,7 @@ if ($opcion == "niv") {
         "dataSource" => $informeTabla,
 
         "columns" => array(
-            // "estacion"=>array(
-            //     "cssStyle"=>"font-weight:bold;text-align:center"
-            // ),
-            // "señal"=>array(
-            //     "cssStyle"=>"text-align:left"
-            //     ),
+            
             "fecha" => array(
                 "cssStyle" => "text-align:center"
             ),
@@ -138,13 +133,10 @@ if ($opcion == "niv") {
                 "cssStyle" => "text-align:center"
             ),
 
-
         ),
         "grouping" => array(
             "estacion" => array(
-                "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
-                
-
+                "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",     
             ),
             "señal" => array(
                 "calculate" => array(

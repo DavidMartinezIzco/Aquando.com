@@ -436,6 +436,7 @@ function renderGrafico() {
     //eje X
     option['xAxis'] = {
         boundaryGap: false,
+        inverse: true,
         splitNumber: 10,
         data: datosTagCustom['fechas'][0],
     };
@@ -450,7 +451,7 @@ function renderGrafico() {
             },
             xAxisIndex: 0,
             start: 0,
-            end: 30,
+            end: 100,
             filterMode: 'filter',
             zlevel: 10
         },
@@ -463,7 +464,7 @@ function renderGrafico() {
             },
             xAxisIndex: 0,
             start: 0,
-            end: 30,
+            end: 100,
             filterMode: 'filter',
             zlevel: 10
         },

@@ -91,10 +91,10 @@
                     </datalist>
 
                     <!-- rango de fechas-->
-                    <label for="fecha">Hasta</label>
-                    <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
                     <label for="fecha">Desde</label>
                     <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin" value="2021-12-01">
+                    <label for="fecha">Hasta</label>
+                    <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
                     <hr>
                     <label for="opciones">Estación:</label>
                     <select class="controlSel" id="opciones" style="transition: 0.5s;" name="opciones" onchange="iniciar(this.value)">

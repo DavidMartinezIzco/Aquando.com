@@ -307,6 +307,7 @@ function feedPrincipalCustom() {
             url: 'A_Principal.php?opcion=feed&usu=' + usu + '&pwd=' + pwd,
 
             success: function(feedAna) {
+                console.log(feedAna);
                 renderPrincipalCustom(feedAna);
             },
             error: function(e) {
@@ -459,7 +460,6 @@ function crearWidgetsChartsCustom(feed) {
 
         //numero de contador
         if (nombre_dato.includes('Acumulado')) {
-
             var txt_actual = valor_actual.toString();
             var estilo = "border:1px solid black;font-size:500%;background-color:grey;color:white";
             var widCon = "<table style='text-align:center;width:80%;height:40%;margin:15% 10% 20% 10%;'><tr style='border-radius:10px'>";
@@ -475,8 +475,14 @@ function crearWidgetsChartsCustom(feed) {
             document.getElementById("gau" + feed[wid]['widget']).innerHTML = 'Valor de ' + nombre_dato + '<br> ' + widCon;
 
         } else {
-            var con_max = 0;
-            var con_min = 0;
+            var con_max = null;
+            var con_min = null;
+            var r_max = feed[wid]['ultimo_valor']['r_max'];
+            var r_min = feed[wid]['ultimo_valor']['r_min'];
+            var g_max = 100;
+            var g_min = 0;
+            var gc_max = 1;
+            var gc_min = 0;
 
             for (var index in consignas_tag) {
                 if (consignas_tag[index]['nombre_tag'].includes('Max')) {
@@ -486,6 +492,18 @@ function crearWidgetsChartsCustom(feed) {
                     con_min = consignas_tag[index]['valor_float'];
                 }
             }
+
+            if (r_max != null) {
+                g_max = r_max;
+                gc_max = con_max / r_max;
+            }
+            if (r_min != null) {
+                g_min = r_min;
+                gc_min = con_min / r_min;
+            }
+
+
+
 
 
 
@@ -519,15 +537,14 @@ function crearWidgetsChartsCustom(feed) {
                     },
                     axisLine: {
                         show: true,
-                        // lineStyle: {
-                        //     width: 6,
-                        //     color: [
-                        //         [(minimo), 'tomato'],
-                        //         [(maximo), 'rgb(39, 45, 79)'],
-                        //         [1, 'tomato']
-                        //     ]
-                        // }
-
+                        lineStyle: {
+                            width: 8,
+                            color: [
+                                [(gc_min), 'tomato'],
+                                [(gc_max), 'rgb(39, 45, 79)'],
+                                [1, 'tomato']
+                            ]
+                        }
                     },
                     axisTick: {
                         show: true
@@ -546,8 +563,8 @@ function crearWidgetsChartsCustom(feed) {
                             color: 'tomato'
                         },
                     },
-                    // max: maximoGraf,
-                    // min: 0,
+                    max: g_max,
+                    min: g_min,
                     detail: {
                         show: true,
                         valueAnimation: true,
@@ -563,7 +580,12 @@ function crearWidgetsChartsCustom(feed) {
         }
 
 
-        //chart lineas trend diario
+        //chart lineas trend diario/semanal (acumulados)
+
+        var titulo = "Dia: " + nombre_dato + " de " + nombre_estacion;
+        if (nombre_dato.includes('Acumulado')) {
+            titulo = "7 Dias: " + nombre_dato + " de " + nombre_estacion;
+        }
         var datos_dia = [];
         var horas_dia = [];
         for (var index in trend_dia) {
@@ -581,7 +603,7 @@ function crearWidgetsChartsCustom(feed) {
             },
             title: {
                 left: 'center',
-                text: "Dia: " + nombre_dato + " de " + nombre_estacion,
+                text: titulo,
                 textStyle: {
                     fontStyle: 'bold',
                     fontSize: 16
@@ -603,7 +625,7 @@ function crearWidgetsChartsCustom(feed) {
                 }
             },
             xAxis: {
-                inverse: false,
+                inverse: true,
                 show: true,
                 type: 'category',
                 data: horas_dia
@@ -670,7 +692,7 @@ function crearWidgetsChartsCustom(feed) {
                 title: {
                     show: true,
                     left: 'center',
-                    text: "Semanal: " + nombre_dato + " de " + nombre_estacion,
+                    text: "15 Dias: " + nombre_dato + " de " + nombre_estacion,
                     textStyle: {
                         fontStyle: 'bold',
                         fontSize: 16,

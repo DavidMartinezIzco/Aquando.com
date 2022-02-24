@@ -12,7 +12,7 @@
             <div id="seccionFoto"></div>
             <div id="seccionInfo">
                 <i class="fas fa-sync-alt btnOpci" id="iconoActu" onclick="updateEstacion()"></i>
-                <i class="fas fa-tools btnOpci" onclick="ajustes()"></i>
+                <!-- <i class="fas fa-tools btnOpci" onclick="ajustes()"></i> -->
                 <p style="font-size: 80%;"><?php echo $ultimaConex[0]['nombre_estacion'];  ?></p>
                 <p style="font-size: 80%;">Ultima comunicación: <?php echo $ultimaConex[0]['valor_date']  ?></p>
             </div>

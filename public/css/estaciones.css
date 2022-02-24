@@ -4,18 +4,16 @@
     position: relative;
     width: 20%;
     height: 75%;
-    border: 1px solid rgb(1, 168, 184);
     border-radius: 10px;
     left: 2%;
-    padding: 1%;
-    background-color: rgb(85, 85, 85);
+    color: rgb(45, 45, 45);
 }
 
 
 /* FOTO E INFO BASICA */
 
 #seccionSup {
-    border: 1px solid rgb(1, 168, 184);
+    border: 4px solid rgb(1, 168, 184);
     /* border-radius: 10px; */
     width: 100%;
     height: 20%;
@@ -54,7 +52,7 @@
 /* DISPLAY DE TAGS ANALOGICOS */
 
 #seccionInf {
-    border: 1px solid rgb(1, 168, 184);
+    border: 4px solid rgb(1, 168, 184);
     border-radius: 10px;
     width: 100%;
     height: 75%;
@@ -64,14 +62,14 @@
 
 #seccionInf::-webkit-scrollbar {
     height: 15px;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 #seccionInf::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 
@@ -79,28 +77,28 @@
 
 #estacionCentro {
     position: relative;
-    padding: 1% 0%;
+    /* padding: 1% 0%; */
     width: 35%;
-    height: 75%;
-    border: 1px solid rgb(1, 168, 184);
+    height: 73%;
+    border: 4px solid rgb(1, 168, 184);
     border-radius: 10px;
     bottom: 75%;
     left: 24%;
-    background-color: rgb(85, 85, 85);
-    /* padding: 1%; */
+    /* background-color: rgb(85, 85, 85); */
+    padding: -0px -2px;
     overflow-y: scroll;
 }
 
 #estacionCentro::-webkit-scrollbar {
     height: 15px;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 #estacionCentro::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 
@@ -108,49 +106,55 @@
 
 #estacionDer {
     position: relative;
-    padding: 1% 0%;
+    /* padding: 1% 0%; */
     width: 38%;
-    height: 75%;
-    border: 1px solid rgb(1, 168, 184);
+    height: 73%;
+    border: 4px solid rgb(1, 168, 184);
     border-radius: 10px;
-    bottom: 150%;
+    bottom: 148%;
     left: 60%;
-    background-color: rgb(85, 85, 85);
+    /* background-color: rgb(85, 85, 85); */
+    padding: -0px -2px;
     overflow-y: scroll;
 }
 
 #estacionDer::-webkit-scrollbar {
     height: 15px;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 #estacionDer::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 
 /* WIDGET DE DATOS ANALOGICOS 1 */
 
 .widAna {
-    width: 90%;
+    border: 2px solid rgb(105, 105, 105);
+    border-radius: 10px;
+    width: 96%;
     height: 30%;
-    font-size: 80%;
-    margin: 2% 5% 0% 5%;
+    font-size: 100%;
+    margin: 2% 2% 0% 2%;
     display: inline-block;
     transition: 0.2;
+    color: rgb(45, 45, 45);
 }
 
 .widAnaInfo {
     background-color: white;
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
     width: 40%;
     height: 100%;
     float: left;
     border-right: 1px solid rgb(85, 85, 85);
+    /* padding: -2px -3px; */
+    /* margin: -1px 0px; */
 }
 
 .widAnaInfoPrin {
@@ -159,19 +163,20 @@
     font-size: 90%;
     background-color: rgb(1, 168, 184);
     text-align: center;
-    height: calc(100%/3);
+    height: 40%;
     color: white;
     font-size: 100%;
     vertical-align: center;
 }
 
 .widAnaInfoSec {
-    height: calc(100%/3*2);
+    height: 60%;
     text-align: center;
     color: rgb(85, 85, 85);
     width: 100%;
     font-size: 90%;
     padding: 6%;
+    margin: 0px;
 }
 
 .widAnaInfoSec :first-of-type {
@@ -467,7 +472,7 @@
     height: 8em;
     width: 90%;
     margin: 5%;
-    border: 1px solid rgb(1, 168, 184);
+    border: 2px solid rgb(45, 45, 45);
     margin-bottom: 3%;
     vertical-align: center;
     transition: 0.2;

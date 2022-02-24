@@ -244,23 +244,17 @@ function montarWidgetsAnalogicos() {
         var widgInicio = '<div class="widAna">';
         var widgFin = '';
         var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=font-weight:bold;margin-bottom:-1.5em;color:rgb(39,45,79)>' + datosAnalog[indexDato]['nombre_tag'] + ' (' + datosAnalog[indexDato]['unidad'] + '): ' + datosAnalog[indexDato]['valor'] + '</p> ';
-        for (var consig in consignas) {
-            if (consignas[consig]['nombre_tag'].includes(datosAnalog[indexDato]['nombre_tag'])) {
-                widgInfo += "<br>" + consignas[consig]['nombre_tag'] + ': ' + consignas[consig]['valor'];
-            }
-        }
+        // for (var consig in consignas) {
+        //     if (consignas[consig]['nombre_tag'].includes(datosAnalog[indexDato]['nombre_tag'])) {
+        //         widgInfo += "<br>" + consignas[consig]['nombre_tag'] + ': ' + consignas[consig]['valor'];
+        //     }
+        // }
         widgInfo += '</div>';
         var consi = '';
         var widgSec = '';
 
         consi += '<div id="gau' + datosAnalog[indexDato]['nombre_tag'].replace(/\s+/g, '') + '" class="widAnaInfoSec"></div>';
-        // if (datosAnalog[indexDato]['consignas'].length > 0) {
-        //     for (var i = 0; i < datosAnalog[indexDato]['consignas'].length; i++) {
-        //         consi += '<div class="widAnaInfoSec">' + datosAnalog[indexDato]['consignas'][i]['nombre_tag'] + ': ' + datosAnalog[indexDato]['consignas'][i]['valor'] + '</div>';
-        //     }
-        // } else {
-        //     consi += '<div class="widAnaInfoSec">sin consignas</div><div class="widAnaInfoSec">sin consignas</div>';
-        // }
+
         consi += '</div>';
         var widgGraf = '<div class="widAnaGraf" id="chart' + datosAnalog[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div>';
         var widget = widgInicio + widgInfo + widgSec + consi + widgGraf + widgFin;
@@ -383,7 +377,7 @@ function montarGraficosWidget() {
                     data: fechas[0]
                 },
                 yAxis: {
-                    name: nombreDato,
+
                     type: 'value'
                 },
                 series: [{
@@ -580,9 +574,8 @@ function montarGraficosWidget() {
         optionChart && grafTrend.setOption(optionChart, true);
 
         document.getElementsByClassName("btnOpci")[0].style.display = 'block';
-        document.getElementsByClassName("btnOpci")[1].style.display = 'block';
+        // document.getElementsByClassName("btnOpci")[1].style.display = 'block';
     }
-
 }
 
 function ajustes() {
