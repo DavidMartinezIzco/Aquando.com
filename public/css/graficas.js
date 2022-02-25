@@ -455,7 +455,7 @@ function renderGrafico(datosR) {
 
         option['dataZoom'].push(datazoomY[0]);
         option['dataZoom'].push(datazoomY[1]);
-        console.log(option['dataZoom']);
+
 
         var seriesV = JSON.parse('[' + sessionStorage.getItem('series') + ']');
         seriesV[0][0]['yAxisIndex'] = 1;
@@ -469,8 +469,6 @@ function renderGrafico(datosR) {
         sessionStorage.setItem('leyenda', JSON.stringify(option['legend']));
         sessionStorage.setItem('nDato', nombreDato);
     }
-
-    console.log(option);
     option && grafico.setOption(option, true);
 }
 

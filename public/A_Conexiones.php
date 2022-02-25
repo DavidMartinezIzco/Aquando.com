@@ -26,10 +26,12 @@ if ($opcion == 'conex') {
                 $ultima = DateTime::createFromFormat('Y-m-d H:i:s', $valor);
                 $ahora = new DateTime("now");
                 $dif = $ahora->diff($ultima);
+                $ultimasConexiones[$estacion][0]['estado'] = "correcto";
                 if ($dif->days >= 1) {
+                    $ultimasConexiones[$estacion][0]['estado'] = "aviso";
+                }
+                if ($dif->days >= 2) {
                     $ultimasConexiones[$estacion][0]['estado'] = "error";
-                } else {
-                    $ultimasConexiones[$estacion][0]['estado'] = "correcto";
                 }
             }
         }
@@ -55,7 +57,11 @@ if ($opcion == 'conex') {
             if ($dato == 'estado') {
                 if ($valor == "correcto") {
                     echo "<td id='secEstado'><i class='fas fa-check'></i></td>";
-                } else {
+                } 
+                if($valor == "error"){
+                    echo "<td id='secProblema' class='' style='color:tomato'><i class='fas fa-exclamation-triangle'></i></td>";
+                }
+                if($valor == "aviso"){
                     echo "<td id='secProblema'><i name='alerta' class='fas fa-exclamation-triangle'></i></td>";
                 }
             }

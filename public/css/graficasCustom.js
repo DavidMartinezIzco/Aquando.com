@@ -775,8 +775,8 @@ function guardarPreset() {
                     leerPresets('mostrar');
                     setTimeout(ajustesPresets(null), 1000);
                 },
-                error: function(e) {
-                    console.log(e);
+                error: function() {
+                    console.log('error en el guardado');
                 },
                 dataType: 'json'
             });

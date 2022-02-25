@@ -280,20 +280,16 @@ class Database
     //se usará en la sección de estaciones y probablemente mediante AJAX
     public function datosEstacion($id_estacion, $todos)
     {
-        //SACAR TAGS DE ESTACION
-        //DE CADA TAG SACAR LA ULTIMA FECHA Y SU VALOR
-
         if ($this->conectar()) {
-            $ultimosDatosEstacion = array();
+            $tagsEstacion = Array();
+            $ultimosDatosEstacion = Array();
             if ($todos) {
                 $tagsEstacion = $this->todosTagsEstacion($id_estacion);
             } else {
                 $tagsEstacion = $this->tagsEstacion($id_estacion);
             }
-
             foreach ($tagsEstacion as $index => $tag) {
-                // $conFechaMaxTag = "SELECT MAX(datos_valores.fecha) FROM datos_valores INNER JOIN estacion_tag on datos_valores.id_tag = estacion_tag.id_tag  WHERE datos_valores.id_tag = ".$tag['id_tag']." AND estacion_tag.id_estacion = ".$id_estacion."";
-                $conUltimoValorTag = "SELECT tags.nombre_tag, tags.unidad,
+            $conUltimoValorTag = "SELECT tags.nombre_tag, tags.unidad, tags.r_max, tags.r_min,
             datos_valores.id_tag, datos_valores.fecha, datos_valores.valor_bool, datos_valores.valor_int, datos_valores.valor_float, datos_valores.valor_acu, datos_valores.valor_string, datos_valores.valor_date 
             FROM datos_valores INNER JOIN tags ON datos_valores.id_tag = tags.id_tag
             INNER JOIN estacion_tag ON estacion_tag.id_tag = tags.id_tag
@@ -307,12 +303,15 @@ class Database
             $ultimosDatosEstacionLimpio = array();
             foreach ($ultimosDatosEstacion as $tag => $datosTag) {
                 foreach ($datosTag as $nDato => $valor) {
-                    if ($nDato != 'nombre_tag' && $nDato != 'id_tag' && $nDato != 'id_datos' && $nDato != 'fecha' && $nDato != 'calidad' && $nDato != 'unidad') {
+                    if ($nDato != 'nombre_tag' && $nDato != 'id_tag' && $nDato != 'id_datos' && $nDato != 'fecha' && $nDato != 'calidad' && $nDato != 'unidad' && $nDato != 'r_max' && $nDato != 'r_min') {
                         if ($valor != null) {
                             $ultimosDatosEstacionLimpio[$tag]['valor'] = $valor;
                         }
                     } else {
-                        $ultimosDatosEstacionLimpio[$tag][$nDato] = $valor;
+                        if($valor != null){
+                            $ultimosDatosEstacionLimpio[$tag][$nDato] = $valor;
+                        }
+                        
                     }
                 }
             }
@@ -932,7 +931,7 @@ class Database
         return false;
     }
 
-    private function obetenerNombreTag($id_tag)
+    private function obtenerNombreTag($id_tag)
     {
         if ($this->conectar()) {
             $con = "SELECT nombre_tag FROM tags WHERE id_tag = " . $id_tag;
@@ -945,7 +944,7 @@ class Database
 
     private function obtenerConsignasTag($id_tag){
 
-        $nombre_tag = $this->obetenerNombreTag($id_tag);
+        $nombre_tag = $this->obtenerNombreTag($id_tag);
 
         if ($this->conectar()) {
             $con = "SELECT estaciones.nombre_estacion,tags.nombre_tag,tags.unidad, datos_valores.valor_float 
@@ -961,7 +960,6 @@ class Database
         }
         return false;
     }
-
 
     //obtiene el ultimo dato, el trend diario y los agregados semanales de los widgets definidos por el 
     //usuario en su configuracion
@@ -1016,7 +1014,7 @@ class Database
 
                 //trend diario (o semanal si es acumulado) del tag
                 $conTrendDia = "";
-                $n_tag = $this->obetenerNombreTag($tag);
+                $n_tag = $this->obtenerNombreTag($tag);
                 if (strpos($n_tag, 'Acumulado') !== false) {
                     $conTrendDia = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date > current_date::date - interval '7 days' ORDER BY fecha desc";
                 } else {

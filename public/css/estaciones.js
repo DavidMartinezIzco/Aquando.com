@@ -24,7 +24,7 @@ function actualizar(id_estacion) {
                 filtrarDatos(datos);
             },
             error: function() {
-                console.log("error");
+                console.log('error');
             },
             dataType: 'json'
         });
@@ -33,10 +33,6 @@ function actualizar(id_estacion) {
 }
 
 function trendsTags() {
-
-    //aqui quieres sacar los trends (datos max de los ultimos 7 dias)
-    //tendras que sacar de uno a uno en un bucle js o pasar el bucle a AJAX
-    //luego ya veremos que seguro que la cagas asi que tienes tiempo para pensarlo
 
     var listaTags = datosAnalog.concat(tagsAcumulados);
     var arrTags = JSON.stringify(listaTags);
@@ -66,15 +62,6 @@ function filtrarDatos(datos) {
     var tagsBombas = Array();
 
     for (var indexDato in datos) {
-
-        // var nombreDato = "";
-        // if (datos[indexDato]['unidad'] != 'undefined') {
-        //     nombreDato = "" + datos[indexDato]['nombre_tag'] + " (" + datos[indexDato]['unidad'] + ") ";
-        // } else {
-        //     nombreDato = "" + datos[indexDato]['nombre_tag'];
-        // }
-        // datos[indexDato]['nombre_tag'] = nombreDato;
-
 
         if (!datos[indexDato]['nombre_tag'].includes("Comunicacion")) {
             if (!datos[indexDato]['nombre_tag'].includes("Bomba")) {
@@ -323,9 +310,10 @@ function montarWidgetsAnalogicos() {
 }
 
 //render de los graficos
+//hay que hacer el captador con resize
+//wid de deposito?
+
 function montarGraficosWidget() {
-
-
     for (var tag in tagsAcumulados) {
         var nombreDato = tagsAcumulados[tag]['nombre_tag'].replace(/\s+/g, '');
         if (nombreDato.includes("Dia")) {
@@ -342,8 +330,6 @@ function montarGraficosWidget() {
             } else {
                 document.getElementById("panelRojo" + nombreDato).innerHTML = 'sin trends';
             }
-
-
             optionChart = {
                 grid: {
                     left: '2%',
@@ -422,6 +408,15 @@ function montarGraficosWidget() {
     for (var tag in datosAnalog) {
 
         var optionGauge;
+        var r_max = 10;
+        var r_min = 0;
+        if (datosAnalog[tag]['r_max'] != undefined) {
+            r_max = parseFloat(datosAnalog[tag]['r_max']);
+        }
+        if (datosAnalog[tag]['r_min'] != undefined) {
+            r_min = parseFloat(datosAnalog[tag]['r_min']);
+        }
+
         var nombreDato = datosAnalog[tag]['nombre_tag'].replace(/\s+/g, '');
 
         //gauge para niveles, cloro, caudal
@@ -431,16 +426,19 @@ function montarGraficosWidget() {
         var grafTrend = echarts.init(chartDom2);
         var valor = datosAnalog[tag]['valor'];
         var maximo = 10;
-        var maximoGraf = maximo + (maximo * 0.2);
         var minimo = 0;
-        if (datosAnalog[tag]['consignas'].length >= 1) {
-            maximo = parseInt(datosAnalog[tag]['consignas'][0]['valor']);
-            maximo /= 10;
 
+        if (datosAnalog[tag]['consignas'].length >= 1) {
+            maximo = datosAnalog[tag]['consignas'][0]['valor'];
+            maximo = maximo / r_max;
         }
         if (datosAnalog[tag]['consignas'].length == 2) {
-            minimo = parseInt(datosAnalog[tag]['consignas'][1]['valor']);
-            minimo /= 10;
+            minimo = datosAnalog[tag]['consignas'][1]['valor'];
+            if (r_min != 0) {
+                minimo = minimo / r_min;
+            } else {
+                minimo = 0;
+            }
 
         }
 
@@ -467,8 +465,8 @@ function montarGraficosWidget() {
                     lineStyle: {
                         width: 6,
                         color: [
-                            [(minimo), 'tomato'],
-                            [(maximo), 'rgb(39, 45, 79)'],
+                            [minimo, 'tomato'],
+                            [maximo, 'rgb(39, 45, 79)'],
                             [1, 'tomato']
                         ]
                     }
@@ -488,8 +486,8 @@ function montarGraficosWidget() {
                     length: '80%',
                     width: 4
                 },
-                max: maximoGraf,
-                min: 0,
+                max: r_max,
+                min: r_min,
                 detail: {
                     show: true,
                     valueAnimation: true,
@@ -501,7 +499,6 @@ function montarGraficosWidget() {
                 }]
             }]
         };
-
 
         var valores = [];
         var fechas = [];
@@ -572,6 +569,11 @@ function montarGraficosWidget() {
 
         optionGauge && gauge.setOption(optionGauge, true);
         optionChart && grafTrend.setOption(optionChart, true);
+
+        $('#menuIzq').bind('widthChange', function() {
+            gauge.resize();
+            grafTrend.resize();
+        });
 
         document.getElementsByClassName("btnOpci")[0].style.display = 'block';
         // document.getElementsByClassName("btnOpci")[1].style.display = 'block';

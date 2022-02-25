@@ -39,62 +39,10 @@
     <div id="prinDer">
         <div id="widSup">
             <!-- AQUI IRAN LOS WIDS EN CARRUSEL -->
-            <div class="anaIzq" onclick="rotarCarrusel(this)">
-                <div id="carrusel">
-                    <div class="carr" name="ult_valor">
-                        <!-- valor actual --><h4 onclick="ajustes()">pincha aqui para configurar tu widget</h4>
-                    </div>
-                    <div class="carr" name="trend_dia">
-                        <!-- trend dia -->2
-                    </div>
-                    <div class="carr" name="agreg_semana">
-                        <!-- trend semanal -->3
-                    </div>
-                </div>
-
-            </div>
-            <div class="anaDer" onclick="rotarCarrusel(this)">
-                <div id="carrusel">
-                    <div class="carr" name="carru1">
-                        <!-- valor actual --><h4 onclick="ajustes()">pincha aqui para configurar tu widget</h4>
-                    </div>
-                    <div class="carr" name="carru1">
-                        <!-- trend dia -->2
-                    </div>
-                    <div class="carr" name="carru1">
-                        <!-- trend semanal -->3
-                    </div>
-                </div>
-            </div>
         </div>
         <div id="widInf">
             <!-- AQUI IRAN LOS WIDS EN CARRUSEL -->
-            <div class="anaIzq" onclick="rotarCarrusel(this)">
-                <div id="carrusel">
-                    <div class="carr" name="carru1">
-                        <!-- valor actual --><h4 onclick="ajustes()">pincha aqui para configurar tu widget</h4>
-                    </div>
-                    <div class="carr" name="carru1">
-                        <!-- trend dia -->2
-                    </div>
-                    <div class="carr" name="carru1">
-                        <!-- trend semanal -->3
-                    </div>
-                </div>
-            </div>
-            <div class="anaDer" onclick="rotarCarrusel(this)">
-                <div id="carrusel">
-                    <div class="carr" name="carru1">
-                        <!-- valor actual --><h4 onclick="ajustes()">pincha aqui para configurar tu widget</h4>
-                    </div>
-                    <div class="carr" name="carru1">
-                        <!-- trend dia -->2
-                    </div>
-                    <div class="carr" name="carru1">
-                        <!-- trend semanal -->3
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
 

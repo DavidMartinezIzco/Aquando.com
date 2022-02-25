@@ -69,8 +69,8 @@ function actualizar() {
                 renderFeedDigi();
                 feedPrincipalCustom();
             },
-            error: function(e) {
-                console.log(e);
+            error: function() {
+                console.log('refresh error');
             },
             dataType: 'json'
         });
@@ -198,8 +198,8 @@ function cargarAjustes() {
                     }
 
                 },
-                error: function(e) {
-                    console.log(e);
+                error: function() {
+                    console.log('error de ajustes');
                 },
                 dataType: 'json'
             });
@@ -285,8 +285,8 @@ function confirmarAjustesWidget(wid) {
                 document.getElementById("seccionAjustes").innerHTML += "<br><div id='ajustesRespuesta'>widget configurado con éxito</div>";
                 feedPrincipalCustom();
             },
-            error: function(e) {
-                console.log(e);
+            error: function() {
+                console.log('error de confirmación');
             },
             // dataType: 'json'
         });
@@ -307,11 +307,10 @@ function feedPrincipalCustom() {
             url: 'A_Principal.php?opcion=feed&usu=' + usu + '&pwd=' + pwd,
 
             success: function(feedAna) {
-                console.log(feedAna);
                 renderPrincipalCustom(feedAna);
             },
-            error: function(e) {
-                console.log(e);
+            error: function() {
+                console.log('error feed principal analog');
             },
             dataType: 'json'
         });
@@ -346,30 +345,20 @@ function renderPrincipalCustom(feed) {
             w1 += "</div></div>";
 
             //gauge + chart trend + chart agreg
-
-
-
-
         }
         if (feed[wid]['widget'] == 'w2') {
             w2 += '<div class="anaDer" onclick="rotarCarrusel(this)">';
             w2 += '<div id="carrusel">';
             //primera vista
             w2 += '<div class="carr" id="gauw2">';
-            // w2 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w2 += '<p>' + feed[wid]['ultimo_valor']['valor'] + '</p>';
             w2 += "</div>";
 
             //segunda vista
             w2 += '<div class="carr" id="trendw2">';
-            // w2 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w2 += '<p>' + 'aquí irá el trend diario' + '</p>';
             w2 += "</div>";
 
             //segunda vista
             w2 += '<div class="carr" id="agregw2">';
-            // w2 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w2 += '<p>' + 'aquí irá el trend semanal' + '</p>';
             w2 += "</div>";
 
             w2 += "</div></div>";
@@ -379,20 +368,14 @@ function renderPrincipalCustom(feed) {
             w3 += '<div id="carrusel">';
             //primera vista
             w3 += '<div class="carr" id="gauw3">';
-            // w3 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w3 += '<p>' + feed[wid]['ultimo_valor']['valor'] + '</p>';
             w3 += "</div>";
 
             //segunda vista
             w3 += '<div class="carr" id="trendw3">';
-            w3 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            w3 += '<p>' + 'aquí irá el trend diario' + '</p>';
             w3 += "</div>";
 
             //segunda vista
             w3 += '<div class="carr" id="agregw3">';
-            // w3 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w3 += '<p>' + 'aquí irá el trend semanal' + '</p>';
             w3 += "</div>";
 
             w3 += "</div></div>";
@@ -402,22 +385,15 @@ function renderPrincipalCustom(feed) {
             w4 += '<div id="carrusel">';
             //primera vista
             w4 += '<div class="carr" id="gauw4">';
-            // w4 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w4 += '<p>' + feed[wid]['ultimo_valor']['valor'] + '</p>';
             w4 += "</div>";
 
             //segunda vista
             w4 += '<div class="carr" id="trendw4">';
-            // w4 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w4 += '<p>' + 'aquí irá el trend diario' + '</p>';
             w4 += "</div>";
 
             //segunda vista
             w4 += '<div class="carr" id="agregw4">';
-            // w4 += "<h4>" + feed[wid]['nombre'] + " de " + feed[wid]['estacion'] + "</h4>";
-            // w4 += '<p>' + 'aquí irá el trend semanal' + '</p>';
             w4 += "</div>";
-
             w4 += "</div></div>";
         }
 
@@ -435,7 +411,6 @@ function crearWidgetsChartsCustom(feed) {
     var gauges = new Array();
     var trends = new Array();
     var agregs = new Array();
-
 
     for (var wid in feed) {
         var gaugeDom = document.getElementById("gau" + feed[wid]['widget']);
@@ -458,21 +433,37 @@ function crearWidgetsChartsCustom(feed) {
             consignas_tag = feed[wid]['consignas']
         }
 
-        //numero de contador
-        if (nombre_dato.includes('Acumulado')) {
-            var txt_actual = valor_actual.toString();
-            var estilo = "border:1px solid black;font-size:500%;background-color:grey;color:white";
-            var widCon = "<table style='text-align:center;width:80%;height:40%;margin:15% 10% 20% 10%;'><tr style='border-radius:10px'>";
-            for (var carac in txt_actual) {
-                if (txt_actual[carac] == '.') {
-                    // widCon += '<td style="border:1px solid black;font-size:500%;">' + txt_actual[carac] + '</td>';
-                    estilo = "border:1px solid black;font-size:500%;background-color:tomato;color:white";
-                } else {
-                    widCon += '<td style="' + estilo + '">' + txt_actual[carac] + '</td>';
+        if (nombre_dato.includes('Nivel') || nombre_dato.includes('Acumulado')) {
+            if (nombre_dato.includes('Nivel')) {
+                var r_max = feed[wid]['ultimo_valor']['r_max'];
+                if (r_max == null) {
+                    r_max = 10;
                 }
+                var t_x_c = (valor_actual / r_max) * 15;
+
+                var estilo = "linear-gradient(0deg, rgba(39,45,79,1) 0%, rgba(1,168,184,1) 60%, rgba(1,168,184,1) 100%)";
+                var depo = "<div style='padding:7%;height:100%;width:100%;margin:0% 0%;background-color:#83d7ee'><h4 style='text-align:center;color:rgb(65,65,65);'>" + nombre_dato + "<br>" + valor_actual + "</h4></div>";
+                document.getElementById("gau" + feed[wid]['widget']).innerHTML = depo;
+                document.getElementById("gau" + feed[wid]['widget']).firstChild.classList.add('wavy');
+                document.getElementById("gau" + feed[wid]['widget']).style.paddingTop = (15 - t_x_c) + "%";
             }
-            widCon += "</tr></table>"
-            document.getElementById("gau" + feed[wid]['widget']).innerHTML = 'Valor de ' + nombre_dato + '<br> ' + widCon;
+            //numero de contador
+            if (nombre_dato.includes('Acumulado')) {
+                var txt_actual = valor_actual.toString();
+                var estilo = "border:1px solid black;font-size:500%;background-color:grey;color:white";
+                var widCon = "<table style='text-align:center;width:80%;height:40%;margin:15% 10% 20% 10%;'><tr style='border-radius:10px'>";
+                for (var carac in txt_actual) {
+                    if (txt_actual[carac] == '.') {
+                        // widCon += '<td style="border:1px solid black;font-size:500%;">' + txt_actual[carac] + '</td>';
+                        estilo = "border:1px solid black;font-size:500%;background-color:tomato;color:white";
+                    } else {
+                        widCon += '<td style="' + estilo + '">' + txt_actual[carac] + '</td>';
+                    }
+                }
+                widCon += "</tr></table>"
+                document.getElementById("gau" + feed[wid]['widget']).innerHTML = 'Valor de ' + nombre_dato + '<br> ' + widCon;
+
+            }
 
         } else {
             var con_max = null;
@@ -499,7 +490,11 @@ function crearWidgetsChartsCustom(feed) {
             }
             if (r_min != null) {
                 g_min = r_min;
-                gc_min = con_min / r_min;
+                if (r_min != 0) {
+                    gc_min = con_min / r_min;
+                } else {
+                    gc_min = 0;
+                }
             }
 
 

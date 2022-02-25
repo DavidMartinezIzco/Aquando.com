@@ -13,7 +13,7 @@
 /* FOTO E INFO BASICA */
 
 #seccionSup {
-    border: 4px solid rgb(1, 168, 184);
+    /* border: 4px solid rgb(1, 168, 184); */
     /* border-radius: 10px; */
     width: 100%;
     height: 20%;
@@ -24,6 +24,7 @@
     width: 40%;
     height: 100%;
     border-right: 1px solid lightgray;
+    border-radius: 10px;
     /* background-image: url('../logo.png'); */
     background-repeat: no-repeat;
     background-size: cover;
@@ -31,10 +32,13 @@
 }
 
 #seccionInfo {
+    border: 2px solid gray;
+    border-radius: 10px;
     float: right;
-    width: 60%;
+    width: 59%;
     height: 100%;
     padding: 2.5% 1.5%;
+    margin-left: 1%;
 }
 
 .btnOpci {
@@ -62,14 +66,14 @@
 
 #seccionInf::-webkit-scrollbar {
     height: 15px;
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 #seccionInf::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 
@@ -91,14 +95,14 @@
 
 #estacionCentro::-webkit-scrollbar {
     height: 15px;
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 #estacionCentro::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 
@@ -120,14 +124,14 @@
 
 #estacionDer::-webkit-scrollbar {
     height: 15px;
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 #estacionDer::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 
@@ -147,8 +151,8 @@
 
 .widAnaInfo {
     background-color: white;
-    border-bottom-left-radius: 8px;
-    border-top-left-radius: 8px;
+    border-bottom-left-radius: 7px;
+    border-top-left-radius: 7px;
     width: 40%;
     height: 100%;
     float: left;
@@ -341,14 +345,14 @@
 
 #ajustesSeleccion::-webkit-scrollbar {
     height: 15px;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 #ajustesSeleccion::-webkit-scrollbar-thumb {
     background-color: rgb(1, 168, 184);
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 #listaTags {
@@ -485,8 +489,8 @@
     margin: 0;
     text-align: center;
     background-color: rgb(1, 168, 184);
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
     color: white;
 }
 

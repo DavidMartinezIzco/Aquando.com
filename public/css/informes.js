@@ -14,7 +14,7 @@ function imprimir() {
 
 //descarga la captura de las alarmas 
 function guardar(uri, filename) {
-    console.log('guardamos');
+
     var link = document.createElement('a');
     if (typeof link.download === 'string') {
 
@@ -33,9 +33,7 @@ function pasarAPDF() {
     //https://openbase.com/js/js-html2pdf/documentation
     var hoy = new Date();
     var al = $("#espacioInforme").height();
-    console.log(al);
     var an = $("#espacioInforme").width();
-    console.log(an);
     var fechaHoy = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
     var nombre_informe = 'informe ' + fechaHoy + '.pdf';
     var informe = document.getElementById('espacioInforme');
@@ -103,11 +101,8 @@ function obtenerInforme() {
     var estaciones = $('#opcionesEstacion').val();
     var nestaciones = [];
     for (var est in estaciones) {
-        // console.log(estaciones[est]);
         nestaciones[estaciones[est]] = document.getElementById('est' + estaciones[est]).getAttribute('name');
     }
-
-    // console.log(nestaciones);
     var arrEstaciones = JSON.stringify(estaciones);
     var arrNombres = JSON.stringify(nestaciones);
 
@@ -121,8 +116,6 @@ function obtenerInforme() {
             contentType: 'application/json;charset=utf-8',
             url: 'A_Informes.php?opcion=' + opcion + '&fechaIni=' + fInicio + '&fechaFin=' + fFin,
             success: function(informe) {
-
-                // console.log(informe);
                 reset();
                 var ahora = new Date();
                 var fechahora = "" + ahora.getDate() + "-" +
@@ -139,8 +132,7 @@ function obtenerInforme() {
                 document.getElementById('espacioInforme').innerHTML += pie;
 
             },
-            error: function(error) {
-                console.log(error);
+            error: function() {
                 console.log("error en los informes");
             },
             //dataType: 'json'

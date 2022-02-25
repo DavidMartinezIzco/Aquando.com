@@ -1,10 +1,5 @@
 function actualizarConexiones(nombre, pwd) {
 
-    // $(document.getElementById("iconoActu")).addClass("rotante");
-    // setTimeout(function() {
-    //     document.getElementById("iconoActu").classList.remove("rotante");
-    // }, 3000);
-
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
@@ -20,28 +15,6 @@ function actualizarConexiones(nombre, pwd) {
     });
 }
 
-// function obtenerCalidadTags(estacion) {
-//     if (document.getElementsByClassName('comsSelec')[0]) {
-//         document.getElementsByClassName('comsSelec')[0].classList.remove("comsSelec");
-//     }
-//     $(document.getElementsByName(estacion)[0]).addClass('comsSelec');
-
-//     nombrarEstacion(estacion);
-
-//     $(document).ready(function() {
-//         $.ajax({
-//             type: 'GET',
-//             url: 'A_Conexiones.php?estacion=' + estacion + '&opcion=cali',
-//             success: function(cali) {
-//                 document.getElementById("seccionCalidad").innerHTML = cali;
-//             },
-//             error: function() {
-//                 console.log("error");
-//             }
-
-//         });
-//     });
-// }
 
 function parpadeoProblema() {
     desvanecer();
