@@ -8,7 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
 <script src="css/html2pdf/lib/html2pdf.min.js"></script>
 <script src="css/jquery.js"></script>
-<link rel="stylesheet" type="text/css" href="css/alarmas.css">
+<link rel="stylesheet" type="text/css" href="css/alarmasCustom.css">
 
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
 
@@ -43,16 +43,16 @@
         </div>
 
         <div id="fechas">
-            <label for="fecha">Hasta</label>
-            <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
             <label for="fecha">Desde</label>
             <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin" value="2022-01-25">
+            <label for="fecha">Hasta</label>
+            <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
         </div>
 
         <div id="acciones">
-            <button id="btnControl" style="background-color: yellowgreen;" value="aplicar" onclick=actualizar() name="btnControl">aplicar</button>
-            <button id="btnControl" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
-            <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
+            <button id="btnControl" style="background-color: yellowgreen;border:2px solid green;" value="aplicar" onclick=actualizar() name="btnControl">Aplicar</button>
+            <button id="btnControl" onclick=limpiar() style="background-color:tomato;border:2px solid red;" value="reset" name="btnControlReset">Reset</button>
+            <button id="btnControl" style="background-color: darkseagreen;border:2px solid darkgreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
         </div>
 
     </div>
@@ -66,6 +66,9 @@
 </main>
 
 <script>
+
+
+
     window.onload = function() {
         inicioFin();
         var usu = '<?php echo $_SESSION['nombre'] ?>';

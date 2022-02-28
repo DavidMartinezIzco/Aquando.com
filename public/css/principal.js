@@ -591,7 +591,7 @@ function crearWidgetsChartsCustom(feed) {
         optDia = {
             grid: {
                 left: '5%',
-                right: '5%',
+                right: '10%',
                 top: '12%',
                 bottom: '1%',
                 containLabel: true
@@ -679,7 +679,7 @@ function crearWidgetsChartsCustom(feed) {
                 },
                 grid: {
                     left: '5%',
-                    right: '5%',
+                    right: '10%',
                     top: '12%',
                     bottom: '1%',
                     containLabel: true

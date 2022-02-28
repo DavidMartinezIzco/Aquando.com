@@ -18,7 +18,6 @@
         <!--tipo de representacion--->
         <div id="tipoInforme">
             <form>
-                
                 <label><input type="radio" name="radInforme" id="radInforme" value="cau" checked />Caudales</label><br>
                 <label><input type="radio" name="radInforme" id="radInforme" value="niv" />Niveles</label><br>
                 <label><input type="radio" name="radInforme" id="radInforme" value="acu" /> Acumulados</label>
@@ -34,7 +33,6 @@
                         echo '<option id=est' . $estacion['id_estacion'] . ' value=' . $estacion['id_estacion'] . ' name="' . $estacion['nombre_estacion'] . '" >' . $estacion['nombre_estacion'] . '</option>';
                     }
                     ?>
-
                 </select><br>
 
             </form>
@@ -42,10 +40,10 @@
         <!--campos posibles para representar--->
         <div id="camposInforme">
             <form>
-                <input type="date" id="radioFecha" name="fechaInicio">
-                <label for="fecha">Inicio</label>
-                <input type="date" id="radioMotivo" name="fechaFin" value="2022-01-01">
-                <label for="fecha">Fin</label>
+                <input type="date" id="fechaFin" name="fechaFin" value="2022-01-01">
+                <label for="fecha">Desde</label>
+                <input type="date" id="fechaInicio" name="fechaInicio">
+                <label for="fecha">Hasta</label>
             </form>
         </div>
 

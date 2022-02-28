@@ -78,16 +78,21 @@ function imprimir() {
 //establece los valores por defecto de los inputs de fecha
 //traduce y establece la fecha actual como predeterminado
 function inicioFin() {
-    Date.prototype.toDateInputValue = (function() {
-        var local = new Date(this);
-        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-        return local.toJSON().slice(0, 10);
+    Date.prototype.seteardesde = (function() {
+        var manana = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+        return manana.toJSON().slice(0, 10);
+    });
+    Date.prototype.setearHasta = (function() {
+        var mesant = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000);
+        return mesant.toJSON().slice(0, 10);
     });
     $(document).ready(function() {
-        $('#fechaInicio').val(new Date().toDateInputValue());
+        $('#fechaInicio').val(new Date().seteardesde());
+    });
+    $(document).ready(function() {
+        $('#fechaFin').val(new Date().setearHasta());
     });
 }
-
 //pasa los tags historizables de una estacion en concreto
 function tagsEstacionCustom(id_estacion) {
 
@@ -141,9 +146,6 @@ function mostrarOpciones() {
 function aplicarCustom() {
     //mirar a ver si en vez de actualizar todo, ver si se pueden reutilizar
     //los estados anteriores (x optimizar vaya)
-
-
-
     datosTagCustom = new Array;
     datosTagCustom['serie'] = [];
     datosTagCustom['fechas'] = [];
@@ -184,7 +186,6 @@ function aplicarCustom() {
             document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
         }, 1000);
     }
-
 }
 
 //consigue los metadata de un tag
@@ -742,7 +743,6 @@ function borrarPreset() {
 
 //llama a AJAX para guardar un preset en la configuracion de usuario
 function guardarPreset() {
-
 
     if (document.getElementById('txtPreset').value != null && document.getElementById('txtPreset').value != '' && !document.getElementById('txtPreset').value.includes(":") && !document.getElementById('txtPreset').value.includes("/") && !document.getElementById('txtPreset').value.includes("@")) {
 

@@ -12,13 +12,19 @@ function limpiar() {
 //establece los valores por defecto de los inputs de fecha
 //traduce y establece la fecha actual como predeterminado
 function inicioFin() {
-    Date.prototype.toDateInputValue = (function() {
-        var local = new Date(this);
-        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-        return local.toJSON().slice(0, 10);
+    Date.prototype.seteardesde = (function() {
+        var manana = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+        return manana.toJSON().slice(0, 10);
+    });
+    Date.prototype.setearHasta = (function() {
+        var mesant = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000);
+        return mesant.toJSON().slice(0, 10);
     });
     $(document).ready(function() {
-        $('#fechaInicio').val(new Date().toDateInputValue());
+        $('#fechaInicio').val(new Date().seteardesde());
+    });
+    $(document).ready(function() {
+        $('#fechaFin').val(new Date().setearHasta());
     });
 }
 

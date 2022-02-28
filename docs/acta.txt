@@ -27,9 +27,11 @@
                 - Ajuste. Lo vamos a dejar deshabilitado para que no tenga. En una segunda fase mejoraremos
                 - Aumentar un poco textos
                 - Quitar grises
+
 - Graficas. Está mal, hay que graficar de izq a derecha (mas nuevo a la derecha)
                 - Controles desde hasta en este orden
                 - Al cargar que cargue lo que pone en fechas pero en selector horizontal a la derecha últimos 15 días como mucho
+                
 - Informes
                 - Ver si podemos exportar a csv
 - Alarmas

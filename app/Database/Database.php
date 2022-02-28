@@ -167,17 +167,17 @@ class Database
             }
             if ($fechaFin != null) {
                 $fin = strtotime($fechaFin);
-                $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) >= " . $fin;
+                $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) > " . $fin;
             }
 
             if ($sentido != null) {
                 if ($sentido == 'ASC') {
-                    $conAlarmas .= " ORDER BY $prioridad ASC LIMIT 200";
+                    $conAlarmas .= " ORDER BY $prioridad ASC";
                 } else {
-                    $conAlarmas .= " ORDER BY $prioridad DESC LIMIT 200";
+                    $conAlarmas .= " ORDER BY $prioridad DESC";
                 }
             } else {
-                $conAlarmas .= " ORDER BY $prioridad DESC LIMIT 200";
+                $conAlarmas .= " ORDER BY $prioridad DESC";
             }
 
             $resulAlarmas = pg_query($conAlarmas);
@@ -1016,9 +1016,9 @@ class Database
                 $conTrendDia = "";
                 $n_tag = $this->obtenerNombreTag($tag);
                 if (strpos($n_tag, 'Acumulado') !== false) {
-                    $conTrendDia = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date > current_date::date - interval '7 days' ORDER BY fecha desc";
+                    $conTrendDia = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '7 days' ORDER BY fecha desc";
                 } else {
-                    $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 hours' ORDER BY fecha desc";
+                    $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 days' ORDER BY fecha desc";
                 }
                 $resTrendDia = pg_query($this->conexion, $conTrendDia);
                 if ($this->consultaExitosa($resTrendDia)) {

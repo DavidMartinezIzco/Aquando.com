@@ -139,7 +139,7 @@ function renderGrafico(datosR) {
             //meter los nombre en unas variables porque se desformatea concatenando las que ya hay.
         },
         grid: {
-            left: '5%',
+            left: '3%',
             right: '5%',
             bottom: '10%',
             containLabel: true
@@ -209,6 +209,7 @@ function renderGrafico(datosR) {
     option['xAxis'] = {
 
         boundaryGap: false,
+        inverse: true,
         splitNumber: 10,
         data: fechas,
         label: {
@@ -238,7 +239,7 @@ function renderGrafico(datosR) {
                 fontWeight: 'bold'
             },
             xAxisIndex: 0,
-            start: 80,
+            start: 0,
             end: 100,
             filterMode: 'filter',
             z: 100
@@ -262,7 +263,7 @@ function renderGrafico(datosR) {
                 fontWeight: 'bold'
             },
             xAxisIndex: 0,
-            start: 80,
+            start: 0,
             end: 100,
             filterMode: 'filter',
             z: 100

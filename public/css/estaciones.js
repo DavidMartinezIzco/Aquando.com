@@ -65,6 +65,7 @@ function filtrarDatos(datos) {
 
         if (!datos[indexDato]['nombre_tag'].includes("Comunicacion")) {
             if (!datos[indexDato]['nombre_tag'].includes("Bomba")) {
+
                 if (datos[indexDato]['valor'] == 't' || datos[indexDato]['valor'] == 'f') {
                     datosDigi[indexDato] = datos[indexDato];
                 } else {
@@ -225,8 +226,6 @@ function montarWidgetsAnalogicos() {
             seccionAnalog.innerHTML += widget;
         }
     }
-
-
     for (var indexDato in datosAnalog) {
         var widgInicio = '<div class="widAna">';
         var widgFin = '';
@@ -247,11 +246,7 @@ function montarWidgetsAnalogicos() {
         var widget = widgInicio + widgInfo + widgSec + consi + widgGraf + widgFin;
         seccionAcu.innerHTML += widget;
     }
-
-
     var widsBombas = "";
-
-
     for (var bomba in bombas) {
         var widTiempo = "";
         var widArranques = "";
@@ -267,27 +262,36 @@ function montarWidgetsAnalogicos() {
                 bombaEstado += '<i style="color:gray;" class="fas fa-cog rotante"></i></div>';
             }
             if (bombas[bomba][0]['valor'] == 'f') {
-                bombaEstado += '<i style="color:darkorange;" class="fas fa-pause intermitente"></i></div>';
+                bombaEstado += '<i style="color:darkorange;" class="fas fa-pause"></i></div>';
             }
             for (var index in bombas[bomba]) {
 
                 //tiempos
                 if (bombas[bomba][index]['nombre_tag'].includes("Tiempo")) {
-                    widTiempo = "<b>Tiempo total en marcha: </b>" + bombas[bomba][index]['valor'] + "<hr>";
+                    var num = bombas[bomba][index]['valor'];
+                    var dias = (num / 86400);
+                    var rdias = Math.floor(dias);
+                    var horas = (dias - rdias) * 60;
+                    var rhoras = Math.floor(horas);
+                    var minutos = (horas - rhoras) * 60;
+                    var rminutos = Math.floor(minutos);
+
+                    // var tiempo = rdias + " Dias, " + rhoras + " horas y " + rminutos + " minutos.";
+                    // widTiempo = "<b>Tiempo en marcha: </b>" + tiempo + "<br>";
+                    var contador = "<table id='contadorBomba'><tr><th colspan=3>Tiempo total en marcha</th></tr><tr><td class='bombaDias'>" + rdias + " Dias</td><td class='bombaHoras'>" + rhoras + " Horas</td><td class='bombasMins'>" + rminutos + " Minutos</td></tr></table>";
+                    widTiempo = contador;
                 }
                 //arranques
                 else if (bombas[bomba][index]['nombre_tag'].includes("Arranques")) {
-                    widArranques = "<b>Número total de arranques: </b>" + bombas[bomba][index]['valor'] + "<br>";
+                    widArranques = "<b>Veces en marcha: </b>" + bombas[bomba][index]['valor'] + "<hr>";
                 }
                 //defecto
                 else if (bombas[bomba][index]['nombre_tag'].includes("Defecto")) {
                     if (bombas[bomba][index]['valor'] == 't') {
-                        widDefecto = "<div id='bombaDefecto'>Defecto: <i style='color:darkseagreen;' class='fas fa-check'></i></div>";
+                        widDefecto = "<div id='bombaDefecto'><i style='color:tomato' class='fas fa-exclamation-triangle parpadeante'></i></div>";
                     } else {
-                        widDefecto = "<div id='bombaDefecto'>Defecto: <i style='color:tomato;' class='fas fa-pause'></i></div>";
+                        widDefecto = "<div id='bombaDefecto'><i style='color:yellowgreen' class='fas fa-shield-alt'></i></div>";
                     }
-
-
                 }
 
                 //orden? ->nada
@@ -295,17 +299,13 @@ function montarWidgetsAnalogicos() {
 
                 }
             }
-            var bombaInf = "<div id='widBombaInf'>" + widDefecto + widTiempo + widArranques + "</div>";
+            var bombaInf = "<div id='widBombaInf'>" + widDefecto + widArranques + widTiempo + "</div>";
             var widBomba = "<div id='widBomba'>" + bombaNombre + bombaInf + bombaEstado + "</div>";
             widsBombas += widBomba;
         }
 
     }
-
-
     seccionAnalog.innerHTML += widsBombas;
-
-
     montarGraficosWidget();
 }
 
@@ -333,7 +333,7 @@ function montarGraficosWidget() {
             optionChart = {
                 grid: {
                     left: '2%',
-                    right: '1%',
+                    right: '4%',
                     top: '8%',
                     bottom: '2%',
                     containLabel: true
@@ -357,7 +357,7 @@ function montarGraficosWidget() {
                     }
                 },
                 xAxis: {
-                    inverse: true,
+                    inverse: false,
                     show: true,
                     type: 'category',
                     data: fechas[0]
@@ -372,17 +372,15 @@ function montarGraficosWidget() {
                     type: 'bar',
                     itemStyle: {
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-
-                            { offset: 0, color: '#01a8b8' },
-                            { offset: 1, color: '#272d4f' }
-
+                            { offset: 0, color: 'yellowgreen' },
+                            { offset: 1, color: 'darkseagreen' }
                         ])
                     },
                     emphasis: {
                         itemStyle: {
                             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                { offset: 0, color: '#272d4f' },
-                                { offset: 1, color: '#01a8b8' }
+                                { offset: 0, color: 'yellowgreen' },
+                                { offset: 1, color: 'darkseagreen' }
                             ])
                         }
                     },
@@ -463,7 +461,7 @@ function montarGraficosWidget() {
                 axisLine: {
                     show: true,
                     lineStyle: {
-                        width: 6,
+                        width: 5,
                         color: [
                             [minimo, 'tomato'],
                             [maximo, 'rgb(39, 45, 79)'],
@@ -473,7 +471,10 @@ function montarGraficosWidget() {
 
                 },
                 axisTick: {
-                    show: false
+                    show: true,
+                    length: 4,
+                    distance: 2,
+                    splitNumber: 1
                 },
                 axisLabel: {
                     show: false
@@ -510,7 +511,7 @@ function montarGraficosWidget() {
         optionChart = {
             grid: {
                 left: '2%',
-                right: '1%',
+                right: '4%',
                 top: '8%',
                 bottom: '2%',
                 containLabel: true
@@ -534,7 +535,7 @@ function montarGraficosWidget() {
                 }
             },
             xAxis: {
-                inverse: true,
+                inverse: false,
                 show: true,
                 type: 'category',
                 data: fechas[0]
@@ -682,6 +683,7 @@ function fotoEstacion(id_estacion) {
                 if (foto != '') {
                     ima = 'url("data:image/jpg;base64,' + foto + '")';
                     document.getElementById('seccionFoto').style.backgroundImage = ima;
+                    document.getElementById('seccionFoto').style.backgroundSize = 'cover';
                 }
             },
             error: function() {

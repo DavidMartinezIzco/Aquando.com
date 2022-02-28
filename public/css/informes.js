@@ -67,13 +67,19 @@ function opciones() {
 
 //inicia con valores los formularios de las fechas
 function inicioFin() {
-    Date.prototype.toDateInputValue = (function() {
-        var local = new Date(this);
-        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-        return local.toJSON().slice(0, 10);
+    Date.prototype.seteardesde = (function() {
+        var manana = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+        return manana.toJSON().slice(0, 10);
+    });
+    Date.prototype.setearHasta = (function() {
+        var mesant = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000);
+        return mesant.toJSON().slice(0, 10);
     });
     $(document).ready(function() {
-        $('#radioFecha').val(new Date().toDateInputValue());
+        $('#fechaInicio').val(new Date().seteardesde());
+    });
+    $(document).ready(function() {
+        $('#fechaFin').val(new Date().setearHasta());
     });
 }
 
@@ -94,8 +100,8 @@ function obtenerInforme() {
         tipoInf = 'acumulados';
     }
 
-    var fInicio = document.getElementById('radioFecha').value;
-    var fFin = document.getElementById("radioMotivo").value;
+    var fInicio = document.getElementById('fechaInicio').value;
+    var fFin = document.getElementById("fechaFin").value;
     // var estaciones = document.getElementById("opcionesEstacion").value;
     var nestaciones = Array();
     var estaciones = $('#opcionesEstacion').val();
@@ -130,7 +136,6 @@ function obtenerInforme() {
                 document.getElementById('espacioInforme').innerHTML += cabecera;
                 document.getElementById('espacioInforme').innerHTML += informe;
                 document.getElementById('espacioInforme').innerHTML += pie;
-
             },
             error: function() {
                 console.log("error en los informes");
