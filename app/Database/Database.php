@@ -41,6 +41,21 @@ class Database
         }
     }
 
+    public function obtenerClienteUsuario($nombre_usuario, $pwd)
+    {
+        $id_usuario = $this->obtenerIdUsuario($nombre_usuario, $pwd)[0]['id_usuario'];
+        if ($id_usuario) {
+            $con = "SELECT cliente.nombre FROM cliente inner join usuarios on usuarios.id_cliente = cliente.id_cliente
+           WHERE usuarios.id_usuario = " . $id_usuario;
+            $res = pg_query($this->conexion, $con);
+            if ($this->consultaExitosa($res)) {
+                return pg_fetch_all($res)[0]['nombre'];
+            }
+        }
+        return "";
+    }
+
+
     //comprueba si una consulta a BD tiene respuesta
     //uso interno
     private function consultaExitosa($resultado)
@@ -281,15 +296,15 @@ class Database
     public function datosEstacion($id_estacion, $todos)
     {
         if ($this->conectar()) {
-            $tagsEstacion = Array();
-            $ultimosDatosEstacion = Array();
+            $tagsEstacion = array();
+            $ultimosDatosEstacion = array();
             if ($todos) {
                 $tagsEstacion = $this->todosTagsEstacion($id_estacion);
             } else {
                 $tagsEstacion = $this->tagsEstacion($id_estacion);
             }
             foreach ($tagsEstacion as $index => $tag) {
-            $conUltimoValorTag = "SELECT tags.nombre_tag, tags.unidad, tags.r_max, tags.r_min,
+                $conUltimoValorTag = "SELECT tags.nombre_tag, tags.unidad, tags.r_max, tags.r_min,
             datos_valores.id_tag, datos_valores.fecha, datos_valores.valor_bool, datos_valores.valor_int, datos_valores.valor_float, datos_valores.valor_acu, datos_valores.valor_string, datos_valores.valor_date 
             FROM datos_valores INNER JOIN tags ON datos_valores.id_tag = tags.id_tag
             INNER JOIN estacion_tag ON estacion_tag.id_tag = tags.id_tag
@@ -308,10 +323,9 @@ class Database
                             $ultimosDatosEstacionLimpio[$tag]['valor'] = $valor;
                         }
                     } else {
-                        if($valor != null){
+                        if ($valor != null) {
                             $ultimosDatosEstacionLimpio[$tag][$nDato] = $valor;
                         }
-                        
                     }
                 }
             }
@@ -942,7 +956,8 @@ class Database
         }
     }
 
-    private function obtenerConsignasTag($id_tag){
+    private function obtenerConsignasTag($id_tag)
+    {
 
         $nombre_tag = $this->obtenerNombreTag($id_tag);
 
@@ -951,7 +966,7 @@ class Database
             from datos_valores inner join tags on tags.id_tag = datos_valores.id_tag 
             inner join estacion_tag on estacion_tag.id_tag = tags.id_tag
             inner join estaciones on estaciones.id_estacion = estacion_tag.id_estacion
-            WHERE tags.nombre_tag LIKE('Consigna ".$nombre_tag."%') and estaciones.id_estacion = (select id_estacion from estacion_tag where id_tag = ".$id_tag.")
+            WHERE tags.nombre_tag LIKE('Consigna " . $nombre_tag . "%') and estaciones.id_estacion = (select id_estacion from estacion_tag where id_tag = " . $id_tag . ")
             order by estaciones.nombre_estacion";
             $res = pg_query($this->conexion, $con);
             if ($this->consultaExitosa($res)) {
@@ -986,7 +1001,7 @@ class Database
 
             foreach ($configuracionWidgetsUsuario as $widget => $tag) {
                 $tag = intval($tag);
-                $consignas_tag= $this->obtenerConsignasTag($tag);
+                $consignas_tag = $this->obtenerConsignasTag($tag);
                 //ultimo valor del tag
                 $conUltimoValor = "SELECT tags.unidad,tags.r_min,tags.r_max,estaciones.nombre_estacion, tags.nombre_tag, datos_valores.valor_acu, datos_valores.valor_float,datos_valores.valor_int,datos_valores.id_tag,datos_valores.fecha 
                 FROM datos_valores inner join tags on tags.id_tag = datos_valores.id_tag
@@ -1007,8 +1022,7 @@ class Database
                         }
                     }
                     $ultvalor = $ultValorLimpio;
-                }
-                else{
+                } else {
                     $ultvalor = false;
                 }
 
@@ -1036,8 +1050,7 @@ class Database
                         }
                     }
                     $trendDia = $trendDiaLimpio;
-                }
-                else {
+                } else {
                     $trendDia = false;
                 }
 
@@ -1103,16 +1116,14 @@ class Database
                             }
                         }
                         $agregSemana = $agregSemanaLimpio;
-                    }
-                    else{
+                    } else {
                         $agregSemana = false;
                     }
                 }
 
-                if($consignas_tag != false){
-                    $infoTag[$widget] = ["unidad" => $ultvalor['unidad'],"consignas"=>$consignas_tag, "widget" => $widget, "nombre" => $ultvalor['nombre_tag'], "estacion" => $ultvalor['nombre_estacion'], "ultimo_valor" => $ultvalor, "trend_dia" => $trendDia, "agreg_semana" => $agregSemana];
-                }
-                else {
+                if ($consignas_tag != false) {
+                    $infoTag[$widget] = ["unidad" => $ultvalor['unidad'], "consignas" => $consignas_tag, "widget" => $widget, "nombre" => $ultvalor['nombre_tag'], "estacion" => $ultvalor['nombre_estacion'], "ultimo_valor" => $ultvalor, "trend_dia" => $trendDia, "agreg_semana" => $agregSemana];
+                } else {
                     $infoTag[$widget] = ["unidad" => $ultvalor['unidad'], "widget" => $widget, "nombre" => $ultvalor['nombre_tag'], "estacion" => $ultvalor['nombre_estacion'], "ultimo_valor" => $ultvalor, "trend_dia" => $trendDia, "agreg_semana" => $agregSemana];
                 }
             }

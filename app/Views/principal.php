@@ -70,10 +70,8 @@
 
 </main>
 
-
-
 <script>
-    var estacionesUsu = <?php echo json_encode($_SESSION['estaciones']); ?>;
+    var estacionesUsu = <?php echo json_encode($estaciones); ?>;
     var estacionesUbis = <?php echo json_encode($estacionesUbis); ?>;
     var usu = '<?php echo $_SESSION['nombre'] ?>';
     var pwd = '<?php echo $_SESSION['pwd'] ?>';

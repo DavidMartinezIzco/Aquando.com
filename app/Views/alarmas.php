@@ -52,7 +52,8 @@
         <div id="acciones">
             <button id="btnControl" style="background-color: yellowgreen;border:2px solid green;" value="aplicar" onclick=actualizar() name="btnControl">Aplicar</button>
             <button id="btnControl" onclick=limpiar() style="background-color:tomato;border:2px solid red;" value="reset" name="btnControlReset">Reset</button>
-            <button id="btnControl" style="background-color: darkseagreen;border:2px solid darkgreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
+            <button id="btnControl" style="background-color: rgb(1, 168, 184);border:2px solid blue;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
+            <button id="btnControl" style="background-color: darkseagreen;border:2px solid darkgreen;" value="print" onclick="exportarCSV()" name="btnControlPrint"><i class="fas fa-file-excel"></i></button>
         </div>
 
     </div>
@@ -66,8 +67,6 @@
 </main>
 
 <script>
-
-
 
     window.onload = function() {
         inicioFin();
@@ -87,8 +86,6 @@
         // });
 
     }
-
-
     //muestra / oculta las opciones
     // $(window).keydown(function(e) {
     //     if (e.ctrlKey)

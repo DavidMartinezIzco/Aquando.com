@@ -35,12 +35,14 @@ function imprimir() {
     var hoy = new Date();
     var fechaHoy = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
     var nombre_informe = 'Alarmas ' + fechaHoy + '.pdf';
+
+
     var informe = document.getElementById('tablaAlarmas');
     var opt = {
         margin: 0,
         filename: nombre_informe,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
+        html2canvas: { scale: 2, logging: false, dpi: 300, letterRendering: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
     };
 
@@ -49,9 +51,39 @@ function imprimir() {
 
     });
 
-
 }
 
+function exportarCSV() {
+    var hoy = new Date();
+    var fechaHoy = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
+    var nombre_informe = 'Alarmas ' + fechaHoy;
+    var datosExp = [];
+    var orig = document.getElementById("tablaAlarmas");
+    var filas = orig.querySelectorAll("table tr");
+    for (var i = 0; i < filas.length; i++) {
+        var fila = [];
+        var colus = filas[i].querySelectorAll("td, th");
+        for (var j = 0; j < colus.length; j++) {
+            fila.push(colus[j].innerText);
+        }
+        datosExp.push(fila.join(";"));
+    }
+    console.log(datosExp.join("\n"));
+    descargarArchivoCSV(datosExp.join("\n"), nombre_informe);
+}
+
+function descargarArchivoCSV(csv, archivo) {
+    var archivo_csv, link_descarga;
+    archivo_csv = new Blob([csv], { type: "text/csv" });
+    link_descarga = document.createElement("a");
+    link_descarga.setAttribute('target', '_blank');
+    link_descarga.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(archivo_csv));
+    link_descarga.download = archivo;
+    link_descarga.href = window.URL.createObjectURL(archivo_csv);
+    link_descarga.style.display = "none";
+    document.body.appendChild(link_descarga);
+    link_descarga.click();
+}
 
 
 //esconde o muestra las opciones

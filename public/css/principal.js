@@ -6,8 +6,6 @@ var listaTags = new Array();
 //esas estaciones se listan con pines en el mapa y al hacer click tienen un popup con foto + nombre + ultima conex + enlace
 //utiliza OSM y Leaflet.
 function mapas() {
-
-
     var ubiIni = [estacionesUsu[0]['latitud'], estacionesUsu[0]['longitud']];
     var map = L.map('conMapa').setView(ubiIni, 12);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}', {
@@ -504,19 +502,34 @@ function crearWidgetsChartsCustom(feed) {
 
             //gauge con val actual
             var optGau = {
+
+                legend: {
+                    show: true,
+                    x: 'center',
+
+                    textStyle: {
+                        fontWeight: 'normal',
+                        fontSize: 14
+                    },
+                    padding: 1,
+                    data: [{
+                        name: nombre_dato + " : " + nombre_estacion,
+                        icon: 'circle',
+                    }, ],
+                },
                 grid: {
-                    left: '5%',
-                    right: '5%',
-                    top: '5%',
-                    bottom: '1%',
+                    left: '0%',
+                    right: '0%',
+                    top: '10%',
+                    bottom: '0%',
                     containLabel: true
                 },
                 title: {
-                    left: 'center',
-                    text: "Valor actual: " + nombre_dato + " de " + nombre_estacion,
+                    left: 'left',
+                    text: "Valor actual:",
                     textStyle: {
                         fontStyle: 'bold',
-                        fontSize: 18
+                        fontSize: 14
                     },
                 },
                 series: [{
@@ -577,9 +590,9 @@ function crearWidgetsChartsCustom(feed) {
 
         //chart lineas trend diario/semanal (acumulados)
 
-        var titulo = "Dia: " + nombre_dato + " de " + nombre_estacion;
+        var titulo = "Dia:";
         if (nombre_dato.includes('Acumulado')) {
-            titulo = "7 Dias: " + nombre_dato + " de " + nombre_estacion;
+            titulo = "7 Dias:";
         }
         var datos_dia = [];
         var horas_dia = [];
@@ -589,15 +602,29 @@ function crearWidgetsChartsCustom(feed) {
         }
 
         optDia = {
+
+            legend: {
+                x: 'center',
+
+                textStyle: {
+                    fontWeight: 'normal',
+                    fontSize: 14
+                },
+                padding: 1,
+                data: [{
+                    name: nombre_dato,
+                    icon: 'circle',
+                }, ],
+            },
             grid: {
                 left: '5%',
                 right: '10%',
-                top: '12%',
+                top: '11%',
                 bottom: '1%',
                 containLabel: true
             },
             title: {
-                left: 'center',
+                left: 'left',
                 text: titulo,
                 textStyle: {
                     fontStyle: 'bold',
@@ -606,12 +633,15 @@ function crearWidgetsChartsCustom(feed) {
             },
             tooltip: {
                 trigger: 'axis',
-                icon: 'none',
                 textStyle: {
                     fontStyle: 'bold',
-                    fontSize: 16
+                    fontSize: 20
                 },
+
                 axisPointer: {
+                    axis: 'x',
+                    snap: true,
+                    offset: 0,
                     type: 'line',
                     label: {
                         formatter: 'fecha y hora: {value}',
@@ -669,13 +699,18 @@ function crearWidgetsChartsCustom(feed) {
             optionSemanal = {
                 legend: {
                     x: 'center',
-                    y: 'top',
+                    // y: 'top',
                     textStyle: {
                         fontWeight: 'normal',
-                        fontSize: 16,
+                        fontSize: 14
                     },
-                    padding: 2,
-                    show: false
+                    padding: 1,
+                    data: [{
+                        name: 'Máximos de ' + nombre_dato,
+                        icon: 'circle',
+                    }],
+                    //se podría hacer que los Meta no se muestren por defecto pero para eso necesitamos
+                    //meter los nombre en unas variables porque se desformatea concatenando las que ya hay.
                 },
                 grid: {
                     left: '5%',
@@ -686,12 +721,11 @@ function crearWidgetsChartsCustom(feed) {
                 },
                 title: {
                     show: true,
-                    left: 'center',
-                    text: "15 Dias: " + nombre_dato + " de " + nombre_estacion,
+                    left: 'left',
+                    text: "15 Dias:",
                     textStyle: {
                         fontStyle: 'bold',
                         fontSize: 16,
-
                     },
                 },
                 tooltip: {
@@ -757,13 +791,26 @@ function crearWidgetsChartsCustom(feed) {
             optionSemanal = {
                 legend: {
                     x: 'center',
-                    y: 'top',
+                    // y: 'top',
                     textStyle: {
                         fontWeight: 'normal',
-                        fontSize: 16,
+                        fontSize: 14
                     },
-                    padding: 2,
-                    show: false
+                    padding: 1,
+                    data: [{
+                            name: 'Máximos de ' + nombre_dato,
+                            icon: 'circle',
+                        },
+                        {
+                            name: 'Medias de ' + nombre_dato,
+                            icon: 'circle',
+                        },
+                        {
+                            name: 'Mínimos de ' + nombre_dato,
+                            icon: 'circle',
+                        }
+                    ],
+
                 },
                 grid: {
                     left: '5%',
@@ -773,9 +820,9 @@ function crearWidgetsChartsCustom(feed) {
                     containLabel: true
                 },
                 title: {
-                    show: true,
-                    left: 'center',
-                    text: "Semanal: " + nombre_dato + " de " + nombre_estacion,
+                    show: false,
+                    left: 'left',
+                    text: "Semanal",
                     textStyle: {
                         fontStyle: 'bold',
                         fontSize: 16,

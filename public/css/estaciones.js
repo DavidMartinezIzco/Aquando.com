@@ -344,7 +344,6 @@ function montarGraficosWidget() {
                         fontStyle: 'bold',
                         fontSize: 12
                     },
-
                     axisPointer: {
                         axis: 'x',
                         snap: true,
@@ -363,7 +362,6 @@ function montarGraficosWidget() {
                     data: fechas[0]
                 },
                 yAxis: {
-
                     type: 'value'
                 },
                 series: [{
@@ -384,7 +382,6 @@ function montarGraficosWidget() {
                             ])
                         }
                     },
-
                     symbol: 'none',
                     smooth: false
                 }]

@@ -110,7 +110,7 @@
     left: 73%;
     height: 100%;
     bottom: 300%;
-    padding: 1%;
+    padding: 0.2% 1%;
 }
 
 #btnInforme {
@@ -120,6 +120,7 @@
     height: 100%;
     width: 70%;
     margin: 1% 15%;
+    font-size: 90%;
 }
 
 #btnInforme:hover {

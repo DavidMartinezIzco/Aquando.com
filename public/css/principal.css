@@ -156,6 +156,7 @@
     overflow: hidden;
     background-color: white;
     color: black;
+    font-size: 140%;
 }
 
 .anaIzq:hover {
@@ -176,6 +177,7 @@
     overflow: hidden;
     background-color: white;
     color: black;
+    font-size: 140%;
 }
 
 .anaDer:hover {

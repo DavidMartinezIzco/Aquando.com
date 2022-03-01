@@ -99,9 +99,9 @@ if (isset($_GET['log'])) {
 
         </div>
         <div id="usuario">
-            <?php if (isset($_SESSION['nombre'])) {
+            <?php if (isset($_SESSION['nombre']) && isset($_SESSION['nombre_cliente'])) {
                 // hay que añador la empresa
-                echo "Usuario: " . $_SESSION['nombre'] . "<br>Empresa: ";
+                echo "" . $_SESSION['nombre'] . "<br>" . $_SESSION['nombre_cliente'];
             } else {
                 echo "";
             }
@@ -211,7 +211,7 @@ if (isset($_GET['log'])) {
             </li>
 
 
-            <hr>
+            
             <!---LOGIN---->
             <li class="nav-item">
                 <form action="<?php echo base_url(); ?>/inicioSesion" method="POST">

@@ -30,8 +30,11 @@ class Inicio extends BaseController
             $_SESSION['seccion'] = "inicio";
             if (isset($_SESSION['nombre'])) {
                 $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
-                $_SESSION['estaciones'] = $this->usuario->obtenerEstacionesUsuario();
+                $_SESSION['nombre_cliente'] = $this->usuario->getCliente();
+                $datos['estaciones'] = $this->usuario->obtenerEstacionesUsuario();
+                $_SESSION['estaciones'] = $datos['estaciones'];
                 $datos['estacionesUbis'] = $this->usuario->ultimasConexiones();
+                
                 return view('principal', $datos);
             } else {
                 return view('inicio');

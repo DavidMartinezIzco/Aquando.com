@@ -111,7 +111,7 @@ class Usuario
         return false;
     }
 
-
+    
 
     /**
      * Get the value of contrasena
@@ -153,7 +153,7 @@ class Usuario
      */
     public function getCliente()
     {
-        return $this->cliente;
+        return $this->DB->obtenerClienteUsuario($this->nombre, $this->contrasena);
     }
 
     /**
