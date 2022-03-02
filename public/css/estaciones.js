@@ -342,8 +342,9 @@ function montarGraficosWidget() {
                     trigger: 'axis',
                     textStyle: {
                         fontStyle: 'bold',
-                        fontSize: 12
+                        fontSize: 10
                     },
+
                     axisPointer: {
                         axis: 'x',
                         snap: true,
@@ -422,10 +423,12 @@ function montarGraficosWidget() {
         var valor = datosAnalog[tag]['valor'];
         var maximo = 10;
         var minimo = 0;
+        var titu = "";
 
         if (datosAnalog[tag]['consignas'].length >= 1) {
             maximo = datosAnalog[tag]['consignas'][0]['valor'];
             maximo = maximo / r_max;
+            titu += "Max: " + parseFloat(maximo).toFixed(2) + "\n";
         }
         if (datosAnalog[tag]['consignas'].length == 2) {
             minimo = datosAnalog[tag]['consignas'][1]['valor'];
@@ -434,18 +437,25 @@ function montarGraficosWidget() {
             } else {
                 minimo = 0;
             }
-
+            titu += "Min: " + parseFloat(minimo).toFixed(2);
         }
 
         optionGauge = {
+            title: {
+                left: 'left',
+                text: titu,
+                textStyle: {
+                    fontStyle: 'bold',
+                    fontSize: 8
+                },
+            },
             grid: {
                 left: '0%',
                 right: '0%',
-                top: '0%',
+                top: '4%',
                 bottom: '0%',
                 containLabel: true
             },
-
             series: [{
                 name: nombreDato,
                 type: 'gauge',

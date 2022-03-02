@@ -135,8 +135,6 @@ function renderGrafico(datosR) {
                     icon: 'circle',
                 }
             ],
-            //se podría hacer que los Meta no se muestren por defecto pero para eso necesitamos
-            //meter los nombre en unas variables porque se desformatea concatenando las que ya hay.
         },
         grid: {
             left: '3%',

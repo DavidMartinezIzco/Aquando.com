@@ -193,24 +193,24 @@
     transition: 0.2s;
 }
 
-#carrusel div {
+.carr {
     width: 33%;
     text-align: center;
     margin: 0px;
     height: 100%;
     padding: 0%;
     display: inline-block;
-    opacity: 0%;
+    opacity: 100%;
     font-size: 70%;
 }
 
-#carrusel div:first-child {
+.carr:first-child {
     opacity: 100%;
     float: left;
     width: 34%;
 }
 
-#carrusel div:last-child {
+.carr:last-child {
     float: right;
 }
 

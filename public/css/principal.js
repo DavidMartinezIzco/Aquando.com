@@ -506,7 +506,7 @@ function crearWidgetsChartsCustom(feed) {
                 legend: {
                     show: true,
                     x: 'center',
-
+                    selectedMode: false,
                     textStyle: {
                         fontWeight: 'normal',
                         fontSize: 14
@@ -602,10 +602,9 @@ function crearWidgetsChartsCustom(feed) {
         }
 
         optDia = {
-
             legend: {
                 x: 'center',
-
+                selectedMode: false,
                 textStyle: {
                     fontWeight: 'normal',
                     fontSize: 14
@@ -635,7 +634,7 @@ function crearWidgetsChartsCustom(feed) {
                 trigger: 'axis',
                 textStyle: {
                     fontStyle: 'bold',
-                    fontSize: 20
+                    fontSize: 14
                 },
 
                 axisPointer: {
@@ -699,6 +698,7 @@ function crearWidgetsChartsCustom(feed) {
             optionSemanal = {
                 legend: {
                     x: 'center',
+                    selectedMode: false,
                     // y: 'top',
                     textStyle: {
                         fontWeight: 'normal',
@@ -729,14 +729,16 @@ function crearWidgetsChartsCustom(feed) {
                     },
                 },
                 tooltip: {
-                    show: true,
                     trigger: 'axis',
-                    icon: 'none',
                     textStyle: {
                         fontStyle: 'bold',
                         fontSize: 14
                     },
+
                     axisPointer: {
+                        axis: 'x',
+                        snap: true,
+                        offset: 0,
                         type: 'line',
                         label: {
                             formatter: 'fecha y hora: {value}',
@@ -783,15 +785,16 @@ function crearWidgetsChartsCustom(feed) {
 
         } else {
             for (var index in agreg_semanal) {
-                max_agreg.push(agreg_semanal[index]['max']);
-                min_agreg.push(agreg_semanal[index]['min']);
-                avg_agreg.push(agreg_semanal[index]['avg']);
+                max_agreg.push(parseFloat(agreg_semanal[index]['max']).toFixed(2));
+                min_agreg.push(parseFloat(agreg_semanal[index]['min']).toFixed(2));
+                avg_agreg.push(parseFloat(agreg_semanal[index]['avg']).toFixed(2));
                 fechas_agreg.push(agreg_semanal[index]['fecha']);
             }
             optionSemanal = {
                 legend: {
                     x: 'center',
                     // y: 'top',
+                    selectedMode: false,
                     textStyle: {
                         fontWeight: 'normal',
                         fontSize: 14
@@ -830,14 +833,16 @@ function crearWidgetsChartsCustom(feed) {
                     },
                 },
                 tooltip: {
-                    show: true,
                     trigger: 'axis',
-                    icon: 'none',
                     textStyle: {
                         fontStyle: 'bold',
                         fontSize: 14
                     },
+
                     axisPointer: {
+                        axis: 'x',
+                        snap: true,
+                        offset: 0,
                         type: 'line',
                         label: {
                             formatter: 'fecha y hora: {value}',
