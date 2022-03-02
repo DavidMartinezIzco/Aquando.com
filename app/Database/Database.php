@@ -839,6 +839,43 @@ class Database
 
                 return $informeTags;
             }
+
+            if($señal == "clo"){
+                $tagscaudales = array();
+                $informeTags = array();
+
+                $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad
+                FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
+                WHERE id_estacion = " . $id_estacion . " 
+                AND tags.nombre_tag LIKE('Cloro%')
+                OR tags.nombre_tag LIKE('Turbidez%')";
+
+                $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
+                if ($this->consultaExitosa($resTagsCaudales)) {
+
+                    $tagscaudales = pg_fetch_all($resTagsCaudales);
+                    foreach ($tagscaudales as $index => $tag) {
+
+                        $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
+                        from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
+                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+                        GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
+
+                        $resAgregTag = pg_query($this->conexion, $conAgregTag);
+                        if ($this->consultaExitosa($resAgregTag)) {
+                            if ($tag['unidad'] != null) {
+                                $nombretag = $tag['nombre_tag'] . " (" . $tag['unidad'] . ")";
+
+                                $informeTags[$nombretag] = pg_fetch_all($resAgregTag);
+                            } else {
+                                $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
+                            }
+                        }
+                    }
+                }
+
+                return $informeTags;
+            }
         }
     }
 

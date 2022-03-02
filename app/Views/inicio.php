@@ -56,7 +56,34 @@ if (isset($_GET['log'])) {
         <div style="width: 100%; padding-left: 1em">powered by
             <img src="../public/logo.png" style="height: 3.5em; margin-left: 1%;" onclick="pantalla()">
             <i style="margin-left: 1%" class="far fa-lightbulb" id="iconoAyuda" onclick="ayuda()"></i>
-            <i class="fas fa-tools" id="iconoAyuda" onclick="ajustes()"></i>
+
+            <?php if(isset($_SESSION['seccion'])){
+                switch ($_SESSION['seccion']) {
+                    case 'login':
+                        echo "";
+                        break;
+                    case 'graficos':
+                        echo "";
+                        break;
+                    case 'estacion':
+                        echo "";
+                        break;
+                    case 'alarmas':
+                        echo "";
+                        break;
+                    case 'infos':
+                        echo "";
+                        break;
+                    case 'coms':
+                        echo "";
+                        break;
+                    default:
+                        echo '<i class="fas fa-tools" id="iconoAyuda" onclick="ajustes()"></i>';
+                        break;
+                }
+
+
+            } ?>
             <!----zona secciones---->
             <?php
             if (isset($_SESSION['seccion'])) {
@@ -94,7 +121,6 @@ if (isset($_GET['log'])) {
                         break;
                 }
             }
-
             ?>
 
         </div>

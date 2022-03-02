@@ -24,12 +24,12 @@
 
             <!-- zona de wid digitales -->
             <div id="widSup">
-                <!-- <div class="digiIzq"></div>
-                <div class="digiDer"></div> -->
+                <div style="border: 2px dashed rgb(1, 168, 184) ;" class="digiIzq"></div>
+                <div style="border: 2px dashed rgb(1, 168, 184);" class="digiDer"></div>
             </div>
             <div id="widInf">
-                <!-- <div class="digiIzq"></div>
-                <div class="digiDer"></div> -->
+                <div style="border: 2px dashed rgb(1, 168, 184);" class="digiIzq"></div>
+                <div style="border: 2px dashed rgb(1, 168, 184);" class="digiDer"></div>
             </div>
         </div>
     </div>
@@ -37,13 +37,14 @@
     <!-- ZONA DERECHA -->
 
     <div id="prinDer">
-        <div id="widSup">
-            <!-- AQUI IRAN LOS WIDS EN CARRUSEL -->
-        </div>
-        <div id="widInf">
-            <!-- AQUI IRAN LOS WIDS EN CARRUSEL -->
-            
-        </div>
+    <div id="widSup">
+                <div style="border: 4px dashed rgb(1, 168, 184);" class="digiIzq"></div>
+                <div style="border: 4px dashed rgb(1, 168, 184);" class="digiDer"></div>
+            </div>
+            <div id="widInf">
+                <div style="border: 4px dashed rgb(1, 168, 184);" class="digiIzq"></div>
+                <div style="border: 4px dashed rgb(1, 168, 184);" class="digiDer"></div>
+            </div>
     </div>
 
     <!---zona alarmas--->

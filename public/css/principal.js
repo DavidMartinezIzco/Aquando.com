@@ -7,7 +7,7 @@ var listaTags = new Array();
 //utiliza OSM y Leaflet.
 function mapas() {
     var ubiIni = [estacionesUsu[0]['latitud'], estacionesUsu[0]['longitud']];
-    var map = L.map('conMapa').setView(ubiIni, 12);
+    var map = L.map('conMapa').setView(ubiIni, 10);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}', {
         maxZoom: 18,
         id: 'mapbox/streets-v11',
@@ -851,7 +851,7 @@ function crearWidgetsChartsCustom(feed) {
                     }
                 },
                 xAxis: {
-                    inverse: true,
+                    inverse: false,
                     show: true,
                     type: 'category',
                     data: fechas_agreg

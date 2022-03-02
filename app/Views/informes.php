@@ -18,9 +18,10 @@
         <!--tipo de representacion--->
         <div id="tipoInforme">
             <form>
-                <label><input type="radio" name="radInforme" id="radInforme" value="cau" checked />Caudales</label><br>
-                <label><input type="radio" name="radInforme" id="radInforme" value="niv" />Niveles</label><br>
-                <label><input type="radio" name="radInforme" id="radInforme" value="acu" /> Acumulados</label>
+                <label><input type="radio" name="radInforme" id="radInforme" value="cau" checked /> Caudales</label><br>
+                <label><input type="radio" name="radInforme" id="radInforme" value="niv" /> Niveles</label><br>
+                <label><input type="radio" name="radInforme" id="radInforme" value="acu" /> Acumulados</label><br>
+                <label><input type="radio" name="radInforme" id="radInforme" value="clo" /> Cloros y Turbidez</label>
             </form>
 
         </div>

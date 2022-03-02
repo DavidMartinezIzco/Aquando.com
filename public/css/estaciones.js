@@ -1,7 +1,4 @@
 //por algun motivo hay un overflow x de tipo scroll al hacer hover sobre un chart por primera vez
-//la estacion de colonias falla al conseguir el trend del Nivel y acumulado entrada dia
-//faltan de añadir las opciones para los tags
-
 
 var datosDigi = Array();
 var datosAnalog = Array();
@@ -326,7 +323,7 @@ function montarGraficosWidget() {
                 fechas.push(todoTrends[tag]['fecha']);
             }
             if (valores.length > 0) {
-                document.getElementById("panelRojo" + nombreDato).innerHTML = valores[0][0];
+                document.getElementById("panelRojo" + nombreDato).innerHTML = 'hoy:' + valores[0][0];
             } else {
                 document.getElementById("panelRojo" + nombreDato).innerHTML = 'sin trends';
             }
@@ -392,7 +389,7 @@ function montarGraficosWidget() {
 
         } else {
             if (document.getElementById("panelNegro" + nombreDato + "Dia") && todoTrends[tag] !== undefined) {
-                document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = todoTrends[tag]['max'][0];
+                document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'Acumulado:' + todoTrends[tag]['max'][0];
             } else {
                 document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'sin trends de señal';
             }
@@ -401,6 +398,7 @@ function montarGraficosWidget() {
 
     }
 
+    var widsAnalogLista = [];
     for (var tag in datosAnalog) {
 
         var optionGauge;
@@ -575,17 +573,22 @@ function montarGraficosWidget() {
             }]
         };
 
+        widsAnalogLista.push([gauge, grafTrend]);
+
         optionGauge && gauge.setOption(optionGauge, true);
         optionChart && grafTrend.setOption(optionChart, true);
 
-        $('#menuIzq').bind('widthChange', function() {
-            gauge.resize();
-            grafTrend.resize();
-        });
-
         document.getElementsByClassName("btnOpci")[0].style.display = 'block';
-        // document.getElementsByClassName("btnOpci")[1].style.display = 'block';
     }
+    $('#menuIzq').bind('widthChange', function() {
+        if (widsAnalogLista != undefined) {
+            for (var index in widsAnalogLista) {
+                widsAnalogLista[index][0].resize();
+                widsAnalogLista[index][1].resize();
+            }
+        }
+    });
+
 }
 
 function ajustes() {

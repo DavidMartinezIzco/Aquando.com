@@ -11,13 +11,14 @@ function abrirCerrar() {
     } else {
         abrirMenu();
     }
-    if (typeof grafico !== 'undefined') {
+    $("#menuIzq").trigger('widthChange');
+    if (typeof grafico !== undefined) {
         grafico.resize();
     }
-    if (typeof graficoCustom !== 'undefined') {
+    if (typeof graficoCustom !== undefined) {
         graficoCustom.resize();
     }
-    $("#menuIzq").trigger('widthChange');
+
 }
 
 //despliega la zona de debug

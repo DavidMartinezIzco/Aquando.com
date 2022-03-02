@@ -138,6 +138,11 @@ function obtenerInforme() {
         opcion = 'acu';
         tipoInf = 'acumulados';
     }
+    if (tipo == 'clo') {
+        opcion = 'clo';
+        tipoInf = 'cloros y turbidez';
+    }
+
 
     var fInicio = document.getElementById('fechaInicio').value;
     var fFin = document.getElementById("fechaFin").value;
