@@ -1,5 +1,4 @@
 //por algun motivo hay un overflow x de tipo scroll al hacer hover sobre un chart por primera vez
-
 var datosDigi = Array();
 var datosAnalog = Array();
 var consignas = Array();
@@ -29,6 +28,7 @@ function actualizar(id_estacion) {
 
 }
 
+//obiene los trends de los ultimos 7 dias de los tags analógicos
 function trendsTags() {
 
     var listaTags = datosAnalog.concat(tagsAcumulados);
@@ -591,6 +591,8 @@ function montarGraficosWidget() {
 
 }
 
+//muestra u oculta el menu de ajustes de las estaciones
+//de momento no lo vamos a implementar
 function ajustes() {
     var ajustes = document.getElementById("ajustesEstacion");
     if (ajustes.style.display == 'block') {
@@ -621,6 +623,7 @@ function ajustes() {
 
 }
 
+//funciones para los ajustes. Muestran los tags con consignas modificables de la estación
 function mostrarAjustesTag(id_tag) {
     var zona = document.getElementById("ajustesDisplay");
     var tag = datosAnalog[id_tag];
@@ -650,6 +653,7 @@ function mostrarAjustesTag(id_tag) {
 
 }
 
+//muestra las consignas del tag seleccionado en los ajustes
 function mostrarFormConsigna(id_consigna) {
 
     var consigna = consignas[id_consigna];
@@ -683,6 +687,7 @@ function mostrarFormConsigna(id_consigna) {
     zona.innerHTML = contenido + lista;
 }
 
+//muestra en caso de tenerla, la imagen correspondiente a la estacion
 function fotoEstacion(id_estacion) {
     $(document).ready(function() {
         $.ajax({

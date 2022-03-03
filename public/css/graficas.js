@@ -58,6 +58,7 @@ function aplicarOpciones() {
     metaDatosTag(idTag, idEstacion);
 }
 
+//lista los tags disponibles de una estacion
 function tagsEstacion(id_estacion) {
 
     $(document).ready(function() {

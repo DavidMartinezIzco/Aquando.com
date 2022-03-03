@@ -1,6 +1,6 @@
 <?php
 
-
+//comprueba el estado de la session interna
 session_start();
 
     if(isset($_SESSION['nombre'])){
@@ -9,5 +9,3 @@ session_start();
     else {
         echo "fail";
     }
-
-?>

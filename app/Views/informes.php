@@ -48,7 +48,7 @@
             </form>
         </div>
 
-
+        <!-- botonera para los informes -->
         <div id="controlesInforme">
             <div id="controles">
                 <button id="btnInforme" name="btnControl" onclick="obtenerInforme()">ver informe</button><br>
@@ -58,7 +58,7 @@
             </div>
         </div>
     </div>
-
+    <!-- zona con los informes -->
     <div id="informesSur">
         <div id="espacioInforme" style="color: black;">
 
@@ -68,7 +68,7 @@
 
 
 <script>
-    var nomusuario = "<?php echo $_SESSION['nombre'];?>";
+    var nomusuario = "<?php echo $_SESSION['nombre']; ?>";
     window.onload = function() {
         inicioFin();
         setInterval(fechaYHora, 1000);
@@ -79,17 +79,13 @@
         $(window).focus(function() {
             tiempoFuera("volver")
         });
-        
+
     }
 
     // $(window).keydown(function(e) {
     //     if (e.ctrlKey)
     //         opciones();
     // });
-
-    
-
-
 </script>
 
 

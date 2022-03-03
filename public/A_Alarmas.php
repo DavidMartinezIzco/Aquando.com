@@ -182,7 +182,4 @@ $db = new Database();
             echo "mal";
         }
 
-    }  
-
-
-?>
+    }

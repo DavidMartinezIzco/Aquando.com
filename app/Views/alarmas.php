@@ -67,7 +67,6 @@
 </main>
 
 <script>
-
     window.onload = function() {
         inicioFin();
         var usu = '<?php echo $_SESSION['nombre'] ?>';

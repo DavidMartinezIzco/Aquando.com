@@ -10,7 +10,7 @@ $db = new Database();
 if ($caso == "general") {
     $nombre = $_GET['nombre'];
     $pwd = $_GET['pwd'];
-    
+
 
     $id_usuario = $db->obtenerIdUsuario($nombre, $pwd);
     $alarmasSur = $db->alarmasSur($id_usuario);
@@ -76,7 +76,7 @@ if ($caso == "estacion") {
 
     $estacion = $_GET['estacion'];
     $alarmasSur = $db->alarmasEstacionSur($estacion);
-    
+
     echo "<tr>        
         <th>Estación</th>
         <th>Señal </th>

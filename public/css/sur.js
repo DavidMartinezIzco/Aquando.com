@@ -1,3 +1,4 @@
+//refresca la lista de alarmas del menu sur en funcion de la sección en la que se encuentre
 function actualizarSur(entorno, nombre, pwd, estacion) {
 
     if (entorno == "general") {

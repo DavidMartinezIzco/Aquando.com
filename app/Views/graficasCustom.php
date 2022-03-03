@@ -18,7 +18,7 @@
                     <h3>Vista Personalizada</h3>
                     <select id="selPresets" onchange='ajustesPresets("cargar")'>Predefinidos:</select>
                     <!--selector de tag/tags-->
-                    
+
                     <h6>Mostrar:</h6>
                     <ul class='listaGrafCustom' id="opcionesTag" name="opcionesTag" onchange=""></ul>
 

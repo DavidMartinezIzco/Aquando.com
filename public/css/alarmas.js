@@ -52,7 +52,7 @@ function imprimir() {
     });
 
 }
-
+//crea un objeto csv de la tabla de alarmas
 function exportarCSV() {
     var hoy = new Date();
     var fechaHoy = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
@@ -71,7 +71,7 @@ function exportarCSV() {
     console.log(datosExp.join("\n"));
     descargarArchivoCSV(datosExp.join("\n"), nombre_informe);
 }
-
+//descarga el objeto CSV
 function descargarArchivoCSV(csv, archivo) {
     var archivo_csv, link_descarga;
     archivo_csv = new Blob([csv], { type: "text/csv" });
@@ -97,6 +97,7 @@ function opciones() {
     }
 }
 
+//refresca la lista de alarmas según los ajustes seleccionados en los controles
 function actualizar(reorden) {
 
     var id_estacion = document.getElementById("estaciones").value;
@@ -145,6 +146,7 @@ function actualizar(reorden) {
     }
 }
 
+//muestra en la tabla las alarmas de una estacion concreta en funcion de los ajustes seleccionados en los controles
 function filtrarPorEstacion() {
     var fechaInicio = document.getElementById('fechaInicio').value;
     var fechaFin = document.getElementById('fechaFin').value;
@@ -179,6 +181,7 @@ function filtrarPorEstacion() {
     }
 }
 
+//establece el valor de una alarma como ACK con la fecha actual como fecha_ack y el usuasrio como reconocedor de la alarma y refresca la lista
 function reconocer(id_alarma) {
     var fecha_ack = Date.now();
     $(document).ready(function() {
@@ -195,19 +198,7 @@ function reconocer(id_alarma) {
         });
     });
 }
-
-// function efectoAlerta() {
-//     var alertas = document.getElementsByClassName('activaNo');
-//     for (var i = 0, max = alertas.length; i < max; i++) {
-//         setInterval(resaltar(alertas[i]), 1000);
-//     }
-// }
-
-// function resaltar(elem) {
-//     elem.style.backgroundColor = "red";
-//     setTimeout(function() { elem.style.backgroundColor = "tomato" }, 1000);
-// }
-
+//recibe los ajustes de los controles y refresca la lista de alarmas
 function reordenar(opcion) {
 
     actualizar(opcion);

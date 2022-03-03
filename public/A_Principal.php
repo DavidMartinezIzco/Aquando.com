@@ -35,6 +35,7 @@ if($_GET['opcion'] == 'refresh') {
     echo json_encode($feedDigital);
 }
 
+//obtiene los tags analógicos disponibles para mostrar en el grid de widgets derecho
 if($_GET['opcion'] == 'ajustes'){
     $datos = json_decode($_REQUEST['arrEstaciones']);
     $datosAnalog = $db->tagsAnalogHisto($datos);
@@ -54,6 +55,7 @@ if($_GET['opcion'] == 'ajustes'){
     echo json_encode($datosSinAcus);
 }
 
+//establece la configuración de un widget
 if($_GET['opcion'] == 'confirmar'){
     $widget = $_GET['wid'];
     $tag = $_GET['tag'];
@@ -67,6 +69,7 @@ if($_GET['opcion'] == 'confirmar'){
 
 }
 
+//recoge los datos para el grid de widgets derecho en función de los ajustes del usuario
 if($_GET['opcion'] == 'feed'){
     $usu = $_GET['usu'];
     $pwd = $_GET['pwd'];
@@ -77,5 +80,3 @@ if($_GET['opcion'] == 'feed'){
     }
 
 }
-
-?>

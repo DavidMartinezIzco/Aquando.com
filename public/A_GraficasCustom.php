@@ -16,6 +16,7 @@ if ($opcion == 'tag') {
     echo json_encode($info);
 }
 
+//guarda un preset con la configuracion de tags y colores seleccionados
 if ($opcion == 'guardar') {
 
     $datosPreset = json_decode($_REQUEST['arrDatosPreset']);
@@ -30,6 +31,7 @@ if ($opcion == 'guardar') {
     echo $resultado;
 }
 
+//muestra una lista con los presets guardados por el usuario
 if ($opcion == 'leerPresets') {
     $datos = json_decode($_REQUEST['arrdatos']);
     $n_usuario = $datos->nombre;
@@ -52,17 +54,15 @@ if ($opcion == 'leerPresets') {
     }
 }
 
-if($opcion == 'borrar'){
+//elimina un preset
+if ($opcion == 'borrar') {
     $datos = json_decode($_REQUEST['arrdatos']);
     $usuario = $datos->nombre;
     $pwd = $datos->pwd;
 
     $id_usuario = $db->obtenerIdUsuario($usuario, $pwd);
-    if($id_usuario){
+    if ($id_usuario) {
         $preset = $_GET['preset'];
         $db->borrarPreset($preset, $id_usuario);
-    
     }
-
-   
 }

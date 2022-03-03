@@ -22,11 +22,9 @@
     </div>
 
     <div id="estacionCentro">
-
     </div>
 
     <div id="estacionDer">
-
     </div>
 
     <div id="ajustesEstacion">
@@ -54,7 +52,6 @@
     <!---zona alarmas--->
 
     <table id="alarmasSur">
-
     </table>
 
 

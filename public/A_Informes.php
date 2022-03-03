@@ -13,7 +13,8 @@ $fechaIni = $_GET['fechaIni'];
 $fechaFin = $_GET['fechaFin'];
 $nombres = json_decode(($_REQUEST['arrNombres']));
 
-
+//busca los datos de maximos minimos medias y metadados de las estaciones seleccionadas de los tags relacionados con caudales
+//despues crea un objeto tabla de Koolreport
 if ($opcion == "cau") {
 
     $estaciones = json_decode(($_REQUEST['arrEstaciones']));
@@ -60,7 +61,7 @@ if ($opcion == "cau") {
         "grouping" => array(
             "estacion" => array(
                 "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
-                
+
 
             ),
             "señal" => array(
@@ -74,14 +75,13 @@ if ($opcion == "cau") {
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
 
-                "bottom" => function($val)
-                {
-                   $fila = "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de ".$val['{señal}'].":</b></td>
-                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Maximo: ".$val['{max}']."</td>
-                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Minimo: ".$val['{min}']."</td>
-                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: ".number_format($val['{med}'], 2)."</td>";
-                   return $fila;
-                }    
+                "bottom" => function ($val) {
+                    $fila = "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de " . $val['{señal}'] . ":</b></td>
+                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Maximo: " . $val['{max}'] . "</td>
+                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Minimo: " . $val['{min}'] . "</td>
+                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: " . number_format($val['{med}'], 2) . "</td>";
+                    return $fila;
+                }
 
             )
         ),
@@ -92,6 +92,8 @@ if ($opcion == "cau") {
     ));
 }
 
+//busca los datos de maximos minimos medias y metadados de las estaciones seleccionadas de los tags relacionados con niveles de las estaciones seleccionadas
+//despues crea un objeto tabla de Koolreport
 if ($opcion == "niv") {
     $estaciones = json_decode(($_REQUEST['arrEstaciones']));
     $informesDep = array();
@@ -119,7 +121,7 @@ if ($opcion == "niv") {
         "dataSource" => $informeTabla,
 
         "columns" => array(
-            
+
             "fecha" => array(
                 "cssStyle" => "text-align:center"
             ),
@@ -136,7 +138,7 @@ if ($opcion == "niv") {
         ),
         "grouping" => array(
             "estacion" => array(
-                "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",     
+                "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
             ),
             "señal" => array(
                 "calculate" => array(
@@ -148,7 +150,7 @@ if ($opcion == "niv") {
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Maximo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
-                
+
                 "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Maximo: {max}</td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Minimo: {min}</td>
@@ -162,6 +164,8 @@ if ($opcion == "niv") {
     ));
 }
 
+//busca los datos de maximos y metadatos de los tags relacionados con acumulados DIA de las estaciones seleccionadas
+//despues crea un objeto tabla de Koolreport
 if ($opcion == "acu") {
     $estaciones = json_decode(($_REQUEST['arrEstaciones']));
     $informesDep = array();
@@ -200,12 +204,12 @@ if ($opcion == "acu") {
             "valor" => array(
                 "cssStyle" => "text-align:center"
             ),
-            
+
         ),
         "grouping" => array(
             "estacion" => array(
                 "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
-                
+
 
             ),
             "señal" => array(
@@ -226,7 +230,9 @@ if ($opcion == "acu") {
     ));
 }
 
-if($opcion == "clo"){
+//busca los datos de maximos minimos medias y metadatos de los tags relacionados con cloros y turbidez de las estaciones seleccionadas
+//despues crea un objeto tabla de Koolreport
+if ($opcion == "clo") {
     $estaciones = json_decode(($_REQUEST['arrEstaciones']));
     $informesDep = array();
     $informeDep = array();
@@ -253,7 +259,7 @@ if($opcion == "clo"){
         "dataSource" => $informeTabla,
 
         "columns" => array(
-            
+
             "fecha" => array(
                 "cssStyle" => "text-align:center"
             ),
@@ -270,7 +276,7 @@ if($opcion == "clo"){
         ),
         "grouping" => array(
             "estacion" => array(
-                "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",     
+                "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
             ),
             "señal" => array(
                 "calculate" => array(
@@ -282,7 +288,7 @@ if($opcion == "clo"){
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Maximo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
-                
+
                 "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Maximo: {max}</td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Minimo: {min}</td>

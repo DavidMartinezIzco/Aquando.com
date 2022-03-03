@@ -6,22 +6,15 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 <link rel="stylesheet" type="text/css" href="css/sur.css">
-
-
 <main id="conPrincipal" style="border-radius:10px; margin-top:0.5%;">
-
     <!-- zona IZQUIERDA -->
     <div id="prinIzq">
-
         <div id="prinIzqSup">
             <!-- zona del mapa -->
             <div id="conMapa">
-
             </div>
-
         </div>
         <div id="prinIzqInf">
-
             <!-- zona de wid digitales -->
             <div id="widSup">
                 <div style="border: 2px dashed rgb(1, 168, 184) ;" class="digiIzq"></div>
@@ -33,24 +26,20 @@
             </div>
         </div>
     </div>
-
     <!-- ZONA DERECHA -->
-
     <div id="prinDer">
-    <div id="widSup">
-                <div style="border: 4px dashed rgb(1, 168, 184);" class="digiIzq"></div>
-                <div style="border: 4px dashed rgb(1, 168, 184);" class="digiDer"></div>
-            </div>
-            <div id="widInf">
-                <div style="border: 4px dashed rgb(1, 168, 184);" class="digiIzq"></div>
-                <div style="border: 4px dashed rgb(1, 168, 184);" class="digiDer"></div>
-            </div>
+        <div id="widSup">
+            <div style="border: 4px dashed rgb(1, 168, 184);" class="digiIzq"></div>
+            <div style="border: 4px dashed rgb(1, 168, 184);" class="digiDer"></div>
+        </div>
+        <div id="widInf">
+            <div style="border: 4px dashed rgb(1, 168, 184);" class="digiIzq"></div>
+            <div style="border: 4px dashed rgb(1, 168, 184);" class="digiDer"></div>
+        </div>
     </div>
-
     <!---zona alarmas--->
     <table id="alarmasSur">
     </table>
-
     <!-- ajustes generales de seccion -->
     <!-- mucho del codigo es provisional -->
     <div id="ajustesSeccion">
@@ -68,9 +57,7 @@
             </div>
         </div>
     </div>
-
 </main>
-
 <script>
     var estacionesUsu = <?php echo json_encode($estaciones); ?>;
     var estacionesUbis = <?php echo json_encode($estacionesUbis); ?>;
@@ -79,7 +66,6 @@
     sessionStorage.setItem('nousu', usu);
     sessionStorage.setItem('pwd', pwd);
     window.onload = function() {
-        
         mapas();
         actualizar();
         ajustes();
@@ -87,7 +73,7 @@
         actualizarSur('general', usu, pwd, null);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
-        setInterval(actualizar, 1000*60*10);
+        setInterval(actualizar, 1000 * 60 * 10);
         $("#menuIzq").trigger('widthChange');
         // $(window).blur(function() {
         //     tiempoFuera("");
@@ -99,5 +85,4 @@
         pantalla();
     }
 </script>
-
 <?= $this->endSection() ?>

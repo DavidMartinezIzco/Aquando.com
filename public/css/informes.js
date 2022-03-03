@@ -7,12 +7,10 @@ function imprimir() {
     setTimeout(() => {
         document.getElementsByName('btnControlPrint')[0].innerHTML = '<i class="fas fa-print"></i>';
     }, 4000);
-
 }
 
 //descarga la captura de las alarmas 
 function guardar(uri, filename) {
-
     var link = document.createElement('a');
     if (typeof link.download === 'string') {
 
@@ -27,6 +25,7 @@ function guardar(uri, filename) {
     }
 }
 
+//crea objeto CSV a aprtir del informe
 function exportarCSV() {
     tipo = document.querySelector('input[name="radInforme"]:checked').value;
     var tipoInf = '';
@@ -56,6 +55,7 @@ function exportarCSV() {
     descargarArchivoCSV(datosExp.join("\n"), nombre_informe);
 }
 
+//descarga el archivo CSV
 function descargarArchivoCSV(csv, archivo) {
     var archivo_csv, link_descarga;
     archivo_csv = new Blob([csv], { type: "text/csv" });
@@ -69,7 +69,8 @@ function descargarArchivoCSV(csv, archivo) {
     link_descarga.click();
 }
 
-
+//crea objeto js-html2pdf 
+//docs de la librería: https://openbase.com/js/js-html2pdf/documentation#dependencies
 function pasarAPDF() {
     //https://openbase.com/js/js-html2pdf/documentation
     var hoy = new Date();
@@ -88,6 +89,7 @@ function pasarAPDF() {
     exp_informe.getPdf(true).then((pdf) => {});
 }
 
+//elimina los ajustes
 function reset() {
     document.getElementById('espacioInforme').innerHTML = "";
 }
@@ -122,6 +124,7 @@ function inicioFin() {
     });
 }
 
+//crea un informe basándose en los ajustes y preferencias elegidas
 function obtenerInforme() {
     tipo = document.querySelector('input[name="radInforme"]:checked').value;
     var opcion = '';

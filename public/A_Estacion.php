@@ -5,12 +5,13 @@ $DB = new Database();
 $opcion = $_GET['opcion'];
 $id_estacion = $_GET['estacion'];
 $tipo = "";
-if(isset($_GET['tipo'])){
+if (isset($_GET['tipo'])) {
     $tipo = $_GET['tipo'];
 }
 
 // echo json_encode($DB->tagTrend(141, $id_estacion));
 
+//obtiene los ultimos datos de los tags de la estacion
 if ($opcion == 'actualizar' && $tipo == 'todos') {
     try {
         echo json_encode($DB->datosEstacion($id_estacion, true));
@@ -19,6 +20,7 @@ if ($opcion == 'actualizar' && $tipo == 'todos') {
     }
 }
 
+//obtiene los trends de las estaciones (valores de los ultimos 7 dias)
 if ($opcion == 'trends') {
     $datosAnalog = json_decode($_REQUEST['arrTags']);
     $trendsEstacion = [];
@@ -45,7 +47,8 @@ if ($opcion == 'trends') {
     echo json_encode($trendsEstacion);
 }
 
-if($opcion == 'foto'){
+//busca la foto de la estación
+if ($opcion == 'foto') {
     $foto = $DB->obtenerFotoEstacion($id_estacion);
     echo $foto;
 }

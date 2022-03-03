@@ -10,20 +10,14 @@
     <link rel="stylesheet" type="text/css" href="css/estilos.css">
     <link rel="stylesheet" type="text/css" href="css/inicio.css">
     <link rel="stylesheet" type="text/css" href="css/principal.css">
-
-
     <!--cosillas de Fuentes-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-
     <!--cosillas de Jquery para AJAX-->
     <script src="css/jquery.js"></script>
-
     <!--cosillas de font-awesome-->
     <link rel="stylesheet" type="text/css" href="css/fontawesome/css/all.css">
-    
-
     <!--cosillas de bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
@@ -32,17 +26,15 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous">
     </script>
-
-
     <!--demás archivos JavaScript-->
     <script src="css/mlat.js"></script>
     <script src="css/reloj.js"></script>
     <script src="css/ayuda.js"></script>
     <script src="css/desconectado.js"></script>
     <script src='css/sur.js'></script>
-
 </head>
 <?php
+//comprueba el estado de la session
 if (isset($_GET['log'])) {
 
     echo '<script language="javascript">';
@@ -56,8 +48,8 @@ if (isset($_GET['log'])) {
         <div style="width: 100%; padding-left: 1em">powered by
             <img src="../public/logo.png" style="height: 3.5em; margin-left: 1%;" onclick="pantalla()">
             <i style="margin-left: 1%" class="far fa-lightbulb" id="iconoAyuda" onclick="ayuda()"></i>
-
-            <?php if(isset($_SESSION['seccion'])){
+            <!-- zona ajustes -->
+            <?php if (isset($_SESSION['seccion'])) {
                 switch ($_SESSION['seccion']) {
                     case 'login':
                         echo "";
@@ -81,8 +73,6 @@ if (isset($_GET['log'])) {
                         echo '<i class="fas fa-tools" id="iconoAyuda" onclick="ajustes()"></i>';
                         break;
                 }
-
-
             } ?>
             <!----zona secciones---->
             <?php
@@ -122,7 +112,6 @@ if (isset($_GET['log'])) {
                 }
             }
             ?>
-
         </div>
         <div id="usuario">
             <?php if (isset($_SESSION['nombre']) && isset($_SESSION['nombre_cliente'])) {
@@ -136,8 +125,6 @@ if (isset($_GET['log'])) {
         <div id="fechahora">
         </div>
         </div>
-
-
     </header>
     <!-- HEADER: MENU + HEROE SECTION -->
     <button class="btn me-2 btn-block" id="btnMenuIzq" title="ocultar/mostrar menú" onclick="abrirCerrar()">☰</button>
@@ -154,10 +141,9 @@ if (isset($_GET['log'])) {
 
             <!---estaciones--->
             <li class="Func">
-                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnFuncion" value="estaciones" style="font-size:100%;" onclick="desplegar(this.value)"
-                    <?php if (!isset($_SESSION["nombre"])) {
-                        echo "disabled";
-                    } ?>>
+                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnFuncion" value="estaciones" style="font-size:100%;" onclick="desplegar(this.value)" <?php if (!isset($_SESSION["nombre"])) {
+                                                                                                                                                                        echo "disabled";
+                                                                                                                                                                    } ?>>
                     <i class="fas fa-broadcast-tower" style="margin-right:5%;font-size:80%"></i>Estaciones<i class="fas fa-caret-down"></i>
                 </button>
             </li>
@@ -185,9 +171,9 @@ if (isset($_GET['log'])) {
 
             <!-- wrap de graficas -->
             <li class="Func">
-                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnGraf" value="grafs" style="font-size:100%;" onclick="desplegar(this.value)"<?php if (!isset($_SESSION["nombre"])) {
-                        echo "disabled";
-                    } ?>>
+                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnGraf" value="grafs" style="font-size:100%;" onclick="desplegar(this.value)" <?php if (!isset($_SESSION["nombre"])) {
+                                                                                                                                                                echo "disabled";
+                                                                                                                                                            } ?>>
                     <i class="far fa-chart-bar" style="margin-right:5%"></i>Graficas <i class="fas fa-caret-down"></i>
                 </button>
             </li>
@@ -207,7 +193,6 @@ if (isset($_GET['log'])) {
                     </form>
                 </li>
             </ul>
-
             <li class="Func">
                 <form action="<?php echo base_url(); ?>/alarmas" method="POST">
                     <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if (!isset($_SESSION["nombre"])) {
@@ -237,7 +222,7 @@ if (isset($_GET['log'])) {
             </li>
 
 
-            
+
             <!---LOGIN---->
             <li class="nav-item">
                 <form action="<?php echo base_url(); ?>/inicioSesion" method="POST">
@@ -281,14 +266,12 @@ if (isset($_GET['log'])) {
             </li>
 
     </div>
-
     <script>
         pantalla();
         window.onload = function() {
             setInterval(fechaYHora, 1000);
             setInterval(desvanecer, 1500);
         }
-
         <?php
         if (!isset($_SESSION['nombre'])) {
             echo 'document.getElementById("conRest").style.display ="none";';
@@ -299,9 +282,7 @@ if (isset($_GET['log'])) {
                 abrirCerrar();
             }
         }
-
     </script>
-
     <!--seccion flotante de ayuda--->
     <div id="conAyuda">
         <i class="fas fa-times" style="font-size: 150%" id="btnAyudaCerrar" onclick="ayuda()"></i>
@@ -311,8 +292,6 @@ if (isset($_GET['log'])) {
             <i class="fas fa-arrow-right"></i>
         </button>
     </div>
-
-
     <!--render de las distintas vistas--->
     <div id="contenido" style="padding-top: 3.8%; padding-left:15%; color:lightgrey;" onclick="cerrarMenuEsp();">
         <?php $this->renderSection('content'); ?>
@@ -324,7 +303,6 @@ if (isset($_GET['log'])) {
 
         ?>
     </div>
-
 </body>
 <script>
     function cerrarMenuEsp() {

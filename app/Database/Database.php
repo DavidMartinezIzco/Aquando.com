@@ -41,6 +41,7 @@ class Database
         }
     }
 
+    //devuelve el nombre de la empresa de un usuario
     public function obtenerClienteUsuario($nombre_usuario, $pwd)
     {
         $id_usuario = $this->obtenerIdUsuario($nombre_usuario, $pwd)[0]['id_usuario'];
@@ -106,6 +107,8 @@ class Database
         }
     }
 
+    //obtiene la foto codificada en base64 de una estacion en concreto
+    //la devuelve como texto plano
     public function obtenerFotoEstacion($id_estacion)
     {
         if ($this->conectar()) {
@@ -371,6 +374,7 @@ class Database
         }
     }
 
+    //obtiene los tags analogicos historizables de un grupo de estaciones
     public function tagsAnalogHisto($estaciones)
     {
         $tagsAnalogsHisto = array();
@@ -527,7 +531,6 @@ class Database
 
     //secuencia para pasar una alarma de un usuario a estado ACK e incluir nombre del usuario y la fecha de ACK
     //se usa en la sección de alarmas
-
     public function reconocerAlarma($id_alarma, $usuario, $hora)
     {
 
@@ -982,6 +985,8 @@ class Database
         return false;
     }
 
+    //obtiene el nombre de un tag concreto
+    //uso interno
     private function obtenerNombreTag($id_tag)
     {
         if ($this->conectar()) {
@@ -993,6 +998,8 @@ class Database
         }
     }
 
+    //obtiene (si existen) las consignas de un tag
+    //uso interno
     private function obtenerConsignasTag($id_tag)
     {
 

@@ -11,7 +11,6 @@
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
 
     <!--necesitamos nombre de estacion, nombre de tags, datos de tags-->
-
     <div id="display">
         <div id="zonaControles">
             <div id="panelOpciones">
