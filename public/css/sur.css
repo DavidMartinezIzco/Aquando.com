@@ -75,3 +75,15 @@
         background-color: rgb(241, 68, 37);
     }
 }
+
+@media only screen and (max-width: 600px) {
+    #alarmasSur {
+        font-size: 60%;
+        height: 330px;
+        top: 65%;
+        z-index: 1001;
+    }
+    #alarmasSur tr {
+        opacity: 100%;
+    }
+}

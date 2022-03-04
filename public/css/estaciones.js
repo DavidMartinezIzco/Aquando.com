@@ -311,6 +311,7 @@ function montarWidgetsAnalogicos() {
 //wid de deposito?
 
 function montarGraficosWidget() {
+    var widsAnalogLista = [];
     for (var tag in tagsAcumulados) {
         var nombreDato = tagsAcumulados[tag]['nombre_tag'].replace(/\s+/g, '');
         if (nombreDato.includes("Dia")) {
@@ -384,6 +385,7 @@ function montarGraficosWidget() {
                     smooth: false
                 }]
             };
+            widsAnalogLista.push([grafTrend]);
             optionChart && grafTrend.setOption(optionChart, true);
 
 
@@ -398,7 +400,7 @@ function montarGraficosWidget() {
 
     }
 
-    var widsAnalogLista = [];
+
     for (var tag in datosAnalog) {
 
         var optionGauge;
@@ -584,7 +586,10 @@ function montarGraficosWidget() {
         if (widsAnalogLista != undefined) {
             for (var index in widsAnalogLista) {
                 widsAnalogLista[index][0].resize();
-                widsAnalogLista[index][1].resize();
+                if (widsAnalogLista[index].length > 1) {
+                    widsAnalogLista[index][1].resize();
+                }
+
             }
         }
     });

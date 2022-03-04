@@ -215,6 +215,48 @@
     float: right;
 }
 
+@media only screen and (max-width: 600px) {
+    #prinIzq {
+        width: 90%;
+        margin: 10% 5%;
+        float: unset;
+        height: 90%;
+        max-height: unset;
+        margin-bottom: 0%;
+    }
+    #prinDer {
+        width: 90%;
+        margin: 2% 5%;
+        float: unset;
+        height: 100%;
+        max-height: unset;
+        margin-bottom: 330px;
+    }
+    .anaIzq {
+        width: 90%;
+        margin: 2% 5%;
+        float: unset;
+        height: 49%;
+    }
+    .anaDer {
+        width: 90%;
+        margin: 2% 5%;
+        float: unset;
+        height: 49%;
+    }
+    #widSup {
+        height: 47%;
+    }
+    #widInf {
+        height: 47%;
+    }
+    .carr {
+        width: 32%;
+        margin: 0;
+        font-size: 50%;
+    }
+}
+
 
 /* OTRAS HISTORIAS Y ANIMACIONES */
 

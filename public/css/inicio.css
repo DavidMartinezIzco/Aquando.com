@@ -9,6 +9,19 @@ body {
     overflow: hidden;
 }
 
+#cabeceraPrincipal {
+    width: 100%;
+    background-color: rgb(39, 45, 79);
+    position: fixed;
+    height: 4.5em;
+    z-index: 1000;
+}
+
+#logoPrincipal {
+    height: 3.5em;
+    margin-left: 1%;
+}
+
 i {
     margin: 0 5px;
 }
@@ -328,6 +341,18 @@ footer {
     margin-top: 1%;
 }
 
+#conPrincipal::-webkit-scrollbar {
+    height: 15px;
+}
+
+#conPrincipal::-webkit-scrollbar-track {
+    background-color: rgb(39, 45, 79);
+}
+
+#conPrincipal::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+}
+
 
 /* AJUSTES DE SECCION */
 
@@ -441,4 +466,55 @@ footer {
 
 form button {
     font-size: 130%;
+}
+
+@media only screen and (max-width: 600px) {
+    * {
+        zoom: 100%;
+    }
+    body {
+        /* color: white;
+        background-size: cover;
+        background-attachment: fixed;
+        background-image: linear-gradient(to top, rgb(39, 45, 79) 0%, rgb(1, 168, 184) 100%); */
+    }
+    #cabeceraPrincipal {
+        font-size: 75%;
+    }
+    #conPrincipal {
+        overflow-y: scroll;
+        margin-top: 10%;
+        height: 1100px;
+        /* margin-bottom: 220px; */
+    }
+    #menuIzq {
+        width: 50%;
+        z-index: 1002;
+        margin-top: 3.4em;
+    }
+    #btnMenuIzq {
+        font-size: 300%;
+        top: 5%
+    }
+    #usuario {
+        color: rgb(1, 168, 184);
+        width: 20%;
+        margin: 0;
+        padding: 5px;
+        position: fixed;
+        right: 11%;
+        top: 0.5%;
+    }
+    #seccion {
+        left: 45%;
+        font-size: 2em;
+        /* margin-top: 0.2em; */
+    }
+    #fechahora {
+        right: 3%;
+        top: 0.5%;
+    }
+    #logoPrincipal {
+        height: 2.5em;
+    }
 }

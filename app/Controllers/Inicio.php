@@ -5,10 +5,7 @@ namespace App\Controllers;
 
 require(APPPATH . "Models/Usuario.php");
 
-
-
 use Usuario;
-
 
 class Inicio extends BaseController
 {
@@ -25,6 +22,7 @@ class Inicio extends BaseController
     {
         if (isset($_GET['log']) && $_GET['log'] == 'out') {
             session_unset();
+            $_SESSION['mensajeDesc'] = true;
             return view('inicio');
         } else {
             $_SESSION['seccion'] = "inicio";
@@ -34,9 +32,9 @@ class Inicio extends BaseController
                 $datos['estaciones'] = $this->usuario->obtenerEstacionesUsuario();
                 $_SESSION['estaciones'] = $datos['estaciones'];
                 $datos['estacionesUbis'] = $this->usuario->ultimasConexiones();
-                
                 return view('principal', $datos);
             } else {
+                $_SESSION['mensajeDesc'] = true;
                 return view('inicio');
             }
         }
@@ -51,7 +49,7 @@ class Inicio extends BaseController
         if (isset($_SESSION['nombre'])) {
             session_unset();
         }
-
+        $_SESSION['mensajeDesc'] = false;
         $nombre = "";
         $pwd = "";
 

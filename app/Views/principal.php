@@ -1,12 +1,13 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
 <script src='css/echarts.js'></script>
+<link rel="stylesheet" type="text/css" href="css/sur.css">
 <script src="css/principal.js"></script>
 <script src="css/reloj.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-<link rel="stylesheet" type="text/css" href="css/sur.css">
-<main id="conPrincipal" style="border-radius:10px; margin-top:0.5%;">
+
+<main id="conPrincipal" style="height:848px;width:100%;border-radius:10px; margin-top:1%">
     <!-- zona IZQUIERDA -->
     <div id="prinIzq">
         <div id="prinIzqSup">

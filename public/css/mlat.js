@@ -44,8 +44,15 @@ function desplegar(menu) {
 
 //abre el menu y aplica las nnuevas dimensiones
 function abrirMenu() {
+
+    var ancho = window.innerWidth;
+    var aperturaMenu = "15%";
+    if (ancho < 600) {
+        aperturaMenu = "50%";
+        document.getElementById("menuIzq").style.width = aperturaMenu;
+    }
     if (document.getElementById("menuIzq")) {
-        document.getElementById("menuIzq").style.width = '15%';
+        document.getElementById("menuIzq").style.width = aperturaMenu;
         document.getElementById("contenido").style.paddingLeft = '15%';
         document.getElementById("btnMenuIzq").style.left = '15%';
         document.getElementById("btnMenuIzq").style.visibility = 'hidden';
@@ -123,9 +130,20 @@ function carga() {
 function pantalla() {
 
     var ancho = window.innerWidth;
-    var defectoAncho = 1879;
-    var zoom = 100;
-    var relAncho = ((zoom * ancho) / defectoAncho);
-    document.body.style.zoom = relAncho + '%';
+    if (ancho > 600) {
+        var defectoAncho = 1879;
+        var zoom = 100;
+        var relAncho = ((zoom * ancho) / defectoAncho);
+        document.body.style.zoom = relAncho + '%';
+        console.log("desktop");
+
+    } else {
+        var defectoAncho = 516;
+        var zoom = 100;
+        var relAncho = ((zoom * ancho) / defectoAncho);
+        document.body.style.zoom = relAncho + '%';
+        console.log("mobile");
+    }
+
 
 }

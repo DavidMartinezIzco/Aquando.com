@@ -536,3 +536,26 @@
 #widDigi:hover .tooltiptext {
     opacity: 90%;
 }
+
+@media only screen and (max-width: 600px) {
+    #estacionIzq {
+        left: unset;
+        position: unset;
+        width: 90%;
+        margin: 10% 5% 5% 2%;
+    }
+    #estacionCentro {
+        position: unset;
+        left: unset;
+        bottom: unset;
+        width: 90%;
+        margin: 0% 5%;
+    }
+    #estacionDer {
+        left: unset;
+        position: unset;
+        bottom: unset;
+        width: 90%;
+        margin: 2% 5% 330px 5%;
+    }
+}

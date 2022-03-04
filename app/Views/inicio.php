@@ -44,9 +44,9 @@ if (isset($_GET['log'])) {
 ?>
 
 <body>
-    <header class="p-1 text-white" style="width: 100%;background-color:rgb(39,45,79);position:fixed; height:4.5em; z-index:1000;">
+    <header id="cabeceraPrincipal" class="p-1 text-white">
         <div style="width: 100%; padding-left: 1em">powered by
-            <img src="../public/logo.png" style="height: 3.5em; margin-left: 1%;" onclick="pantalla()">
+            <img id="logoPrincipal" src="../public/logo.png" onclick="pantalla()">
             <i style="margin-left: 1%" class="far fa-lightbulb" id="iconoAyuda" onclick="ayuda()"></i>
             <!-- zona ajustes -->
             <?php if (isset($_SESSION['seccion'])) {
@@ -128,7 +128,7 @@ if (isset($_GET['log'])) {
     </header>
     <!-- HEADER: MENU + HEROE SECTION -->
     <button class="btn me-2 btn-block" id="btnMenuIzq" title="ocultar/mostrar menú" onclick="abrirCerrar()">☰</button>
-    <div class="d-flex flex-column flex-shrink-0 text-light container-fluid" value="abierto" id="menuIzq" style="width: 15%;">
+    <div class="d-flex flex-column flex-shrink-0 text-light container-fluid" value="abierto" id="menuIzq">
         <form action="<?php echo base_url(); ?>" id="contenidoMenuIzq1" method="POST">
             <button name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio" style="width: 100%; border-radius:0px; font-size:200%; color:white; <?php if (isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio') {
                                                                                                                                                                             echo "background-color:rgb(1, 168, 184)";
@@ -296,7 +296,7 @@ if (isset($_GET['log'])) {
     <div id="contenido" style="padding-top: 3.8%; padding-left:15%; color:lightgrey;" onclick="cerrarMenuEsp();">
         <?php $this->renderSection('content'); ?>
         <?php
-        if (!isset($_SESSION['nombre'])) {
+        if (!isset($_SESSION['nombre']) && $_SESSION['mensajeDesc'] == true) {
             // echo '<img src="../public/logo.png"';
             echo "<h1 id='txtDesconectado' style='width:30%;margin:25% 40%;color:grey; transition:1.5s;opacity:60%'>Desconectado</h1>";
         }

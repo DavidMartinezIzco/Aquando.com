@@ -25,14 +25,10 @@
             </select>
         </div>
         <div id="filtros2">
-            <input type="radio" id="radioFecha" name="filtro" value="Fecha" checked>
-            <label for="radioFecha">Fecha</label>
-            <input type="radio" id="radioMotivo" name="filtro" value="estado">
-            <label for="radioMotivo">Importancia</label>
-            <input type="radio" id="radioRest" name="filtro" value="restauracion">
-            <label for="radioRest">Restauracion</label>
-            <input type="radio" id="radioEstacion" name="filtro" value="estacion">
-            <label for="radioEstacion">Estación</label>
+            <label for="radioFecha"><input type="radio" id="radioFecha" name="filtro" value="Fecha" checked>Fecha</label>
+            <label for="radioMotivo"><input type="radio" id="radioMotivo" name="filtro" value="estado">Importancia</label>
+            <label for="radioRest"><input type="radio" id="radioRest" name="filtro" value="restauracion">Restauracion</label>
+            <label for="radioEstacion"><input type="radio" id="radioEstacion" name="filtro" value="estacion">Estación</label>
         </div>
         <div id="orden">
             <input type="radio" id="radioAsc" name="orden" value="ASC">
