@@ -395,9 +395,7 @@ function montarGraficosWidget() {
             } else {
                 document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'sin trends de señal';
             }
-
         }
-
     }
 
 

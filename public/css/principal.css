@@ -255,6 +255,9 @@
         margin: 0;
         font-size: 50%;
     }
+    #tagSel {
+        width: 90%;
+    }
 }
 
 

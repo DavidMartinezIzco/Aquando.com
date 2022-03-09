@@ -157,3 +157,52 @@
     margin-bottom: 5%;
     min-height: 100%;
 }
+
+@media only screen and (max-width: 600px) {
+    #conPrincipal {
+        margin-top: 6.9%;
+        overflow-y: unset;
+    }
+    #informesNorte {
+        margin-top: 0%;
+    }
+    #tipoInforme {
+        left: 2%;
+        width: 24%;
+        font-size: 90%;
+    }
+    #camposInforme {
+        width: 40%;
+        z-index: 99;
+        bottom: 150%;
+    }
+    #camposInforme form input {
+        margin: 0;
+        width: 60%;
+    }
+    #opcionesInforme {
+        z-index: 99;
+        height: 50%;
+    }
+    #controles {
+        margin-top: 25%;
+    }
+    #controlesInforme {
+        width: 70%;
+        left: 25%;
+        bottom: 250%;
+    }
+    #btnInforme {
+        width: 20%;
+        display: inline-block;
+        margin: 1%;
+    }
+    #informesSur {
+        padding: 3% 5%;
+        padding-bottom: 5%;
+        height: 80%;
+    }
+    #espacioInforme {
+        margin-bottom: 330px;
+    }
+}

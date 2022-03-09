@@ -29,7 +29,7 @@ $db = new Database();
         echo "<tr>        
         <th onclick=reordenar('estacion')>Estacion</th>
         <th onclick=reordenar('senal')>Indicador </th>
-        <th onclick=reordenar('valor')>Valor de la Indicador</th>
+        <th onclick=reordenar('valor')>Valor de Indicador</th>
         <th onclick=reordenar('origenfecha')>Fecha de Origen</th>
         <th onclick=reordenar('restauracionfecha')>Fecha de Restauracion</th>
         <th onclick=reordenar('reconusu')>Reconocida por</th>
