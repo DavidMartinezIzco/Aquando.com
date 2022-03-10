@@ -13,7 +13,6 @@ if ($opcion == 'conex') {
     $nombre = $_GET['nombre'];
     $pwd = $_GET['pwd'];
 
-
     $estaciones = $db->mostrarEstacionesCliente($nombre, $pwd);
     $ultimasConexiones = array();
     foreach ($estaciones as $estacion) {

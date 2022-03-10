@@ -61,20 +61,20 @@
 <script>
     var estacion = <?php echo $id_estacion ?>;
     window.onload = function() {
-        updateEstacion();
         fotoEstacion(estacion);
-        actualizarSur('estacion', null, null, estacion);
+        setInterval(updateEstacion(), 60000 * 5);
+        // updateEstacion();
+        // actualizarSur('estacion', null, null, estacion);
         comprobarTiempo();
         setInterval(fechaYHora, 1000);
-        setInterval(updateEstacion, 60000 * 5);
         setInterval(actualizarSur('estacion', null, null, estacion), 20000);
         setInterval(comprobarTiempo, 1000);
-        $(window).blur(function() {
-            tiempoFuera("");
-        });
-        $(window).focus(function() {
-            tiempoFuera("volver")
-        });
+        // $(window).blur(function() {
+        //     tiempoFuera("");
+        // });
+        // $(window).focus(function() {
+        //     tiempoFuera("volver")
+        // });
     }
 
     function updateEstacion() {

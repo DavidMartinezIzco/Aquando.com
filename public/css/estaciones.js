@@ -16,7 +16,6 @@ function actualizar(id_estacion) {
             type: 'GET',
             url: 'A_Estacion.php?opcion=actualizar&estacion=' + id_estacion + '&tipo=todos',
             success: function(datos) {
-
                 filtrarDatos(datos);
             },
             error: function() {
@@ -113,13 +112,11 @@ function filtrarDatos(datos) {
     }
     todoDato['bombas'] = bombas;
 
-
-
     trendsTags();
     setTimeout(() => {
         montarWidgetsDigi();
         montarWidgetsAnalogicos();
-    }, 3000);
+    }, 2000);
 
 }
 

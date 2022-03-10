@@ -60,29 +60,21 @@
     </div>
 </main>
 <script>
-    var estacionesUsu = <?php echo json_encode($estaciones); ?>;
-    var estacionesUbis = <?php echo json_encode($estacionesUbis); ?>;
     var usu = '<?php echo $_SESSION['nombre'] ?>';
     var pwd = '<?php echo $_SESSION['pwd'] ?>';
+    var estacionesUsu = <?php echo json_encode($estaciones); ?>;
+    var estacionesUbis = <?php echo json_encode($estacionesUbis); ?>;
     sessionStorage.setItem('nousu', usu);
     sessionStorage.setItem('pwd', pwd);
     window.onload = function() {
         mapas();
-        actualizar();
         ajustes();
         comprobarTiempo();
-        actualizarSur('general', usu, pwd, null);
+        setInterval(actualizarSur('general', usu, pwd, null), 20000);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
-        setInterval(actualizar, 1000 * 60 * 10);
+        setInterval(actualizar(), 1000 * 60 * 10);
         $("#menuIzq").trigger('widthChange');
-        // $(window).blur(function() {
-        //     tiempoFuera("");
-        // });
-        // $(window).focus(function() {
-        //     tiempoFuera("volver")
-        // });
-        setInterval(actualizarSur('general', usu, pwd, null), 20000);
         pantalla();
     }
 </script>
