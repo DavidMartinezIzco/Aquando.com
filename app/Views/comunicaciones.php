@@ -1,9 +1,9 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src='css/echarts.js'></script>
-<script src='css/comunicaciones.js'></script>
-<link rel="stylesheet" type="text/css" href="css/comunicaciones.css">
-<link rel="stylesheet" type="text/css" href="css/sur.css">
+<script src='../../css/echarts.js'></script>
+<script src='../../css/comunicaciones.js'></script>
+<link rel="stylesheet" type="text/css" href="../../css/comunicaciones.css">
+<link rel="stylesheet" type="text/css" href="../../css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px; margin-top:1%;">
 
 
@@ -26,6 +26,7 @@
 
 <script>
     window.onload = function() {
+        pantalla();
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         sessionStorage.setItem('usu', usu);
         var pwd = '<?php echo $_SESSION['pwd'] ?>';

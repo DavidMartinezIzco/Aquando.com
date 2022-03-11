@@ -63,8 +63,9 @@
 
 #seccionInf::-webkit-scrollbar {
     height: 15px;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: rgb(85, 85, 85);
 }
 
 #seccionInf::-webkit-scrollbar-thumb {
@@ -92,8 +93,9 @@
 
 #estacionCentro::-webkit-scrollbar {
     height: 15px;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: rgb(85, 85, 85);
 }
 
 #estacionCentro::-webkit-scrollbar-thumb {
@@ -121,8 +123,9 @@
 
 #estacionDer::-webkit-scrollbar {
     height: 15px;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: rgb(85, 85, 85);
 }
 
 #estacionDer::-webkit-scrollbar-thumb {
@@ -538,11 +541,48 @@
 }
 
 @media only screen and (max-width: 600px) {
+    #conPrincipal {
+        overflow-y: unset;
+    }
     #estacionIzq {
         left: unset;
         position: unset;
         width: 90%;
-        margin: 10% 5% 5% 2%;
+        margin: 8% 5% 2% 5%;
+        height: 25%;
+        font-size: 80%;
+    }
+    #seccionSup {
+        height: 40%;
+        margin-bottom: 2%;
+    }
+    #seccionInf {
+        height: 60%;
+        border-radius: 0px;
+        margin-top: 0px;
+        padding: 0px;
+    }
+    .widDigi {
+        width: 100%;
+        height: 100%;
+        margin: 0%;
+        border: 2px solid rgb(1, 168, 184);
+        border-bottom: none;
+        border-radius: 0px;
+    }
+    #seccionInf::-webkit-scrollbar {
+        height: 15px;
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
+        background-color: rgb(85, 85, 85);
+    }
+    #seccionInf::-webkit-scrollbar-thumb {
+        background-color: rgb(1, 168, 184);
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+    #digiWidTitulo {
+        border-radius: 0px;
     }
     #estacionCentro {
         position: unset;
@@ -550,6 +590,54 @@
         bottom: unset;
         width: 90%;
         margin: 0% 5%;
+        height: 25%;
+        border-radius: 0px;
+    }
+    #estacionCentro::-webkit-scrollbar {
+        height: 15px;
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
+        background-color: rgb(85, 85, 85);
+    }
+    #estacionCentro::-webkit-scrollbar-thumb {
+        background-color: rgb(1, 168, 184);
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+    .widAna {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+        margin-bottom: -8px;
+        border: 1px solid rgb(1, 168, 184);
+        border-radius: 0px;
+    }
+    .widAnaInfoPrin {
+        border-radius: 0px;
+    }
+    .contador {
+        height: 20%;
+    }
+    .panelNegro {
+        width: 100%;
+        float: unset;
+    }
+    .panelRojo {
+        width: 100%;
+        float: unset;
+    }
+    #widBomba {
+        height: 100%;
+        margin: 0%;
+        width: 100%;
+        border: 1px solid rgb(1, 168, 184);
+        border-radius: 0px;
+    }
+    #widBombaNombre {
+        border-radius: 0px;
+    }
+    #widBombaInf {
+        border-radius: 0px;
     }
     #estacionDer {
         left: unset;
@@ -557,5 +645,18 @@
         bottom: unset;
         width: 90%;
         margin: 2% 5% 330px 5%;
+        height: 25%;
+        border-radius: 0px;
+    }
+    #estacionDer::-webkit-scrollbar {
+        height: 15px;
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
+        background-color: rgb(85, 85, 85);
+    }
+    #estacionDer::-webkit-scrollbar-thumb {
+        background-color: rgb(1, 168, 184);
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
     }
 }

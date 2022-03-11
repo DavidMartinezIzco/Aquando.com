@@ -138,6 +138,7 @@ function pantalla() {
         console.log("desktop");
 
     } else {
+        document.getElementsByClassName("btnHerrGraf")[0].disabled = true;
         var defectoAncho = 516;
         var zoom = 100;
         var relAncho = ((zoom * ancho) / defectoAncho);

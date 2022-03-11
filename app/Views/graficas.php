@@ -1,13 +1,13 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src='css/echarts.js'></script>
-<script src='css/graficas.js'></script>
-<script src='css/html2canvas.js'></script>
-<script src='css/html2canvas.min.js'></script>
-<script src='css/html2canvas.esm.js'></script>
-<script src="css/html2pdf/lib/html2pdf.min.js"></script>
-<link rel="stylesheet" type="text/css" href="css/graficas.css">
-<link rel="stylesheet" type="text/css" href="css/sur.css">
+<script src='../../css/echarts.js'></script>
+<script src='../../css/graficas.js'></script>
+<script src='../../css/html2canvas.js'></script>
+<script src='../../css/html2canvas.min.js'></script>
+<script src='../../css/html2canvas.esm.js'></script>
+<script src="../../css/html2pdf/lib/html2pdf.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../../css/graficas.css">
+<link rel="stylesheet" type="text/css" href="../../css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
 
     <!--necesitamos nombre de estacion, nombre de tags, datos de tags-->
@@ -59,7 +59,7 @@
 
 <script>
     window.onload = function() {
-
+        pantalla();
         var usu = '<?php echo $_SESSION['nombre'] ?>';
         var pwd = '<?php echo $_SESSION['pwd'] ?>';
         comprobarTiempo();

@@ -3,7 +3,7 @@
     position: fixed;
     width: 85%;
     margin: 0px;
-    top: 80%;
+    bottom: 0%;
     text-align: center;
     transition: 0.5s;
     height: 180px;
@@ -80,7 +80,7 @@
     #alarmasSur {
         font-size: 60%;
         height: 330px;
-        top: 65%;
+        bottom: 0%;
         z-index: 1001;
     }
     #alarmasSur tr {

@@ -1,9 +1,9 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src='css/echarts.js'></script>
-<script src='css/estaciones.js'></script>
-<link rel="stylesheet" type="text/css" href="css/estaciones.css">
-<link rel="stylesheet" type="text/css" href="css/sur.css">
+<script src='../../css/echarts.js'></script>
+<script src='../../css/estaciones.js'></script>
+<link rel="stylesheet" type="text/css" href="../../css/estaciones.css">
+<link rel="stylesheet" type="text/css" href="../../css/sur.css">
 <main id="conPrincipal" style="height:848px;width:100%;border-radius:10px; margin-top:1%">
     <!---zona superior--->
 
@@ -60,13 +60,19 @@
 
 <script>
     var estacion = <?php echo $id_estacion ?>;
+    function updateEstacion() {
+        $(document.getElementById("iconoActu")).addClass("rotante");
+        actualizar(estacion);
+        setTimeout(function() {
+            document.getElementById("iconoActu").classList.remove("rotante");
+        }, 1500);
+    }
     window.onload = function() {
-        updateEstacion();
+        pantalla();
         fotoEstacion(estacion);
-        actualizarSur('estacion', null, null, estacion);
         comprobarTiempo();
         setInterval(fechaYHora, 1000);
-        setInterval(updateEstacion, 60000 * 5);
+        setInterval(updateEstacion(), 60000 * 5);
         setInterval(actualizarSur('estacion', null, null, estacion), 20000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {
@@ -75,15 +81,7 @@
         $(window).focus(function() {
             tiempoFuera("volver")
         });
-    }
-
-    function updateEstacion() {
-        $(document.getElementById("iconoActu")).addClass("rotante");
-        actualizar(estacion);
-        setTimeout(function() {
-            document.getElementById("iconoActu").classList.remove("rotante");
-        }, 4000);
-    }
+    }    
 </script>
 
 <?= $this->endSection() ?>

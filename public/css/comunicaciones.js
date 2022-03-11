@@ -3,7 +3,7 @@ function actualizarConexiones(nombre, pwd) {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Conexiones.php?nombre=' + nombre + '&pwd=' + pwd + '&opcion=conex',
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Conexiones.php?nombre=' + nombre + '&pwd=' + pwd + '&opcion=conex',
             success: function(conex) {
                 document.getElementById("tablaConex").innerHTML = conex;
             },
@@ -41,7 +41,7 @@ function nombrarEstacion(estacion) {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Conexiones.php?estacion=' + estacion + '&opcion=nom',
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Conexiones.php?estacion=' + estacion + '&opcion=nom',
             success: function(est) {
                 document.getElementById("calidadSenales").innerHTML = '<h4 id="calidadSenales"> Calidad de señal: ' + est + '</h4>';
 

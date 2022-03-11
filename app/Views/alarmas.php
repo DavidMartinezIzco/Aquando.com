@@ -1,14 +1,14 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src='css/echarts.js'></script>
-<script src='css/alarmas.js'></script>
-<script src='css/html2canvas.js'></script>
-<script src='css/html2canvas.min.js'></script>
-<script src='css/html2canvas.esm.js'></script>
+<script src='../../css/echarts.js'></script>
+<script src='../../css/alarmas.js'></script>
+<script src='../../css/html2canvas.js'></script>
+<script src='../../css/html2canvas.min.js'></script>
+<script src='../../css/html2canvas.esm.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
-<script src="css/html2pdf/lib/html2pdf.min.js"></script>
-<script src="css/jquery.js"></script>
-<link rel="stylesheet" type="text/css" href="css/alarmasCustom.css">
+<script src="../../css/html2pdf/lib/html2pdf.min.js"></script>
+<script src="../../css/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="../../css/alarmasCustom.css">
 
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
 
@@ -73,6 +73,7 @@
         setInterval(fechaYHora, 1000);
         setInterval(actualizar(null), 20000);
         setInterval(comprobarTiempo, 1000);
+        pantalla();
         // $(window).blur(function() {
         //     tiempoFuera("");
         // });

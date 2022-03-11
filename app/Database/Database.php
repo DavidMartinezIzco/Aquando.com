@@ -7,14 +7,19 @@ class Database
     // ¿habra que cambiar esto algun dia?
     // puede que si, puede que no
 
-    private $host = "172.16.3.2";
-    private $dbname = "Aquando";
+    private $host = "127.0.0.1";
+    private $dbname = "aquando_ddbb";
     private $user = "postgres";
-    private $password = "123456";
+    private $password = "";
     private $conexion;
 
     public function __construct()
     {
+        if(!function_exists('str_contains')){
+            function str_contains($pajar,$aguja){
+                return $aguja !== '' && mb_stripos($pajar,$aguja) !== false;
+            }
+        }
     }
 
     //conecta con la BD
@@ -1024,7 +1029,7 @@ class Database
     //usuario en su configuracion
     public function feedPrincipalCustom($id_usuario)
     {
-
+        
         if ($this->conectar()) {
             $configuracionWidgetsUsuario = array();
             $config = $this->obtenerConfigInicio($id_usuario);

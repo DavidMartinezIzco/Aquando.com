@@ -23,7 +23,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $baseURL = 'http://192.168.1.131/Aquando/public';
+    public $baseURL = 'http://Aquando.com/public';
 
     /**
      * --------------------------------------------------------------------------
@@ -36,7 +36,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $indexPage = 'index.php';
+    public $indexPage = 'inicio.php';
 
     /**
      * --------------------------------------------------------------------------

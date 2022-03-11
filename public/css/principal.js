@@ -17,7 +17,7 @@ function mapas() {
     }).addTo(map);
 
     for (var index in estacionesUbis) {
-        var accion = 'http://172.16.1.128/Aquando/public/estacion';
+        var accion = 'http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/estacion';
         var nombre = estacionesUbis[index][0]['nombre_estacion'];
         var ubi = [estacionesUbis[index][0]['latitud'], estacionesUbis[index][0]['longitud']];
         var ultimaConex = estacionesUbis[index][0]['valor_date'].slice(0, 10);
@@ -58,7 +58,7 @@ function actualizar() {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Principal.php?opcion=refresh',
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Principal.php?opcion=refresh',
             data: {
                 arrdatos: arrdatos
             },
@@ -178,7 +178,7 @@ function cargarAjustes() {
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_Principal.php?opcion=ajustes',
+                url: 'http://dateando.ddns.net:3000/Aquando.com/A_Principal.php?opcion=ajustes',
                 data: {
                     arrEstaciones: arrEstaciones
                 },
@@ -277,7 +277,7 @@ function confirmarAjustesWidget(wid) {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Principal.php?opcion=confirmar&wid=' + widget + '&tag=' + tag + '&usu=' + usu + '&pwd=' + pwd,
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Principal.php?opcion=confirmar&wid=' + widget + '&tag=' + tag + '&usu=' + usu + '&pwd=' + pwd,
             success: function() {
 
                 document.getElementById("seccionAjustes").innerHTML += "<br><div id='ajustesRespuesta'>widget configurado con éxito</div>";
@@ -302,13 +302,14 @@ function feedPrincipalCustom() {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Principal.php?opcion=feed&usu=' + usu + '&pwd=' + pwd,
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Principal.php?opcion=feed&usu=' + usu + '&pwd=' + pwd,
 
             success: function(feedAna) {
                 renderPrincipalCustom(feedAna);
             },
-            error: function() {
-                console.log('error feed principal analog');
+            error: function(e) {
+                //console.log('error feed principal analog');
+                console.log(e);
             },
             dataType: 'json'
         });
