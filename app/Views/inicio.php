@@ -170,10 +170,9 @@ if (isset($_GET['log'])) {
             <!--demas funciones--->
 
             <!-- wrap de graficas -->
+            
             <li class="Func">
-                <button id="btnDesplegable" class="btn me-2 btn-block" name="btnGraf" value="grafs" style="font-size:100%;" onclick="desplegar(this.value)" <?php if (!isset($_SESSION["nombre"])) {
-                                                                                                                                                                echo "disabled";
-                                                                                                                                                            } ?>>
+                <button id="btnDesplegable" class="btn me-2 btn-block btnHerrGraf" name="btnGraf" value="grafs" style="font-size:100%;" onclick="desplegar(this.value)" <?php if (!isset($_SESSION["nombre"])) {echo "disabled";} ?>>
                     <i class="far fa-chart-bar" style="margin-right:5%"></i>Graficas <i class="fas fa-caret-down"></i>
                 </button>
             </li>

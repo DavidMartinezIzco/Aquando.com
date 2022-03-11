@@ -225,22 +225,22 @@
         margin-bottom: 0%;
     }
     #prinDer {
-        width: 90%;
-        margin: 2% 5%;
+        width: 96%;
+        margin: 4% 2%;
         float: unset;
-        height: 100%;
+        height: 200%;
         max-height: unset;
         margin-bottom: 330px;
     }
     .anaIzq {
-        width: 90%;
-        margin: 2% 5%;
+        width: 100%;
+        margin: 2% 0%;
         float: unset;
         height: 49%;
     }
     .anaDer {
-        width: 90%;
-        margin: 2% 5%;
+        width: 100%;
+        margin: 2% 0%;
         float: unset;
         height: 49%;
     }
@@ -250,6 +250,12 @@
     #widInf {
         height: 47%;
     }
+    /* #prinDer #widSup {
+        height: 100%;
+    }
+    #prinDer #widInf {
+        height: 100%;
+    } */
     .carr {
         width: 32%;
         margin: 0;
