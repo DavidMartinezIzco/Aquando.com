@@ -37,7 +37,7 @@ function comprobarTiempo() {
         formatearTiempo(tiempoMax - tiempoStandBy);
     tiempoStandBy++;
     if (tiempoStandBy == tiempoMax) {
-        window.location.href = "/Aquando/public/index.php?log=out";
+        window.location.href = "http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/?log=out";
     }
 }
 
@@ -68,7 +68,7 @@ function modificarInactividad(minutos) {
 function tiempoFuera(evento) {
     tiempoPara = (tiempoMax - tiempoStandBy) * 1000;
     const tFuera = setTimeout(function() {
-        window.location.href = "/Aquando/public/index.php?log=out";
+        window.location.href = "http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/?log=out";
     }, tiempoPara);
     if (evento == "volver") {
         clearTimeout(tFuera);

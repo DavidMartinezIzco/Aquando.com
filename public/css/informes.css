@@ -111,6 +111,7 @@
     height: 100%;
     bottom: 300%;
     padding: 0.2% 1%;
+    
 }
 
 #btnInforme {
@@ -121,6 +122,7 @@
     width: 70%;
     margin: 1% 15%;
     font-size: 90%;
+    
 }
 
 #btnInforme:hover {
@@ -175,6 +177,7 @@
         width: 40%;
         z-index: 99;
         bottom: 150%;
+        height: 40%;
     }
     #camposInforme form input {
         margin: 0;
@@ -190,12 +193,13 @@
     #controlesInforme {
         width: 70%;
         left: 25%;
-        bottom: 250%;
+        bottom: 200%;
     }
     #btnInforme {
         width: 20%;
         display: inline-block;
         margin: 1%;
+        z-index: 99;
     }
     #informesSur {
         padding: 3% 5%;

@@ -14,7 +14,7 @@ function actualizar(id_estacion) {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Estacion.php?opcion=actualizar&estacion=' + id_estacion + '&tipo=todos',
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Estacion.php?opcion=actualizar&estacion=' + id_estacion + '&tipo=todos',
             success: function(datos) {
                 filtrarDatos(datos);
             },
@@ -40,9 +40,11 @@ function trendsTags() {
             type: 'GET',
             data: { arrTags: arrTags },
             contentType: 'application/json;charset=utf-8',
-            url: 'A_Estacion.php?opcion=trends&estacion=' + id_estacion + '&tipo=todos',
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Estacion.php?opcion=trends&estacion=' + id_estacion + '&tipo=todos',
             success: function(trends) {
                 todoTrends = trends;
+                montarWidgetsDigi();
+                montarWidgetsAnalogicos();
             },
             error: function() {
                 console.log("error en las trends");
@@ -112,11 +114,13 @@ function filtrarDatos(datos) {
     }
     todoDato['bombas'] = bombas;
 
+
+
     trendsTags();
-    setTimeout(() => {
-        montarWidgetsDigi();
-        montarWidgetsAnalogicos();
-    }, 2000);
+    // setTimeout(() => {
+    //     montarWidgetsDigi();
+    //     montarWidgetsAnalogicos();
+    // }, 500);
 
 }
 
@@ -265,7 +269,7 @@ function montarWidgetsAnalogicos() {
                     var num = bombas[bomba][index]['valor'];
                     var dias = (num / 86400);
                     var rdias = Math.floor(dias);
-                    var horas = (dias - rdias) * 60;
+                    var horas = (dias - rdias) * 24;
                     var rhoras = Math.floor(horas);
                     var minutos = (horas - rhoras) * 60;
                     var rminutos = Math.floor(minutos);
@@ -392,7 +396,9 @@ function montarGraficosWidget() {
             } else {
                 document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'sin trends de señal';
             }
+
         }
+
     }
 
 
@@ -692,7 +698,7 @@ function fotoEstacion(id_estacion) {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Estacion.php?opcion=foto&estacion=' + id_estacion,
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Estacion.php?opcion=foto&estacion=' + id_estacion,
             success: function(foto) {
                 var ima;
                 if (foto != '') {

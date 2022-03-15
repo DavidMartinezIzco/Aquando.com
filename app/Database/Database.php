@@ -7,14 +7,19 @@ class Database
     // ¿habra que cambiar esto algun dia?
     // puede que si, puede que no
 
-    private $host = "172.16.3.2";
-    private $dbname = "Aquando";
+    private $host = "127.0.0.1";
+    private $dbname = "aquando_ddbb";
     private $user = "postgres";
-    private $password = "123456";
+    private $password = "";
     private $conexion;
 
     public function __construct()
     {
+        if(!function_exists('str_contains')){
+            function str_contains($pajar,$aguja){
+                return $aguja !== '' && mb_stripos($pajar,$aguja) !== false;
+            }
+        }
     }
 
     //conecta con la BD
@@ -439,7 +444,7 @@ class Database
         if ($this->conectar()) {
             $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.calidad, datos_historicos.valor_bool, datos_historicos.valor_int, datos_historicos.valor_acu, datos_historicos.valor_float, datos_historicos.valor_string, datos_historicos.valor_date 
         FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
-        WHERE datos_historicos.fecha::date > current_date::date - interval '50 days' AND estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion .
+        WHERE datos_historicos.fecha::date > current_date::date - interval '7 days' AND estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion .
                 " ORDER BY datos_historicos.fecha DESC";
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
             if ($this->consultaExitosa($resulHistoTagEst)) {
@@ -1024,7 +1029,7 @@ class Database
     //usuario en su configuracion
     public function feedPrincipalCustom($id_usuario)
     {
-
+        
         if ($this->conectar()) {
             $configuracionWidgetsUsuario = array();
             $config = $this->obtenerConfigInicio($id_usuario);

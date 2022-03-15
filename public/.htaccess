@@ -14,25 +14,27 @@ Options All -Indexes
 	# If you installed CodeIgniter in a subfolder, you will need to
 	# change the following line to match the subfolder you need.
 	# http://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewritebase
-	# RewriteBase /
+	#RewriteBase /Aquando.com
 
 	# Redirect Trailing Slashes...
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteCond %{REQUEST_URI} (.+)/$
-	RewriteRule ^ %1 [L,R=301]
+	#RewriteCond %{REQUEST_FILENAME} !-d
+	#RewriteCond %{REQUEST_URI} (.+)/$
+	#RewriteRule ^ %1 [L,R=301]
 
 	# Rewrite "www.example.com -> example.com"
-	RewriteCond %{HTTPS} !=on
-	RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-	RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+	#RewriteCond %{HTTPS} !=on
+	#RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+	#RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
 
 	# Checks to see if the user is attempting to access a valid file,
 	# such as an image or css document, if this isn't true it sends the
 	# request to the front controller, index.php
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^([\s\S]*)$ index.php/$1 [L,NC,QSA]
-
+	#RewriteRule ^([\s\S]*)$ index.php/$1 [L,NC,QSA]
+	#RewriteRule ^([\s\S]*)$ /$1 [L,NC,QSA]
+	RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)?$ $1.php
+	#RewriteRule ^*$ http://172.16.4.4/Aquando.com/index.php
 	# Ensure Authorization header is passed along
 	RewriteCond %{HTTP:Authorization} .
 	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

@@ -1,10 +1,10 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<link rel="stylesheet" type="text/css" href="css/estilos.css">
+<link rel="stylesheet" type="text/css" href="../../../css/estilos.css">
 <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
 <link href="/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
 <main class="form-signin" style="padding: 4em; width:100%;">
-  <img id="logoGrande" src="../public/logo.png">
+  <img id="logoGrande" src="../../logo.png">
   <form method="POST" id="formulario">
     <p id="mayusAct" style="text-align:center"><br></p>
     <div class="form-floating" style="margin-bottom: 15px;">
@@ -23,7 +23,6 @@
     //capta el evento de tener el mayus activado
     document.addEventListener('keydown', function(event) {
       var mayus = event.getModifierState && event.getModifierState('CapsLock');
-      console.log(mayus);
       if (mayus) {
         document.getElementById("mayusAct").innerHTML = 'Mayúsculas activadas';
       } else {

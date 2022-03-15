@@ -133,7 +133,7 @@ function actualizar(reorden) {
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_Alarmas.php?funcion=actualizar&nombre=' + nombre + '&pwd=' + pwd + '&emp=' + emp + '&sentido=' + sentido + '&orden=' + orden + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin,
+                url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=actualizar&nombre=' + nombre + '&pwd=' + pwd + '&emp=' + emp + '&sentido=' + sentido + '&orden=' + orden + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin,
                 success: function(alarmas) {
                     document.getElementById("tablaAlarmas").innerHTML = alarmas;
                 },
@@ -168,7 +168,7 @@ function filtrarPorEstacion() {
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_Alarmas.php?funcion=estacion&sentido=' + sentido + '&orden=' + orden + '&estacion=' + id_estacion + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin,
+                url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=estacion&sentido=' + sentido + '&orden=' + orden + '&estacion=' + id_estacion + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin,
                 success: function(alarmas) {
                     document.getElementById("tablaAlarmas").innerHTML = alarmas;
                 },
@@ -187,7 +187,7 @@ function reconocer(id_alarma) {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
             success: function() {
                 actualizar(null);
             },

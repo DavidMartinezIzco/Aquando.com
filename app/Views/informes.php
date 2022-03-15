@@ -1,15 +1,15 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src='css/informes.js'></script>
-<script src='css/echarts.js'></script>
-<script src='css/html2canvas.js'></script>
-<script src='css/html2canvas.min.js'></script>
-<script src='css/html2canvas.esm.js'></script>
-<script src="css/html2pdf/lib/html2pdf.min.js"></script>
+<script src='../../css/informes.js'></script>
+<script src='../../css/echarts.js'></script>
+<script src='../../css/html2canvas.js'></script>
+<script src='../../css/html2canvas.min.js'></script>
+<script src='../../css/html2canvas.esm.js'></script>
+<script src="../../css/html2pdf/lib/html2pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="css/informes.css">
-<link rel="stylesheet" type="text/css" href="css/alarmas.css">
+<link rel="stylesheet" type="text/css" href="../../css/informes.css">
+<link rel="stylesheet" type="text/css" href="../../css/alarmas.css">
 <main id="conPrincipal" style="width:100%;">
 
     <div id="informesNorte">
@@ -51,7 +51,7 @@
         <!-- botonera para los informes -->
         <div id="controlesInforme">
             <div id="controles">
-                <button id="btnInforme" name="btnControl" onclick="obtenerInforme()">aplicar</button>
+                <button id="btnInforme" name="btnControl" onclick="obtenerInforme()">ver informe</button>
                 <button id="btnInforme" onclick=reset() value="reset" name="btnControlReset">reset</button>
                 <button id="btnInforme" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
                 <button id="btnInforme" value="print" onclick="exportarCSV()" name="btnControlPrint"><i class="fas fa-file-excel"></i></button>
@@ -71,6 +71,7 @@
     var nomusuario = "<?php echo $_SESSION['nombre']; ?>";
     window.onload = function() {
         inicioFin();
+        pantalla();
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
         $(window).blur(function() {

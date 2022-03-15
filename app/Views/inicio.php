@@ -6,18 +6,59 @@
     <title>Aquando</title>
     <meta name="description" content="The small framework with powerful features">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="css/estilos.css">
-    <link rel="stylesheet" type="text/css" href="css/inicio.css">
-    <link rel="stylesheet" type="text/css" href="css/principal.css">
+    
+    <!--demás archivos JavaScript-->
+    <?php
+    if(isset($_SESSION['seccion'])){
+        if ($_SESSION['seccion'] == 'inicio' || $_SESSION['seccion'] == 'log-in') {
+            echo '<link rel="shortcut icon" type="image/png" href="favicon.ico" />
+            <link rel="stylesheet" type="text/css" href="css/estilos.css">
+            <link rel="stylesheet" type="text/css" href="css/inicio.css">
+            <link rel="stylesheet" type="text/css" href="css/fontawesome/css/all.css">
+            <script src="css/jquery.js"></script>
+            <link rel="stylesheet" type="text/css" href="css/principal.css">
+            <script src="css/mlat.js"></script>
+            <script src="css/reloj.js"></script>
+            <script src="css/ayuda.js"></script>
+            <script src="css/desconectado.js"></script>
+            <script src="css/sur.js"></script>';
+        }
+            else {
+                echo '<link rel="shortcut icon" type="image/png" href="../../favicon.ico" />
+                <link rel="stylesheet" type="text/css" href="../../css/estilos.css">
+                <link rel="stylesheet" type="text/css" href="../../css/inicio.css">
+                <link rel="stylesheet" type="text/css" href="../../css/principal.css">
+                <link rel="stylesheet" type="text/css" href="../../css/fontawesome/css/all.css">
+                <script src="../../css/jquery.js"></script>
+                <script src="../../css/mlat.js"></script>
+                <script src="../../css/reloj.js"></script>
+                <script src="../../css/ayuda.js"></script>
+                <script src="../../css/desconectado.js"></script>
+                <script src="../../css/sur.js"></script>';
+            }
+    }
+    else{
+        echo '<link rel="shortcut icon" type="image/png" href="../../favicon.ico" />
+                <link rel="stylesheet" type="text/css" href="../../css/estilos.css">
+                <link rel="stylesheet" type="text/css" href="../../css/inicio.css">
+                <link rel="stylesheet" type="text/css" href="../../css/principal.css">
+                <link rel="stylesheet" type="text/css" href="../../css/fontawesome/css/all.css">
+                <script src="../../css/jquery.js"></script>
+                <script src="../../css/mlat.js"></script>
+                <script src="../../css/reloj.js"></script>
+                <script src="../../css/ayuda.js"></script>
+                <script src="../../css/desconectado.js"></script>
+                <script src="../../css/sur.js"></script>';
+    }
+
+    
+?>
     <!--cosillas de Fuentes-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-    <!--cosillas de Jquery para AJAX-->
-    <script src="css/jquery.js"></script>
-    <!--cosillas de font-awesome-->
-    <link rel="stylesheet" type="text/css" href="css/fontawesome/css/all.css">
+
+    
     <!--cosillas de bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
@@ -26,12 +67,9 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous">
     </script>
-    <!--demás archivos JavaScript-->
-    <script src="css/mlat.js"></script>
-    <script src="css/reloj.js"></script>
-    <script src="css/ayuda.js"></script>
-    <script src="css/desconectado.js"></script>
-    <script src='css/sur.js'></script>
+    
+    
+    
 </head>
 <?php
 //comprueba el estado de la session
@@ -46,10 +84,17 @@ if (isset($_GET['log'])) {
 <body>
     <header id="cabeceraPrincipal" class="p-1 text-white">
         <div style="width: 100%; padding-left: 1em">powered by
-            <img id="logoPrincipal" src="../public/logo.png" onclick="pantalla()">
+        <?php
+if (isset($_SESSION['seccion'])&& $_SESSION['seccion'] == 'inicio') {
+    echo '<img id="logoPrincipal" src="logo.png" onclick="pantalla()">';
+}
+else {
+    echo '<img id="logoPrincipal" src="../../logo.png" onclick="pantalla()">';
+}
+?>
             <i style="margin-left: 1%" class="far fa-lightbulb" id="iconoAyuda" onclick="ayuda()"></i>
             <!-- zona ajustes -->
-            <?php if (isset($_SESSION['seccion'])) {
+            <?php if (isset($_SESSION['seccion']) ) {
                 switch ($_SESSION['seccion']) {
                     case 'login':
                         echo "";
@@ -129,7 +174,8 @@ if (isset($_GET['log'])) {
     <!-- HEADER: MENU + HEROE SECTION -->
     <button class="btn me-2 btn-block" id="btnMenuIzq" title="ocultar/mostrar menú" onclick="abrirCerrar()">☰</button>
     <div class="d-flex flex-column flex-shrink-0 text-light container-fluid" value="abierto" id="menuIzq">
-        <form action="<?php echo base_url(); ?>" id="contenidoMenuIzq1" method="POST">
+        <form action="<?php
+            echo "http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/"; ?>" id="contenidoMenuIzq1" method="POST">
             <button name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio" style="width: 100%; border-radius:0px; font-size:200%; color:white; <?php if (isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio') {
                                                                                                                                                                             echo "background-color:rgb(1, 168, 184)";
                                                                                                                                                                         } ?>">
@@ -266,10 +312,24 @@ if (isset($_GET['log'])) {
 
     </div>
     <script>
+        function redir(){
+            var dirActual = window.location.href;
+            
+            if(!dirActual.includes("index.php")||!dirActual.includes("Inicio")){
+                if(!dirActual.includes("index.php")){
+                    window.location.href = "index.php/Inicio/";
+                }
+                else{
+                    window.location.href = "Inicio/"; 
+                }
+            }
+        }
+        redir();
         pantalla();
         window.onload = function() {
             setInterval(fechaYHora, 1000);
             setInterval(desvanecer, 1500);
+            
         }
         <?php
         if (!isset($_SESSION['nombre'])) {

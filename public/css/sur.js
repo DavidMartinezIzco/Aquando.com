@@ -6,7 +6,7 @@ function actualizarSur(entorno, nombre, pwd, estacion) {
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_Sur.php?caso=general&nombre=' + nombre + '&pwd=' + pwd,
+                url: 'http://dateando.ddns.net:3000/Aquando.com/A_Sur.php?caso=general&nombre=' + nombre + '&pwd=' + pwd,
                 success: function(alarmas) {
                     document.getElementById("alarmasSur").innerHTML = alarmas;
                 },
@@ -20,7 +20,7 @@ function actualizarSur(entorno, nombre, pwd, estacion) {
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_Sur.php?caso=estacion&estacion=' + estacion,
+                url: 'http://dateando.ddns.net:3000/Aquando.com/A_Sur.php?caso=estacion&estacion=' + estacion,
                 success: function(alarmas) {
                     document.getElementById("alarmasSur").innerHTML = alarmas;
                 },

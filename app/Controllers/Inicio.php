@@ -19,21 +19,25 @@ class Inicio extends BaseController
 
     //arranque del proyecto
     public function index()
-    {
+    {   
+        $_SESSION['seccion']='inicio';
         if (isset($_GET['log']) && $_GET['log'] == 'out') {
             session_unset();
             $_SESSION['mensajeDesc'] = true;
+            $_SESSION['seccion']='';
             return view('inicio');
         } else {
-            $_SESSION['seccion'] = "inicio";
             if (isset($_SESSION['nombre'])) {
                 $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
                 $_SESSION['nombre_cliente'] = $this->usuario->getCliente();
                 $datos['estaciones'] = $this->usuario->obtenerEstacionesUsuario();
                 $_SESSION['estaciones'] = $datos['estaciones'];
                 $datos['estacionesUbis'] = $this->usuario->ultimasConexiones();
+                $_SESSION['seccion'] = "Principal";
                 return view('principal', $datos);
             } else {
+                session_unset();
+                $_SESSION['seccion'] = "";
                 $_SESSION['mensajeDesc'] = true;
                 return view('inicio');
             }
@@ -53,20 +57,13 @@ class Inicio extends BaseController
         $nombre = "";
         $pwd = "";
 
-
         if (isset($_POST["txtNombre"]) && isset($_POST["txtContrasena"])) {
             $nombre = $_POST["txtNombre"];
             $pwd = $_POST["txtContrasena"];
             
 
             $this->usuario = new Usuario($nombre, $pwd);
-            // if($this->usuario->existeUsuario() == false){
-            //     echo '<script language="javascript">';
-            //     echo 'alert("Datos Incorrectos")';
-            //     echo '</script>';
-            //     return view('inicioSesion');
-            // }
-
+            
             if ($this->usuario->existeUsuario() == true) {
                 $_SESSION['nombre'] = $nombre;
                 $_SESSION['pwd'] = $pwd;
@@ -81,7 +78,6 @@ class Inicio extends BaseController
             return view('inicioSesion');
         }
     }
-
     //muestra la vista de las estaciones
     public function estacion()
     {

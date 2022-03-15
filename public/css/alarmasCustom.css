@@ -237,7 +237,7 @@
             margin-top: 6%;
         }
         #zonaOpciones {
-            height: 15%;
+            height: 20%;
             font-size: 80%;
             padding-top: 0%;
         }
@@ -275,8 +275,8 @@
         }
         #fechas {
             text-align: left;
-            width: 90%;
-            margin: 2% 5% 4% 5%;
+            width: 80%;
+            margin: 2% 10% 4% 10%;
             height: 15%;
             border: unset;
             padding: 0;

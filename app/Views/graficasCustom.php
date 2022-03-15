@@ -1,13 +1,13 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src='css/echarts.js'></script>
-<script src='css/graficasCustom.js'></script>
-<script src='css/html2canvas.js'></script>
-<script src='css/html2canvas.min.js'></script>
-<script src='css/html2canvas.esm.js'></script>
-<script src="css/html2pdf/lib/html2pdf.min.js"></script>
-<link rel="stylesheet" type="text/css" href="css/graficasCustom.css">
-<link rel="stylesheet" type="text/css" href="css/sur.css">
+<script src='../../css/echarts.js'></script>
+<script src='../../css/graficasCustom.js'></script>
+<script src='../../css/html2canvas.js'></script>
+<script src='../../css/html2canvas.min.js'></script>
+<script src='../../css/html2canvas.esm.js'></script>
+<script src="../../css/html2pdf/lib/html2pdf.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../../css/graficasCustom.css">
+<link rel="stylesheet" type="text/css" href="../../css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
 
     <!--necesitamos nombre de estacion, nombre de tags, datos de tags-->
@@ -139,6 +139,7 @@
     //Falta de momento: actualizar los controles, control de colores en las series
     window.onload = function() {
         iniciar();
+        pantalla();
         inicioFin();
         mostrarPresets();
         //handlers para los controles de tags , meta y colores

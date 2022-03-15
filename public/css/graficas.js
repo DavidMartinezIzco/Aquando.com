@@ -20,7 +20,7 @@ function metaDatosTag(id_tag, id_estacion) {
 
     $.ajax({
         type: 'GET',
-        url: 'A_Graficas.php?opcion=meta&tag=' + id_tag + '&estacion=' + id_estacion,
+        url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?opcion=meta&tag=' + id_tag + '&estacion=' + id_estacion,
         success: function(meta) {
             datosM['max'] = meta['max'];
             datosM['min'] = meta['min'];
@@ -28,7 +28,7 @@ function metaDatosTag(id_tag, id_estacion) {
 
             $.ajax({
                 type: 'GET',
-                url: 'A_Graficas.php?estacion=' + id_estacion + '&tag=' + id_tag + '&opcion=render',
+                url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&tag=' + id_tag + '&opcion=render',
                 success: function(histo) {
                     datosR = histo;
                     //var tipo = document.getElementById("tipoRender").value;
@@ -64,7 +64,7 @@ function tagsEstacion(id_estacion) {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
             success: function(tags) {
                 document.getElementById("opcionesTag").innerHTML = "";
                 document.getElementById("compararSel").innerHTML = "<option value='nada' selected>Nada</option>";
@@ -141,6 +141,7 @@ function renderGrafico(datosR) {
             left: '3%',
             right: '5%',
             bottom: '10%',
+            top: '15%',
             containLabel: true
         },
     };
@@ -207,7 +208,7 @@ function renderGrafico(datosR) {
 
     option['xAxis'] = {
 
-        boundaryGap: false,
+        
         inverse: true,
         splitNumber: 10,
         data: fechas,
@@ -227,7 +228,7 @@ function renderGrafico(datosR) {
         label: {
             show: true
         },
-        boundaryGap: [0, '100%'],
+        boundaryGap: [0, '10%'],
     }];
 
     //controles de los filtros en los ejes XY

@@ -33,7 +33,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 //$routes->get('/', 'Home::index');
 $routes->get('/', 'Inicio::index');
-$routes->post('/inicioSesion', 'Inicio::inicioSesion');
+$routes->get('/inicioSesion', 'Inicio::inicioSesion');
 $routes->post('/estacion', 'Inicio::estacion');
 $routes->post('/graficas', 'Inicio::graficas');
 $routes->post('/alarmas', 'Inicio::alarmas');

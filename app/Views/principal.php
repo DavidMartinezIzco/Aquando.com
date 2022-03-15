@@ -1,9 +1,9 @@
 <?= $this->extend('inicio') ?>
 <?= $this->section('content') ?>
-<script src='css/echarts.js'></script>
-<link rel="stylesheet" type="text/css" href="css/sur.css">
-<script src="css/principal.js"></script>
-<script src="css/reloj.js"></script>
+<link rel="stylesheet" type="text/css" href="../../css/sur.css">
+<script src="../../css/principal.js"></script>
+<script src='../../css/echarts.js'></script>
+<script src="../../css/reloj.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 
@@ -60,21 +60,29 @@
     </div>
 </main>
 <script>
-    var usu = '<?php echo $_SESSION['nombre'] ?>';
-    var pwd = '<?php echo $_SESSION['pwd'] ?>';
     var estacionesUsu = <?php echo json_encode($estaciones); ?>;
     var estacionesUbis = <?php echo json_encode($estacionesUbis); ?>;
+    var usu = '<?php echo $_SESSION['nombre'] ?>';
+    var pwd = '<?php echo $_SESSION['pwd'] ?>';
     sessionStorage.setItem('nousu', usu);
     sessionStorage.setItem('pwd', pwd);
     window.onload = function() {
         mapas();
         ajustes();
-        comprobarTiempo();
-        setInterval(actualizarSur('general', usu, pwd, null), 20000);
+        
+        // comprobarTiempo();
+        // actualizarSur('general', usu, pwd, null);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
         setInterval(actualizar(), 1000 * 60 * 10);
         $("#menuIzq").trigger('widthChange');
+        // $(window).blur(function() {
+        //     tiempoFuera("");
+        // });
+        // $(window).focus(function() {
+        //     tiempoFuera("volver")
+        // });
+        setInterval(actualizarSur('general', usu, pwd, null), 20000);
         pantalla();
     }
 </script>

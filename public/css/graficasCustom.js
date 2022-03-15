@@ -1,4 +1,5 @@
 //configs globales
+var n_preset = "";
 var datosTagCustom = new Array;
 var ejesYTagCustom = new Array;
 var nombre_estacion_activa = "";
@@ -8,9 +9,6 @@ var serie = {};
 var presets_config = new Array();
 
 //reestablece los filtros por defecto
-//aun no reestablece los colores de los tags ni meta
-//también podría limpiar la zona de gráficos
-//falta también reestablecer fechas a valores iniciales
 
 function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';
@@ -73,8 +71,6 @@ function imprimir() {
     exp_informe.getPdf(true).then((pdf) => {});
 }
 
-
-
 //establece los valores por defecto de los inputs de fecha
 //traduce y establece la fecha actual como predeterminado
 function inicioFin() {
@@ -99,7 +95,7 @@ function tagsEstacionCustom(id_estacion) {
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
+            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
             success: function(tags) {
                 document.getElementById("opcionesTag").innerHTML = "";
                 var e = 0;
@@ -146,6 +142,8 @@ function mostrarOpciones() {
 function aplicarCustom() {
     //mirar a ver si en vez de actualizar todo, ver si se pueden reutilizar
     //los estados anteriores (x optimizar vaya)
+    document.getElementById("btnControlCustom").disabled= true;
+    document.getElementById("selPresets").disabled= true;
     datosTagCustom = new Array;
     datosTagCustom['serie'] = [];
     datosTagCustom['fechas'] = [];
@@ -178,13 +176,19 @@ function aplicarCustom() {
         }
         setTimeout(function() {
             document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
-        }, 1000);
+            document.getElementById("btnControlCustom").disabled= false;
+            document.getElementById("selPresets").disabled= false;
+        }, 12000);
+        
     } else {
         document.getElementsByName('btnControlAplicar')[0].innerHTML = "¡sin señales!";
         limpiar();
         setTimeout(function() {
             document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
-        }, 1000);
+            document.getElementById("btnControlCustom").disabled= false;
+            document.getElementById("selPresets").disabled= false;
+        }, 12000);
+        document.getElementById("btnControlCustom").disabled= false;
     }
 }
 
@@ -192,10 +196,9 @@ function aplicarCustom() {
 function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
     var nTags = ajustesTag.length;
 
-
     $.ajax({
         type: 'GET',
-        url: 'A_GraficasCustom.php?estacion=' + estacion + '&id_tag=' + tag + '&fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&meta=' + metas + '&opcion=tag',
+        url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?estacion=' + estacion + '&id_tag=' + tag + '&fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&meta=' + metas + '&opcion=tag',
         success: function(datosTag) {
             prepararTag(datosTag, tag);
             if (ajustesTag.at(-1) == tag) {
@@ -628,7 +631,7 @@ function leerPresets(para) {
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_GraficasCustom.php?opcion=leerPresets&para=' + para,
+                url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?opcion=leerPresets&para=' + para,
                 data: {
                     arrdatos: arrdatos
                 },
@@ -649,12 +652,36 @@ function leerPresets(para) {
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_GraficasCustom.php?opcion=leerPresets&para=' + para,
+                url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?opcion=leerPresets&para=' + para,
                 data: {
                     arrdatos: arrdatos
                 },
                 success: function(presets) {
                     presets_config = presets;
+                    for (var index in presets_config) {
+                        if (presets_config[index]['configuracion'].includes(n_preset)) {
+                            var config = presets_config[index]['configuracion'];
+                            config = config.substring(config.indexOf("@") + 1);
+                            var id_est = config.substring(0, config.indexOf("?"));
+                            var config_tags = config.substring(config.indexOf("/") + 1);
+                            var tagsycolores = config_tags.split("/");
+                            var config_tags_colores = new Array();
+                            for (var index in tagsycolores) {
+                                var info = tagsycolores[index].split(":");
+                                config_tags_colores[info[0]] = info[1];
+                                document.getElementById(info[0]).checked = 'true';
+                                document.getElementById('color' + info[0]).value = info[1];
+                                if (document.getElementById(info[0]).parentNode.style.backgroundColor == 'darkgray') {
+                                    document.getElementById(info[0]).parentNode.style.backgroundColor = 'lightgray';
+                                } else {
+                                    document.getElementById(info[0]).parentNode.style.backgroundColor = 'darkgray';
+                                }
+                                document.getElementById('color' + info[0]).parentNode.style.color = info[1];
+                            }
+                            aplicarCustom();
+                            ajustesPresets(null);
+                        }
+                    }
                 },
                 error: function(e) {
                     console.log(e);
@@ -673,39 +700,19 @@ function mostrarPresets() {
 
 //a traves de AJAX lee la config de un preset y lo aplica con aplicarCustom()
 function cargarPreset() {
+    document.getElementById("btnControlCustom").disabled= true;
+    document.getElementById("selPresets").disabled= true;
     limpiar();
-    var n_preset = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;
+    document.getElementsByName('btnControlAplicar')[0].innerHTML = "cargando...";
+    n_preset = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;
     if (n_preset.includes(nombre_estacion_activa)) {
         leerPresets('cargar');
-        for (var index in presets_config) {
-            if (presets_config[index]['configuracion'].includes(n_preset)) {
-                var config = presets_config[index]['configuracion'];
-                config = config.substring(config.indexOf("@") + 1);
-                var id_est = config.substring(0, config.indexOf("?"));
-                var config_tags = config.substring(config.indexOf("/") + 1);
-                var tagsycolores = config_tags.split("/");
-                var config_tags_colores = new Array();
-                for (var index in tagsycolores) {
-                    var info = tagsycolores[index].split(":");
-                    config_tags_colores[info[0]] = info[1];
-                    document.getElementById(info[0]).checked = 'true';
-                    document.getElementById('color' + info[0]).value = info[1];
-                    if (document.getElementById(info[0]).parentNode.style.backgroundColor == 'darkgray') {
-                        document.getElementById(info[0]).parentNode.style.backgroundColor = 'lightgray';
-                    } else {
-                        document.getElementById(info[0]).parentNode.style.backgroundColor = 'darkgray';
-                    }
-                    document.getElementById('color' + info[0]).parentNode.style.color = info[1];
-                }
-                aplicarCustom();
-                ajustesPresets(null);
-            }
-        }
+        
 
     } else {
         document.getElementById('txtPresetError').innerHTML += 'El preset no pertenece a esta estación';
     }
-
+    document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
 
 }
 
@@ -765,7 +772,7 @@ function guardarPreset() {
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'A_GraficasCustom.php?opcion=guardar',
+                url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?opcion=guardar',
                 data: {
                     arrDatosPreset: arrDatosPreset
                 },
