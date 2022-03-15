@@ -29,6 +29,18 @@ class Database
         return $this->conexion = pg_connect("host=$this->host dbname=$this->dbname user=$this->user password=$this->password");
     }
 
+    //comprueba si una consulta a BD tiene respuesta
+    //uso interno
+    private function consultaExitosa($resultado)
+    {
+        $nResuls = pg_num_rows($resultado);
+        if ($nResuls != 0 || $nResuls != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //obtiene el ID de un usuario dadas sus credenciales en caso de que exista
     //apaño para algunas secciones
     public function obtenerIdUsuario($nombre, $pwd)
@@ -61,18 +73,6 @@ class Database
         return "";
     }
 
-
-    //comprueba si una consulta a BD tiene respuesta
-    //uso interno
-    private function consultaExitosa($resultado)
-    {
-        $nResuls = pg_num_rows($resultado);
-        if ($nResuls != 0 || $nResuls != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     //comprueba que un usuario exite en la BD
     //está pendiente de cambios (encriptación)

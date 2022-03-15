@@ -496,11 +496,6 @@ function crearWidgetsChartsCustom(feed) {
                 }
             }
 
-
-
-
-
-
             //gauge con val actual
             var optGau = {
 
@@ -644,7 +639,7 @@ function crearWidgetsChartsCustom(feed) {
                     offset: 0,
                     type: 'line',
                     label: {
-                        formatter: 'fecha y hora: {value}',
+                        formatter: '{value}',
                         fontStyle: 'bold'
                     }
                 }
