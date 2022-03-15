@@ -71,8 +71,6 @@ function imprimir() {
     exp_informe.getPdf(true).then((pdf) => {});
 }
 
-
-
 //establece los valores por defecto de los inputs de fecha
 //traduce y establece la fecha actual como predeterminado
 function inicioFin() {
@@ -144,6 +142,8 @@ function mostrarOpciones() {
 function aplicarCustom() {
     //mirar a ver si en vez de actualizar todo, ver si se pueden reutilizar
     //los estados anteriores (x optimizar vaya)
+    document.getElementById("btnControlCustom").disabled= true;
+    document.getElementById("selPresets").disabled= true;
     datosTagCustom = new Array;
     datosTagCustom['serie'] = [];
     datosTagCustom['fechas'] = [];
@@ -176,13 +176,19 @@ function aplicarCustom() {
         }
         setTimeout(function() {
             document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
-        }, 1000);
+            document.getElementById("btnControlCustom").disabled= false;
+            document.getElementById("selPresets").disabled= false;
+        }, 12000);
+        
     } else {
         document.getElementsByName('btnControlAplicar')[0].innerHTML = "¡sin señales!";
         limpiar();
         setTimeout(function() {
             document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
-        }, 1000);
+            document.getElementById("btnControlCustom").disabled= false;
+            document.getElementById("selPresets").disabled= false;
+        }, 12000);
+        document.getElementById("btnControlCustom").disabled= false;
     }
 }
 
@@ -694,6 +700,8 @@ function mostrarPresets() {
 
 //a traves de AJAX lee la config de un preset y lo aplica con aplicarCustom()
 function cargarPreset() {
+    document.getElementById("btnControlCustom").disabled= true;
+    document.getElementById("selPresets").disabled= true;
     limpiar();
     document.getElementsByName('btnControlAplicar')[0].innerHTML = "cargando...";
     n_preset = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;

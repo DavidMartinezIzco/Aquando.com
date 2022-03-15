@@ -141,6 +141,7 @@ function renderGrafico(datosR) {
             left: '3%',
             right: '5%',
             bottom: '10%',
+            top: '15%',
             containLabel: true
         },
     };
@@ -207,7 +208,7 @@ function renderGrafico(datosR) {
 
     option['xAxis'] = {
 
-        boundaryGap: false,
+        
         inverse: true,
         splitNumber: 10,
         data: fechas,
@@ -227,7 +228,7 @@ function renderGrafico(datosR) {
         label: {
             show: true
         },
-        boundaryGap: [0, '100%'],
+        boundaryGap: [0, '10%'],
     }];
 
     //controles de los filtros en los ejes XY

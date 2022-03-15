@@ -14,7 +14,7 @@ body {
     background-color: rgb(39, 45, 79);
     position: fixed;
     height: 4.5em;
-    z-index: 1000;
+    z-index: 10000;
 }
 
 #logoPrincipal {
