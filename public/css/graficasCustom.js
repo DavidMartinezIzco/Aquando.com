@@ -435,19 +435,39 @@ function renderGrafico() {
         }
     };
 
+
+    //coger la serie con menos entradas fecha
+    //relleno con nulls hasta que tengan misma length
+    var mayFech = datosTagCustom['fechas'][0];
+    for (var index in datosTagCustom['fechas']) {
+        if (datosTagCustom['fechas'][index].length >= mayFech.length) {
+            mayFech = datosTagCustom['fechas'][index];
+        }
+    }
+    for (var index in datosTagCustom['series']) {
+        if (datosTagCustom['series'][index].length < mayFech.length) {
+            var relleno = Array();
+            var cantRelleno = mayFech.length - datosTagCustom['series'][index].length;
+            for (var i = 0; i < cantRelleno; i++) {
+                relleno[i] = null;
+            }
+            datosTagCustom['series'][index] = relleno.concat(datosTagCustom['series'][index]);
+        }
+    }
+
     //eje X
     option['xAxis'] = [{
             boundaryGap: false,
             inverse: true,
-            splitNumber: 10,
-            data: datosTagCustom['fechas'][0],
+            // splitNumber:10,
+            data: mayFech,
         },
-        {
-            boundaryGap: false,
-            inverse: true,
-            splitNumber: 10,
-            data: datosTagCustom['fechas'][1],
-        }
+        // {
+        //     boundaryGap: false,
+        //     inverse: true,
+
+        //     data: datosTagCustom['fechas'][1],
+        // }
     ];
 
 
@@ -580,6 +600,7 @@ function renderGrafico() {
     // document.getElementById('zonaControles').onmouseover = function() {
     //     setTimeout(graficoCustom.resize(), 500);
     // }
+
     option && graficoCustom.setOption(option, true);
 
     // setTimeout(function() {
