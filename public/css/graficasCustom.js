@@ -142,8 +142,8 @@ function mostrarOpciones() {
 function aplicarCustom() {
     //mirar a ver si en vez de actualizar todo, ver si se pueden reutilizar
     //los estados anteriores (x optimizar vaya)
-    document.getElementById("btnControlCustom").disabled= true;
-    document.getElementById("selPresets").disabled= true;
+    document.getElementById("btnControlCustom").disabled = true;
+    document.getElementById("selPresets").disabled = true;
     datosTagCustom = new Array;
     datosTagCustom['serie'] = [];
     datosTagCustom['fechas'] = [];
@@ -176,26 +176,25 @@ function aplicarCustom() {
         }
         setTimeout(function() {
             document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
-            document.getElementById("btnControlCustom").disabled= false;
-            document.getElementById("selPresets").disabled= false;
+            document.getElementById("btnControlCustom").disabled = false;
+            document.getElementById("selPresets").disabled = false;
         }, 12000);
-        
+
     } else {
         document.getElementsByName('btnControlAplicar')[0].innerHTML = "¡sin señales!";
         limpiar();
         setTimeout(function() {
             document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
-            document.getElementById("btnControlCustom").disabled= false;
-            document.getElementById("selPresets").disabled= false;
+            document.getElementById("btnControlCustom").disabled = false;
+            document.getElementById("selPresets").disabled = false;
         }, 12000);
-        document.getElementById("btnControlCustom").disabled= false;
+        document.getElementById("btnControlCustom").disabled = false;
     }
 }
 
 //consigue los metadata de un tag
 function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
     var nTags = ajustesTag.length;
-
     $.ajax({
         type: 'GET',
         url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?estacion=' + estacion + '&id_tag=' + tag + '&fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&meta=' + metas + '&opcion=tag',
@@ -236,7 +235,6 @@ function prepararTag(info, tag) {
     //cambiar escalado de los ejes Y en funcion de las series a las que pertenezcan
     //eliminiar los nombres de los tags en la parte superior (está en render)
     //mirar a ver si solucionamos el asunto del zoom
-
 
     var eje = {};
     eje['type'] = 'value';
@@ -392,12 +390,13 @@ function prepararTag(info, tag) {
 
 //crea el grafico con varios ajustes y con los objetos series
 function renderGrafico() {
-
     //llegan ajustesTags en tags
     //para organizar los values y las fechas
-
     var option;
     nombreDato = "info";
+
+
+
 
     //leyenda
     option = {
@@ -436,14 +435,20 @@ function renderGrafico() {
         }
     };
 
-
     //eje X
-    option['xAxis'] = {
-        boundaryGap: false,
-        inverse: true,
-        splitNumber: 10,
-        data: datosTagCustom['fechas'][0],
-    };
+    option['xAxis'] = [{
+            boundaryGap: false,
+            inverse: true,
+            splitNumber: 10,
+            data: datosTagCustom['fechas'][0],
+        },
+        {
+            boundaryGap: false,
+            inverse: true,
+            splitNumber: 10,
+            data: datosTagCustom['fechas'][1],
+        }
+    ];
 
 
     //controles del eje X
@@ -700,14 +705,14 @@ function mostrarPresets() {
 
 //a traves de AJAX lee la config de un preset y lo aplica con aplicarCustom()
 function cargarPreset() {
-    document.getElementById("btnControlCustom").disabled= true;
-    document.getElementById("selPresets").disabled= true;
+    document.getElementById("btnControlCustom").disabled = true;
+    document.getElementById("selPresets").disabled = true;
     limpiar();
     document.getElementsByName('btnControlAplicar')[0].innerHTML = "cargando...";
     n_preset = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;
     if (n_preset.includes(nombre_estacion_activa)) {
         leerPresets('cargar');
-        
+
 
     } else {
         document.getElementById('txtPresetError').innerHTML += 'El preset no pertenece a esta estación';
