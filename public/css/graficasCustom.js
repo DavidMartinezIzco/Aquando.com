@@ -395,9 +395,9 @@ function renderGrafico() {
     var lineaTiempo = [];
     var fDesde = new Date(document.getElementById("fechaInicio").value);
     var fHasta = new Date(document.getElementById("fechaFin").value);
-    var diff5m = fDesde - fHasta / 1000 / 60 / 5;
+    var diff5m = (fDesde - fHasta) / 1000 / 60 / 5;
     for (var i = 0; i < diff5m; i++) {
-        var fecha = fDesde.getDate() + "/" + fDesde.getMonth + 1 + "/" + fDesde.getFullYear + "  " + fDesde.getHours + ":" + fDesde.getMinutes;
+        var fecha = fDesde.getDate() + "/" + fDesde.getMonth() + 1 + "/" + fDesde.getFullYear() + "  " + fDesde.getHours() + ":" + fDesde.getMinutes();
         lineaTiempo.push(fecha);
         fDesde = new Date(fDesde.getTime() + 5 * 60000);
     }
@@ -421,40 +421,6 @@ function renderGrafico() {
         },
     };
 
-    //coger la serie con menos entradas fecha
-    //relleno con nulls hasta que tengan misma length
-    // var ejesTiempo = [];
-    // var tooltips = [];
-    // var mayFech = datosTagCustom['fechas'][0];
-    // for (var index in datosTagCustom['fechas']) {
-    //     if (datosTagCustom['fechas'][index].length >= mayFech.length) {
-    //         mayFech = datosTagCustom['fechas'][index];
-    //         ejesTiempo.push({
-    //             boundaryGap: false,
-    //             inverse: true,
-    //             // splitNumber:10,
-    //             axisLabel: {
-    //                 formatter: '{value}'
-    //             },
-    //             data: datosTagCustom['fechas'][index],
-    //         });
-    //     }
-
-    // }
-
-    for (var index in datosTagCustom['serie']) {
-        if (datosTagCustom['serie'][index]['data'].length < mayFech.length) {
-            console.log('se rellena');
-            var relleno = [];
-            var cantRelleno = mayFech.length - datosTagCustom['serie'][index]['data'].length;
-            // for (var i = 0; i < cantRelleno; i++) {
-            //     relleno[i] = null;
-            // }
-
-            datosTagCustom['serie'][index]['data'] = datosTagCustom['serie'][index]['data'].concat(relleno);
-            console.log(datosTagCustom['serie'][index]);
-        }
-    }
 
     //eje X
 
@@ -463,13 +429,13 @@ function renderGrafico() {
             boundaryGap: false,
             inverse: true,
             splitNumber: 10,
-            data: mayFech,
-        },
-        {
-            boundaryGap: false,
-            inverse: true,
             data: lineaTiempo,
-        }
+        },
+        // {
+        //     boundaryGap: false,
+        //     inverse: true,
+        //     data: lineaTiempo,
+        // }
     ];
     //herramientas
     // option['tooltip'] = tooltips;
