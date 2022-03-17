@@ -442,7 +442,7 @@ class Database
     public function historicosTagEstacion($id_estacion, $id_tag)
     {
         if ($this->conectar()) {
-            $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.calidad, datos_historicos.valor_bool, datos_historicos.valor_int, datos_historicos.valor_acu, datos_historicos.valor_float, datos_historicos.valor_string, datos_historicos.valor_date 
+            $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float
         FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
         WHERE datos_historicos.fecha::date > current_date::date - interval '7 days' AND estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion .
                 " ORDER BY datos_historicos.fecha DESC";
@@ -503,8 +503,9 @@ class Database
 
 
             //obtener "Series" del TAG delimitado por las fechas (supongo) (falta el WHERE)
-            $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.calidad, datos_historicos.valor_bool, datos_historicos.valor_int, datos_historicos.valor_acu, datos_historicos.valor_float, datos_historicos.valor_string, datos_historicos.valor_date 
+            $conHistoTagEst = "SELECT tags.nombre_tag, datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float 
         FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
+        inner join tags on datos_historicos.id_tag = tags.id_tag 
         WHERE  estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . " AND cast(extract(epoch from datos_historicos.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
         ORDER BY datos_historicos.fecha DESC";
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
@@ -513,8 +514,14 @@ class Database
                 $datosHisto = array();
                 foreach ($datosHistoTagEst as $index => $dato) {
                     foreach ($dato as $factor => $valor) {
-                        if ($valor != null) {
-                            $datosHisto[$index]['valor'] = $valor;
+                        
+                        if($factor == 'nombre_tag'){
+                            if(str_contains($valor, 'Acumulado')){
+                                $datosHisto[$index]['valor'] = $dato['valor_acu'];
+                            }
+                            else{
+                                $datosHisto[$index]['valor'] = $dato['valor_float'];
+                            }
                         }
                         if ($factor == 'fecha') {
                             $datosHisto[$index]['fecha'] = $valor;

@@ -252,6 +252,7 @@ function prepararTag(info, tag) {
 
     serie['name'] = nombreDato;
     serie['symbol'] = 'none';
+    serie['connectNulls'] = true;
     serie['type'] = "line";
     serie['smooth'] = true;
     serie['sampling'] = "lttb";
@@ -400,7 +401,6 @@ function renderGrafico() {
 
     //leyenda
     option = {
-
         legend: {
             x: 'center',
             y: 'top',
@@ -418,58 +418,85 @@ function renderGrafico() {
         },
     };
 
-    //herramientas
-    option['tooltip'] = {
-        trigger: 'axis',
-        icon: 'none',
-        textStyle: {
-            fontStyle: 'bold',
-            fontSize: 20
-        },
-        axisPointer: {
-            type: 'line',
-            label: {
-                formatter: 'fecha y hora: {value}',
-                fontStyle: 'bold'
-            }
-        }
-    };
+    
 
 
     //coger la serie con menos entradas fecha
     //relleno con nulls hasta que tengan misma length
+    var ejesTiempo = [];
+    // var tooltips = [];
     var mayFech = datosTagCustom['fechas'][0];
     for (var index in datosTagCustom['fechas']) {
         if (datosTagCustom['fechas'][index].length >= mayFech.length) {
             mayFech = datosTagCustom['fechas'][index];
+            ejesTiempo.push({
+                boundaryGap: false,
+                inverse: true,
+                // splitNumber:10,
+                axisLabel:{
+                    formatter:'{value}'
+                },
+                data: datosTagCustom['fechas'][index],
+            });
         }
+            
     }
-    for (var index in datosTagCustom['series']) {
-        if (datosTagCustom['series'][index].length < mayFech.length) {
-            var relleno = Array();
-            var cantRelleno = mayFech.length - datosTagCustom['series'][index].length;
-            for (var i = 0; i < cantRelleno; i++) {
-                relleno[i] = null;
-            }
-            datosTagCustom['series'][index] = relleno.concat(datosTagCustom['series'][index]);
+    
+    for (var index in datosTagCustom['serie']) {
+        if (datosTagCustom['serie'][index]['data'].length < mayFech.length) {
+            console.log('se rellena');
+            var relleno = [];
+            var cantRelleno = mayFech.length - datosTagCustom['serie'][index]['data'].length;
+            // for (var i = 0; i < cantRelleno; i++) {
+            //     relleno[i] = null;
+            // }
+            
+            datosTagCustom['serie'][index]['data'] = datosTagCustom['serie'][index]['data'].concat(relleno);
+            console.log(datosTagCustom['serie'][index]);
         }
     }
 
     //eje X
-    option['xAxis'] = [{
-            boundaryGap: false,
-            inverse: true,
+    
+    option['xAxis'] = ejesTiempo;
+    // option['xAxis'] = [
+    //     {
+            // boundaryGap: false,
+            // inverse: true,
             // splitNumber:10,
-            data: mayFech,
-        },
+            // data: mayFech,
+        // },
         // {
         //     boundaryGap: false,
         //     inverse: true,
 
         //     data: datosTagCustom['fechas'][1],
         // }
-    ];
-
+    // ];
+    //herramientas
+    // option['tooltip'] = tooltips;
+    option['tooltip'] = {
+        trigger: 'axis',
+        // icon: 'none',
+        // textStyle: {
+        //     fontStyle: 'bold',
+        //     fontSize: 20
+        // },
+        // formatter: (params) => {
+        //     var msg = "";
+        //     for(var index in params){
+        //         msg += params[index].seriesName + ': ' + params[index].value + '<br>';
+        //     }
+        //     return msg;
+        // },
+        axisPointer: {
+            
+            type: 'cross',
+            label: {
+                fontStyle: 'bold'
+            }
+        }
+    };
 
     //controles del eje X
     option['dataZoom'] = [{
@@ -512,6 +539,7 @@ function renderGrafico() {
 
         if (mul >= 1) {
             ejesYTagCustom[eje]['offset'] = (75) * (mul - 1);
+            
             option['grid']['right'] = (7) * (mul - 1) + '%';
             option['dataZoom'].push({
                 type: 'slider',
@@ -601,7 +629,9 @@ function renderGrafico() {
     //     setTimeout(graficoCustom.resize(), 500);
     // }
 
+    console.log(option);
     option && graficoCustom.setOption(option, true);
+
 
     // setTimeout(function() {
     //     document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
