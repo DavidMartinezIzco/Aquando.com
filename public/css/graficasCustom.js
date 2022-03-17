@@ -160,16 +160,15 @@ function aplicarCustom() {
         for (var i = 0; i < checkMetas.length; i++) {
             ajustesMeta.push(checkMetas[i].value)
         }
-
-        var fechaInicio = document.getElementById('fechaInicio').value;
-        var fechaFin = document.getElementById('fechaFin').value;
         var id_estacion = document.getElementById('opciones').value;
-
         var metas = "";
-
         for (var meta in ajustesMeta) {
             metas += ajustesMeta[meta] + "/";
         }
+        // comparar 2
+        //crear linea con fechas entre ambas
+        var fechaInicio = document.getElementById('fechaInicio').value;
+        var fechaFin = document.getElementById('fechaFin').value;
 
         for (var ajusteTag in ajustesTag) {
             infoTags(id_estacion, ajustesTag, ajustesTag[ajusteTag], metas, fechaInicio, fechaFin);
@@ -179,7 +178,6 @@ function aplicarCustom() {
             document.getElementById("btnControlCustom").disabled = false;
             document.getElementById("selPresets").disabled = false;
         }, 12000);
-
     } else {
         document.getElementsByName('btnControlAplicar')[0].innerHTML = "¡sin señales!";
         limpiar();
@@ -191,7 +189,6 @@ function aplicarCustom() {
         document.getElementById("btnControlCustom").disabled = false;
     }
 }
-
 //consigue los metadata de un tag
 function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
     var nTags = ajustesTag.length;
@@ -395,9 +392,15 @@ function renderGrafico() {
     //para organizar los values y las fechas
     var option;
     nombreDato = "info";
-
-
-
+    var lineaTiempo = [];
+    var fDesde = new Date(document.getElementById("fechaInicio").value);
+    var fHasta = new Date(document.getElementById("fechaFin").value);
+    var diff5m = fDesde - fHasta / 1000 / 60 / 5;
+    for (var i = 0; i < diff5m; i++) {
+        var fecha = fDesde.getDate() + "/" + fDesde.getMonth + 1 + "/" + fDesde.getFullYear + "  " + fDesde.getHours + ":" + fDesde.getMinutes;
+        lineaTiempo.push(fecha);
+        fDesde = new Date(fDesde.getTime() + 5 * 60000);
+    }
 
     //leyenda
     option = {
@@ -418,30 +421,27 @@ function renderGrafico() {
         },
     };
 
-    
-
-
     //coger la serie con menos entradas fecha
     //relleno con nulls hasta que tengan misma length
-    var ejesTiempo = [];
+    // var ejesTiempo = [];
     // var tooltips = [];
-    var mayFech = datosTagCustom['fechas'][0];
-    for (var index in datosTagCustom['fechas']) {
-        if (datosTagCustom['fechas'][index].length >= mayFech.length) {
-            mayFech = datosTagCustom['fechas'][index];
-            ejesTiempo.push({
-                boundaryGap: false,
-                inverse: true,
-                // splitNumber:10,
-                axisLabel:{
-                    formatter:'{value}'
-                },
-                data: datosTagCustom['fechas'][index],
-            });
-        }
-            
-    }
-    
+    // var mayFech = datosTagCustom['fechas'][0];
+    // for (var index in datosTagCustom['fechas']) {
+    //     if (datosTagCustom['fechas'][index].length >= mayFech.length) {
+    //         mayFech = datosTagCustom['fechas'][index];
+    //         ejesTiempo.push({
+    //             boundaryGap: false,
+    //             inverse: true,
+    //             // splitNumber:10,
+    //             axisLabel: {
+    //                 formatter: '{value}'
+    //             },
+    //             data: datosTagCustom['fechas'][index],
+    //         });
+    //     }
+
+    // }
+
     for (var index in datosTagCustom['serie']) {
         if (datosTagCustom['serie'][index]['data'].length < mayFech.length) {
             console.log('se rellena');
@@ -450,29 +450,27 @@ function renderGrafico() {
             // for (var i = 0; i < cantRelleno; i++) {
             //     relleno[i] = null;
             // }
-            
+
             datosTagCustom['serie'][index]['data'] = datosTagCustom['serie'][index]['data'].concat(relleno);
             console.log(datosTagCustom['serie'][index]);
         }
     }
 
     //eje X
-    
-    option['xAxis'] = ejesTiempo;
-    // option['xAxis'] = [
-    //     {
-            // boundaryGap: false,
-            // inverse: true,
-            // splitNumber:10,
-            // data: mayFech,
-        // },
-        // {
-        //     boundaryGap: false,
-        //     inverse: true,
 
-        //     data: datosTagCustom['fechas'][1],
-        // }
-    // ];
+    //option['xAxis'] = ejesTiempo;
+    option['xAxis'] = [{
+            boundaryGap: false,
+            inverse: true,
+            splitNumber: 10,
+            data: mayFech,
+        },
+        {
+            boundaryGap: false,
+            inverse: true,
+            data: lineaTiempo,
+        }
+    ];
     //herramientas
     // option['tooltip'] = tooltips;
     option['tooltip'] = {
@@ -490,7 +488,7 @@ function renderGrafico() {
         //     return msg;
         // },
         axisPointer: {
-            
+
             type: 'cross',
             label: {
                 fontStyle: 'bold'
@@ -539,7 +537,7 @@ function renderGrafico() {
 
         if (mul >= 1) {
             ejesYTagCustom[eje]['offset'] = (75) * (mul - 1);
-            
+
             option['grid']['right'] = (7) * (mul - 1) + '%';
             option['dataZoom'].push({
                 type: 'slider',

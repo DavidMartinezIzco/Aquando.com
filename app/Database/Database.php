@@ -15,9 +15,10 @@ class Database
 
     public function __construct()
     {
-        if(!function_exists('str_contains')){
-            function str_contains($pajar,$aguja){
-                return $aguja !== '' && mb_stripos($pajar,$aguja) !== false;
+        if (!function_exists('str_contains')) {
+            function str_contains($pajar, $aguja)
+            {
+                return $aguja !== '' && mb_stripos($pajar, $aguja) !== false;
             }
         }
     }
@@ -470,15 +471,11 @@ class Database
     //se usa en graficas-> vista personalizada
     public function historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaInicio, $fechaFin)
     {
-
         if ($this->conectar()) {
-
             $seriesTagCustom = array();
             $metaCustom = array();
-
             //obtener el metadata del TAG 
             $meta = $this->metaTag($id_tag, $id_estacion);
-
             // filtrar metadata
             foreach ($ajustesMeta as $index => $tipo) {
                 if ($tipo == "maxGen") {
@@ -491,35 +488,27 @@ class Database
                     $metaCustom['avg'] = $meta['avg'];
                 }
             }
-
             $seriesTagCustom['meta'] = $metaCustom;
-
-
             //traducir fechas(?)
-
             $ini = strtotime($fechaInicio);
             $fin = strtotime($fechaFin);
-
-
-
             //obtener "Series" del TAG delimitado por las fechas (supongo) (falta el WHERE)
             $conHistoTagEst = "SELECT tags.nombre_tag, datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float 
-        FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
-        inner join tags on datos_historicos.id_tag = tags.id_tag 
-        WHERE  estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . " AND cast(extract(epoch from datos_historicos.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
-        ORDER BY datos_historicos.fecha DESC";
+            FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
+            inner join tags on datos_historicos.id_tag = tags.id_tag 
+            WHERE  estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . " AND cast(extract(epoch from datos_historicos.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+            ORDER BY datos_historicos.fecha DESC";
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
             if ($this->consultaExitosa($resulHistoTagEst)) {
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
                 $datosHisto = array();
                 foreach ($datosHistoTagEst as $index => $dato) {
                     foreach ($dato as $factor => $valor) {
-                        
-                        if($factor == 'nombre_tag'){
-                            if(str_contains($valor, 'Acumulado')){
+
+                        if ($factor == 'nombre_tag') {
+                            if (str_contains($valor, 'Acumulado')) {
                                 $datosHisto[$index]['valor'] = $dato['valor_acu'];
-                            }
-                            else{
+                            } else {
                                 $datosHisto[$index]['valor'] = $dato['valor_float'];
                             }
                         }
@@ -855,7 +844,7 @@ class Database
                 return $informeTags;
             }
 
-            if($señal == "clo"){
+            if ($señal == "clo") {
                 $tagscaudales = array();
                 $informeTags = array();
 
@@ -1036,7 +1025,7 @@ class Database
     //usuario en su configuracion
     public function feedPrincipalCustom($id_usuario)
     {
-        
+
         if ($this->conectar()) {
             $configuracionWidgetsUsuario = array();
             $config = $this->obtenerConfigInicio($id_usuario);
