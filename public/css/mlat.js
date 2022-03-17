@@ -128,22 +128,25 @@ function carga() {
 }
 
 function pantalla() {
-
     var ancho = window.innerWidth;
     if (ancho > 600) {
         var defectoAncho = 1879;
         var zoom = 100;
         var relAncho = ((zoom * ancho) / defectoAncho);
         document.body.style.zoom = relAncho + '%';
-        console.log("desktop");
-
+        if (document.getElementById("conPrincipal") != undefined) {
+            var defAltoCon = 848;
+            var defAltoVen = 949;
+            var altoVen = window.innerHeight;
+            var altoCon = (defAltoCon * altoVen) / defAltoVen;
+            document.getElementById("conPrincipal").style.height = altoCon + "px";
+        }
     } else {
         document.getElementsByClassName("btnHerrGraf")[0].disabled = true;
         var defectoAncho = 516;
         var zoom = 100;
         var relAncho = ((zoom * ancho) / defectoAncho);
         document.body.style.zoom = relAncho + '%';
-        console.log("mobile");
     }
 
 
