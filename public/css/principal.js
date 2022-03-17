@@ -438,13 +438,13 @@ function crearWidgetsChartsCustom(feed) {
                 if (r_max == null) {
                     r_max = 10;
                 }
-                var t_x_c = (valor_actual / r_max) * 15;
+                var t_x_c = (valor_actual / r_max) * 14;
 
                 var estilo = "linear-gradient(0deg, rgba(39,45,79,1) 0%, rgba(1,168,184,1) 60%, rgba(1,168,184,1) 100%)";
                 var depo = "<div style='padding:7%;height:100%;width:100%;margin:0% 0%;background-color:#83d7ee'><h4 style='text-align:center;color:rgb(65,65,65);'>" + nombre_dato + "<br>" + valor_actual + "</h4></div>";
                 document.getElementById("gau" + feed[wid]['widget']).innerHTML = depo;
                 document.getElementById("gau" + feed[wid]['widget']).firstChild.classList.add('wavy');
-                document.getElementById("gau" + feed[wid]['widget']).style.paddingTop = (15 - t_x_c) + "%";
+                document.getElementById("gau" + feed[wid]['widget']).style.paddingTop = (14 - t_x_c) + "%";
             }
             //numero de contador
             if (nombre_dato.includes('Acumulado')) {
@@ -454,7 +454,7 @@ function crearWidgetsChartsCustom(feed) {
                 for (var carac in txt_actual) {
                     if (txt_actual[carac] == '.') {
                         // widCon += '<td style="border:1px solid black;font-size:500%;">' + txt_actual[carac] + '</td>';
-                        estilo = "border:1px solid black;font-size:500%;background-color:tomato;color:white";
+                        estilo = "border:1px solid black;font-size:300%;background-color:tomato;color:white";
                     } else {
                         widCon += '<td style="' + estilo + '">' + txt_actual[carac] + '</td>';
                     }

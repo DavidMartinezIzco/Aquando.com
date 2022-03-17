@@ -138,16 +138,15 @@ function pantalla() {
             var defAltoCon = 848;
             var defAltoVen = 949;
             var altoVen = window.innerHeight;
-            
+
             var altoCon = (defAltoCon * altoVen) / defAltoVen;
-            if(document.getElementById("alarmasSur") != undefined){
-                var altoAlarm = (150*(altoCon/defAltoCon));
-                document.getElementById("conPrincipal").style.height = altoCon - altoAlarm + "px";    
-            }
-            else{
+            if (document.getElementById("alarmasSur") != undefined) {
+                var altoAlarm = (150 * (altoCon / defAltoCon));
+                document.getElementById("conPrincipal").style.height = altoCon - altoAlarm + "px";
+            } else {
                 document.getElementById("conPrincipal").style.height = altoCon + "px";
             }
-            
+
         }
     } else {
         document.getElementsByClassName("btnHerrGraf")[0].disabled = true;
@@ -155,6 +154,15 @@ function pantalla() {
         var zoom = 100;
         var relAncho = ((zoom * ancho) / defectoAncho);
         document.body.style.zoom = relAncho + '%';
+        var defAltoVen = 949;
+        if (document.getElementById("alarmasSur") != undefined) {
+            var relAlto = window.innerHeight / defAltoVen;
+            var alAl = (150 * relAlto) + 'px';
+            document.getElementById("alarmasSur").style.height = alAl;
+            document.getElementById('conPrincipal').style.height = window.innerHeight - 60 - alAl + 'px';
+        } else {
+            document.getElementById('conPrincipal').style.height = window.innerHeight - 60 + 'px';
+        }
     }
 
 
