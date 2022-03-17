@@ -138,8 +138,16 @@ function pantalla() {
             var defAltoCon = 848;
             var defAltoVen = 949;
             var altoVen = window.innerHeight;
+            
             var altoCon = (defAltoCon * altoVen) / defAltoVen;
-            document.getElementById("conPrincipal").style.height = altoCon + "px";
+            if(document.getElementById("alarmasSur") != undefined){
+                var altoAlarm = (150*(altoCon/defAltoCon));
+                document.getElementById("conPrincipal").style.height = altoCon - altoAlarm + "px";    
+            }
+            else{
+                document.getElementById("conPrincipal").style.height = altoCon + "px";
+            }
+            
         }
     } else {
         document.getElementsByClassName("btnHerrGraf")[0].disabled = true;
