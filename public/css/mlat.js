@@ -12,10 +12,10 @@ function abrirCerrar() {
         abrirMenu();
     }
     $("#menuIzq").trigger('widthChange');
-    if (typeof grafico !== undefined) {
+    if (grafico !== undefined) {
         grafico.resize();
     }
-    if (typeof graficoCustom !== undefined) {
+    if (graficoCustom !== undefined) {
         graficoCustom.resize();
     }
 

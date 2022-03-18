@@ -410,7 +410,6 @@ function crearWidgetsChartsCustom(feed) {
     var gauges = new Array();
     var trends = new Array();
     var agregs = new Array();
-
     for (var wid in feed) {
         var gaugeDom = document.getElementById("gau" + feed[wid]['widget']);
         var grafGau = echarts.init(gaugeDom);

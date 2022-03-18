@@ -1075,9 +1075,9 @@ class Database
                 $conTrendDia = "";
                 $n_tag = $this->obtenerNombreTag($tag);
                 if (strpos($n_tag, 'Acumulado') !== false) {
-                    $conTrendDia = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '7 days' ORDER BY fecha desc";
+                    $conTrendDia = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '7 days' AND datos_historicos.fecha::date <= current_date::date ORDER BY fecha desc";
                 } else {
-                    $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 days' ORDER BY fecha desc";
+                    $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 days' AND datos_historicos.fecha::date <= current_date::date ORDER BY fecha desc";
                 }
                 $resTrendDia = pg_query($this->conexion, $conTrendDia);
                 if ($this->consultaExitosa($resTrendDia)) {
@@ -1106,7 +1106,7 @@ class Database
                     $conAgregSemanal = "SELECT MAX(datos_historicos.valor_acu) as max_acu, MAX(datos_historicos.valor_int) as max_int, MAX(datos_historicos.valor_float) as max_float,datos_historicos.fecha::date
                     from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                     where datos_historicos.id_tag = " . $tag . "
-                    and datos_historicos.fecha::date > current_date::date - interval '14 days' GROUP BY datos_historicos.fecha::date LIMIT 14";
+                    and datos_historicos.fecha::date > current_date::date - interval '14 days' AND datos_historicos.fecha::date <= current_date::date GROUP BY datos_historicos.fecha::date LIMIT 14";
 
                     $resAgregSemanal = pg_query($this->conexion, $conAgregSemanal);
                     if ($this->consultaExitosa($resAgregSemanal)) {
@@ -1137,7 +1137,7 @@ class Database
                     AVG(datos_historicos.valor_acu) as avg_acu, AVG(datos_historicos.valor_int) as avg_int, AVG(datos_historicos.valor_float) as avg_float,datos_historicos.fecha::date
                     from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                     where datos_historicos.id_tag = " . $tag . "
-                    and datos_historicos.fecha::date > current_date::date - interval '7 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
+                    and datos_historicos.fecha::date > current_date::date - interval '7 days' datos_historicos.fecha::date <= current_date::date GROUP BY datos_historicos.fecha::date LIMIT 7";
 
                     $resAgregSemanal = pg_query($this->conexion, $conAgregSemanal);
                     if ($this->consultaExitosa($resAgregSemanal)) {
@@ -1213,9 +1213,7 @@ class Database
                 $codigo .= "/" . $tag . ":" . $color . "";
             }
         }
-
         $id_usuario = $this->obtenerIdUsuario($usuario, $pwd);
-
         if ($id_usuario) {
             $secu = "INSERT INTO graficas(id_usuario, configuracion)
             VALUES (" . $id_usuario[0]['id_usuario'] . ", '" . $codigo . "')";

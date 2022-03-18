@@ -389,15 +389,8 @@ function renderGrafico() {
     //para organizar los values y las fechas
     var option;
     nombreDato = "info";
-    var lineaTiempo = [];
-    var fDesde = new Date(document.getElementById("fechaInicio").value);
-    var fHasta = new Date(document.getElementById("fechaFin").value);
-    var diff5m = (fDesde - fHasta) / 1000 / 60 / 5;
-    for (var i = 0; i < diff5m; i++) {
-        var fecha = fDesde.getDate() + "/" + fDesde.getMonth() + 1 + "/" + fDesde.getFullYear() + "  " + fDesde.getHours() + ":" + fDesde.getMinutes();
-        lineaTiempo.push(fecha);
-        fDesde = new Date(fDesde.getTime() + 5 * 60000);
-    }
+    var lineaTiempo = datosTagCustom['fechas'][0];
+
     //leyenda
     option = {
         legend: {

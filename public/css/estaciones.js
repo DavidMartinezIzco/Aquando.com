@@ -10,7 +10,6 @@ sessionStorage.setItem('tagViejo', null);
 
 //actualizar la info de la seccion estacion
 function actualizar(id_estacion) {
-
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
@@ -24,7 +23,6 @@ function actualizar(id_estacion) {
             dataType: 'json'
         });
     });
-
 }
 
 //obiene los trends de los ultimos 7 dias de los tags analógicos
