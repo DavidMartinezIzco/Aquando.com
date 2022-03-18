@@ -170,9 +170,7 @@ function renderGrafico(datosR) {
     var valores = new Array();
     for (var index in datosR) {
         for (var valor in datosR[index]) {
-            if (valor != "fecha" && valor != "calidad") {
-                valores.push(datosR[index][valor]);
-            }
+            valores.push(datosR[index]['valor']);
         }
     }
     var serieMin = new Array();
@@ -208,7 +206,6 @@ function renderGrafico(datosR) {
 
     option['xAxis'] = {
 
-        
         inverse: true,
         splitNumber: 10,
         data: fechas,
@@ -288,6 +285,7 @@ function renderGrafico(datosR) {
             name: nombreDato,
             type: 'line',
             smooth: true,
+            connectNulls:true,
             symbol: 'none',
             sampling: 'lttb',
             areaStyle: {
@@ -367,6 +365,7 @@ function renderGrafico(datosR) {
         },
         {
             name: 'Maximo Total ' + nombreDato,
+            connectNulls:true,
             type: 'line',
             silent: true,
             symbol: 'none',
@@ -376,6 +375,7 @@ function renderGrafico(datosR) {
         },
         {
             name: 'Minimo Total ' + nombreDato,
+            connectNulls:true,
             silent: true,
             type: 'line',
             symbol: 'none',
@@ -385,6 +385,7 @@ function renderGrafico(datosR) {
         },
         {
             name: 'Media Total ' + nombreDato,
+            connectNulls:true,
             silent: true,
             type: 'line',
             symbol: 'none',

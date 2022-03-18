@@ -443,9 +443,11 @@ class Database
     public function historicosTagEstacion($id_estacion, $id_tag)
     {
         if ($this->conectar()) {
-            $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float
+            $conHistoTagEst = "SELECT tags.nombre_tag, datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float
         FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
-        WHERE datos_historicos.fecha::date > current_date::date - interval '7 days' AND estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion .
+        INNER JOIN tags ON tags.id_tag = datos_historicos.id_tag 
+        WHERE datos_historicos.fecha::date > current_date::date - interval '7 days'  AND datos_historicos.fecha::date < current_date::date
+        AND estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion .
                 " ORDER BY datos_historicos.fecha DESC";
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
             if ($this->consultaExitosa($resulHistoTagEst)) {
@@ -453,8 +455,16 @@ class Database
                 $datosHisto = array();
                 foreach ($datosHistoTagEst as $index => $dato) {
                     foreach ($dato as $factor => $valor) {
-                        if ($valor != null) {
-                            $datosHisto[$index][$factor] = $valor;
+
+                        if ($factor == 'nombre_tag') {
+                            if (str_contains($valor, 'Acumulado')) {
+                                $datosHisto[$index]['valor'] = $dato['valor_acu'];
+                            } else {
+                                $datosHisto[$index]['valor'] = $dato['valor_float'];
+                            }
+                        }
+                        if ($factor == 'fecha') {
+                            $datosHisto[$index]['fecha'] = $valor;
                         }
                     }
                 }
