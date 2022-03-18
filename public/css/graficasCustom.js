@@ -264,7 +264,6 @@ function prepararTag(info, tag) {
     serie['data'] = [];
     serie['markLine'] = { data: [] };
 
-
     var mulstack = 1;
     for (var index in info['tag']) {
 

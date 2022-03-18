@@ -655,6 +655,7 @@ function crearWidgetsChartsCustom(feed) {
             series: [{
                 name: nombre_dato,
                 data: datos_dia,
+                connectNulls:true,
                 type: 'line',
                 lineStyle: {
                     width: 0
@@ -755,7 +756,7 @@ function crearWidgetsChartsCustom(feed) {
                     name: 'Máximos de ' + nombre_dato,
                     data: max_agreg,
                     type: 'bar',
-
+                    connectNulls:true,
                     itemStyle: {
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
 
@@ -859,7 +860,7 @@ function crearWidgetsChartsCustom(feed) {
                         name: 'Máximos de ' + nombre_dato,
                         data: max_agreg,
                         type: 'bar',
-
+                        connectNulls:true,
                         itemStyle: {
                             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
 
@@ -882,7 +883,7 @@ function crearWidgetsChartsCustom(feed) {
                         name: 'Medias de ' + nombre_dato,
                         data: avg_agreg,
                         type: 'bar',
-
+                        connectNulls:true,
                         itemStyle: {
                             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
 
@@ -906,7 +907,7 @@ function crearWidgetsChartsCustom(feed) {
                         name: 'Mínimos de ' + nombre_dato,
                         data: min_agreg,
                         type: 'bar',
-
+                        connectNulls:true,
                         itemStyle: {
                             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
 
