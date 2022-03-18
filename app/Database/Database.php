@@ -1137,7 +1137,7 @@ class Database
                     AVG(datos_historicos.valor_acu) as avg_acu, AVG(datos_historicos.valor_int) as avg_int, AVG(datos_historicos.valor_float) as avg_float,datos_historicos.fecha::date
                     from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                     where datos_historicos.id_tag = " . $tag . "
-                    and datos_historicos.fecha::date > current_date::date - interval '7 days' datos_historicos.fecha::date <= current_date::date GROUP BY datos_historicos.fecha::date LIMIT 7";
+                    and datos_historicos.fecha::date > current_date::date - interval '7 days' AND datos_historicos.fecha::date <= current_date::date GROUP BY datos_historicos.fecha::date LIMIT 7";
 
                     $resAgregSemanal = pg_query($this->conexion, $conAgregSemanal);
                     if ($this->consultaExitosa($resAgregSemanal)) {
