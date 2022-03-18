@@ -449,7 +449,7 @@ function crearWidgetsChartsCustom(feed) {
             //numero de contador
             if (nombre_dato.includes('Acumulado')) {
                 var txt_actual = valor_actual.toString();
-                var estilo = "border:1px solid black;font-size:500%;background-color:grey;color:white";
+                var estilo = "border:1px solid black;font-size:300%;background-color:grey;color:white";
                 var widCon = "<table style='text-align:center;width:80%;height:40%;margin:15% 10% 20% 10%;'><tr style='border-radius:10px'>";
                 for (var carac in txt_actual) {
                     if (txt_actual[carac] == '.') {

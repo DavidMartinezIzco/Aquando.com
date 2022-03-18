@@ -379,11 +379,8 @@ function prepararTag(info, tag) {
         marcaMeta['label']['borderWidth'] = 2;
         serie['markLine']['data'].push(marcaMeta);
     }
-
     datosTagCustom['serie'].push(serie);
     datosTagCustom['fechas'].push(fechasTag);
-
-
 }
 
 //crea el grafico con varios ajustes y con los objetos series
@@ -401,7 +398,6 @@ function renderGrafico() {
         lineaTiempo.push(fecha);
         fDesde = new Date(fDesde.getTime() + 5 * 60000);
     }
-
     //leyenda
     option = {
         legend: {
@@ -420,39 +416,17 @@ function renderGrafico() {
             containLabel: true,
         },
     };
-
-
     //eje X
-
-    //option['xAxis'] = ejesTiempo;
     option['xAxis'] = [{
-            boundaryGap: false,
-            inverse: true,
-            splitNumber: 10,
-            data: lineaTiempo,
-        },
-        // {
-        //     boundaryGap: false,
-        //     inverse: true,
-        //     data: lineaTiempo,
-        // }
-    ];
+        boundaryGap: false,
+        inverse: true,
+        splitNumber: 10,
+        data: lineaTiempo,
+    }, ];
     //herramientas
     // option['tooltip'] = tooltips;
     option['tooltip'] = {
         trigger: 'axis',
-        // icon: 'none',
-        // textStyle: {
-        //     fontStyle: 'bold',
-        //     fontSize: 20
-        // },
-        // formatter: (params) => {
-        //     var msg = "";
-        //     for(var index in params){
-        //         msg += params[index].seriesName + ': ' + params[index].value + '<br>';
-        //     }
-        //     return msg;
-        // },
         axisPointer: {
 
             type: 'cross',
@@ -461,7 +435,6 @@ function renderGrafico() {
             }
         }
     };
-
     //controles del eje X
     option['dataZoom'] = [{
             type: 'slider',
@@ -489,7 +462,6 @@ function renderGrafico() {
             zlevel: 10
         },
     ];
-
     //los ejes Y según se encuentran en mayor número, ocupan mayor espacio hasta el punto
     //de llegar a ocupar casi la mitad del gráfico. Su forma de aparecer va a tener que cambiar
     //(tal vez eliminando las labels)
@@ -500,7 +472,6 @@ function renderGrafico() {
     //Los datazoom no parecen llegara sincronizarse con la posición de los ejes
     //Los datazoom del lado derecho (mult > 1) están en desorden
     for (var eje in ejesYTagCustom) {
-
         if (mul >= 1) {
             ejesYTagCustom[eje]['offset'] = (75) * (mul - 1);
 
@@ -551,8 +522,6 @@ function renderGrafico() {
         option['yAxis'].push(ejesYTagCustom[eje]);
     }
     ejesYTagCustom = new Array;
-
-
     //series y datos en el grafico
     //la informacion de aui se cea en prepararTag()
     option['series'] = [];
@@ -562,44 +531,14 @@ function renderGrafico() {
         option['series'].push(datosTagCustom['serie'][index]);
         sInd++;
     }
-
-    //ajustes de pantalla para el grafico
-    // $(window).keyup(function() {
-    //     graficoCustom.resize();
-    // });
-    // $(window).keydown(function() {
-    //     graficoCustom.resize();
-    // });
-    // $(window).keypress(function() {
-    //     graficoCustom.resize();
-    // });
-
     $('#menuIzq').bind('widthChange', function() {
         graficoCustom.resize();
     });
-
     $('#zonaControles').bind('widthChange', function() {
         graficoCustom.resize();
     });
-
-    // document.getElementById("conPrincipal").onmousemove = function() {
-    //     setTimeout(graficoCustom.resize(), 500);
-    // };
-
-    // document.getElementById('grafica').onmouseover = function() {
-    //     setTimeout(graficoCustom.resize(), 500);
-    // }
-    // document.getElementById('zonaControles').onmouseover = function() {
-    //     setTimeout(graficoCustom.resize(), 500);
-    // }
-
     console.log(option);
     option && graficoCustom.setOption(option, true);
-
-
-    // setTimeout(function() {
-    //     document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
-    // }, 1000);
 
 }
 
@@ -630,18 +569,11 @@ function ajustesPresets(modo) {
             var btns = "<button class='btnPresetCancelar' onclick='ajustesPresets(null)'>Cancelar</button>";
             con.innerHTML = msg + btns;
         }
-
-
     }
-
-
-
-
 }
 
 //busca los presets del usuario y los lista o los carga
 function leerPresets(para) {
-
     var datos = {};
     datos['nombre'] = usu;
     datos['pwd'] = pwd;
@@ -727,15 +659,11 @@ function cargarPreset() {
     n_preset = document.getElementById('selPresets').options[document.getElementById('selPresets').selectedIndex].value;
     if (n_preset.includes(nombre_estacion_activa)) {
         leerPresets('cargar');
-
-
     } else {
         document.getElementById('txtPresetError').innerHTML += 'El preset no pertenece a esta estación';
     }
     document.getElementsByName('btnControlAplicar')[0].innerHTML = "aplicar";
-
 }
-
 //a traves de AJAX busca en la config de usuario un preset y lo elimina
 function borrarPreset() {
     ajustesPresets(null);
@@ -744,7 +672,6 @@ function borrarPreset() {
     datos['nombre'] = usu;
     datos['pwd'] = pwd;
     var arrdatos = JSON.stringify(datos);
-
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
@@ -753,7 +680,6 @@ function borrarPreset() {
                 arrdatos: arrdatos
             },
             success: function() {
-
                 leerPresets('mostrar');
                 setTimeout(ajustesPresets(null), 1000);
             },
@@ -764,15 +690,11 @@ function borrarPreset() {
         });
     });
     mostrarPresets();
-
-
 }
 
 //llama a AJAX para guardar un preset en la configuracion de usuario
 function guardarPreset() {
-
     if (document.getElementById('txtPreset').value != null && document.getElementById('txtPreset').value != '' && !document.getElementById('txtPreset').value.includes(":") && !document.getElementById('txtPreset').value.includes("/") && !document.getElementById('txtPreset').value.includes("@")) {
-
         var checkTags = document.querySelectorAll('input[name=checkTag]:checked');
         var nombre_preset = nombre_estacion_activa + ": " + document.getElementById('txtPreset').value;
         var datosPreset = {};
@@ -786,9 +708,7 @@ function guardarPreset() {
         datosPreset['id_estacion'] = document.getElementById('opciones').value;
         datosPreset['tags_colores'] = tags_colores;
         console.log(datosPreset);
-
         var arrDatosPreset = JSON.stringify(datosPreset);
-
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
@@ -811,7 +731,4 @@ function guardarPreset() {
     } else {
         document.getElementById('txtPresetError').innerHTML = 'Introduce un nombre válido';
     }
-
-
-
 }

@@ -146,7 +146,6 @@ function pantalla() {
             } else {
                 document.getElementById("conPrincipal").style.height = altoCon + "px";
             }
-
         }
     } else {
         document.getElementsByClassName("btnHerrGraf")[0].disabled = true;
@@ -159,11 +158,9 @@ function pantalla() {
             var relAlto = window.innerHeight / defAltoVen;
             var alAl = (150 * relAlto) + 'px';
             document.getElementById("alarmasSur").style.height = alAl;
-            document.getElementById('conPrincipal').style.height = window.innerHeight - 60 - alAl + 'px';
+            document.getElementById('conPrincipal').style.marginBottom = 10 + alAl + 'px';
         } else {
             document.getElementById('conPrincipal').style.height = window.innerHeight - 60 + 'px';
         }
     }
-
-
 }
