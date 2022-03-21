@@ -454,7 +454,7 @@ class Database
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
                 $datosHisto = array();
 
-                $ultVal = 0;
+                $ultVal = null;
                 foreach ($datosHistoTagEst as $index => $dato) {
                     foreach ($dato as $factor => $valor) {
 
@@ -528,14 +528,29 @@ class Database
             if ($this->consultaExitosa($resulHistoTagEst)) {
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
                 $datosHisto = array();
+                $ultVal = null;
                 foreach ($datosHistoTagEst as $index => $dato) {
                     foreach ($dato as $factor => $valor) {
 
                         if ($factor == 'nombre_tag') {
                             if (str_contains($valor, 'Acumulado')) {
-                                $datosHisto[$index]['valor'] = $dato['valor_acu'];
+                                if($dato['valor_acu'] == null){
+                                    $datosHisto[$index]['valor'] = $ultVal;
+                                }
+                                else {
+                                    $datosHisto[$index]['valor'] = $dato['valor_acu'];
+                                    $ultVal = $dato['valor_acu'];    
+                                }
+                                
                             } else {
-                                $datosHisto[$index]['valor'] = $dato['valor_float'];
+                                if($dato['valor_float'] == null){
+                                    $datosHisto[$index]['valor'] = $ultVal;
+                                }
+                                else{
+                                    $datosHisto[$index]['valor'] = $dato['valor_float'];
+                                    $ultVal = $dato['valor_float'];
+                                }
+                                
                             }
                         }
                         if ($factor == 'fecha') {
@@ -1109,11 +1124,16 @@ class Database
                 if ($this->consultaExitosa($resTrendDia)) {
                     $trendDia = pg_fetch_all($resTrendDia);
                     $trendDiaLimpio = array();
+                    $ultVal = null;
                     foreach ($trendDia as $index => $dato) {
                         foreach ($dato as $factor => $valor) {
                             if (str_contains($factor, 'valor_')) {
                                 if ($valor != null) {
                                     $trendDiaLimpio[$index]['valor'] = $valor;
+                                    $ultVal = $valor;
+                                }
+                                else{
+                                    $trendDiaLimpio[$index]['valor'] = $ultVal;
                                 }
                             } else {
                                 $trendDiaLimpio[$index][$factor] = $valor;
