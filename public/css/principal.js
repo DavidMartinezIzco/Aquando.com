@@ -743,7 +743,7 @@ function crearWidgetsChartsCustom(feed) {
                     }
                 },
                 xAxis: {
-                    inverse: true,
+                    inverse: false,
                     show: true,
                     type: 'category',
                     data: fechas_agreg
@@ -780,6 +780,7 @@ function crearWidgetsChartsCustom(feed) {
 
 
         } else {
+
             for (var index in agreg_semanal) {
                 max_agreg.push(parseFloat(agreg_semanal[index]['max']).toFixed(2));
                 min_agreg.push(parseFloat(agreg_semanal[index]['min']).toFixed(2));

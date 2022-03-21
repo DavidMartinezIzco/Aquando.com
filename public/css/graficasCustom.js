@@ -529,7 +529,7 @@ function renderGrafico() {
     $('#zonaControles').bind('widthChange', function() {
         graficoCustom.resize();
     });
-    console.log(option);
+    
     option && graficoCustom.setOption(option, true);
 
 }

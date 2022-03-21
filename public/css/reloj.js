@@ -4,7 +4,6 @@ if (sessionStorage.getItem('tmax') !== null) {
     tiempoMax = sessionStorage.getItem('tmax');
 }
 
-
 //tiempo standby y eventos que lo resetean
 //el tiempo está en segundos y avanza por la ejecucion de checking
 var tiempoStandBy = 0;
@@ -15,24 +14,43 @@ document.onmousemove = function() {
     tiempoStandBy = 0;
 };
 
-
-
-
 //muestra la hora del sistema
 function fechaYHora() {
     var currentdate = new Date();
-    var datetime = currentdate.getDate() + "/" +
-        (currentdate.getMonth() + 1) + "/" +
-        currentdate.getFullYear() + " <br> " +
-        currentdate.getHours() + ":" +
-        currentdate.getMinutes() + ":" +
-        currentdate.getSeconds();
-    document.getElementById('fechahora').innerHTML = datetime;
+
+    var dia = currentdate.getDate();
+    var mes = currentdate.getMonth() + 1;
+    var anio = currentdate.getFullYear();
+    var horas = currentdate.getHours();
+    var minutos = currentdate.getMinutes();
+    var segs = currentdate.getSeconds();
+
+    if(dia < 10){
+        dia = "0"+dia;
+    }
+    if(mes < 10){
+        mes = "0"+mes;
+    }
+    if(horas < 10){
+        horas = "0"+horas;
+    }
+    if(minutos < 10){
+        minutos = "0"+minutos;
+    }
+    if(segs<10){
+        segs = "0"+segs;
+    }
+    var msg = dia + "/" +
+        (mes+ 1) + "/" +
+        anio + " <br> " +
+        horas + ":" +
+        minutos + ":" +
+        segs;
+    document.getElementById('fechahora').innerHTML = msg;
 }
 
 //comprueba el tiempo que lleva el cliente inactivo
 function comprobarTiempo() {
-
     if (document.getElementById("seccion").value != "login")
         formatearTiempo(tiempoMax - tiempoStandBy);
     tiempoStandBy++;

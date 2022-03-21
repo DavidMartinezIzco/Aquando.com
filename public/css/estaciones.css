@@ -3,7 +3,7 @@
 #estacionIzq {
     position: relative;
     width: 20%;
-    height: 75%;
+    height: 85%;
     border-radius: 10px;
     left: 2%;
     color: rgb(45, 45, 45);
@@ -81,10 +81,10 @@
     position: relative;
     /* padding: 1% 0%; */
     width: 35%;
-    height: 73%;
+    height: 83%;
     border: 4px solid rgb(1, 168, 184);
     border-radius: 10px;
-    bottom: 75%;
+    bottom: 85%;
     left: 24%;
     /* background-color: rgb(85, 85, 85); */
     padding: -0px -2px;
@@ -111,10 +111,10 @@
     position: relative;
     /* padding: 1% 0%; */
     width: 38%;
-    height: 73%;
+    height: 83%;
     border: 4px solid rgb(1, 168, 184);
     border-radius: 10px;
-    bottom: 148%;
+    bottom: 168%;
     left: 60%;
     /* background-color: rgb(85, 85, 85); */
     padding: -0px -2px;

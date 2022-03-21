@@ -453,14 +453,30 @@ class Database
             if ($this->consultaExitosa($resulHistoTagEst)) {
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
                 $datosHisto = array();
+
+                $ultVal = 0;
                 foreach ($datosHistoTagEst as $index => $dato) {
                     foreach ($dato as $factor => $valor) {
 
                         if ($factor == 'nombre_tag') {
                             if (str_contains($valor, 'Acumulado')) {
-                                $datosHisto[$index]['valor'] = $dato['valor_acu'];
+                                if($dato['valor_acu'] == null){
+                                    $datosHisto[$index]['valor'] = $ultVal;
+                                }
+                                else{
+                                    $datosHisto[$index]['valor'] = $dato['valor_acu'];
+                                    $ultVal = $dato['valor_acu'];
+                                }
+                                
                             } else {
-                                $datosHisto[$index]['valor'] = $dato['valor_float'];
+                                if($dato['valor_float'] == null){
+                                    $datosHisto[$index]['valor'] = $ultVal;
+                                }
+                                else{
+                                    $datosHisto[$index]['valor'] = $dato['valor_float'];
+                                    $ultVal = $dato['valor_float'];
+                                }
+                                
                             }
                         }
                         if ($factor == 'fecha') {
