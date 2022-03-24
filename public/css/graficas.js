@@ -1,5 +1,7 @@
 var datosM = new Array();
 var datosR = new Array();
+
+
 //reestablece los filtros por defecto
 function limpiar() {
     document.getElementsByName('btnControlReset')[0].innerText = 'limpio!';

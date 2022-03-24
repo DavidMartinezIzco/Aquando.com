@@ -68,19 +68,19 @@
         }, 1500);
     }
     window.onload = function() {
+        setInterval(updateEstacion(), 60000 * 5);
         pantalla();
         fotoEstacion(estacion);
         comprobarTiempo();
         setInterval(fechaYHora, 1000);
-        setInterval(updateEstacion(), 60000 * 5);
         setInterval(actualizarSur('estacion', null, null, estacion), 20000);
         setInterval(comprobarTiempo, 1000);
-        $(window).blur(function() {
-            tiempoFuera("");
-        });
-        $(window).focus(function() {
-            tiempoFuera("volver")
-        });
+        // $(window).blur(function() {
+        //     tiempoFuera("");
+        // });
+        // $(window).focus(function() {
+        //     tiempoFuera("volver")
+        // });
     }    
 </script>
 

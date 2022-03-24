@@ -64,8 +64,8 @@ function actualizar() {
             },
             success: function(feedDigi) {
                 feedDigital = feedDigi;
-                renderFeedDigi();
                 feedPrincipalCustom();
+                renderFeedDigi();
             },
             error: function() {
                 console.log('refresh error');
@@ -299,10 +299,11 @@ function getEventTarget(e) {
 
 //llama a AJAX para obtener los datos de inicio
 function feedPrincipalCustom() {
+    
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Principal.php?opcion=feed&usu=' + usu + '&pwd=' + pwd,
+            url: '/Aquando.com/A_Principal.php?opcion=feed&usu=' + usu + '&pwd=' + pwd,
 
             success: function(feedAna) {
                 renderPrincipalCustom(feedAna);

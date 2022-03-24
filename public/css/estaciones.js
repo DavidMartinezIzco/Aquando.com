@@ -112,14 +112,7 @@ function filtrarDatos(datos) {
     }
     todoDato['bombas'] = bombas;
 
-
-
     trendsTags();
-    // setTimeout(() => {
-    //     montarWidgetsDigi();
-    //     montarWidgetsAnalogicos();
-    // }, 500);
-
 }
 
 //montar widgets de tags digitales
@@ -385,6 +378,7 @@ function montarGraficosWidget() {
                 }]
             };
             widsAnalogLista.push([grafTrend]);
+            console.log(optionChart);
             optionChart && grafTrend.setOption(optionChart, true);
 
 
@@ -575,7 +569,8 @@ function montarGraficosWidget() {
         };
 
         widsAnalogLista.push([gauge, grafTrend]);
-
+        console.log(optionChart);
+        console.log(optionGauge);
         optionGauge && gauge.setOption(optionGauge, true);
         optionChart && grafTrend.setOption(optionChart, true);
 

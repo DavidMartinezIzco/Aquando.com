@@ -8,6 +8,8 @@ datosTagCustom['fechas'] = [];
 var serie = {};
 var presets_config = new Array();
 
+
+
 //reestablece los filtros por defecto
 
 function limpiar() {

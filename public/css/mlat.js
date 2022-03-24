@@ -2,6 +2,16 @@ $(window).resize(function() {
     pantalla();
 });
 
+
+$(document).keypress(function(e){
+    console.log(e.which);
+    if(e.ctrlKey && e.which == 0){
+        abrirCerrar();
+    }
+});
+
+
+
 //abre o cierra el menu lateral
 function abrirCerrar() {
 
@@ -123,6 +133,8 @@ function carga() {
 }
 
 function pantalla() {
+    var altoVen = window.innerHeight;
+    document.getElementById("menuIzq").style.height = altoVen+ "px";
     var ancho = window.innerWidth;
     if (ancho > 600) {
         var defectoAncho = 1879;

@@ -1,3 +1,4 @@
+
 //saca una captura de las alarmas
 function imprimir() {
     document.getElementsByName('btnControlPrint')[0].innerText = 'cargando...';

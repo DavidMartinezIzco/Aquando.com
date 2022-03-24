@@ -67,21 +67,12 @@
     sessionStorage.setItem('nousu', usu);
     sessionStorage.setItem('pwd', pwd);
     window.onload = function() {
+        setInterval(actualizar(), 1000 * 60 * 10);
         mapas();
         ajustes();
-        
-        // comprobarTiempo();
-        // actualizarSur('general', usu, pwd, null);
         setInterval(fechaYHora, 1000);
         setInterval(comprobarTiempo, 1000);
-        setInterval(actualizar(), 1000 * 60 * 10);
         $("#menuIzq").trigger('widthChange');
-        // $(window).blur(function() {
-        //     tiempoFuera("");
-        // });
-        // $(window).focus(function() {
-        //     tiempoFuera("volver")
-        // });
         setInterval(actualizarSur('general', usu, pwd, null), 20000);
         pantalla();
     }
