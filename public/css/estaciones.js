@@ -40,9 +40,9 @@ function trendsTags() {
             contentType: 'application/json;charset=utf-8',
             url: 'http://dateando.ddns.net:3000/Aquando.com/A_Estacion.php?opcion=trends&estacion=' + id_estacion + '&tipo=todos',
             success: function(trends) {
+                montarWidgetsAnalogicos();
                 todoTrends = trends;
                 montarWidgetsDigi();
-                montarWidgetsAnalogicos();
             },
             error: function() {
                 console.log("error en las trends");
@@ -65,7 +65,7 @@ function filtrarDatos(datos) {
                 if (datos[indexDato]['valor'] == 't' || datos[indexDato]['valor'] == 'f') {
                     datosDigi[indexDato] = datos[indexDato];
                 } else {
-                    if (datos[indexDato]['nombre_tag'].includes("Acumulado") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
+                    if (datos[indexDato]['nombre_tag'].includes("Acumulado") && datos[indexDato]['nombre_tag'].includes("Dia") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
                         tagsAcumulados[indexDato] = datos[indexDato];
                     } else {
                         if (datos[indexDato]['nombre_tag'].includes("Consigna")) {
@@ -378,12 +378,10 @@ function montarGraficosWidget() {
                 }]
             };
             widsAnalogLista.push([grafTrend]);
-            console.log(optionChart);
             optionChart && grafTrend.setOption(optionChart, true);
 
-
         } else {
-            if (document.getElementById("panelNegro" + nombreDato + "Dia") && todoTrends[tag] !== undefined) {
+            if (document.getElementById("panelNegro" + nombreDato + "Dia") && todoTrends[tag]['max']!= undefined) {
                 document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'Acumulado:' + todoTrends[tag]['max'][0];
             } else {
                 document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'sin trends de señal';
@@ -569,8 +567,7 @@ function montarGraficosWidget() {
         };
 
         widsAnalogLista.push([gauge, grafTrend]);
-        console.log(optionChart);
-        console.log(optionGauge);
+        
         optionGauge && gauge.setOption(optionGauge, true);
         optionChart && grafTrend.setOption(optionChart, true);
 
