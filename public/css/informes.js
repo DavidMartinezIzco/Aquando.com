@@ -168,7 +168,7 @@ function obtenerInforme() {
                 arrNombres: arrNombres
             },
             contentType: 'application/json;charset=utf-8',
-            url: 'http://dateando.ddns.net:3000/Aquando.com/A_Informes.php?opcion=' + opcion + '&fechaIni=' + fInicio + '&fechaFin=' + fFin,
+            url: '/Aquando.com/A_Informes.php?opcion=' + opcion + '&fechaIni=' + fInicio + '&fechaFin=' + fFin,
             success: function(informe) {
                 reset();
                 var ahora = new Date();

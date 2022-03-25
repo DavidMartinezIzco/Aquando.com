@@ -795,7 +795,7 @@ class Database
                         $conAgregTag = "SELECT MAX(datos_historicos_p.valor_float) as maximo, MIN(datos_historicos_p.valor_float) as minimo, cast(AVG(datos_historicos_p.valor_float) as numeric(10,2)) as media, datos_historicos_p.fecha::date
                         from datos_historicos_p inner join estacion_tag on datos_historicos_p.id_tag = estacion_tag.id_tag
                         where datos_historicos_p.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos_p.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos_p.fecha) as integer) > " . $fin . " 
-                        GROUP BY datos_historicos_p.fecha::date ORDER BY datos_historicos_p.fecha::date desc";
+                        GROUP BY datos_historicos_p.fecha::date ORDER BY datos_historicos_p.fecha desc";
 
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
@@ -1159,12 +1159,7 @@ class Database
                                     if (strpos($factor, 'max') !== false) {
                                         $agregSemanaLimpio[$index]['max'] = $valor;
                                     }
-                                    // if (strpos($factor, 'min') !== false) {
-                                    //     $agregSemanaLimpio[$index]['min'] = $valor;
-                                    // }
-                                    // if (strpos($factor, 'avg') !== false) {
-                                    //     $agregSemanaLimpio[$index]['avg'] = $valor;
-                                    // }
+                                    
                                 } else {
                                     $agregSemanaLimpio[$index][$factor] = $valor;
                                 }

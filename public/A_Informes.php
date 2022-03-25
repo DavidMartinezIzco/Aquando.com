@@ -61,8 +61,6 @@ if ($opcion == "cau") {
         "grouping" => array(
             "estacion" => array(
                 "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
-
-
             ),
             "señal" => array(
                 "calculate" => array(
@@ -82,7 +80,6 @@ if ($opcion == "cau") {
                    <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: " . number_format($val['{med}'], 2) . "</td>";
                     return $fila;
                 }
-
             )
         ),
         "showHeader" => false,
@@ -99,7 +96,6 @@ if ($opcion == "niv") {
     $informesDep = array();
     $informeDep = array();
     $informeTabla = array(['estacion', 'señal', 'fecha', 'maximo', 'minimo', 'media']);
-
     foreach ($estaciones as $index => $estacion) {
         // $informesDep[] = $estacion;
         $informeDep = $db->informeSeñalEstacion($estacion, 'niv', $fechaIni, $fechaFin);
@@ -119,7 +115,6 @@ if ($opcion == "niv") {
 
     $table = Table::create(array(
         "dataSource" => $informeTabla,
-
         "columns" => array(
 
             "fecha" => array(
@@ -134,7 +129,6 @@ if ($opcion == "niv") {
             "media" => array(
                 "cssStyle" => "text-align:center"
             ),
-
         ),
         "grouping" => array(
             "estacion" => array(
@@ -184,13 +178,11 @@ if ($opcion == "acu") {
             }
         }
     }
-
     //crea obj KR y configs en su archivo aparte (Models)
     $informe = new InformeCaudales($informeTabla);
     $informe->run()->render();
     $table = Table::create(array(
         "dataSource" => $informeTabla,
-
         "columns" => array(
             // "estacion"=>array(
             //     "cssStyle"=>"font-weight:bold;text-align:center"
@@ -204,13 +196,10 @@ if ($opcion == "acu") {
             "valor" => array(
                 "cssStyle" => "text-align:center"
             ),
-
         ),
         "grouping" => array(
             "estacion" => array(
                 "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
-
-
             ),
             "señal" => array(
                 "calculate" => array(
@@ -254,7 +243,6 @@ if ($opcion == "clo") {
     //crea obj KR y configs en su archivo aparte (Models)
     $informe = new InformeCaudales($informeTabla);
     $informe->run()->render();
-
     $table = Table::create(array(
         "dataSource" => $informeTabla,
 

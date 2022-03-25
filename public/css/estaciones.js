@@ -40,9 +40,9 @@ function trendsTags() {
             contentType: 'application/json;charset=utf-8',
             url: 'http://dateando.ddns.net:3000/Aquando.com/A_Estacion.php?opcion=trends&estacion=' + id_estacion + '&tipo=todos',
             success: function(trends) {
+                montarWidgetsAnalogicos();
                 todoTrends = trends;
                 montarWidgetsDigi();
-                montarWidgetsAnalogicos();
             },
             error: function() {
                 console.log("error en las trends");
@@ -65,14 +65,16 @@ function filtrarDatos(datos) {
                 if (datos[indexDato]['valor'] == 't' || datos[indexDato]['valor'] == 'f') {
                     datosDigi[indexDato] = datos[indexDato];
                 } else {
-                    if (datos[indexDato]['nombre_tag'].includes("Acumulado") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
+                    if (datos[indexDato]['nombre_tag'].includes("Acumulado") && datos[indexDato]['nombre_tag'].includes("Dia") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
                         tagsAcumulados[indexDato] = datos[indexDato];
                     } else {
                         if (datos[indexDato]['nombre_tag'].includes("Consigna")) {
                             consignas[indexDato] = datos[indexDato];
                         } else {
-                            datosAnalog[indexDato] = datos[indexDato];
-                            datosAnalog[indexDato]['consignas'] = [];
+                            if(!datos[indexDato]['nombre_tag'].includes("Acumulado")){
+                                datosAnalog[indexDato] = datos[indexDato];
+                                datosAnalog[indexDato]['consignas'] = [];
+                            }
                         }
                     }
                 }
@@ -219,11 +221,7 @@ function montarWidgetsAnalogicos() {
         var widgInicio = '<div class="widAna">';
         var widgFin = '';
         var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=font-weight:bold;margin-bottom:-1.5em;color:rgb(39,45,79)>' + datosAnalog[indexDato]['nombre_tag'] + ' (' + datosAnalog[indexDato]['unidad'] + '): ' + datosAnalog[indexDato]['valor'] + '</p> ';
-        // for (var consig in consignas) {
-        //     if (consignas[consig]['nombre_tag'].includes(datosAnalog[indexDato]['nombre_tag'])) {
-        //         widgInfo += "<br>" + consignas[consig]['nombre_tag'] + ': ' + consignas[consig]['valor'];
-        //     }
-        // }
+        
         widgInfo += '</div>';
         var consi = '';
         var widgSec = '';
@@ -285,14 +283,12 @@ function montarWidgetsAnalogicos() {
 
                 //orden? ->nada
                 else if (bombas[bomba][index]['nombre_tag'].includes("Orden")) {
-
                 }
             }
             var bombaInf = "<div id='widBombaInf'>" + widDefecto + widArranques + widTiempo + "</div>";
             var widBomba = "<div id='widBomba'>" + bombaNombre + bombaInf + bombaEstado + "</div>";
             widsBombas += widBomba;
         }
-
     }
     seccionAnalog.innerHTML += widsBombas;
     montarGraficosWidget();
@@ -378,12 +374,10 @@ function montarGraficosWidget() {
                 }]
             };
             widsAnalogLista.push([grafTrend]);
-            console.log(optionChart);
             optionChart && grafTrend.setOption(optionChart, true);
 
-
         } else {
-            if (document.getElementById("panelNegro" + nombreDato + "Dia") && todoTrends[tag] !== undefined) {
+            if (document.getElementById("panelNegro" + nombreDato + "Dia") && todoTrends[tag]['max']!= undefined) {
                 document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'Acumulado:' + todoTrends[tag]['max'][0];
             } else {
                 document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'sin trends de señal';
@@ -569,8 +563,7 @@ function montarGraficosWidget() {
         };
 
         widsAnalogLista.push([gauge, grafTrend]);
-        console.log(optionChart);
-        console.log(optionGauge);
+        
         optionGauge && gauge.setOption(optionGauge, true);
         optionChart && grafTrend.setOption(optionChart, true);
 
