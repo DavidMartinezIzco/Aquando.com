@@ -25,23 +25,23 @@ function fechaYHora() {
     var minutos = currentdate.getMinutes();
     var segs = currentdate.getSeconds();
 
-    if(dia < 10){
-        dia = "0"+dia;
+    if (dia < 10) {
+        dia = "0" + dia;
     }
-    if(mes < 10){
-        mes = "0"+mes;
+    if (mes < 10) {
+        mes = "0" + mes;
     }
-    if(horas < 10){
-        horas = "0"+horas;
+    if (horas < 10) {
+        horas = "0" + horas;
     }
-    if(minutos < 10){
-        minutos = "0"+minutos;
+    if (minutos < 10) {
+        minutos = "0" + minutos;
     }
-    if(segs<10){
-        segs = "0"+segs;
+    if (segs < 10) {
+        segs = "0" + segs;
     }
     var msg = dia + "/" +
-        (mes+ 1) + "/" +
+        (mes + 1) + "/" +
         anio + " <br> " +
         horas + ":" +
         minutos + ":" +

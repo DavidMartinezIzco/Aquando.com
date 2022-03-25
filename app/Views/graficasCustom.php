@@ -176,11 +176,11 @@
         }
     }
     //muestra u oculta las opciones y controles sin readaptar nada
-    $(document).keypress(function(e){
-    console.log(e.which);
-    if(e.ctrlKey && e.which == 26){
-        mostrarOpciones();
-    }
-});
+    $(document).keypress(function(e) {
+        console.log(e.which);
+        if (e.ctrlKey && e.which == 26) {
+            mostrarOpciones();
+        }
+    });
 </script>
 <?= $this->endSection() ?>

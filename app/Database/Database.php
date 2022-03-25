@@ -460,23 +460,19 @@ class Database
 
                         if ($factor == 'nombre_tag') {
                             if (str_contains($valor, 'Acumulado')) {
-                                if($dato['valor_acu'] == null){
+                                if ($dato['valor_acu'] == null) {
                                     $datosHisto[$index]['valor'] = $ultVal;
-                                }
-                                else{
+                                } else {
                                     $datosHisto[$index]['valor'] = $dato['valor_acu'];
                                     $ultVal = $dato['valor_acu'];
                                 }
-                                
                             } else {
-                                if($dato['valor_float'] == null){
+                                if ($dato['valor_float'] == null) {
                                     $datosHisto[$index]['valor'] = $ultVal;
-                                }
-                                else{
+                                } else {
                                     $datosHisto[$index]['valor'] = $dato['valor_float'];
                                     $ultVal = $dato['valor_float'];
                                 }
-                                
                             }
                         }
                         if ($factor == 'fecha') {
@@ -534,23 +530,19 @@ class Database
 
                         if ($factor == 'nombre_tag') {
                             if (str_contains($valor, 'Acumulado')) {
-                                if($dato['valor_acu'] == null){
+                                if ($dato['valor_acu'] == null) {
                                     $datosHisto[$index]['valor'] = $ultVal;
-                                }
-                                else {
+                                } else {
                                     $datosHisto[$index]['valor'] = $dato['valor_acu'];
-                                    $ultVal = $dato['valor_acu'];    
+                                    $ultVal = $dato['valor_acu'];
                                 }
-                                
                             } else {
-                                if($dato['valor_float'] == null){
+                                if ($dato['valor_float'] == null) {
                                     $datosHisto[$index]['valor'] = $ultVal;
-                                }
-                                else{
+                                } else {
                                     $datosHisto[$index]['valor'] = $dato['valor_float'];
                                     $ultVal = $dato['valor_float'];
                                 }
-                                
                             }
                         }
                         if ($factor == 'fecha') {
@@ -1126,8 +1118,7 @@ class Database
                                 if ($valor != null) {
                                     $trendDiaLimpio[$index]['valor'] = $valor;
                                     $ultVal = $valor;
-                                }
-                                else{
+                                } else {
                                     $trendDiaLimpio[$index]['valor'] = $ultVal;
                                 }
                             } else {
@@ -1159,7 +1150,6 @@ class Database
                                     if (strpos($factor, 'max') !== false) {
                                         $agregSemanaLimpio[$index]['max'] = $valor;
                                     }
-                                    
                                 } else {
                                     $agregSemanaLimpio[$index][$factor] = $valor;
                                 }

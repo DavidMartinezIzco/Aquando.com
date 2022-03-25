@@ -1,4 +1,3 @@
-
 //saca una captura de las alarmas
 function imprimir() {
     document.getElementsByName('btnControlPrint')[0].innerText = 'cargando...';
@@ -114,8 +113,8 @@ function inicioFin() {
         return manana.toJSON().slice(0, 10);
     });
     Date.prototype.setearHasta = (function() {
-        var mesant = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000);
-        return mesant.toJSON().slice(0, 10);
+        var semant = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
+        return semant.toJSON().slice(0, 10);
     });
     $(document).ready(function() {
         $('#fechaInicio').val(new Date().seteardesde());

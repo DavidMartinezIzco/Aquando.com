@@ -82,12 +82,12 @@
         });
 
     }
-    $(document).keypress(function(e){
-    console.log(e.which);
-    if(e.ctrlKey && e.which == 26){
-        opciones();
-    }});
-    
+    $(document).keypress(function(e) {
+        console.log(e.which);
+        if (e.ctrlKey && e.which == 26) {
+            opciones();
+        }
+    });
 </script>
 
 

@@ -12,19 +12,20 @@ class Inicio extends BaseController
     private $usuario;
     private $sesion;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->sesion = \Config\Services::session();
         $this->sesion->start();
     }
 
     //arranque del proyecto
     public function index()
-    {   
-        $_SESSION['seccion']='inicio';
+    {
+        $_SESSION['seccion'] = 'inicio';
         if (isset($_GET['log']) && $_GET['log'] == 'out') {
             session_unset();
             $_SESSION['mensajeDesc'] = true;
-            $_SESSION['seccion']='';
+            $_SESSION['seccion'] = '';
             return view('inicio');
         } else {
             if (isset($_SESSION['nombre'])) {
@@ -48,7 +49,8 @@ class Inicio extends BaseController
     //debería cifrar esto cuando empiece a haber usuarios de verdad
     //sobretodo por que no me termino de fiar del AJAX pero no queda otra
     //con mala baba igual pueden decodificar las peticiones de REST
-    public function inicioSesion(){
+    public function inicioSesion()
+    {
         $_SESSION['seccion'] = "login";
         if (isset($_SESSION['nombre'])) {
             session_unset();
@@ -56,14 +58,10 @@ class Inicio extends BaseController
         $_SESSION['mensajeDesc'] = false;
         $nombre = "";
         $pwd = "";
-
         if (isset($_POST["txtNombre"]) && isset($_POST["txtContrasena"])) {
             $nombre = $_POST["txtNombre"];
             $pwd = $_POST["txtContrasena"];
-            
-
             $this->usuario = new Usuario($nombre, $pwd);
-            
             if ($this->usuario->existeUsuario() == true) {
                 $_SESSION['nombre'] = $nombre;
                 $_SESSION['pwd'] = $pwd;
@@ -107,12 +105,10 @@ class Inicio extends BaseController
     //puede ir a vista rapida o personalizada (a.k.a custom)
     public function graficas()
     {
-
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "graficos";
             $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
             $datos['tagsEstaciones'] = $usuario->obtenerTagsEstaciones();
-
             if (isset($_POST['btnGraf']) && $_POST['btnGraf'] == 'rapida') {
                 return view('graficas', $datos);
             } else {
@@ -126,21 +122,15 @@ class Inicio extends BaseController
     // //muestra la zona principal de alarmas
     public function alarmas()
     {
-
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "alarmas";
             if (isset($_SESSION['alarmas'])) {
                 $datos['alarmas'] = $_SESSION['alarmas'];
             } else {
-                //falta: cambiar a nueva BD
                 $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
-
-                //alarmas desde principio de año
+                //alarmas desde un mes
                 $estaciones = $this->usuario->obtenerEstacionesUsuario();
                 $datos['estaciones'] = $estaciones;
-                // $alarmas = $this->usuario->obtenerAlarmas();
-
-                // $datos['alarmasAll'] = $alarmas;
             }
 
             return view('alarmas', $datos);
@@ -163,12 +153,8 @@ class Inicio extends BaseController
     //muestra el estado de las conexiones con las estaciones
     public function comunicaciones()
     {
-
         $_SESSION['seccion'] = "coms";
         if (isset($_SESSION['nombre'])) {
-            // $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd'], $_SESSION['empresa']);
-            // $conexiones = $this->usuario->ultimasConexiones();
-            // $datos['conexiones'] = $conexiones;
             return view('comunicaciones');
         } else {
             return view('inicio');

@@ -60,6 +60,7 @@
 
 <script>
     var estacion = <?php echo $id_estacion ?>;
+
     function updateEstacion() {
         $(document.getElementById("iconoActu")).addClass("rotante");
         actualizar(estacion);
@@ -81,7 +82,7 @@
         // $(window).focus(function() {
         //     tiempoFuera("volver")
         // });
-    }    
+    }
 </script>
 
 <?= $this->endSection() ?>

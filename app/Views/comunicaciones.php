@@ -21,9 +21,6 @@
     </table>
 </main>
 
-
-
-
 <script>
     window.onload = function() {
         pantalla();

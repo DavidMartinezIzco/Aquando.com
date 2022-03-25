@@ -81,8 +81,8 @@ function inicioFin() {
         return manana.toJSON().slice(0, 10);
     });
     Date.prototype.setearHasta = (function() {
-        var mesant = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000);
-        return mesant.toJSON().slice(0, 10);
+        var semant = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
+        return semant.toJSON().slice(0, 10);
     });
     $(document).ready(function() {
         $('#fechaInicio').val(new Date().seteardesde());
@@ -196,7 +196,7 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
     var nTags = ajustesTag.length;
     $.ajax({
         type: 'GET',
-        url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?estacion=' + estacion + '&id_tag=' + tag + '&fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&meta=' + metas + '&opcion=tag',
+        url: '/Aquando.com/A_GraficasCustom.php?estacion=' + estacion + '&id_tag=' + tag + '&fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&meta=' + metas + '&opcion=tag',
         success: function(datosTag) {
             prepararTag(datosTag, tag);
             if (ajustesTag.at(-1) == tag) {
@@ -531,7 +531,7 @@ function renderGrafico() {
     $('#zonaControles').bind('widthChange', function() {
         graficoCustom.resize();
     });
-    
+
     option && graficoCustom.setOption(option, true);
 
 }

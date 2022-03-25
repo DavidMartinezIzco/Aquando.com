@@ -85,11 +85,11 @@
     }
 
     //CTRL + Z
-    $(document).keypress(function(e){
-    console.log(e.which);
-    if(e.ctrlKey && e.which == 26){
-        mostrarOpciones();
-    }
+    $(document).keypress(function(e) {
+        console.log(e.which);
+        if (e.ctrlKey && e.which == 26) {
+            mostrarOpciones();
+        }
     });
 </script>
 

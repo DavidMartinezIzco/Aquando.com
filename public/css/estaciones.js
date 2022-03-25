@@ -71,7 +71,7 @@ function filtrarDatos(datos) {
                         if (datos[indexDato]['nombre_tag'].includes("Consigna")) {
                             consignas[indexDato] = datos[indexDato];
                         } else {
-                            if(!datos[indexDato]['nombre_tag'].includes("Acumulado")){
+                            if (!datos[indexDato]['nombre_tag'].includes("Acumulado")) {
                                 datosAnalog[indexDato] = datos[indexDato];
                                 datosAnalog[indexDato]['consignas'] = [];
                             }
@@ -221,7 +221,7 @@ function montarWidgetsAnalogicos() {
         var widgInicio = '<div class="widAna">';
         var widgFin = '';
         var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=font-weight:bold;margin-bottom:-1.5em;color:rgb(39,45,79)>' + datosAnalog[indexDato]['nombre_tag'] + ' (' + datosAnalog[indexDato]['unidad'] + '): ' + datosAnalog[indexDato]['valor'] + '</p> ';
-        
+
         widgInfo += '</div>';
         var consi = '';
         var widgSec = '';
@@ -282,8 +282,7 @@ function montarWidgetsAnalogicos() {
                 }
 
                 //orden? ->nada
-                else if (bombas[bomba][index]['nombre_tag'].includes("Orden")) {
-                }
+                else if (bombas[bomba][index]['nombre_tag'].includes("Orden")) {}
             }
             var bombaInf = "<div id='widBombaInf'>" + widDefecto + widArranques + widTiempo + "</div>";
             var widBomba = "<div id='widBomba'>" + bombaNombre + bombaInf + bombaEstado + "</div>";
@@ -377,7 +376,7 @@ function montarGraficosWidget() {
             optionChart && grafTrend.setOption(optionChart, true);
 
         } else {
-            if (document.getElementById("panelNegro" + nombreDato + "Dia") && todoTrends[tag]['max']!= undefined) {
+            if (document.getElementById("panelNegro" + nombreDato + "Dia") && todoTrends[tag]['max'] != undefined) {
                 document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'Acumulado:' + todoTrends[tag]['max'][0];
             } else {
                 document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'sin trends de señal';
@@ -563,7 +562,7 @@ function montarGraficosWidget() {
         };
 
         widsAnalogLista.push([gauge, grafTrend]);
-        
+
         optionGauge && gauge.setOption(optionGauge, true);
         optionChart && grafTrend.setOption(optionChart, true);
 

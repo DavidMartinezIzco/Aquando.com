@@ -287,7 +287,7 @@ function renderGrafico(datosR) {
             name: nombreDato,
             type: 'line',
             smooth: true,
-            connectNulls:true,
+            connectNulls: true,
             symbol: 'none',
             sampling: 'lttb',
             areaStyle: {
@@ -367,7 +367,7 @@ function renderGrafico(datosR) {
         },
         {
             name: 'Maximo Total ' + nombreDato,
-            connectNulls:true,
+            connectNulls: true,
             type: 'line',
             silent: true,
             symbol: 'none',
@@ -377,7 +377,7 @@ function renderGrafico(datosR) {
         },
         {
             name: 'Minimo Total ' + nombreDato,
-            connectNulls:true,
+            connectNulls: true,
             silent: true,
             type: 'line',
             symbol: 'none',
@@ -387,7 +387,7 @@ function renderGrafico(datosR) {
         },
         {
             name: 'Media Total ' + nombreDato,
-            connectNulls:true,
+            connectNulls: true,
             silent: true,
             type: 'line',
             symbol: 'none',
