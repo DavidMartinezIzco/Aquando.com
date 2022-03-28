@@ -58,10 +58,10 @@ if ($opcion == 'conex') {
                     echo "<td id='secEstado'><i class='fas fa-check'></i></td>";
                 }
                 if ($valor == "error") {
-                    echo "<td id='secProblema' class='' style='color:tomato'><i class='fas fa-exclamation-triangle alerta'></i></td>";
+                    echo "<td id='secProblema' class='' style='color:tomato'><i name='alerta' class='fas fa-exclamation-triangle alerta'></i></td>";
                 }
                 if ($valor == "aviso") {
-                    echo "<td id='secProblema'><i name='alerta' class='fas fa-exclamation-triangle'></i></td>";
+                    echo "<td id='secProblema'><i name='alerta' class='fas fa-exclamation-triangle alerta'></i></td>";
                 }
             }
         }

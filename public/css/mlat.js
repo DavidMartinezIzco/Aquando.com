@@ -140,7 +140,7 @@ function pantalla() {
         var defectoAncho = 1879;
         var zoom = 100;
         var relAncho = ((zoom * ancho) / defectoAncho);
-        document.body.style.zoom = relAncho + '%';
+        // document.body.style.zoom = relAncho + '%';
         if (document.getElementById("conPrincipal") != undefined) {
             var defAltoCon = 848;
             var defAltoVen = 949;
@@ -159,7 +159,7 @@ function pantalla() {
         var defectoAncho = 516;
         var zoom = 100;
         var relAncho = ((zoom * ancho) / defectoAncho);
-        document.body.style.zoom = relAncho + '%';
+        // document.body.style.zoom = relAncho + '%';
         var defAltoVen = 949;
         if (document.getElementById("alarmasSur") != undefined) {
             var relAlto = window.innerHeight / defAltoVen;
