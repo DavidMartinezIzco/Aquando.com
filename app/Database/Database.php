@@ -494,10 +494,13 @@ class Database
     public function historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaInicio, $fechaFin)
     {
         if ($this->conectar()) {
+
             $seriesTagCustom = array();
             $metaCustom = array();
+
             //obtener el metadata del TAG 
             $meta = $this->metaTag($id_tag, $id_estacion);
+
             // filtrar metadata
             foreach ($ajustesMeta as $index => $tipo) {
                 if ($tipo == "maxGen") {
@@ -510,47 +513,95 @@ class Database
                     $metaCustom['avg'] = $meta['avg'];
                 }
             }
+
             $seriesTagCustom['meta'] = $metaCustom;
+
             //traducir fechas(?)
+
             $ini = strtotime($fechaInicio);
             $fin = strtotime($fechaFin);
-            //obtener "Series" del TAG delimitado por las fechas (supongo) (falta el WHERE)
-            $conHistoTagEst = "SELECT tags.nombre_tag, datos_historicos_p.fecha, datos_historicos_p.valor_acu, datos_historicos_p.valor_float 
-            FROM datos_historicos_p INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos_p.id_tag 
-            inner join tags on datos_historicos_p.id_tag = tags.id_tag 
-            WHERE  estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . " AND cast(extract(epoch from datos_historicos_p.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos_p.fecha) as integer) > " . $fin . " 
-            ORDER BY datos_historicos_p.fecha DESC";
+
+            //EXPERIMENTO 5 --> exito (funciona agregando cada hora)
+            // $conHistoTagEst = "SELECT avg(valor_acu) as acu, avg(valor_float) as doble, avg(valor_int) as ent,
+            // date_trunc('hour', fecha) as Fecha
+            // from datos_historicos
+            // WHERE id_tag = " . $id_tag . " AND cast(extract(epoch from fecha) as integer) < " . $ini . " AND cast(extract(epoch from fecha) as integer) > " . $fin . "
+            // group by date_trunc('hour', fecha)
+            // ";
+
+
+            //EXPERIMENTO 7 ---> agrega cada 5 mins pero no sincroniza si empiezan las fechas en horas distintas
+            // $conHistoTagEst = "SELECT date_trunc('hour', fecha) 
+            // + date_part('minute', fecha)::int / 5 * interval '5 min' AS hour_stump, valor_acu,valor_int,valor_float
+            // FROM datos_historicos WHERE id_tag = " . $id_tag . " AND cast(extract(epoch from fecha) as integer) < " . $ini . " AND cast(extract(epoch from fecha) as integer) > " . $fin . "
+            // ORDER BY fecha DESC";
+
+
+            //EXPERIMENTO 57 ---> combina el 7 (agregar cada 5mins) y el 5(sincronizar bien) ---> sale mal si se comunica cada mas de 30 mins
+            //deberiamos rellenar con nulls los intervalos vacios
+            // $conHistoTagEst = "SELECT avg(valor_acu) as acu, avg(valor_float) as doble, avg(valor_int) as ent,
+            // date_trunc('hour', fecha) + date_part('minute', fecha)::int / 5 * interval '5 min' AS hour_stump
+            // FROM datos_historicos
+            // WHERE id_tag = " . $id_tag . " AND cast(extract(epoch from fecha) as integer) < " . $ini . " AND cast(extract(epoch from fecha) as integer) > " . $fin . "
+            // GROUP BY hour_stump
+            // ORDER BY hour_stump DESC
+            // ";
+
+            //EXPERIMENTO 8
+            //GENERA SERIES PARA ALINEAR LAS LINEAS DE TIEMPO A 5mins 
+            $conHistoTagEst = "WITH t as 
+            (
+             SELECT 
+                to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS ts, 
+                AVG(valor_float) AS dob, AVG(valor_acu) AS acu, AVG(valor_int) AS ent
+             FROM datos_historicos
+             WHERE id_tag = " . $id_tag . " AND cast(extract(epoch from fecha) as integer) < " . $ini . " AND cast(extract(epoch from fecha) as integer) > " . $fin . "
+             GROUP BY ts
+            ),
+            contiguous_ts_list as
+            (
+             select ts from generate_series(
+              (select min(ts) from t),
+              (select max(ts) from t), 
+              interval '5 minutes'
+             ) ts
+            )
+            select * 
+            from contiguous_ts_list 
+            left outer join t using (ts)
+            order by ts;";
+
+
+
+            //ORIGINAL PROVISIONAL
+            //obtener "Series" del TAG delimitado por las fechas
+            // $conHistoTagEst = "SELECT datos_historicos.fecha, datos_historicos.calidad, datos_historicos.valor_bool, datos_historicos.valor_int, datos_historicos.valor_acu, datos_historicos.valor_float, datos_historicos.valor_string, datos_historicos.valor_date 
+            // FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag 
+            // WHERE  estacion_tag.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . " AND cast(extract(epoch from datos_historicos.fecha) as integer) < " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+            // ORDER BY datos_historicos.fecha DESC";
+
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
             if ($this->consultaExitosa($resulHistoTagEst)) {
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
                 $datosHisto = array();
-                $ultVal = null;
                 foreach ($datosHistoTagEst as $index => $dato) {
                     foreach ($dato as $factor => $valor) {
-
-                        if ($factor == 'nombre_tag') {
-                            if (str_contains($valor, 'Acumulado')) {
-                                if ($dato['valor_acu'] == null) {
-                                    $datosHisto[$index]['valor'] = $ultVal;
-                                } else {
-                                    $datosHisto[$index]['valor'] = $dato['valor_acu'];
-                                    $ultVal = $dato['valor_acu'];
-                                }
-                            } else {
-                                if ($dato['valor_float'] == null) {
-                                    $datosHisto[$index]['valor'] = $ultVal;
-                                } else {
-                                    $datosHisto[$index]['valor'] = $dato['valor_float'];
-                                    $ultVal = $dato['valor_float'];
-                                }
-                            }
+                        //llenado original
+                        // if ($valor != null && $factor != 'fecha') {
+                        //     $datosHisto[$index]['valor'] = $valor;
+                        // }
+                        // if ($factor == 'fecha') {
+                        //     $datosHisto[$index]['fecha'] = $valor;
+                        // }
+                        //llenado para experimentos
+                        if ($valor != null && $factor != 'ts') {
+                            $datosHisto[$index]['valor'] = number_format($valor, 2);
                         }
-                        if ($factor == 'fecha') {
+                        if ($factor == 'ts') {
                             $datosHisto[$index]['fecha'] = $valor;
                         }
                     }
                 }
-
                 //devolver array unico con las "series" y el "meta" del tag
                 $seriesTagCustom['tag'] = $datosHisto;
             } else {
@@ -559,7 +610,7 @@ class Database
         } else {
             return false;
         }
-
+        //pasar por caja de cambios el $seriesTagCustom['tag']
         return $seriesTagCustom;
     }
 

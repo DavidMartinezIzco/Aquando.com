@@ -3,9 +3,9 @@ $(window).resize(function() {
 });
 
 
-$(document).keypress(function(e){
+$(document).keypress(function(e) {
     console.log(e.which);
-    if(e.ctrlKey && e.which == 0){
+    if (e.ctrlKey && e.which == 0) {
         abrirCerrar();
     }
 });
@@ -22,7 +22,7 @@ function abrirCerrar() {
         abrirMenu();
     }
     $("#menuIzq").trigger('widthChange');
-    
+
 
 }
 
@@ -134,12 +134,12 @@ function carga() {
 
 function pantalla() {
     var altoVen = window.innerHeight;
-    document.getElementById("menuIzq").style.height = altoVen+ "px";
+    document.getElementById("menuIzq").style.height = altoVen + "px";
     var ancho = window.innerWidth;
     if (ancho > 600) {
-        var defectoAncho = 1879;
-        var zoom = 100;
-        var relAncho = ((zoom * ancho) / defectoAncho);
+        // var defectoAncho = 1879;
+        // var zoom = 100;
+        // var relAncho = ((zoom * ancho) / defectoAncho);
         // document.body.style.zoom = relAncho + '%';
         if (document.getElementById("conPrincipal") != undefined) {
             var defAltoCon = 848;
@@ -159,7 +159,7 @@ function pantalla() {
         var defectoAncho = 516;
         var zoom = 100;
         var relAncho = ((zoom * ancho) / defectoAncho);
-        // document.body.style.zoom = relAncho + '%';
+        document.body.style.zoom = relAncho + '%';
         var defAltoVen = 949;
         if (document.getElementById("alarmasSur") != undefined) {
             var relAlto = window.innerHeight / defAltoVen;

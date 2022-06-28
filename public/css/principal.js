@@ -299,7 +299,7 @@ function getEventTarget(e) {
 
 //llama a AJAX para obtener los datos de inicio
 function feedPrincipalCustom() {
-    
+
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
@@ -461,7 +461,6 @@ function crearWidgetsChartsCustom(feed) {
                 }
                 widCon += "</tr></table>"
                 document.getElementById("gau" + feed[wid]['widget']).innerHTML = 'Valor de ' + nombre_dato + '<br> ' + widCon;
-
             }
 
         } else {
@@ -498,7 +497,6 @@ function crearWidgetsChartsCustom(feed) {
 
             //gauge con val actual
             var optGau = {
-
                 legend: {
                     show: true,
                     x: 'center',
@@ -583,7 +581,6 @@ function crearWidgetsChartsCustom(feed) {
             optGau && grafGau.setOption(optGau, true);
         }
 
-
         //chart lineas trend diario/semanal (acumulados)
 
         var titulo = "Dia:";
@@ -656,7 +653,7 @@ function crearWidgetsChartsCustom(feed) {
             series: [{
                 name: nombre_dato,
                 data: datos_dia,
-                connectNulls:true,
+                connectNulls: true,
                 type: 'line',
                 lineStyle: {
                     width: 0
@@ -757,7 +754,7 @@ function crearWidgetsChartsCustom(feed) {
                     name: 'Máximos de ' + nombre_dato,
                     data: max_agreg,
                     type: 'bar',
-                    connectNulls:true,
+                    connectNulls: true,
                     itemStyle: {
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
 
@@ -862,7 +859,7 @@ function crearWidgetsChartsCustom(feed) {
                         name: 'Máximos de ' + nombre_dato,
                         data: max_agreg,
                         type: 'bar',
-                        connectNulls:true,
+                        connectNulls: true,
                         itemStyle: {
                             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
 
@@ -885,7 +882,7 @@ function crearWidgetsChartsCustom(feed) {
                         name: 'Medias de ' + nombre_dato,
                         data: avg_agreg,
                         type: 'bar',
-                        connectNulls:true,
+                        connectNulls: true,
                         itemStyle: {
                             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
 
@@ -909,7 +906,7 @@ function crearWidgetsChartsCustom(feed) {
                         name: 'Mínimos de ' + nombre_dato,
                         data: min_agreg,
                         type: 'bar',
-                        connectNulls:true,
+                        connectNulls: true,
                         itemStyle: {
                             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
 
