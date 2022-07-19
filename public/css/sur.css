@@ -1,0 +1,89 @@
+#alarmasSur {
+    border-top: 2px solid rgb(56, 56, 56);
+    position: fixed;
+    width: 85%;
+    margin: 0px;
+    bottom: 0%;
+    text-align: center;
+    transition: 0.5s;
+    height: 180px;
+    overflow: hidden;
+}
+
+#alarmasSur tr {
+    opacity: 85%;
+    height: calc(100%/7);
+}
+
+#alarmasSur tr:hover {
+    opacity: 100%;
+}
+
+#alarmasSur tr td {
+    font-size: 100%;
+}
+
+#alarmasSur tr:first-of-type {
+    border-bottom: 2px solid rgb(1, 168, 184);
+    opacity: 100%;
+}
+
+#alarmasSur tr:first-of-type th {
+    background-color: rgb(85, 85, 85);
+    /* color: rgb(1, 168, 184); */
+    color: whitesmoke;
+    padding: 0.1%;
+}
+
+.activaNo td {
+    color: white;
+    animation-duration: 1000ms;
+    /* transition: 0.1s; */
+    animation-name: alerta;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#alarmasSur tr td i {
+    opacity: 10%;
+}
+
+#alarmasSur tr td i:hover {
+    opacity: 100%;
+}
+
+.activaSi {
+    color: white;
+    background-color: darkred;
+}
+
+.restNo {
+    color: black;
+    background-color: darkseagreen;
+}
+
+.restSi {
+    color: white;
+    background-color: darkolivegreen;
+}
+
+@keyframes alerta {
+    from {
+        background-color: tomato;
+    }
+    to {
+        background-color: rgb(241, 68, 37);
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #alarmasSur {
+        font-size: 60%;
+        height: 330px;
+        bottom: 0%;
+        z-index: 1001;
+    }
+    #alarmasSur tr {
+        opacity: 100%;
+    }
+}

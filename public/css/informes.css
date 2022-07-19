@@ -1,0 +1,210 @@
+/*INFORMES NORTE*/
+
+#btnMenuInformes {
+    position: absolute;
+    z-index: 9999;
+    top: 19.5%;
+    left: 95%;
+    padding: 0.2% 1%;
+    color: grey;
+    background-color: rgba(56, 56, 56);
+    border: none;
+    opacity: 33%;
+    transition: 0.2s;
+}
+
+#btnMenuInformes:hover {
+    background-color: rgb(1, 168, 184);
+    color: white;
+    opacity: 100%;
+}
+
+#informesNorte {
+    margin-top: -1%;
+    width: 100%;
+    height: 15%;
+    background-color: grey;
+    transition: 0.2s;
+    border-bottom: none;
+    overflow: hidden;
+    border-bottom: 2px solid rgb(1, 168, 184);
+}
+
+#tipoInforme {
+    padding: 0.5% 1%;
+    font-size: 100%;
+    text-align: left;
+    position: relative;
+    width: 20%;
+    height: 100%;
+    left: 5%;
+}
+
+#tipoInforme form {
+    padding: 1% 3%;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+#opcionesInforme {
+    text-align: left;
+    font-size: small;
+    padding: 1%;
+    position: relative;
+    width: 30%;
+    left: 25%;
+    height: 100%;
+    bottom: 100%;
+}
+
+#opcionesEstacion::-webkit-scrollbar {
+    margin-top: 5%;
+    background-color: rgb(56, 56, 56);
+}
+
+#opcionesEstacion::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+    height: 1em;
+}
+
+#btnBus {
+    border: 1px solid black;
+    background-color: lightgrey;
+}
+
+#btnBus:hover {
+    background-color: rgb(1, 168, 184);
+    border: 1px solid white;
+    color: white;
+}
+
+#opcionesInforme form input {
+    margin-top: 1.5%;
+    margin-left: 3%;
+}
+
+#camposInforme {
+    position: relative;
+    text-align: left;
+    width: 20%;
+    left: 55%;
+    height: 100%;
+    bottom: 200%;
+    padding: 1%;
+}
+
+#camposInforme form {
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 1.5%;
+}
+
+#camposInforme form input {
+    margin: 0% 5%;
+}
+
+#controlesInforme {
+    position: relative;
+    text-align: left;
+    width: 20%;
+    left: 73%;
+    height: 100%;
+    bottom: 300%;
+    padding: 0.2% 1%;
+}
+
+#btnInforme {
+    background-color: rgb(1, 168, 184);
+    color: white;
+    border: none;
+    height: 100%;
+    width: 70%;
+    margin: 1% 15%;
+    font-size: 90%;
+}
+
+#btnInforme:hover {
+    border: 1px solid white;
+}
+
+
+/**INFORMES SUR*/
+
+#informesSur {
+    width: 100%;
+    padding: 3% 10%;
+    padding-bottom: 5%;
+    background-color: rgba(56, 56, 56);
+    height: 105%;
+    overflow-y: scroll;
+    color: black;
+}
+
+#informesSur::-webkit-scrollbar {
+    margin-top: 5%;
+}
+
+#informesSur::-webkit-scrollbar-thumb {
+    background-color: rgb(1, 168, 184);
+}
+
+#espacioInforme {
+    background-color: white;
+    color: black;
+    width: 100%;
+    padding: 5%;
+    padding-bottom: 10%;
+    margin-bottom: 5%;
+    min-height: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    #conPrincipal {
+        margin-top: 6.9%;
+        overflow-y: unset;
+    }
+    #informesNorte {
+        margin-top: 0%;
+    }
+    #tipoInforme {
+        left: 2%;
+        width: 24%;
+        font-size: 90%;
+    }
+    #camposInforme {
+        width: 40%;
+        z-index: 99;
+        bottom: 150%;
+        height: 40%;
+    }
+    #camposInforme form input {
+        margin: 0;
+        width: 60%;
+    }
+    #opcionesInforme {
+        z-index: 99;
+        height: 50%;
+    }
+    #controles {
+        margin-top: 25%;
+    }
+    #controlesInforme {
+        width: 70%;
+        left: 25%;
+        bottom: 200%;
+    }
+    #btnInforme {
+        width: 20%;
+        display: inline-block;
+        margin: 1%;
+        z-index: 99;
+    }
+    #informesSur {
+        padding: 3% 5%;
+        padding-bottom: 5%;
+        height: 80%;
+    }
+    #espacioInforme {
+        margin-bottom: 330px;
+    }
+}

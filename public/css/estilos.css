@@ -1,0 +1,39 @@
+#logoGrande {
+    /* position: absolute;
+  top: 20%;
+  left: 39%;
+  transition: 0.5s; */
+    text-align: center;
+    width: 40%;
+    margin: 0%30%;
+}
+
+#formulario div input :active {
+    opacity: 100%;
+}
+
+#btnForm {
+    background-color: rgb(39, 45, 79);
+    width: 100%;
+    padding: 1% 1%;
+    color: white;
+    border-radius: 10px;
+    font-size: 115%;
+    font-weight: bold;
+    transition: 0.2s;
+    border: none;
+}
+
+#btnForm:hover {
+    background-color: rgb(1, 168, 184);
+}
+
+#formulario button:hover {
+    opacity: 100%;
+}
+
+#formulario {
+    width: 50%;
+    margin: 0 25%;
+    margin-top: 5%;
+}
