@@ -1,6 +1,7 @@
 var datosM = new Array();
 var datosR = new Array();
 
+
 //reestablece los filtros por defecto
 function limpiar() {
     document.getElementsByName( 'btnControlReset' )[ 0 ].innerText = 'limpio!';
@@ -22,6 +23,7 @@ function limpiar() {
 
 //obtiene los metadatos (max, min, avg) de los historicos (tag)
 function metaDatosTag( id_tag, id_estacion ) {
+
     $.ajax( {
         type: 'GET',
         url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?opcion=meta&tag=' + id_tag + '&estacion=' + id_estacion,

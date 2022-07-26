@@ -219,9 +219,9 @@
 
 	<div class="heroe">
 
-		<h1>JELOU JAU AR YU <?= CodeIgniter\CodeIgniter::CI_VERSION ?></h1>
+		<h1>Aquando <?= CodeIgniter\CodeIgniter::CI_VERSION ?></h1>
 
-		<h2>The small framework with powerful features</h2>
+		<h2>Aquando: powered by Dateando</h2>
 
 	</div>
 

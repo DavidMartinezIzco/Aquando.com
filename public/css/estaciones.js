@@ -40,6 +40,7 @@ function trendsTags() {
             contentType: 'application/json;charset=utf-8',
             url: 'http://dateando.ddns.net:3000/Aquando.com/A_Estacion.php?opcion=trends&estacion=' + id_estacion + '&tipo=todos',
             success: function(trends) {
+                console.log(trends);
                 montarWidgetsAnalogicos();
                 todoTrends = trends;
                 montarWidgetsDigi();
@@ -55,8 +56,8 @@ function trendsTags() {
 
 //divide los ultimos datos de la estacion según el tipo de señal  
 function filtrarDatos(datos) {
+    
     var tagsBombas = Array();
-
     for (var indexDato in datos) {
 
         if (!datos[indexDato]['nombre_tag'].includes("Comunicacion")) {
@@ -500,7 +501,8 @@ function montarGraficosWidget() {
             valores.push(todoTrends[tag]['max']);
             fechas.push(todoTrends[tag]['fecha']);
         }
-
+       
+        
         optionChart = {
             grid: {
                 left: '2%',
@@ -562,10 +564,9 @@ function montarGraficosWidget() {
         };
 
         widsAnalogLista.push([gauge, grafTrend]);
-
         optionGauge && gauge.setOption(optionGauge, true);
         optionChart && grafTrend.setOption(optionChart, true);
-
+        
         document.getElementsByClassName("btnOpci")[0].style.display = 'block';
     }
     $('#menuIzq').bind('widthChange', function() {

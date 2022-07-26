@@ -69,6 +69,7 @@
         }, 1500);
     }
     window.onload = function() {
+        actualizar(estacion);
         setInterval(updateEstacion(), 60000 * 5);
         pantalla();
         fotoEstacion(estacion);

@@ -7,10 +7,10 @@ class Database
     // ¿habra que cambiar esto algun dia?
     // puede que si, puede que no
 
-    private $host = "127.0.0.1";
+    private $host = "172.16.5.1";
     private $dbname = "aquando_ddbb";
     private $user = "postgres";
-    private $password = "";
+    private $password = "123456";
     private $conexion;
 
     public function __construct()
@@ -449,7 +449,7 @@ class Database
                 to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS ts, 
                 AVG(valor_float) AS dob, AVG(valor_acu) AS acu, AVG(valor_int) AS ent
              FROM datos_historicos
-             WHERE id_tag = " . $id_tag . " AND fecha::date > current_date::date - interval '135 days'  AND fecha::date < current_date::date
+             WHERE id_tag = " . $id_tag . " AND fecha::date > current_date::date - interval '7 days'  AND fecha::date < current_date::date
              GROUP BY ts
             ),
             contiguous_ts_list as
