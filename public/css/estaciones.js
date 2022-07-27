@@ -56,17 +56,14 @@ function trendsTags() {
 
 //divide los ultimos datos de la estacion según el tipo de señal  
 function filtrarDatos(datos) {
-    
     var tagsBombas = Array();
     for (var indexDato in datos) {
-
         if (!datos[indexDato]['nombre_tag'].includes("Comunicacion")) {
             if (!datos[indexDato]['nombre_tag'].includes("Bomba")) {
-
                 if (datos[indexDato]['valor'] == 't' || datos[indexDato]['valor'] == 'f') {
                     datosDigi[indexDato] = datos[indexDato];
                 } else {
-                    if (datos[indexDato]['nombre_tag'].includes("Acumulado") && datos[indexDato]['nombre_tag'].includes("Dia") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
+                    if (datos[indexDato]['nombre_tag'].includes("Acumulado") && !datos[indexDato]['nombre_tag'].includes("Consigna")) {
                         tagsAcumulados[indexDato] = datos[indexDato];
                     } else {
                         if (datos[indexDato]['nombre_tag'].includes("Consigna")) {
@@ -84,7 +81,6 @@ function filtrarDatos(datos) {
             }
         }
     }
-
     for (var index in datosAnalog) {
         for (var con in consignas) {
             if (consignas[con]['nombre_tag'].includes(datosAnalog[index]['nombre_tag'])) {
@@ -92,12 +88,10 @@ function filtrarDatos(datos) {
             }
         }
     }
-
     todoDato['tags_digitales'] = datosDigi;
     todoDato['tags_analogicos'] = datosAnalog;
     todoDato['tags_acu'] = tagsAcumulados;
     todoDato['consignas'] = consignas;
-
     var nBombas = 0;
     for (var bTag in tagsBombas) {
         if (!tagsBombas[bTag]['nombre_tag'].includes("Bombas")) {
@@ -114,13 +108,11 @@ function filtrarDatos(datos) {
         }
     }
     todoDato['bombas'] = bombas;
-
     trendsTags();
 }
 
 //montar widgets de tags digitales
 function montarWidgetsDigi() {
-
     var seccionDigital = document.getElementById('seccionInf');
     var widg = "";
     var msg;
@@ -145,7 +137,6 @@ function montarWidgetsDigi() {
                 msg = "CERRADA";
             }
         }
-
         //varistores
         if (datosDigi[indexDato]['nombre_tag'].includes("Varistores")) {
             if (datosDigi[indexDato]['valor'] == 'f') {
@@ -156,7 +147,6 @@ function montarWidgetsDigi() {
                 msg = "PROBLEMA";
             }
         }
-
         //red 220
         if (datosDigi[indexDato]['nombre_tag'].includes("Red 220")) {
             if (datosDigi[indexDato]['valor'] == 'f') {
@@ -167,7 +157,6 @@ function montarWidgetsDigi() {
                 msg = "PROBLEMA";
             }
         }
-
         //bateria 
         if (datosDigi[indexDato]['nombre_tag'].includes("Bateria")) {
             if (datosDigi[indexDato]['valor'] == 'f') {
@@ -178,7 +167,6 @@ function montarWidgetsDigi() {
                 msg = "PROBLEMA";
             }
         }
-
         //ELECTROVALVULAS
         if (datosDigi[indexDato]['nombre_tag'].includes("Electrovalvula")) {
             if (datosDigi[indexDato]['valor'] == 't') {
@@ -189,12 +177,9 @@ function montarWidgetsDigi() {
                 msg = "CERRADA";
             }
         }
-
         widg = '<div class="widDigi"><div id="digiWidTitulo">' + datosDigi[indexDato]['nombre_tag'] + '</div><div id="digiWidMensaje">' + iconoAlarma + '</div><span class="tooltiptext">' + msg + '</span></div>';
-
         seccionDigital.innerHTML += widg;
     }
-
 }
 
 //montar widgets analógicos
@@ -203,9 +188,8 @@ function montarWidgetsAnalogicos() {
     var seccionAcu = document.getElementById('estacionCentro');
     seccionAnalog.innerHTML = '';
     seccionAcu.innerHTML = '';
-
     for (var indexDato in tagsAcumulados) {
-        if (tagsAcumulados[indexDato]['nombre_tag'].includes("Dia")) {
+        if (tagsAcumulados[indexDato]['nombre_tag'].includes('Dia')) {
             var widgInicio = '<div class="widAna">';
             var widgFin = '';
             var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=color:rgb(39,45,79);font-weight:bold>' + tagsAcumulados[indexDato]['nombre_tag'] + ' (' + tagsAcumulados[indexDato]['unidad'] + '): ' + tagsAcumulados[indexDato]['valor'] + '</p> ' + '</div>';
@@ -222,13 +206,10 @@ function montarWidgetsAnalogicos() {
         var widgInicio = '<div class="widAna">';
         var widgFin = '';
         var widgInfo = '<div class="widAnaInfo"><div class="widAnaInfoPrin"><p style=font-weight:bold;margin-bottom:-1.5em;color:rgb(39,45,79)>' + datosAnalog[indexDato]['nombre_tag'] + ' (' + datosAnalog[indexDato]['unidad'] + '): ' + datosAnalog[indexDato]['valor'] + '</p> ';
-
         widgInfo += '</div>';
         var consi = '';
         var widgSec = '';
-
         consi += '<div id="gau' + datosAnalog[indexDato]['nombre_tag'].replace(/\s+/g, '') + '" class="widAnaInfoSec"></div>';
-
         consi += '</div>';
         var widgGraf = '<div class="widAnaGraf" id="chart' + datosAnalog[indexDato]['nombre_tag'].replace(/\s+/g, '') + '"></div>';
         var widget = widgInicio + widgInfo + widgSec + consi + widgGraf + widgFin;
@@ -241,7 +222,6 @@ function montarWidgetsAnalogicos() {
         var widDefecto = "";
         var bombaNombre = "<div id='widBombaNombre'>";
         var bombaEstado = "<div id='widBombaEstado'>";
-
         if (bombas[bomba].length > 0) {
             //nombre
             bombaNombre += bomba + '</div>';
@@ -253,7 +233,6 @@ function montarWidgetsAnalogicos() {
                 bombaEstado += '<i style="color:darkorange;" class="fas fa-pause"></i></div>';
             }
             for (var index in bombas[bomba]) {
-
                 //tiempos
                 if (bombas[bomba][index]['nombre_tag'].includes("Tiempo")) {
                     var num = bombas[bomba][index]['valor'];
@@ -263,7 +242,6 @@ function montarWidgetsAnalogicos() {
                     var rhoras = Math.floor(horas);
                     var minutos = (horas - rhoras) * 60;
                     var rminutos = Math.floor(minutos);
-
                     // var tiempo = rdias + " Dias, " + rhoras + " horas y " + rminutos + " minutos.";
                     // widTiempo = "<b>Tiempo en marcha: </b>" + tiempo + "<br>";
                     var contador = "<table id='contadorBomba'><tr><th colspan=3>Tiempo total en marcha</th></tr><tr><td class='bombaDias'>" + rdias + " Dias</td><td class='bombaHoras'>" + rhoras + " Horas</td><td class='bombasMins'>" + rminutos + " Minutos</td></tr></table>";
@@ -281,7 +259,6 @@ function montarWidgetsAnalogicos() {
                         widDefecto = "<div id='bombaDefecto'><i style='color:yellowgreen' class='fas fa-shield-alt'></i></div>";
                     }
                 }
-
                 //orden? ->nada
                 else if (bombas[bomba][index]['nombre_tag'].includes("Orden")) {}
             }
@@ -297,7 +274,6 @@ function montarWidgetsAnalogicos() {
 //render de los graficos
 //hay que hacer el captador con resize
 //wid de deposito?
-
 function montarGraficosWidget() {
     var widsAnalogLista = [];
     for (var tag in tagsAcumulados) {
@@ -312,7 +288,7 @@ function montarGraficosWidget() {
                 fechas.push(todoTrends[tag]['fecha']);
             }
             if (valores.length > 0) {
-                document.getElementById("panelRojo" + nombreDato).innerHTML = 'hoy:' + valores[0][0];
+                document.getElementById("panelRojo" + nombreDato).innerHTML = 'hoy: ' + valores[0][0];
             } else {
                 document.getElementById("panelRojo" + nombreDato).innerHTML = 'sin trends';
             }
@@ -330,7 +306,6 @@ function montarGraficosWidget() {
                         fontStyle: 'bold',
                         fontSize: 10
                     },
-
                     axisPointer: {
                         axis: 'x',
                         snap: true,
@@ -375,21 +350,16 @@ function montarGraficosWidget() {
             };
             widsAnalogLista.push([grafTrend]);
             optionChart && grafTrend.setOption(optionChart, true);
-
         } else {
-            if (document.getElementById("panelNegro" + nombreDato + "Dia") && todoTrends[tag]['max'] != undefined) {
-                document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'Acumulado:' + todoTrends[tag]['max'][0];
+            if (document.getElementById("panelNegro" + nombreDato.replace(/\s+/g , '')+'Dia')) {
+                document.getElementById("panelNegro" + nombreDato.replace(/\s+/g, '')+'Dia').innerHTML = 'Total: ' + todoDato['tags_acu'][tag]['valor'];
             } else {
-                document.getElementById("panelNegro" + nombreDato + "Dia").innerHTML = 'sin trends de señal';
+                document.getElementById("panelNegro" + nombreDato.replace(/\s+/g, '')+'Dia').innerHTML = 'sin datos de la señal';
             }
-
         }
-
     }
 
-
     for (var tag in datosAnalog) {
-
         var optionGauge;
         var r_max = 10;
         var r_min = 0;
@@ -399,9 +369,7 @@ function montarGraficosWidget() {
         if (datosAnalog[tag]['r_min'] != undefined) {
             r_min = parseFloat(datosAnalog[tag]['r_min']);
         }
-
         var nombreDato = datosAnalog[tag]['nombre_tag'].replace(/\s+/g, '');
-
         //gauge para niveles, cloro, caudal
         var chartDom = document.getElementById('gau' + nombreDato);
         var chartDom2 = document.getElementById('chart' + nombreDato);
@@ -411,7 +379,6 @@ function montarGraficosWidget() {
         var maximo = 10;
         var minimo = 0;
         var titu = "";
-
         if (datosAnalog[tag]['consignas'].length >= 1) {
             maximo = datosAnalog[tag]['consignas'][0]['valor'];
             maximo = maximo / r_max;
@@ -426,7 +393,6 @@ function montarGraficosWidget() {
             }
             titu += "Min: " + parseFloat(minimo).toFixed(2);
         }
-
         optionGauge = {
             title: {
                 left: 'left',
@@ -462,7 +428,6 @@ function montarGraficosWidget() {
                             [1, 'tomato']
                         ]
                     }
-
                 },
                 axisTick: {
                     show: true,
@@ -502,7 +467,6 @@ function montarGraficosWidget() {
             fechas.push(todoTrends[tag]['fecha']);
         }
        
-        
         optionChart = {
             grid: {
                 left: '2%',
@@ -566,7 +530,6 @@ function montarGraficosWidget() {
         widsAnalogLista.push([gauge, grafTrend]);
         optionGauge && gauge.setOption(optionGauge, true);
         optionChart && grafTrend.setOption(optionChart, true);
-        
         document.getElementsByClassName("btnOpci")[0].style.display = 'block';
     }
     $('#menuIzq').bind('widthChange', function() {
