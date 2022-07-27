@@ -1,45 +1,37 @@
--          Aspecto General
-                - Menu OK. Subir la fuente del menu
-                - Colores ok
-                - Ayuda. Me gusta, darle remate
-                - Botón de configuración. Genial
-- Pantalla Inicio
-                - Mapas. Genial
-                - Widgets digitales. Ok
-                - Distribución OK
-                - Cambiaría
-                               - Fondos grises
-                               - Textos de widgets mas grandes
-                               - Widgets no reflejan consignas pero lo dejamos así, quizás mas adelante
-                               - Con señales de Nivel de depósito
-                                               - Intentar poner widgets de nivel en vez de Gaige
-                                               - Revisar eje x
-                                               - En las barras histograma poner lambien las medias
-                               - Con señales de Caudal
-                                               - En las barras histograma de caudal, poner mínimos nocturnos y quita máximos
-                               - Con señales de Acumulados
-                                               - Quitar de la lista acumulados generales. Solo los acumulados diarios
--  Poner grafica de una semana
-                                               - Histograma. quitar mínimo y 15 días
-                                               -  widget poner un contador en vez de gauge
-                                               
-- Barra de alarmas. Tiene que tener textos mas grandes
-- Estación
-                - Ajuste. Lo vamos a dejar deshabilitado para que no tenga. En una segunda fase mejoraremos
-                - Aumentar un poco textos
-                - Quitar grises
+CAMBIOS PARA MOBILE
 
-- Graficas. Está mal, hay que graficar de izq a derecha (mas nuevo a la derecha)
-                - Controles desde hasta en este orden
-                - Al cargar que cargue lo que pone en fechas pero en selector horizontal a la derecha últimos 15 días como mucho
+INICIO/PRINCIPAL
+    - Reducción de espacios en blanco
+    - Menu de ajustes mas corto y mas ancho
+    -
 
-- Informes
-                - Ver si podemos exportar a csv
-- Alarmas
-                - Rematar aspecto
-                - Ver si se puede exporat a csv
-                - arriba las mas nuevas
- 
+ESTACIONES: 
+    - cabecera reducida
+    - grid de cabecera ajustado
+    - widgets digitales mas pequeños (contenedor) y con iconos mas grandes
+    - rediseño de las secciones de analogicos y acumulados (quitar trends?)
+    -
 
-- Comunicaciones
-                Ocultar controles de la derecha y maximizar el cuadro de la izquierda con textos mas granes y colores adecuados
+GRAFICAS:
+    - ambos modos deshabilitados
+
+ALARMAS:
+    - Modificar/Quitar/Simplificar controles
+    - Espacio inferior (alargar lista)
+    -
+
+INFORMES:
+    - Arreglar/Simplificar controles
+    - Espacio inferior
+    - 
+
+COMUNICACIONES:
+    - Alargar lista
+
+OTROS:
+    - Tips de ayuda mas grandes
+    - Eliminar/rediseñar barra superior
+    - Arreglar colision en log-inferior
+    - Formulario mas ancho en el log-in
+    - corregir desplazamiento de texto "desconectado"
+    

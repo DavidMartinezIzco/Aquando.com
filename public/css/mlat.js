@@ -189,27 +189,25 @@ function pantalla() {
             }
         }
     } else {
-        var defectoAncho = 1879;
-        var zoom = 100;
-        var relAncho = ( ( zoom * ancho ) / defectoAncho );
-        document.body.style.zoom = relAncho + '%';
-
+        
         document.getElementsByClassName( "btnHerrGraf" )[ 0 ].disabled = true;
-        var defectoAncho = 516;
+        var defectoAncho = 500;
         var zoom = 100;
         var relAncho = ( ( zoom * ancho ) / defectoAncho );
         document.body.style.zoom = relAncho + '%';
         var defAltoVen = 949;
+        document.getElementById('menuIzq').style.height = 2* window.innerHeight + 'px';
         if ( document.getElementById( "alarmasSur" ) != undefined ) {
+            
             var relAlto = window.innerHeight / defAltoVen;
             var alAl = ( 150 * relAlto ) + 'px';
             document.getElementById( "alarmasSur" )
                 .style.height = alAl;
-            document.getElementById( 'conPrincipal' )
-                .style.marginBottom = 10 + alAl + 'px';
+                // document.getElementById( 'conPrincipal' )
+                // .style.marginBottom = alAl;
         } else {
             document.getElementById( 'conPrincipal' )
-                .style.height = window.innerHeight - 60 + 'px';
+                .style.height = window.innerHeight + 'px';
         }
 
 

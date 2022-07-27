@@ -549,7 +549,7 @@
         position: unset;
         width: 90%;
         margin: 8% 5% 2.5% 5%;
-        height: 40%;
+        height: 30%;
         font-size: 80%;
     }
     #seccionSup {
@@ -557,7 +557,7 @@
         margin-bottom: 2%;
     }
     #seccionInf {
-        height: 60%;
+        height: 50%;
         border-radius: 0px;
         margin-top: 0px;
         padding: 0px;
@@ -590,7 +590,7 @@
         bottom: unset;
         width: 90%;
         margin: 0% 5%;
-        height: 30%;
+        height: 25%;
         border-radius: 0px;
     }
     #estacionCentro::-webkit-scrollbar {
@@ -645,7 +645,7 @@
         bottom: unset;
         width: 90%;
         margin: 0.5% 5% 330px 5%;
-        height: 30%;
+        height: 25%;
         border-radius: 0px;
     }
     #estacionDer::-webkit-scrollbar {
