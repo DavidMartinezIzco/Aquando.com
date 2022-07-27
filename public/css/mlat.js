@@ -189,30 +189,29 @@ function pantalla() {
             }
         }
     } else {
-        if ( ancho > 400 ) {
-            var defectoAncho = 1879;
-            var zoom = 100;
-            var relAncho = ( ( zoom * ancho ) / defectoAncho );
-            document.body.style.zoom = relAncho + '%';
+        var defectoAncho = 1879;
+        var zoom = 100;
+        var relAncho = ( ( zoom * ancho ) / defectoAncho );
+        document.body.style.zoom = relAncho + '%';
+
+        document.getElementsByClassName( "btnHerrGraf" )[ 0 ].disabled = true;
+        var defectoAncho = 516;
+        var zoom = 100;
+        var relAncho = ( ( zoom * ancho ) / defectoAncho );
+        document.body.style.zoom = relAncho + '%';
+        var defAltoVen = 949;
+        if ( document.getElementById( "alarmasSur" ) != undefined ) {
+            var relAlto = window.innerHeight / defAltoVen;
+            var alAl = ( 150 * relAlto ) + 'px';
+            document.getElementById( "alarmasSur" )
+                .style.height = alAl;
+            document.getElementById( 'conPrincipal' )
+                .style.marginBottom = 10 + alAl + 'px';
         } else {
-            document.getElementsByClassName( "btnHerrGraf" )[ 0 ].disabled = true;
-            var defectoAncho = 516;
-            var zoom = 100;
-            var relAncho = ( ( zoom * ancho ) / defectoAncho );
-            document.body.style.zoom = relAncho + '%';
-            var defAltoVen = 949;
-            if ( document.getElementById( "alarmasSur" ) != undefined ) {
-                var relAlto = window.innerHeight / defAltoVen;
-                var alAl = ( 150 * relAlto ) + 'px';
-                document.getElementById( "alarmasSur" )
-                    .style.height = alAl;
-                document.getElementById( 'conPrincipal' )
-                    .style.marginBottom = 10 + alAl + 'px';
-            } else {
-                document.getElementById( 'conPrincipal' )
-                    .style.height = window.innerHeight - 60 + 'px';
-            }
+            document.getElementById( 'conPrincipal' )
+                .style.height = window.innerHeight - 60 + 'px';
         }
+
 
     }
 }
