@@ -74,7 +74,8 @@ function tagsEstacion( id_estacion ) {
         .ready( function () {
             $.ajax( {
                 type: 'GET',
-                url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
+                // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
+                url: '/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
                 success: function ( tags ) {
                     document.getElementById( "opcionesTag" )
                         .innerHTML = "";
