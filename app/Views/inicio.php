@@ -368,7 +368,7 @@ if (isset($_GET['log'])) {
         </button>
     </div>
     <!--render de las distintas vistas--->
-    <div id="contenido" style="padding-top: 3.8%; padding-left:15%; color:lightgrey;" onclick="cerrarMenuEsp();">
+    <div id="contenido" style="padding-top: 3.8%; padding-left:0%; color:lightgrey;" onclick="cerrarMenuEsp();">
         <?php $this->renderSection('content'); ?>
         <?php
         if (!isset($_SESSION['nombre']) && $_SESSION['mensajeDesc'] == true) {

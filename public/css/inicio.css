@@ -178,7 +178,7 @@ i {
     position: fixed;
     margin-top: 4.5em;
     padding: 0;
-    z-index: 1000;
+    z-index: 1002;
 }
 
 #menuIzq::-webkit-scrollbar {
@@ -288,9 +288,9 @@ i {
 
 #contenido {
     transition: 0.5s;
-    padding-left: 5em;
+    /* padding-left: 5em; */
     padding-top: 10%;
-    padding-left: calc(15% + 3em);
+    /* padding-left: calc(15% + 3em); */
 }
 
 #contenidoMenuIzq1 {
