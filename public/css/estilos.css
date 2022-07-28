@@ -37,3 +37,19 @@
     margin: 0 25%;
     margin-top: 5%;
 }
+
+@media only screen and (max-width: 600px) {
+    
+    #logoGrande{
+        text-align: center;
+        width: 90%;
+        margin: 25%5%;
+    }
+    
+    #formulario {
+        width: 90%;
+        margin: 0 5%;
+        margin-top: 5%;
+    }
+    
+}

@@ -213,21 +213,38 @@
 }
 
 @media only screen and (max-width: 600px) {
+
     #prinIzq {
         width: 90%;
         margin: 10% 5%;
         float: unset;
-        height: 70%;
+        height: 60%;
         max-height: unset;
         margin-bottom: 0%;
+        font-size: smaller;
     }
+
+    #prinIzqSup{
+        height: 50%;
+    }
+    #prinIzqInf{
+        height: 50%;
+    }
+
+    #widSup{
+        height: 45%;
+    }
+    #widInf{
+        height: 45%;
+    }
+
     #prinDer {
         width: 96%;
         margin: 4% 2%;
         float: unset;
         height: 100%;
         max-height: unset;
-        margin-bottom: 330px;
+        margin-bottom: 100px;
     }
     .anaIzq {
         width: 100%;
@@ -241,12 +258,7 @@
         float: unset;
         height: 49%;
     }
-    #widSup {
-        height: 47%;
-    }
-    #widInf {
-        height: 47%;
-    }
+    
     .carr {
         width: 32%;
         margin: 0;
