@@ -64,8 +64,8 @@ function abrirMenu() {
     if ( document.getElementById( "menuIzq" ) ) {
         document.getElementById( "menuIzq" )
             .style.width = aperturaMenu;
-        document.getElementById( "contenido" )
-            .style.paddingLeft = '15%';
+        // document.getElementById( "contenido" )
+        //     .style.paddingLeft = '15%';
         document.getElementById( "btnMenuIzq" )
             .style.left = '15%';
         document.getElementById( "btnMenuIzq" )
@@ -73,33 +73,33 @@ function abrirMenu() {
         document.getElementById( "menuIzq" )
             .value = 'abierto';
     }
-    if ( document.getElementById( "conInfo" ) ) {
-        document.getElementById( "conInfo" )
-            .style.left = '16%';
-        document.getElementById( "conCarrusel" )
-            .style.right = '2%';
-    }
-    if ( document.getElementById( "logoGrande" ) ) {
-        document.getElementById( "logoGrande" )
-            .style.left = '39%';
-        document.getElementById( "logoGrande" )
-            .style.top = '15%';
-    }
-    if ( document.getElementById( "alarmasSur" ) ) {
-        document.getElementById( "alarmasSur" )
-            .style.marginLeft = '0%';
-        document.getElementById( "alarmasSur" )
-            .style.width = '85%';
-    }
+    // if ( document.getElementById( "conInfo" ) ) {
+    //     document.getElementById( "conInfo" )
+    //         .style.left = '16%';
+    //     document.getElementById( "conCarrusel" )
+    //         .style.right = '2%';
+    // }
+    // if ( document.getElementById( "logoGrande" ) ) {
+    //     document.getElementById( "logoGrande" )
+    //         .style.left = '39%';
+    //     document.getElementById( "logoGrande" )
+    //         .style.top = '15%';
+    // }
+    // if ( document.getElementById( "alarmasSur" ) ) {
+    //     document.getElementById( "alarmasSur" )
+    //         .style.marginLeft = '0%';
+    //     document.getElementById( "alarmasSur" )
+    //         .style.width = '85%';
+    // }
     // if (document.getElementById("displayComs")) {
     //     document.getElementById("displayComs").style.left = '20%';
     //     document.getElementById("displayComs").style.width = '50%';
 
     // }
-    if ( document.getElementById( "btnOpcionesgraficas" ) ) {
-        document.getElementById( "btnOpcionesgraficas" )
-            .style.left = '81%';
-    }
+    // if ( document.getElementById( "btnOpcionesgraficas" ) ) {
+    //     document.getElementById( "btnOpcionesgraficas" )
+    //         .style.left = '81%';
+    // }
 
 }
 
@@ -110,8 +110,8 @@ function cerrarMenu() {
     if ( document.getElementById( "menuIzq" ) ) {
         document.getElementById( "menuIzq" )
             .style.width = "0%";
-        document.getElementById( "contenido" )
-            .style.paddingLeft = '0%';
+        // document.getElementById( "contenido" )
+        //     .style.paddingLeft = '0%';
         document.getElementById( "btnMenuIzq" )
             .style.visibility = 'visible';
         document.getElementById( "btnMenuIzq" )
@@ -119,23 +119,23 @@ function cerrarMenu() {
         document.getElementById( "menuIzq" )
             .value = 'cerrado';
     }
-    if ( document.getElementById( "conInfo" ) ) {
-        document.getElementById( "conInfo" )
-            .style.left = '8%';
-        document.getElementById( "conCarrusel" )
-            .style.right = '10%';
-    }
-    if ( document.getElementById( "logoGrande" ) ) {
-        document.getElementById( "logoGrande" )
-            .style.left = '32%';
-        document.getElementById( "logoGrande" )
-            .style.top = '30%';
-    }
-    if ( document.getElementById( "alarmasSur" ) ) {
-        document.getElementById( "alarmasSur" )
-            .style.width = '100%';
+    // if ( document.getElementById( "conInfo" ) ) {
+    //     document.getElementById( "conInfo" )
+    //         .style.left = '8%';
+    //     document.getElementById( "conCarrusel" )
+    //         .style.right = '10%';
+    // }
+    // if ( document.getElementById( "logoGrande" ) ) {
+    //     document.getElementById( "logoGrande" )
+    //         .style.left = '32%';
+    //     document.getElementById( "logoGrande" )
+    //         .style.top = '30%';
+    // }
+    // if ( document.getElementById( "alarmasSur" ) ) {
+    //     document.getElementById( "alarmasSur" )
+    //         .style.width = '100%';
 
-    }
+    // }
     // if (document.getElementById("displayComs")) {
     //     document.getElementById("displayComs").style.left = '5%';
     //     document.getElementById("displayComs").style.width = '50%';
@@ -189,22 +189,23 @@ function pantalla() {
             }
         }
     } else {
-        
+
         document.getElementsByClassName( "btnHerrGraf" )[ 0 ].disabled = true;
         var defectoAncho = 500;
         var zoom = 100;
         var relAncho = ( ( zoom * ancho ) / defectoAncho );
         document.body.style.zoom = relAncho + '%';
         var defAltoVen = 949;
-        document.getElementById('menuIzq').style.height = 2* window.innerHeight + 'px';
+        document.getElementById( 'menuIzq' )
+            .style.height = 2 * window.innerHeight + 'px';
         if ( document.getElementById( "alarmasSur" ) != undefined ) {
-            
+
             var relAlto = window.innerHeight / defAltoVen;
             var alAl = ( 150 * relAlto ) + 'px';
             document.getElementById( "alarmasSur" )
                 .style.height = alAl;
-                // document.getElementById( 'conPrincipal' )
-                // .style.marginBottom = alAl;
+            // document.getElementById( 'conPrincipal' )
+            // .style.marginBottom = alAl;
         } else {
             document.getElementById( 'conPrincipal' )
                 .style.height = window.innerHeight + 'px';
