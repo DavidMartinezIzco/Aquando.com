@@ -1,10 +1,10 @@
 body {
     /* background: url('Dateando_Fondo_Limpio_Oscuro.png');
     background-size: cover;
+    background-attachment: fixed; 
+    color: white;
+    background-size: cover;
     background-attachment: fixed; */
-    /* color: white; */
-    /* background-size: cover; */
-    /* background-attachment: fixed; */
     /* background-image: linear-gradient(to top, rgb(39, 45, 79) 0%, #bac8e0 100%); */
     overflow: hidden;
 }
