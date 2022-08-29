@@ -78,6 +78,7 @@
 
 @media only screen and (max-width: 600px) {
     #alarmasSur {
+        display: none;
         font-size: 60%;
         height: 330px;
         bottom: 0%;

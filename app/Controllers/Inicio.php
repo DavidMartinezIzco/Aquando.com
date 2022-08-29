@@ -34,7 +34,7 @@ class Inicio extends BaseController
                 $datos['estaciones'] = $this->usuario->obtenerEstacionesUsuario();
                 $_SESSION['estaciones'] = $datos['estaciones'];
                 $datos['estacionesUbis'] = $this->usuario->ultimasConexiones();
-                $_SESSION['seccion'] = "Principal";
+                $_SESSION['seccion'] = "prin";
                 return view('principal', $datos);
             } else {
                 session_unset();

@@ -496,10 +496,13 @@ form button {
     #cabeceraPrincipal {
         font-size: 75%;
     }
+    #contenido{
+        
+    }
     #conPrincipal {
         overflow-y: scroll;
         margin-top: 10%;
-        height: 1100px;
+        height: 1000px;
         width: 100%;
         /* margin-bottom: 220px; */
     }

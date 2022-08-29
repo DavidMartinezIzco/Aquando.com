@@ -181,11 +181,11 @@ function pantalla() {
             var altoCon = ( defAltoCon * altoVen ) / defAltoVen;
             if ( document.getElementById( "alarmasSur" ) != undefined ) {
                 var altoAlarm = ( 150 * ( altoCon / defAltoCon ) );
-                document.getElementById( "conPrincipal" )
-                    .style.height = altoCon - altoAlarm + "px";
+                // document.getElementById( "conPrincipal" )
+                //     .style.height = altoCon - altoAlarm + "px";
             } else {
-                document.getElementById( "conPrincipal" )
-                    .style.height = altoCon + "px";
+                // document.getElementById( "conPrincipal" )
+                //     .style.height = altoCon + "px";
             }
         }
     } else {
@@ -207,8 +207,8 @@ function pantalla() {
             // document.getElementById( 'conPrincipal' )
             // .style.marginBottom = alAl;
         } else {
-            document.getElementById( 'conPrincipal' )
-                .style.height = window.innerHeight + 'px';
+            // document.getElementById( 'conPrincipal' )
+            //     .style.height = window.innerHeight + 'px';
         }
 
 

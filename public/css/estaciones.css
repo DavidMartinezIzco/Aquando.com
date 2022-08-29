@@ -569,6 +569,7 @@
         border: 2px solid rgb(1, 168, 184);
         border-bottom: none;
         border-radius: 0px;
+        
     }
     #seccionInf::-webkit-scrollbar {
         height: 15px;
@@ -583,6 +584,7 @@
     }
     #digiWidTitulo {
         border-radius: 0px;
+        font-size: large;
     }
     #estacionCentro {
         position: unset;
@@ -612,9 +614,21 @@
         border: 1px solid rgb(1, 168, 184);
         border-radius: 0px;
     }
+    .widAnaInfo{
+        width: 100%;
+        font-size: large;
+    }
+    .widAnaGraf{
+        width: 0%;
+    }
     .widAnaInfoPrin {
         border-radius: 0px;
+        height: 20%;
     }
+    .widAnaInfoSec{
+        height: 80%;
+    }
+
     .contador {
         height: 20%;
     }

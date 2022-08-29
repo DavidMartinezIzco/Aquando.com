@@ -1,4 +1,5 @@
 //por algun motivo hay un overflow x de tipo scroll al hacer hover sobre un chart por primera vez
+var widsAnalogLista = [];
 var datosDigi = Array();
 var datosAnalog = Array();
 var consignas = Array();
@@ -7,6 +8,7 @@ var todoDato = Array();
 var todoTrends = Array();
 var tagsAcumulados = Array();
 sessionStorage.setItem( 'tagViejo', null );
+
 
 //actualizar la info de la seccion estacion
 function actualizar( id_estacion ) {
@@ -273,13 +275,14 @@ function montarWidgetsAnalogicos() {
     }
     seccionAnalog.innerHTML += widsBombas;
     montarGraficosWidget();
+    controlMobile();
 }
 
 //render de los graficos
 //hay que hacer el captador con resize
 //wid de deposito?
 function montarGraficosWidget() {
-    var widsAnalogLista = [];
+    
     for ( var tag in tagsAcumulados ) {
         var nombreDato = tagsAcumulados[ tag ][ 'nombre_tag' ].replace( /\s+/g, '' );
         if ( nombreDato.includes( "Dia" ) ) {
@@ -680,3 +683,48 @@ function fotoEstacion( id_estacion ) {
             } );
         } );
 }
+
+//funcion que establece a los widgets un control para alternar los trends y la info
+//solo se ejecuta si la pantalla es menor a 600px
+function controlMobile(){
+    if(screen.width < 600){
+        var a = document.getElementsByClassName('widAnaInfo');
+        for(let i=0;i<a.length;i++){
+            a[i].onclick = function(){
+                a[i].style.width = '0%';
+                a[i].style.display = 'none';
+                document.getElementsByClassName('widAnaGraf')[i].style.width = '100%';
+                document.getElementsByClassName('widAnaGraf')[i].style.display = 'block';
+                if ( widsAnalogLista != undefined ) {
+                    for ( var index in widsAnalogLista ) {
+                        widsAnalogLista[ index ][ 0 ].resize();
+                        if ( widsAnalogLista[ index ].length > 1 ) {
+                            widsAnalogLista[ index ][ 1 ].resize();
+                        }
+    
+                    }
+                }
+            }
+        }
+        var b = document.getElementsByClassName('widAnaGraf');
+        for(let i=0;i<b.length;i++){
+            b[i].onclick = function(){
+                b[i].style.width = '0%';
+                b[i].style.display = 'none';
+                document.getElementsByClassName('widAnaInfo')[i].style.width = '100%';
+                document.getElementsByClassName('widAnaInfo')[i].style.display = 'block';
+                if ( widsAnalogLista != undefined ) {
+                    for ( var index in widsAnalogLista ) {
+                        widsAnalogLista[ index ][ 0 ].resize();
+                        if ( widsAnalogLista[ index ].length > 1 ) {
+                            widsAnalogLista[ index ][ 1 ].resize();
+                        }
+    
+                    }
+                }
+            }
+        }
+    }
+
+}
+

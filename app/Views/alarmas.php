@@ -9,7 +9,6 @@
 <script src="../../css/html2pdf/lib/html2pdf.min.js"></script>
 <script src="../../css/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="../../css/alarmasCustom.css">
-
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
 
     <!--opciones de filtrado de las alarmas--->

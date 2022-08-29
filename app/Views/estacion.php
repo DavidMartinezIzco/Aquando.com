@@ -4,7 +4,7 @@
 <script src='../../css/estaciones.js'></script>
 <link rel="stylesheet" type="text/css" href="../../css/estaciones.css">
 <link rel="stylesheet" type="text/css" href="../../css/sur.css">
-<main id="conPrincipal" style="height:848px;width:100%;border-radius:10px; margin-top:1%">
+<main id="conPrincipal" style="width:100%;border-radius:10px; margin-top:1%">
     <!---zona superior--->
 
     <div id="estacionIzq">
@@ -71,7 +71,7 @@
     window.onload = function() {
         actualizar(estacion);
         setInterval(updateEstacion(), 60000 * 5);
-        pantalla();
+        // pantalla();
         fotoEstacion(estacion);
         comprobarTiempo();
         setInterval(fechaYHora, 1000);

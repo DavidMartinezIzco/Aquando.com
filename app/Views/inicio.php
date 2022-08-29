@@ -130,11 +130,9 @@ if (isset($_GET['log'])) {
                     case 'conexion':
                         echo "Pruebas > Conexión a base de datos";
                         break;
-
                     case 'login':
                         echo "Inicio de sesión";
                         break;
-
                     case 'tr':
                         echo "Pruebas > Tiempo real";
                         break;
@@ -153,7 +151,9 @@ if (isset($_GET['log'])) {
                     case 'coms':
                         echo "Comunicaciones";
                         break;
-
+                    case 'prin':
+                        echo "Resumen Principal";
+                        break;
                     default:
                         echo 'Inicio';
                         break;
@@ -380,6 +380,10 @@ if (isset($_GET['log'])) {
     </div>
 </body>
 <script>
+if(screen.width < 600){
+    document.getElementsByClassName('fas fa-tools')[0].style.display = 'none';
+    document.getElementsByClassName('far fa-lightbulb')[0].style.display = 'none';
+}
 function cerrarMenuEsp() {
     cerrarMenu();
     $("#menuIzq").trigger('widthChange');
