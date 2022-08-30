@@ -189,7 +189,6 @@ function pantalla() {
             }
         }
     } else {
-
         document.getElementsByClassName( "btnHerrGraf" )[ 0 ].disabled = true;
         var defectoAncho = 500;
         var zoom = 100;

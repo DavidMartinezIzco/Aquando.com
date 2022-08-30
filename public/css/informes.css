@@ -3,7 +3,7 @@
 #btnMenuInformes {
     position: absolute;
     z-index: 9999;
-    top: 19.5%;
+    top: 22%;
     left: 95%;
     padding: 0.2% 1%;
     color: grey;
@@ -21,8 +21,8 @@
 
 #informesNorte {
     margin-top: -1%;
+    height: 20%;
     width: 100%;
-    height: 15%;
     background-color: grey;
     transition: 0.2s;
     border-bottom: none;
@@ -162,10 +162,19 @@
     #conPrincipal {
         margin-top: 6.9%;
         overflow-y: unset;
+        padding-bottom: -5%;
     }
     #informesNorte {
         margin-top: 0%;
+        height: 15%;
     }
+
+    #btnMenuInformes{
+        font-size: large;
+        padding: 1% 2%;
+        left:45%;
+    }
+
     #tipoInforme {
         left: 2%;
         width: 24%;
@@ -202,9 +211,9 @@
     #informesSur {
         padding: 3% 5%;
         padding-bottom: 5%;
-        height: 80%;
+        height: 85%;
     }
     #espacioInforme {
-        margin-bottom: 330px;
+        margin-bottom: 30px;
     }
 }

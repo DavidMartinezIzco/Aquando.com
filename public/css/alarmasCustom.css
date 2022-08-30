@@ -235,7 +235,10 @@
     @media only screen and (max-width: 600px) {
         #conPrincipal {
             margin-top: 6%;
+            padding-bottom: 5%;
+            overflow: hidden;
         }
+
         #zonaOpciones {
             height: 20%;
             font-size: 80%;

@@ -46,7 +46,7 @@ function trendsTags() {
                 // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Estacion.php?opcion=trends&estacion=' + id_estacion + '&tipo=todos',
                 url: '/Aquando.com/A_Estacion.php?opcion=trends&estacion=' + id_estacion + '&tipo=todos',
                 success: function ( trends ) {
-                    console.log( trends );
+                    // console.log( trends );
                     montarWidgetsAnalogicos();
                     todoTrends = trends;
                     montarWidgetsDigi();

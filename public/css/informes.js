@@ -96,14 +96,30 @@ function reset() {
 
 //abre o cierra la cabeza de opciones para el informe
 function opciones() {
-    if (document.getElementById("informesNorte").style.height == '15%') {
-        document.getElementById("informesNorte").style.height = 0;
-        document.getElementById("btnMenuInformes").style.top = '6%';
-
-    } else {
-        document.getElementById("informesNorte").style.height = '15%';
-        document.getElementById("btnMenuInformes").style.top = '19.5%';
+    if(screen.width < 600){
+        if (document.getElementById("informesNorte").style.height == '15%') {
+            document.getElementById("informesNorte").style.height = 0;
+            document.getElementById("btnMenuInformes").style.top = '6%';
+            document.getElementById("informesSur").style.height = '100%';
+    
+        } else {
+            document.getElementById("informesNorte").style.height = '15%';
+            document.getElementById("btnMenuInformes").style.top = '19.5%';
+            document.getElementById("informesSur").style.height = '100%';
+        }
     }
+    else{
+        if (document.getElementById("informesNorte").style.height == '20%') {
+            document.getElementById("informesNorte").style.height = 0;
+            document.getElementById("btnMenuInformes").style.top = '6%';
+            document.getElementById("informesSur").style.height = '120%';
+        } else {
+            document.getElementById("informesNorte").style.height = '20%';
+            document.getElementById("informesSur").style.height = '100%';
+            document.getElementById("btnMenuInformes").style.top = '22%';
+        }
+    }
+
 }
 
 //inicia con valores los formularios de las fechas
