@@ -150,3 +150,12 @@
         transform: rotate(360deg);
     }
 }
+
+@media only screen and (max-width: 900px) {
+    #zonaGraficos{
+        max-height: unset;
+    }
+    #zonaControles{
+        max-height: unset;
+    }
+}

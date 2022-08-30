@@ -216,3 +216,9 @@
         table tr td i:hover {
             opacity: 100%;
         }
+
+        @media only screen and (max-width: 800px) {
+            #alarmasSur {
+                display: none;
+            };
+        }

@@ -468,6 +468,25 @@ footer {
 form button {
     font-size: 130%;
 }
+@media only screen and (max-width: 900px) {
+    #alarmasSur {
+        display:none;
+    }
+    #conPrincipal {
+        overflow-y: scroll;
+        height: 1000px;
+        overflow-y: hidden;
+        padding-bottom: -180px;
+        /* margin-bottom: 220px; */
+    }
+    #prinIzq{
+        
+    }
+    #prinDer{
+        
+    }
+
+}
 
 @media only screen and (max-width: 600px) {
     * {

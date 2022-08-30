@@ -172,13 +172,13 @@ function pantalla() {
     document.getElementById( "menuIzq" )
         .style.height = altoVen + "px";
     var ancho = window.innerWidth;
-    if ( ancho > 600 && ancho < 800 ) {
-        if ( document.getElementById( "conPrincipal" ) != undefined ) {
-            var defectoAncho = 500;
-            var zoom = 100;
-            var relAncho = ( ( zoom * ancho ) / defectoAncho );
-            document.body.style.zoom = relAncho + '%';
-        }
+    if ( ancho > 600 && ancho < 900 ) {
+        var defectoAncho = 1920;
+        var relAncho = (window.innerWidth / defectoAncho)*90;
+        document.body.style.zoom = relAncho + '%';
+        document.body.style.fontSize = 'large';
+        document.getElementById( 'menuIzq' )
+            .style.height = screen.height * 3 +'px';
     }
     if ( ancho > 600 ) {
         if ( document.getElementById( "conPrincipal" ) != undefined ) {

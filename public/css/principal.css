@@ -335,3 +335,14 @@
     -webkit-mask: var(--mask);
     mask: var(--mask);
 }
+
+@media only screen and (max-width: 900px) {
+    
+    #prinIzq{
+        max-height: unset;
+    }
+    #prinDer{
+        max-height: unset;
+    }
+
+}
