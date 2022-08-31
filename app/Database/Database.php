@@ -300,6 +300,7 @@ class Database
         }
     }
     //obtiene los historicos de 24h de un tag propio de una alarma
+    //obtner el nombre de la señal tambien?
     function obtenerDetallesAlarma($id_alarma){
         if($this->conectar()){
             $consulta_id = "SELECT id_tag, fecha_origen from alarmas where id_alarmas = " . $id_alarma ." limit 1";

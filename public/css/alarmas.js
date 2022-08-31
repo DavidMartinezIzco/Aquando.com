@@ -233,6 +233,7 @@ function reordenar( opcion ) {
     actualizar( opcion );
 }
 
+//recoger el nombre de la señal tambien?
 function detallesAlarma(id){
     $( document )
         .ready( function () {
@@ -286,7 +287,8 @@ function popDetalles(detalles) {
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: fechas
+            data: fechas,
+            inverse:true
         },
         yAxis: {
             type: 'value'

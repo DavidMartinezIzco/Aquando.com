@@ -64,8 +64,9 @@ if ($_GET['funcion'] == "actualizar") {
                     case 'valor_alarma':
                         echo "<td>";
                         echo $valor;
-                        //aqui
-                        if($alarma['valor_alarma'] != null && $alarma['valor_alarma'] != "" && $alarma['valor_alarma'] != "Alarma" && $alarma['valor_alarma'] != "Marcha" && $alarma['valor_alarma'] != "Paro" && $alarma['valor_alarma'] != "ON" && $alarma['valor_alarma'] != "OFF" && $alarma['valor_alarma'] != "Puerta Abierta" && $alarma['valor_alarma'] != "On" && $alarma['valor_alarma'] != "Off" && $alarma['valor_alarma'] != "Abierta" && $alarma['valor_alarma'] != "Cerrada"){
+                        //aqui hay que cambiar el filtro de alarmas
+                        //
+                        if(preg_match('~[0-9]+~',$alarma['valor_alarma'])){
                             echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma('.$alarma['id_alarmas'].')"></i>';
                         }
                         echo "</td>";
@@ -147,8 +148,8 @@ if ($_GET['funcion'] == "estacion") {
                         case 'valor_alarma':
                             echo "<td>";
                             echo $valor;
-                            //aqui
-                            if($alarma['valor_alarma'] != null && $alarma['valor_alarma'] != "" && $alarma['valor_alarma'] != "Alarma" && $alarma['valor_alarma'] != "Marcha" && $alarma['valor_alarma'] != "Paro" && $alarma['valor_alarma'] != "ON" && $alarma['valor_alarma'] != "OFF" && $alarma['valor_alarma'] != "Puerta Abierta" && $alarma['valor_alarma'] != "On" && $alarma['valor_alarma'] != "Off" && $alarma['valor_alarma'] != "Abierta" && $alarma['valor_alarma'] != "Cerrada"){
+                            //aqui hay que cambiar el filtro de alarmas
+                            if(preg_match('~[0-9]+~',$alarma['valor_alarma'])){
                                 echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma('.$alarma['id_alarmas'].')"></i>';
                             }
                             echo "</td>";
