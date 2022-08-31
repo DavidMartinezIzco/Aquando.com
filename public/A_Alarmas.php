@@ -58,24 +58,34 @@ if ($_GET['funcion'] == "actualizar") {
             default:
                 break;
         }
-
         foreach ($alarma as $dato => $valor) {
-
             if ($dato != 'estado' && $dato != 'id_alarmas') {
-                if ($dato == 'ack_por') {
-                    if ($valor == null) {
+                switch ($dato) {
+                    case 'valor_alarma':
                         echo "<td>";
-                        echo '<i class="fas fa-eye" onclick="reconocer(' . $alarma['id_alarmas'] . ')"></i>';
+                        echo $valor;
+                        //aqui
+                        if($alarma['valor_alarma'] != null && $alarma['valor_alarma'] != "" && $alarma['valor_alarma'] != "Alarma" && $alarma['valor_alarma'] != "Marcha" && $alarma['valor_alarma'] != "Paro" && $alarma['valor_alarma'] != "ON" && $alarma['valor_alarma'] != "OFF" && $alarma['valor_alarma'] != "Puerta Abierta" && $alarma['valor_alarma'] != "On" && $alarma['valor_alarma'] != "Off" && $alarma['valor_alarma'] != "Abierta" && $alarma['valor_alarma'] != "Cerrada"){
+                            echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma('.$alarma['id_alarmas'].')"></i>';
+                        }
                         echo "</td>";
-                    } else {
+                        break;
+                    case 'ack_por':
+                        if ($valor == null) {
+                            echo "<td>";
+                            echo '<i class="fas fa-eye" onclick="reconocer(' . $alarma['id_alarmas'] . ')"></i>';
+                            echo "</td>";
+                        } else {
+                            echo "<td>";
+                            echo $valor;
+                            echo "</td>";
+                        }
+                        break;
+                    default:
                         echo "<td>";
                         echo $valor;
                         echo "</td>";
-                    }
-                } else {
-                    echo "<td>";
-                    echo $valor;
-                    echo "</td>";
+                        break;
                 }
             }
         }
@@ -133,20 +143,32 @@ if ($_GET['funcion'] == "estacion") {
             }
             foreach ($alarma as $dato => $valor) {
                 if ($dato != 'estado' && $dato != 'id_alarmas') {
-                    if ($dato == 'ack_por') {
-                        if ($valor == null) {
+                    switch ($dato) {
+                        case 'valor_alarma':
                             echo "<td>";
-                            echo '<i class="fas fa-eye" onclick="reconocer(' . $alarma['id_alarmas'] . ')"></i>';
+                            echo $valor;
+                            //aqui
+                            if($alarma['valor_alarma'] != null && $alarma['valor_alarma'] != "" && $alarma['valor_alarma'] != "Alarma" && $alarma['valor_alarma'] != "Marcha" && $alarma['valor_alarma'] != "Paro" && $alarma['valor_alarma'] != "ON" && $alarma['valor_alarma'] != "OFF" && $alarma['valor_alarma'] != "Puerta Abierta" && $alarma['valor_alarma'] != "On" && $alarma['valor_alarma'] != "Off" && $alarma['valor_alarma'] != "Abierta" && $alarma['valor_alarma'] != "Cerrada"){
+                                echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma('.$alarma['id_alarmas'].')"></i>';
+                            }
                             echo "</td>";
-                        } else {
+                            break;
+                        case 'ack_por':
+                            if ($valor == null) {
+                                echo "<td>";
+                                echo '<i class="fas fa-eye" onclick="reconocer(' . $alarma['id_alarmas'] . ')"></i>';
+                                echo "</td>";
+                            } else {
+                                echo "<td>";
+                                echo $valor;
+                                echo "</td>";
+                            }
+                            break;
+                        default:
                             echo "<td>";
                             echo $valor;
                             echo "</td>";
-                        }
-                    } else {
-                        echo "<td>";
-                        echo $valor;
-                        echo "</td>";
+                            break;
                     }
                 }
             }
@@ -154,7 +176,6 @@ if ($_GET['funcion'] == "estacion") {
         }
     }
 }
-
 //actualiza el estado de una alarma en particular
 //establece el estado como reconocida
 //establece la fecha de reconocimiento
@@ -162,13 +183,38 @@ if ($_GET['funcion'] == "estacion") {
 if ($_GET['funcion'] == "reconocer") {
     $nombre = $_GET['nombre'];
     $id_alarma = $_GET['alarma'];
-
     $hora = date('Y/m/d H:i:s', time());
-
     $recon = $db->reconocerAlarma($id_alarma, $nombre, $hora);
     if ($recon != false) {
         echo "bien";
     } else {
         echo "mal";
     }
+}
+
+if ($_GET['funcion'] == "detalles") {
+    $id = $_GET['id'];
+    $detalles = $db->obtenerDetallesAlarma($id);
+    if($detalles !=false){
+        // $valores = array();
+        // $fechas = array();
+        // for($i=0;$i<$detalles.length;$i++){
+        //     foreach ($detalles[$i] as $cosa => $val) {
+        //         if($cosa == 'fecha'){
+        //             $fechas[] = $val;
+        //         }
+        //         else{
+        //             if($val != null){
+        //                 $valores[] = $val;
+        //             }
+        //         }
+        //     }
+        // }
+        //$detalles_prep = array($fechas,$valores);
+        echo json_encode($detalles);
+    }else{
+        echo 'error';
+    }
+    
+    // $fecha_origen = $db
 }

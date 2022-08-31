@@ -1,5 +1,7 @@
         /*zona superior*/
         
+        
+
         #zonaOpciones {
             overflow: hidden;
             transition: 0.2s;
@@ -215,6 +217,16 @@
         
         table tr td i:hover {
             opacity: 100%;
+        }
+
+        #popDetalles{
+            position: absolute;
+            width: 150px;
+            height: 75px;
+            right: 45%;
+            top: 35%;
+            padding: 1em;
+            border-radius: 10px;
         }
 
         @media only screen and (max-width: 800px) {

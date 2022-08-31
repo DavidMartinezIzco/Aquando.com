@@ -134,7 +134,6 @@ function actualizar( reorden ) {
             orden = reorden;
         }
 
-
         var sentido = 'DESC';
         if ( document.getElementById( 'radioAsc' )
             .checked == true ) {
@@ -145,9 +144,6 @@ function actualizar( reorden ) {
             .value;
         var fechaFin = document.getElementById( 'fechaFin' )
             .value;
-
-
-
 
         var nombre = sessionStorage.getItem( 'nousu' );
         var pwd = sessionStorage.getItem( 'pwd' );
@@ -229,13 +225,94 @@ function reconocer( id_alarma ) {
                 error: function () {
                     console.log( "error en la update" );
                 }
-
             } );
         } );
 }
 //recibe los ajustes de los controles y refresca la lista de alarmas
 function reordenar( opcion ) {
-
     actualizar( opcion );
+}
 
+function detallesAlarma(id){
+    $( document )
+        .ready( function () {
+            $.ajax( {
+                type: 'GET',
+                // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
+                url: '/Aquando.com/A_Alarmas.php?funcion=detalles&id=' + id,
+                success: function (det) {
+                    
+                    var fechas = [];
+                    var  vals = [];
+                    for(var i=0;i<det.length;i++){
+                        for(var cosa in det[i]){
+                            if(cosa == 'fecha') {
+                                fechas.push(det[i][cosa]);
+                            }
+                            else{
+                                if(det[i][cosa] != null){
+                                    vals.push(det[i][cosa]);
+                                }
+                            }
+                        }
+                    }
+                    var det_p = [fechas,vals];
+                    popDetalles(det_p);
+                },
+                error: function (e) {
+                    
+                    console.log( "error en los detalles" );
+                },
+                dataType: 'json'
+            } );
+        } );
+}
+
+//crea un pop-up con un chart de los detalles de una alarma
+function popDetalles(detalles) {
+    
+    var pop = "<div id='popDetalles'><i style='font-size:larger' class='fas fa-times' id='btnAyudaCerrar' onclick='cerrarDetalles()'></i><h1>Detalles</h1><div style='width:100%;height:100%' id='detChart'></div></div>";
+    document.getElementById('conPrincipal').innerHTML += pop;
+
+    var fechas = detalles[0];
+    var vals = detalles[1];
+    
+
+        var chartDom = document.getElementById('detChart');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: fechas
+        },
+        yAxis: {
+            type: 'value'
+        },
+        tooltip:{
+            trigger: 'axis',
+            axisPointer: {
+    
+                type: 'cross',
+                label: {
+                    fontStyle: 'bold'
+                }
+            }
+        },
+        series: [
+            {
+            data: vals,
+            type: 'line',
+            areaStyle: {}
+            }
+        ]
+        };
+
+        option && myChart.setOption(option);
+}
+
+function cerrarDetalles() {
+    document.getElementById('popDetalles').remove();
 }

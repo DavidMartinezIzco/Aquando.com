@@ -465,6 +465,19 @@ footer {
     height: 100%;
 }
 
+#popDetalles{
+    position: absolute;
+    width: 550px;
+    height: 300px;
+    right: 40%;
+    top: 35%;
+    padding: 1em;
+    border-radius: 10px;
+    z-index: 9999;
+    background-color: whitesmoke;
+    color: rgb(56, 56, 56);
+}
+
 form button {
     font-size: 130%;
 }

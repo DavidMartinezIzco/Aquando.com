@@ -299,6 +299,25 @@ class Database
             return false;
         }
     }
+    //obtiene los historicos de 24h de un tag propio de una alarma
+    function obtenerDetallesAlarma($id_alarma){
+        if($this->conectar()){
+            $consulta_id = "SELECT id_tag, fecha_origen from alarmas where id_alarmas = " . $id_alarma ." limit 1";
+            $respuesta_id = pg_query($this->conexion, $consulta_id);
+            if ($this->consultaExitosa($respuesta_id)) {
+                $datos_alarma = pg_fetch_all($respuesta_id);
+                // return $datos_alarma[0]['fecha_origen'];
+                $consulta_detalles = "SELECT valor_bool, valor_float,valor_acu,valor_int,fecha from datos_historicos where id_tag=".$datos_alarma[0]['id_tag']." and (fecha::date - interval '1 days') < '".$datos_alarma[0]['fecha_origen']."' and (fecha::date + interval '1 days') > '".$datos_alarma[0]['fecha_origen']."' order by fecha desc";
+                $respuesta_detalles = pg_query($this->conexion, $consulta_detalles);
+                if($this->consultaExitosa($respuesta_detalles)){
+                    $detalles = pg_fetch_all($respuesta_detalles);
+                    return $detalles;
+                }
+            }
+        }
+        return false;
+    }
+
 
     //obtiene la ultima información conocida de una estación concreta
     //se usará en la sección de estaciones y probablemente mediante AJAX
@@ -439,7 +458,7 @@ class Database
     }
     //obtiene los historicos de un tag de una estación
     //se usa en graficas->vista rápida
-    //he puesto 135 dias (y en aumento) de forma provisional hasta que la BD reciba datos nuevos
+    
     public function historicosTagEstacion($id_estacion, $id_tag)
     {
         if ($this->conectar()) {
