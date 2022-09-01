@@ -180,7 +180,7 @@ if (isset($_GET['log'])) {
         <form action="<?php
                         echo "http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/"; ?>" id="contenidoMenuIzq1"
             method="POST">
-            <button name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio"
+            <button  name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio"
                 style="width: 100%; border-radius:0px; font-size:200%; color:white; <?php if (isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio') {
                                                                                                                                                                             echo "background-color:rgb(1, 168, 184)";
                                                                                                                                                                         } ?>">
@@ -237,7 +237,7 @@ if (isset($_GET['log'])) {
             <ul class='miniEstacion'>
                 <li>
                     <form action="<?php echo base_url(); ?>/graficas" method="POST">
-                        <button onclick="carga()" class="btn me-2 btn-block" name="btnGraf" value="rapida"
+                        <button id='btnGrafRap' onclick="carga()" class="btn me-2 btn-block" name="btnGraf" value="rapida"
                             style="padding:1em;width:100%;border-radius:0;  color:white;">
                             Vista rápida <i class="fas fa-rocket"></i>
                         </button>
@@ -245,7 +245,7 @@ if (isset($_GET['log'])) {
                 </li>
                 <li>
                     <form action="<?php echo base_url(); ?>/graficas" method="POST">
-                        <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" value="custom"
+                        <button id='btnGrafPer' onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" value="custom"
                             style="padding:1em;width:100%;border-radius:0;color:white;">
                             Vista Personalizada <i class="fas fa-search"></i>
                         </button>

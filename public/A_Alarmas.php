@@ -197,21 +197,6 @@ if ($_GET['funcion'] == "detalles") {
     $id = $_GET['id'];
     $detalles = $db->obtenerDetallesAlarma($id);
     if($detalles !=false){
-        // $valores = array();
-        // $fechas = array();
-        // for($i=0;$i<$detalles.length;$i++){
-        //     foreach ($detalles[$i] as $cosa => $val) {
-        //         if($cosa == 'fecha'){
-        //             $fechas[] = $val;
-        //         }
-        //         else{
-        //             if($val != null){
-        //                 $valores[] = $val;
-        //             }
-        //         }
-        //     }
-        // }
-        //$detalles_prep = array($fechas,$valores);
         echo json_encode($detalles);
     }else{
         echo 'error';

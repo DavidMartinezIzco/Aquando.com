@@ -307,8 +307,7 @@ class Database
             $respuesta_id = pg_query($this->conexion, $consulta_id);
             if ($this->consultaExitosa($respuesta_id)) {
                 $datos_alarma = pg_fetch_all($respuesta_id);
-                // return $datos_alarma[0]['fecha_origen'];
-                $consulta_detalles = "SELECT valor_bool, valor_float,valor_acu,valor_int,fecha from datos_historicos where id_tag=".$datos_alarma[0]['id_tag']." and (fecha::date - interval '1 days') < '".$datos_alarma[0]['fecha_origen']."' and (fecha::date + interval '1 days') > '".$datos_alarma[0]['fecha_origen']."' order by fecha desc";
+                $consulta_detalles ="SELECT datos_historicos.valor_bool, datos_historicos.valor_float, datos_historicos.valor_acu, datos_historicos.valor_int, datos_historicos.fecha, estaciones.nombre_estacion, tags.nombre_tag FROM datos_historicos INNER JOIN estacion_tag ON datos_historicos.id_tag = estacion_tag.id_tag INNER JOIN estaciones ON estacion_tag.id_estacion = estaciones.id_estacion INNER JOIN tags ON tags.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag= ".$datos_alarma[0]['id_tag']." AND(datos_historicos.fecha::date - interval '1 days') < '".$datos_alarma[0]['fecha_origen']."' AND (datos_historicos.fecha::date + interval '1 days') > '".$datos_alarma[0]['fecha_origen']."' ORDER BY datos_historicos.fecha DESC";
                 $respuesta_detalles = pg_query($this->conexion, $consulta_detalles);
                 if($this->consultaExitosa($respuesta_detalles)){
                     $detalles = pg_fetch_all($respuesta_detalles);
@@ -318,7 +317,6 @@ class Database
         }
         return false;
     }
-
 
     //obtiene la ultima información conocida de una estación concreta
     //se usará en la sección de estaciones y probablemente mediante AJAX

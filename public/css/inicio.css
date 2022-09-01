@@ -492,25 +492,18 @@ form button {
         padding-bottom: -180px;
         /* margin-bottom: 220px; */
     }
-    #prinIzq{
-        
-    }
-    #prinDer{
-        
-    }
-
 }
 
 @media only screen and (max-width: 600px) {
     * {
         zoom: 100%;
     }
-    body {
-        /* color: white;
+    /* body {
+        color: white;
         background-size: cover;
         background-attachment: fixed;
-        background-image: linear-gradient(to top, rgb(39, 45, 79) 0%, rgb(1, 168, 184) 100%); */
-    }
+        background-image: linear-gradient(to top, rgb(39, 45, 79) 0%, rgb(1, 168, 184) 100%);
+    } */
 
     #conAyuda {
         transition: 0.5s;
@@ -525,13 +518,33 @@ form button {
         visibility: hidden;
         opacity: 0%;
     }
+    #popDetalles{
+        position: absolute;
+        width: 350px;
+        height: 200px;
+        right: 20%;
+        top: 35%;
+        padding: 0.5em;
+        font-size: medium;
+        border-radius: 10px;
+        z-index: 9999;
+        background-color: whitesmoke;
+        color: rgb(56, 56, 56);
+    }
+    #detChart{
+        height: 100%;
+    }
+    #popDetalles h1{
+        margin-bottom: -0.2em;
+        font-size: small;
+    }
 
     #cabeceraPrincipal {
         font-size: 75%;
     }
-    #contenido{
+    /* #contenido{
         
-    }
+    } */
     #conPrincipal {
         overflow-y: scroll;
         margin-top: 10%;

@@ -242,7 +242,9 @@ function detallesAlarma(id){
                 // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
                 url: '/Aquando.com/A_Alarmas.php?funcion=detalles&id=' + id,
                 success: function (det) {
-                    
+                    // console.log(det);
+                    var nombre_estacion = det[0]['nombre_estacion'];
+                    var nombre_tag = det[0]['nombre_tag'];
                     var fechas = [];
                     var  vals = [];
                     for(var i=0;i<det.length;i++){
@@ -251,13 +253,13 @@ function detallesAlarma(id){
                                 fechas.push(det[i][cosa]);
                             }
                             else{
-                                if(det[i][cosa] != null){
+                                if(det[i][cosa] != null && cosa != 'nombre_estacion' && cosa != 'nombre_tag'){
                                     vals.push(det[i][cosa]);
                                 }
                             }
                         }
                     }
-                    var det_p = [fechas,vals];
+                    var det_p = [fechas,vals, nombre_estacion, nombre_tag];
                     popDetalles(det_p);
                 },
                 error: function (e) {
@@ -271,19 +273,24 @@ function detallesAlarma(id){
 
 //crea un pop-up con un chart de los detalles de una alarma
 function popDetalles(detalles) {
-    
-    var pop = "<div id='popDetalles'><i style='font-size:larger' class='fas fa-times' id='btnAyudaCerrar' onclick='cerrarDetalles()'></i><h1>Detalles</h1><div style='width:100%;height:100%' id='detChart'></div></div>";
+    var pop = "<div id='popDetalles'><div style='width:100%;height:100%' id='detChart'></div></div>";
     document.getElementById('conPrincipal').innerHTML += pop;
 
     var fechas = detalles[0];
     var vals = detalles[1];
     
-
         var chartDom = document.getElementById('detChart');
         var myChart = echarts.init(chartDom);
         var option;
 
         option = {
+        title:{
+            text: 'Detalles de ' + detalles[3] + '-' + detalles[2]  
+        },
+        grid:{
+            top: '15%',
+            bottom:'10%'
+        },
         xAxis: {
             type: 'category',
             boundaryGap: false,
@@ -305,6 +312,7 @@ function popDetalles(detalles) {
         },
         series: [
             {
+            name:detalles[3],
             data: vals,
             type: 'line',
             areaStyle: {}
@@ -318,3 +326,12 @@ function popDetalles(detalles) {
 function cerrarDetalles() {
     document.getElementById('popDetalles').remove();
 }
+
+document.addEventListener('click',(event)=>{
+    if(document.getElementById('popDetalles')){
+        const clickFuera = document.getElementById('popDetalles').contains(event.target);
+        if(!clickFuera){
+            cerrarDetalles();
+        }
+    }
+});
