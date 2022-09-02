@@ -99,7 +99,6 @@ function descargarArchivoCSV( csv, archivo ) {
     link_descarga.click();
 }
 
-
 //esconde o muestra las opciones
 function opciones() {
     if ( document.getElementById( "zonaOpciones" )

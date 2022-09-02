@@ -473,7 +473,7 @@ function crearWidgetsChartsCustom( feed ) {
                 var t_x_c = ( valor_actual / r_max ) * 14;
 
                 var estilo = "linear-gradient(0deg, rgba(39,45,79,1) 0%, rgba(1,168,184,1) 60%, rgba(1,168,184,1) 100%)";
-                var depo = "<div style='padding:7%;height:100%;width:100%;margin:0% 0%;background-color:#83d7ee'><h4 style='text-align:center;color:rgb(65,65,65);'>"+ nombre_estacion + ": " + nombre_dato + "<br>" + valor_actual + "</h4></div>";
+                var depo = "<div style='padding:7%;height:100%;width:100%;margin:0% 0%;background-color:#83d7ee'><h4 style='text-align:center;color:rgb(65,65,65);'>" + nombre_estacion + ": " + nombre_dato + "<br>" + valor_actual + "</h4></div>";
                 document.getElementById( "gau" + feed[ wid ][ 'widget' ] )
                     .innerHTML = depo;
                 document.getElementById( "gau" + feed[ wid ][ 'widget' ] )
@@ -496,7 +496,7 @@ function crearWidgetsChartsCustom( feed ) {
                 }
                 widCon += "</tr></table>"
                 document.getElementById( "gau" + feed[ wid ][ 'widget' ] )
-                    .innerHTML = 'Valor de '+nombre_estacion+": " + nombre_dato + '<br> ' + widCon;
+                    .innerHTML = 'Valor de ' + nombre_estacion + ": " + nombre_dato + '<br> ' + widCon;
             }
 
         } else {

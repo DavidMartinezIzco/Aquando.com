@@ -301,15 +301,16 @@ class Database
     }
     //obtiene los historicos de 24h de un tag propio de una alarma
     //obtner el nombre de la señal tambien?
-    function obtenerDetallesAlarma($id_alarma){
-        if($this->conectar()){
-            $consulta_id = "SELECT id_tag, fecha_origen from alarmas where id_alarmas = " . $id_alarma ." limit 1";
+    function obtenerDetallesAlarma($id_alarma)
+    {
+        if ($this->conectar()) {
+            $consulta_id = "SELECT id_tag, fecha_origen from alarmas where id_alarmas = " . $id_alarma . " limit 1";
             $respuesta_id = pg_query($this->conexion, $consulta_id);
             if ($this->consultaExitosa($respuesta_id)) {
                 $datos_alarma = pg_fetch_all($respuesta_id);
-                $consulta_detalles ="SELECT datos_historicos.valor_bool, datos_historicos.valor_float, datos_historicos.valor_acu, datos_historicos.valor_int, datos_historicos.fecha, estaciones.nombre_estacion, tags.nombre_tag FROM datos_historicos INNER JOIN estacion_tag ON datos_historicos.id_tag = estacion_tag.id_tag INNER JOIN estaciones ON estacion_tag.id_estacion = estaciones.id_estacion INNER JOIN tags ON tags.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag= ".$datos_alarma[0]['id_tag']." AND(datos_historicos.fecha::date - interval '1 days') < '".$datos_alarma[0]['fecha_origen']."' AND (datos_historicos.fecha::date + interval '1 days') > '".$datos_alarma[0]['fecha_origen']."' ORDER BY datos_historicos.fecha DESC";
+                $consulta_detalles = "SELECT datos_historicos.valor_bool, datos_historicos.valor_float, datos_historicos.valor_acu, datos_historicos.valor_int, datos_historicos.fecha, estaciones.nombre_estacion, tags.nombre_tag FROM datos_historicos INNER JOIN estacion_tag ON datos_historicos.id_tag = estacion_tag.id_tag INNER JOIN estaciones ON estacion_tag.id_estacion = estaciones.id_estacion INNER JOIN tags ON tags.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag= " . $datos_alarma[0]['id_tag'] . " AND(datos_historicos.fecha::date - interval '1 days') < '" . $datos_alarma[0]['fecha_origen'] . "' AND (datos_historicos.fecha::date + interval '1 days') > '" . $datos_alarma[0]['fecha_origen'] . "' ORDER BY datos_historicos.fecha DESC";
                 $respuesta_detalles = pg_query($this->conexion, $consulta_detalles);
-                if($this->consultaExitosa($respuesta_detalles)){
+                if ($this->consultaExitosa($respuesta_detalles)) {
                     $detalles = pg_fetch_all($respuesta_detalles);
                     return $detalles;
                 }
@@ -457,7 +458,7 @@ class Database
     }
     //obtiene los historicos de un tag de una estación
     //se usa en graficas->vista rápida
-    
+
     public function historicosTagEstacion($id_estacion, $id_tag)
     {
         if ($this->conectar()) {

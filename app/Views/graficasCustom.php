@@ -26,34 +26,52 @@
                     <h6>Opciones:</h6>
                     <ul id="conMetaTag" class='listaGrafCustom'>
                         <li>
-                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMax" value="maxGen">
+                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMax"
+                                value="maxGen">
                             <label for="checkMax">Máximos generales</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMax" style="visibility:hidden" title="color" name="colorDato" list="coloresMetaGraf"></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color"
+                                    id="colorMax" style="visibility:hidden" title="color" name="colorDato"
+                                    list="coloresMetaGraf"></label>
                         </li>
                         <li>
-                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMin" value="minGen">
+                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMin"
+                                value="minGen">
                             <label for="checkMin">Mínimos generales</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMin" style="visibility:hidden" title="color" name="colorDato" list="coloresMetaGraf"></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color"
+                                    id="colorMin" style="visibility:hidden" title="color" name="colorDato"
+                                    list="coloresMetaGraf"></label>
                         </li>
                         <li>
-                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkAvg" value="avgGen">
+                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkAvg"
+                                value="avgGen">
                             <label for="checkAvg">Medias generales</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorAvg" style="visibility:hidden" title="color" name="colorDato" list="coloresMetaGraf"></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color"
+                                    id="colorAvg" style="visibility:hidden" title="color" name="colorDato"
+                                    list="coloresMetaGraf"></label>
                         </li>
                         <li>
-                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMaxInt" value="maxInt">
+                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMaxInt"
+                                value="maxInt">
                             <label for="checkMaxInt">Máximos Intervalo</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMaxInt" style="visibility:hidden" title="color" name="colorDato" list="coloresMetaGraf"></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color"
+                                    id="colorMaxInt" style="visibility:hidden" title="color" name="colorDato"
+                                    list="coloresMetaGraf"></label>
                         </li>
                         <li>
-                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMinInt" value="minInt">
+                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkMinInt"
+                                value="minInt">
                             <label for="checkMinInt">Mínimos Intervalo</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorMinInt" style="visibility:hidden" title="color" name="colorDato" list="coloresMetaGraf"></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color"
+                                    id="colorMinInt" style="visibility:hidden" title="color" name="colorDato"
+                                    list="coloresMetaGraf"></label>
                         </li>
                         <li>
-                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkAvgInt" value="avgInt">
+                            <input type="checkbox" style="visibility: hidden;" name="checkMeta" id="checkAvgInt"
+                                value="avgInt">
                             <label for="checkAvgInt">Medias Intervalo</label>
-                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color" id="colorAvgInt" style="visibility:hidden" title="color" name="colorDato" list="coloresMetaGraf"></label>
+                            <label><i class="fas fa-palette"></i><input type="color" class="form-control-color"
+                                    id="colorAvgInt" style="visibility:hidden" title="color" name="colorDato"
+                                    list="coloresMetaGraf"></label>
                         </li>
                     </ul>
 
@@ -97,7 +115,8 @@
                     <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
                     <hr>
                     <label for="opciones">Estación:</label>
-                    <select class="controlSel" id="opciones" style="transition: 0.5s;" name="opciones" onchange="iniciar(this.value)">
+                    <select class="controlSel" id="opciones" style="transition: 0.5s;" name="opciones"
+                        onchange="iniciar(this.value)">
                         <?php
                         $i = 1;
                         foreach ($_SESSION['estaciones'] as $index => $value) {
@@ -107,10 +126,17 @@
                         ?>
                     </select>
                     <!--controles-->
-                    <button id="btnControlCustom" style="background-color: yellowgreen;border: 2px solid green;" value="aplicar" onclick="aplicarCustom()" name="btnControlAplicar">aplicar</button>
-                    <button id="btnControlCustom" type="reset" onclick=limpiar() style="background-color: tomato;border: 2px solid red;" value="reset" name="btnControlReset">reset</button>
-                    <button id="btnControlCustom" style="background-color: darkseagreen;border: 2px solid rgb(0, 128, 58);" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
-                    <button id="btnControlCustom" style="background-color: rgb(1, 168, 184);border: 2px solid rgb(39, 45, 79);" value="guardar" onclick="ajustesPresets('guardar')" name="btnControlPrint"><i class="fas fa-save"></i></button>
+                    <button id="btnControlCustom" style="background-color: yellowgreen;border: 2px solid green;"
+                        value="aplicar" onclick="aplicarCustom()" name="btnControlAplicar">aplicar</button>
+                    <button id="btnControlCustom" type="reset" onclick=limpiar()
+                        style="background-color: tomato;border: 2px solid red;" value="reset"
+                        name="btnControlReset">reset</button>
+                    <button id="btnControlCustom"
+                        style="background-color: darkseagreen;border: 2px solid rgb(0, 128, 58);" value="print"
+                        onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
+                    <button id="btnControlCustom"
+                        style="background-color: rgb(1, 168, 184);border: 2px solid rgb(39, 45, 79);" value="guardar"
+                        onclick="ajustesPresets('guardar')" name="btnControlPrint"><i class="fas fa-save"></i></button>
                 </form>
             </div>
         </div>
@@ -132,55 +158,56 @@
 </main>
 
 <script>
-    var chartDom = document.getElementById('grafica');
-    var graficoCustom = echarts.init(chartDom);
-    var usu = '<?php echo $_SESSION['nombre'] ?>';
-    var pwd = '<?php echo $_SESSION['pwd'] ?>';
-    //Falta de momento: actualizar los controles, control de colores en las series
-    window.onload = function() {
-        iniciar();
-        pantalla();
-        inicioFin();
-        mostrarPresets();
-        //handlers para los controles de tags , meta y colores
-        $(document).on('change', 'input[type=color]', function() {
-            this.parentNode.style.color = this.value;
-        });
-        $(document).on('change', 'input[type=checkbox]', function() {
-            if (this.parentNode.style.backgroundColor == 'darkgray') {
-                this.parentNode.style.backgroundColor = 'lightgray';
-            } else {
-                this.parentNode.style.backgroundColor = 'darkgray';
-            }
-        });
-        comprobarTiempo();
-        setInterval(actualizarSur('general', usu, pwd, null), 20000);
-        //setTimeout(aplicarOpciones, 1500);
-        setInterval(fechaYHora, 1000);
-        setInterval(comprobarTiempo, 1000);
-
-        $(window).blur(function() {
-            tiempoFuera("");
-        });
-        $(window).focus(function() {
-            tiempoFuera("volver")
-        });
-    }
-
-    //procesos necesarios al principio para hacer todo lo demás
-    function iniciar() {
-        if (document.getElementById("opciones")) {
-            var estacion = document.getElementById("opciones").value;
-            nombre_estacion_activa = document.getElementById("opciones").options[document.getElementById("opciones").selectedIndex].text;
-            tagsEstacionCustom(estacion);
-        }
-    }
-    //muestra u oculta las opciones y controles sin readaptar nada
-    $(document).keypress(function(e) {
-        console.log(e.which);
-        if (e.ctrlKey && e.which == 26) {
-            mostrarOpciones();
+var chartDom = document.getElementById('grafica');
+var graficoCustom = echarts.init(chartDom);
+var usu = '<?php echo $_SESSION['nombre'] ?>';
+var pwd = '<?php echo $_SESSION['pwd'] ?>';
+//Falta de momento: actualizar los controles, control de colores en las series
+window.onload = function() {
+    iniciar();
+    pantalla();
+    inicioFin();
+    mostrarPresets();
+    //handlers para los controles de tags , meta y colores
+    $(document).on('change', 'input[type=color]', function() {
+        this.parentNode.style.color = this.value;
+    });
+    $(document).on('change', 'input[type=checkbox]', function() {
+        if (this.parentNode.style.backgroundColor == 'darkgray') {
+            this.parentNode.style.backgroundColor = 'lightgray';
+        } else {
+            this.parentNode.style.backgroundColor = 'darkgray';
         }
     });
+    comprobarTiempo();
+    setInterval(actualizarSur('general', usu, pwd, null), 20000);
+    //setTimeout(aplicarOpciones, 1500);
+    setInterval(fechaYHora, 1000);
+    setInterval(comprobarTiempo, 1000);
+
+    $(window).blur(function() {
+        tiempoFuera("");
+    });
+    $(window).focus(function() {
+        tiempoFuera("volver")
+    });
+}
+
+//procesos necesarios al principio para hacer todo lo demás
+function iniciar() {
+    if (document.getElementById("opciones")) {
+        var estacion = document.getElementById("opciones").value;
+        nombre_estacion_activa = document.getElementById("opciones").options[document.getElementById("opciones")
+            .selectedIndex].text;
+        tagsEstacionCustom(estacion);
+    }
+}
+//muestra u oculta las opciones y controles sin readaptar nada
+$(document).keypress(function(e) {
+    console.log(e.which);
+    if (e.ctrlKey && e.which == 26) {
+        mostrarOpciones();
+    }
+});
 </script>
 <?= $this->endSection() ?>

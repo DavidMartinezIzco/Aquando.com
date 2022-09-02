@@ -18,7 +18,8 @@
                 <form id="formOpciones">
                     <h3>Vista Rápida</h3>
                     <h6>Mostrando:</h6>
-                    <select class="controlSel" id="opcionesTag" style="transition: 0.5s;" name="opciones" onchange="aplicarOpciones()"></select>
+                    <select class="controlSel" id="opcionesTag" style="transition: 0.5s;" name="opciones"
+                        onchange="aplicarOpciones()"></select>
                     <h6>Comparar con:</h6>
                     <select class="controlSel" id="compararSel" name="tipoRender" onchange="comparar()">
                         <option value="nada" selected>Nada</option>
@@ -26,7 +27,8 @@
                     <hr>
                     <!--presets/tipos de repren-->
                     <label for="opciones">Estación:</label>
-                    <select class="controlSel" id="opciones" style="transition: 0.5s;" name="opciones" onchange="iniciar(this.value)">
+                    <select class="controlSel" id="opciones" style="transition: 0.5s;" name="opciones"
+                        onchange="iniciar(this.value)">
                         <?php
                         $i = 1;
                         foreach ($_SESSION['estaciones'] as $index => $value) {
@@ -38,9 +40,12 @@
                 </form>
 
                 <!--controles-->
-                <button id="btnControl" style="background-color: yellowgreen;" value="aplicar" onclick="aplicarOpciones()" name="btnControlAplicar">aplicar</button>
-                <button id="btnControl" type="reset" onclick=limpiar() style="background-color: tomato;" value="reset" name="btnControlReset">reset</button>
-                <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
+                <button id="btnControl" style="background-color: yellowgreen;" value="aplicar"
+                    onclick="aplicarOpciones()" name="btnControlAplicar">aplicar</button>
+                <button id="btnControl" type="reset" onclick=limpiar() style="background-color: tomato;" value="reset"
+                    name="btnControlReset">reset</button>
+                <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()"
+                    name="btnControlPrint"><i class="fas fa-print"></i></button>
             </div>
         </div>
 
@@ -58,39 +63,39 @@
 
 
 <script>
-    window.onload = function() {
-        pantalla();
-        var usu = '<?php echo $_SESSION['nombre'] ?>';
-        var pwd = '<?php echo $_SESSION['pwd'] ?>';
-        comprobarTiempo();
-        iniciar();
-        setInterval(actualizarSur('general', usu, pwd, null), 20000);
-        setTimeout(aplicarOpciones, 1500);
-        setInterval(fechaYHora, 1000);
-        setInterval(comprobarTiempo, 1000);
+window.onload = function() {
+    pantalla();
+    var usu = '<?php echo $_SESSION['nombre'] ?>';
+    var pwd = '<?php echo $_SESSION['pwd'] ?>';
+    comprobarTiempo();
+    iniciar();
+    setInterval(actualizarSur('general', usu, pwd, null), 20000);
+    setTimeout(aplicarOpciones, 1500);
+    setInterval(fechaYHora, 1000);
+    setInterval(comprobarTiempo, 1000);
 
-        $(window).blur(function() {
-            tiempoFuera("");
-        });
-        $(window).focus(function() {
-            tiempoFuera("volver")
-        });
-    }
-
-    function iniciar() {
-        if (document.getElementById("opciones")) {
-            var estacion = document.getElementById("opciones").value;
-            tagsEstacion(estacion);
-        }
-    }
-
-    //CTRL + Z
-    $(document).keypress(function(e) {
-        console.log(e.which);
-        if (e.ctrlKey && e.which == 26) {
-            mostrarOpciones();
-        }
+    $(window).blur(function() {
+        tiempoFuera("");
     });
+    $(window).focus(function() {
+        tiempoFuera("volver")
+    });
+}
+
+function iniciar() {
+    if (document.getElementById("opciones")) {
+        var estacion = document.getElementById("opciones").value;
+        tagsEstacion(estacion);
+    }
+}
+
+//CTRL + Z
+$(document).keypress(function(e) {
+    console.log(e.which);
+    if (e.ctrlKey && e.which == 26) {
+        mostrarOpciones();
+    }
+});
 </script>
 
 

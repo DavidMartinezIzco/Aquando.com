@@ -66,8 +66,8 @@ if ($_GET['funcion'] == "actualizar") {
                         echo $valor;
                         //aqui hay que cambiar el filtro de alarmas
                         //
-                        if(preg_match('~[0-9]+~',$alarma['valor_alarma'])){
-                            echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma('.$alarma['id_alarmas'].')"></i>';
+                        if (preg_match('~[0-9]+~', $alarma['valor_alarma'])) {
+                            echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma(' . $alarma['id_alarmas'] . ')"></i>';
                         }
                         echo "</td>";
                         break;
@@ -149,8 +149,8 @@ if ($_GET['funcion'] == "estacion") {
                             echo "<td>";
                             echo $valor;
                             //aqui hay que cambiar el filtro de alarmas
-                            if(preg_match('~[0-9]+~',$alarma['valor_alarma'])){
-                                echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma('.$alarma['id_alarmas'].')"></i>';
+                            if (preg_match('~[0-9]+~', $alarma['valor_alarma'])) {
+                                echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma(' . $alarma['id_alarmas'] . ')"></i>';
                             }
                             echo "</td>";
                             break;
@@ -196,11 +196,11 @@ if ($_GET['funcion'] == "reconocer") {
 if ($_GET['funcion'] == "detalles") {
     $id = $_GET['id'];
     $detalles = $db->obtenerDetallesAlarma($id);
-    if($detalles !=false){
+    if ($detalles != false) {
         echo json_encode($detalles);
-    }else{
+    } else {
         echo 'error';
     }
-    
+
     // $fecha_origen = $db
 }

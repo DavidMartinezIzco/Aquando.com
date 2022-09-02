@@ -6,7 +6,6 @@
 <link rel="stylesheet" type="text/css" href="../../css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px; margin-top:1%;">
 
-
     <!--zona con los estados de conexiones-->
     <!--su contenido es provisional-->
     <div id="displayComs">
@@ -15,40 +14,39 @@
         </table>
     </div>
 
-
     <!--alarmas de abajo-->
     <table id="alarmasSur">
     </table>
 </main>
 
 <script>
-    window.onload = function() {
-        pantalla();
-        var usu = '<?php echo $_SESSION['nombre'] ?>';
-        sessionStorage.setItem('usu', usu);
-        var pwd = '<?php echo $_SESSION['pwd'] ?>';
-        sessionStorage.setItem('pwd', pwd);
+window.onload = function() {
+    pantalla();
+    var usu = '<?php echo $_SESSION['nombre'] ?>';
+    sessionStorage.setItem('usu', usu);
+    var pwd = '<?php echo $_SESSION['pwd'] ?>';
+    sessionStorage.setItem('pwd', pwd);
 
-        actualizarSur('general', usu, pwd, null);
+    actualizarSur('general', usu, pwd, null);
 
-        setInterval(actualizarConexiones(usu, pwd), 1000 * 60 * 5);
-        setInterval(fechaYHora, 1000);
-        setInterval(comprobarTiempo, 1000);
-        setInterval(parpadeoProblema, 3000);
-        $(window).blur(function() {
-            tiempoFuera("");
-        });
-        $(window).focus(function() {
-            tiempoFuera("volver")
-        });
-    }
+    setInterval(actualizarConexiones(usu, pwd), 1000 * 60 * 5);
+    setInterval(fechaYHora, 1000);
+    setInterval(comprobarTiempo, 1000);
+    setInterval(parpadeoProblema, 3000);
+    $(window).blur(function() {
+        tiempoFuera("");
+    });
+    $(window).focus(function() {
+        tiempoFuera("volver")
+    });
+}
 
-    function actu() {
-        usu = sessionStorage.getItem('usu');
-        pwd = sessionStorage.getItem('pwd');
-        idusu = sessionStorage.getItem('idusu');
-        actualizarConexiones(usu, pwd, idusu);
-    }
+function actu() {
+    usu = sessionStorage.getItem('usu');
+    pwd = sessionStorage.getItem('pwd');
+    idusu = sessionStorage.getItem('idusu');
+    actualizarConexiones(usu, pwd, idusu);
+}
 </script>
 
 

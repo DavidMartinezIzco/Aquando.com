@@ -28,7 +28,8 @@
         <!--controles de fecha busqueda y otros--->
         <div id="opcionesInforme">
             <form>
-                <select style="margin-top:1.5%;margin-left:3%;width:97%; height:100%" id="opcionesEstacion" multiple name="opcionesEstacion">
+                <select style="margin-top:1.5%;margin-left:3%;width:97%; height:100%" id="opcionesEstacion" multiple
+                    name="opcionesEstacion">
                     <?php
                     foreach ($_SESSION['estaciones'] as $index => $estacion) {
                         echo '<option id=est' . $estacion['id_estacion'] . ' value=' . $estacion['id_estacion'] . ' name="' . $estacion['nombre_estacion'] . '" >' . $estacion['nombre_estacion'] . '</option>';
@@ -53,8 +54,10 @@
             <div id="controles">
                 <button id="btnInforme" name="btnControl" onclick="obtenerInforme()">ver informe</button>
                 <button id="btnInforme" onclick=reset() value="reset" name="btnControlReset">reset</button>
-                <button id="btnInforme" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
-                <button id="btnInforme" value="print" onclick="exportarCSV()" name="btnControlPrint"><i class="fas fa-file-excel"></i></button>
+                <button id="btnInforme" value="print" onclick="imprimir()" name="btnControlPrint"><i
+                        class="fas fa-print"></i></button>
+                <button id="btnInforme" value="print" onclick="exportarCSV()" name="btnControlPrint"><i
+                        class="fas fa-file-excel"></i></button>
             </div>
         </div>
     </div>
@@ -68,26 +71,26 @@
 
 
 <script>
-    var nomusuario = "<?php echo $_SESSION['nombre']; ?>";
-    window.onload = function() {
-        inicioFin();
-        pantalla();
-        setInterval(fechaYHora, 1000);
-        setInterval(comprobarTiempo, 1000);
-        $(window).blur(function() {
-            tiempoFuera("");
-        });
-        $(window).focus(function() {
-            tiempoFuera("volver")
-        });
-
-    }
-    $(document).keypress(function(e) {
-        console.log(e.which);
-        if (e.ctrlKey && e.which == 26) {
-            opciones();
-        }
+var nomusuario = "<?php echo $_SESSION['nombre']; ?>";
+window.onload = function() {
+    inicioFin();
+    pantalla();
+    setInterval(fechaYHora, 1000);
+    setInterval(comprobarTiempo, 1000);
+    $(window).blur(function() {
+        tiempoFuera("");
     });
+    $(window).focus(function() {
+        tiempoFuera("volver")
+    });
+
+}
+$(document).keypress(function(e) {
+    console.log(e.which);
+    if (e.ctrlKey && e.which == 26) {
+        opciones();
+    }
+});
 </script>
 
 

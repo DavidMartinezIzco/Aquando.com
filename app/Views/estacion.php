@@ -59,31 +59,31 @@
 
 
 <script>
-    var estacion = <?php echo $id_estacion ?>;
+var estacion = <?php echo $id_estacion ?>;
 
-    function updateEstacion() {
-        $(document.getElementById("iconoActu")).addClass("rotante");
-        actualizar(estacion);
-        setTimeout(function() {
-            document.getElementById("iconoActu").classList.remove("rotante");
-        }, 1500);
-    }
-    window.onload = function() {
-        actualizar(estacion);
-        setInterval(updateEstacion(), 60000 * 5);
-        // pantalla();
-        fotoEstacion(estacion);
-        comprobarTiempo();
-        setInterval(fechaYHora, 1000);
-        setInterval(actualizarSur('estacion', null, null, estacion), 20000);
-        setInterval(comprobarTiempo, 1000);
-        // $(window).blur(function() {
-        //     tiempoFuera("");
-        // });
-        // $(window).focus(function() {
-        //     tiempoFuera("volver")
-        // });
-    }
+function updateEstacion() {
+    $(document.getElementById("iconoActu")).addClass("rotante");
+    actualizar(estacion);
+    setTimeout(function() {
+        document.getElementById("iconoActu").classList.remove("rotante");
+    }, 1500);
+}
+window.onload = function() {
+    actualizar(estacion);
+    setInterval(updateEstacion(), 60000 * 5);
+    // pantalla();
+    fotoEstacion(estacion);
+    comprobarTiempo();
+    setInterval(fechaYHora, 1000);
+    setInterval(actualizarSur('estacion', null, null, estacion), 20000);
+    setInterval(comprobarTiempo, 1000);
+    // $(window).blur(function() {
+    //     tiempoFuera("");
+    // });
+    // $(window).focus(function() {
+    //     tiempoFuera("volver")
+    // });
+}
 </script>
 
 <?= $this->endSection() ?>

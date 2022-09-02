@@ -13,7 +13,6 @@ $( document )
     } );
 
 
-
 //abre o cierra el menu lateral
 function abrirCerrar() {
 
@@ -26,7 +25,6 @@ function abrirCerrar() {
     }
     $( "#menuIzq" )
         .trigger( 'widthChange' );
-
 
 }
 
