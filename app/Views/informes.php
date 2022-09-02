@@ -7,14 +7,11 @@
 <script src='../../css/html2canvas.esm.js'></script>
 <script src="../../css/html2pdf/lib/html2pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
-
 <link rel="stylesheet" type="text/css" href="../../css/informes.css">
 <link rel="stylesheet" type="text/css" href="../../css/alarmas.css">
 <main id="conPrincipal" style="width:100%;">
-
     <div id="informesNorte">
         <button id="btnMenuInformes" onclick="opciones()"><i class="fas fa-sliders-h"></i></button>
-
         <!--tipo de representacion--->
         <div id="tipoInforme">
             <form>
@@ -23,7 +20,6 @@
                 <label><input type="radio" name="radInforme" id="radInforme" value="acu" /> Acumulados</label><br>
                 <label><input type="radio" name="radInforme" id="radInforme" value="clo" /> Cloros y Turbidez</label>
             </form>
-
         </div>
         <!--controles de fecha busqueda y otros--->
         <div id="opcionesInforme">
@@ -36,7 +32,6 @@
                     }
                     ?>
                 </select><br>
-
             </form>
         </div>
         <!--campos posibles para representar--->
@@ -48,7 +43,6 @@
                 <label for="fecha">Hasta</label>
             </form>
         </div>
-
         <!-- botonera para los informes -->
         <div id="controlesInforme">
             <div id="controles">
@@ -64,12 +58,9 @@
     <!-- zona con los informes -->
     <div id="informesSur">
         <div id="espacioInforme" style="color: black;">
-
         </div>
     </div>
 </main>
-
-
 <script>
 var nomusuario = "<?php echo $_SESSION['nombre']; ?>";
 window.onload = function() {
@@ -83,7 +74,6 @@ window.onload = function() {
     $(window).focus(function() {
         tiempoFuera("volver")
     });
-
 }
 $(document).keypress(function(e) {
     console.log(e.which);
@@ -92,6 +82,4 @@ $(document).keypress(function(e) {
     }
 });
 </script>
-
-
 <?= $this->endSection() ?>

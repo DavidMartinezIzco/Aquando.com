@@ -1,7 +1,5 @@
 var datosM = new Array();
 var datosR = new Array();
-
-
 //reestablece los filtros por defecto
 function limpiar() {
     document.getElementsByName( 'btnControlReset' )[ 0 ].innerText = 'limpio!';
@@ -20,10 +18,8 @@ function limpiar() {
         document.getElementsByName( 'btnControlReset' )[ 0 ].innerHTML = "reset";
     }, 1000 );
 }
-
 //obtiene los metadatos (max, min, avg) de los historicos (tag)
 function metaDatosTag( id_tag, id_estacion ) {
-
     $.ajax( {
         type: 'GET',
         url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?opcion=meta&tag=' + id_tag + '&estacion=' + id_estacion,
@@ -31,7 +27,6 @@ function metaDatosTag( id_tag, id_estacion ) {
             datosM[ 'max' ] = meta[ 'max' ];
             datosM[ 'min' ] = meta[ 'min' ];
             datosM[ 'avg' ] = meta[ 'avg' ];
-
             $.ajax( {
                 type: 'GET',
                 url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&tag=' + id_tag + '&opcion=render',
@@ -45,16 +40,13 @@ function metaDatosTag( id_tag, id_estacion ) {
                 },
                 dataType: 'json'
             } );
-
         },
         error: function ( e ) {
             console.log( e );
         },
         dataType: 'json'
     } );
-
 }
-
 //aplica las opciones de los controles
 function aplicarOpciones() {
     var idEstacion = document.getElementById( "opciones" )
@@ -63,13 +55,10 @@ function aplicarOpciones() {
         .value;
     document.getElementById( 'compararSel' )
         .value = 'nada';
-
     metaDatosTag( idTag, idEstacion );
 }
-
 //lista los tags disponibles de una estacion
 function tagsEstacion( id_estacion ) {
-
     $( document )
         .ready( function () {
             $.ajax( {
@@ -96,7 +85,6 @@ function tagsEstacion( id_estacion ) {
                         e++;
                     }
                     aplicarOpciones();
-
                 },
                 error: function () {
                     console.log( "error" );
@@ -105,13 +93,10 @@ function tagsEstacion( id_estacion ) {
             } );
         } );
 }
-
 //prepara el grafico
 //sabemos que funciona, pero cuando tengamos datos muy bestias tal vez empiece a ir lenta.
 //debería repartir algunas tareas para venir hechas desde servidor
-
 function renderGrafico( datosR ) {
-
     var chartDom = document.getElementById( 'grafica' );
     var grafico = echarts.init( chartDom );
     var option;
@@ -124,10 +109,8 @@ function renderGrafico( datosR ) {
             nombreDato = tagsAct[ 0 ][ tindex ][ 'nombre_tag' ];
         }
     }
-
     //Ajustes
     option = {
-
         legend: {
             x: 'center',
             y: 'top',
@@ -162,28 +145,22 @@ function renderGrafico( datosR ) {
             containLabel: true
         },
     };
-
     //series de meta 
     //esto igual lo hago desde servidor para quitarle curro al renderizado (lo de mas abajo)
     var fechas = new Array();
     var serieMax = new Array();
     var serieMin = new Array();
     var serieAvg = new Array();
-
     for ( var index in datosR ) {
         for ( var valor in datosR[ index ] ) {
             fechas.push( datosR[ index ][ valor ][ 'fecha' ] );
         }
     }
-
-
     for ( var index in datosR ) {
         serieMax.push( datosM[ 'max' ] );
         serieMin.push( datosM[ 'min' ] );
         serieAvg.push( datosM[ 'avg' ] );
     }
-
-
     //el chandrío que mas habría que optimizar o pasar a servidor
     //crea las series de los metadata
     //igual se puede sustituir por un valor asociado Y fijo
@@ -199,8 +176,6 @@ function renderGrafico( datosR ) {
             }
         }
     }
-
-
     var serieMin = new Array();
     for ( var i in fechas ) {
         serieMin[ i ] = datosM[ 'min' ];
@@ -209,7 +184,6 @@ function renderGrafico( datosR ) {
     for ( var i in fechas ) {
         serieAvg[ i ] = datosM[ 'avg' ];
     }
-
     //Ajustes
     option[ 'tooltip' ] = {
         trigger: 'axis',
@@ -217,7 +191,6 @@ function renderGrafico( datosR ) {
             fontStyle: 'bold',
             fontSize: 20
         },
-
         axisPointer: {
             axis: 'x',
             snap: true,
@@ -229,10 +202,7 @@ function renderGrafico( datosR ) {
             }
         }
     };
-
     option[ 'xAxis' ] = {
-
-
         inverse: false,
         splitNumber: 10,
         data: fechas,
@@ -242,9 +212,7 @@ function renderGrafico( datosR ) {
             color: "black",
             fontSize: 30,
         },
-
     };
-
     //Eje(s) Y
     option[ 'yAxis' ] = [ {
         type: 'value',
@@ -254,7 +222,6 @@ function renderGrafico( datosR ) {
         },
         boundaryGap: [ 0, '10%' ],
     } ];
-
     //controles de los filtros en los ejes XY
     option[ 'dataZoom' ] = [ {
             type: 'slider',
@@ -304,9 +271,7 @@ function renderGrafico( datosR ) {
             filterMode: 'filter',
             z: 100
         }
-
     ];
-
     //valores de los tags y sus metadatos traidos de server
     var series = [ {
             name: nombreDato,
@@ -319,9 +284,7 @@ function renderGrafico( datosR ) {
                 show: true,
             },
             data: valores,
-
             markLine: {
-
                 data: [ {
                         symbol: 'none',
                         type: 'average',
@@ -388,7 +351,6 @@ function renderGrafico( datosR ) {
                     }
                 ],
             }
-
         },
         {
             name: 'Maximo Total ' + nombreDato,
@@ -420,30 +382,22 @@ function renderGrafico( datosR ) {
             itemStyle: {},
             data: serieAvg,
         }
-
     ];
     option[ 'series' ] = series;
-
-
-
     //estos even handlers son para los cambios de tamaño del grafico
     //igual habría que ampliarlos con cuidado pero de momento sirven
-
     $( window )
         .keyup( function () {
             grafico.resize();
         } );
-
     document.getElementById( "conPrincipal" )
         .onclick = function () {
             setTimeout( grafico.resize(), 500 );
         };
-
     document.getElementById( 'conPrincipal' )
         .onmouseover = function () {
             setTimeout( grafico.resize(), 500 );
         }
-
     document.getElementById( 'grafica' )
         .onmouseover = function () {
             setTimeout( grafico.resize(), 500 );
@@ -460,13 +414,9 @@ function renderGrafico( datosR ) {
         //al final tambien guardo los metadata (maximos minimos y eso)
         var leyendaV = JSON.parse( '[' + sessionStorage.getItem( 'leyenda' ) + ']' );
         option[ 'legend' ][ 'data' ] = leyendaV[ 0 ][ 'data' ].concat( option[ 'legend' ][ 'data' ] );
-
-
         var yaxisV = JSON.parse( '[' + sessionStorage.getItem( 'yaxis' ) + ']' );
         option[ 'yAxis' ] = yaxisV[ 0 ].concat( option[ 'yAxis' ] );
-
         var datazoomY = [ {
-
                 type: 'slider',
                 textStyle: {
                     fontSize: 14,
@@ -487,16 +437,12 @@ function renderGrafico( datosR ) {
                 filterMode: 'filter'
             }
         ];
-
         option[ 'dataZoom' ].push( datazoomY[ 0 ] );
         option[ 'dataZoom' ].push( datazoomY[ 1 ] );
-
-
         var seriesV = JSON.parse( '[' + sessionStorage.getItem( 'series' ) + ']' );
         seriesV[ 0 ][ 0 ][ 'yAxisIndex' ] = 1;
         option[ 'series' ] = seriesV[ 0 ].concat( option[ 'series' ] );
     }
-
     //guarda configs de option en caso de tener que comparar historicos
     if ( document.getElementById( "compararSel" )
         .value == "nada" ) {
@@ -507,7 +453,6 @@ function renderGrafico( datosR ) {
     }
     option && grafico.setOption( option, true );
 }
-
 //muestra o esconde las opciones de los graficos
 function mostrarOpciones() {
     if ( document.getElementById( "zonaControles" )
@@ -518,7 +463,6 @@ function mostrarOpciones() {
             .style.left = '80%';
         document.getElementById( "zonaGraficos" )
             .style.width = '79%';
-
     } else {
         document.getElementById( "zonaControles" )
             .style.width = '1%';
@@ -528,7 +472,6 @@ function mostrarOpciones() {
             .style.width = '98%';
     }
 }
-
 //saca una captura del grafico en panatalla
 function imprimir() {
     var al = $( "#grafica" )
@@ -546,38 +489,27 @@ function imprimir() {
         html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
         jsPDF: { unit: 'px', format: [ an, al ], orientation: 'l' }
     };
-
     var exp_informe = new html2pdf( informe, opt );
     exp_informe.getPdf( true )
         .then( ( pdf ) => {
-
         } );
 }
-
 //descarga la captura del grafico
 function guardar( uri, filename ) {
-
     var link = document.createElement( 'a' );
-
     if ( typeof link.download === 'string' ) {
-
         link.href = uri;
         link.download = filename;
         document.body.appendChild( link );
         link.click();
         document.body.removeChild( link );
-
     } else {
-
         window.open( uri );
-
     }
 }
-
 //la funcion de comparación de gráficos.
 //la chicha la has llevado toda a renderGrafico()
 function comparar() {
-
     if ( document.getElementById( "compararSel" )
         .value != "nada" ) {
         var idEstacionCom = document.getElementById( "opciones" )

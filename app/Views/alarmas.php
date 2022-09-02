@@ -10,7 +10,6 @@
 <script src="../../css/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="../../css/alarmasCustom.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
-
     <!--opciones de filtrado de las alarmas--->
     <div id="zonaOpciones">
         <div id="filtros">
@@ -24,10 +23,14 @@
             </select>
         </div>
         <div id="filtros2">
-            <label for="radioFecha"><input type="radio" id="radioFecha" name="filtro" value="Fecha" checked>Fecha</label>
-            <label for="radioMotivo"><input type="radio" id="radioMotivo" name="filtro" value="estado">Importancia</label>
-            <label for="radioRest"><input type="radio" id="radioRest" name="filtro" value="restauracion">Restauracion</label>
-            <label for="radioEstacion"><input type="radio" id="radioEstacion" name="filtro" value="estacion">Estación</label>
+            <label for="radioFecha"><input type="radio" id="radioFecha" name="filtro" value="Fecha"
+                    checked>Fecha</label>
+            <label for="radioMotivo"><input type="radio" id="radioMotivo" name="filtro"
+                    value="estado">Importancia</label>
+            <label for="radioRest"><input type="radio" id="radioRest" name="filtro"
+                    value="restauracion">Restauracion</label>
+            <label for="radioEstacion"><input type="radio" id="radioEstacion" name="filtro"
+                    value="estacion">Estación</label>
         </div>
         <div id="orden">
             <input type="radio" id="radioAsc" name="orden" value="ASC">
@@ -45,12 +48,15 @@
         </div>
 
         <div id="acciones">
-            <button id="btnControl" style="background-color: yellowgreen;border:2px solid green;" value="aplicar" onclick=actualizar() name="btnControl">Aplicar</button>
-            <button id="btnControl" onclick=limpiar() style="background-color:tomato;border:2px solid red;" value="reset" name="btnControlReset">Reset</button>
-            <button id="btnControl" style="background-color: rgb(1, 168, 184);border:2px solid blue;" value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
-            <button id="btnControl" style="background-color: darkseagreen;border:2px solid darkgreen;" value="print" onclick="exportarCSV()" name="btnControlPrint"><i class="fas fa-file-excel"></i></button>
+            <button id="btnControl" style="background-color: yellowgreen;border:2px solid green;" value="aplicar"
+                onclick=actualizar() name="btnControl">Aplicar</button>
+            <button id="btnControl" onclick=limpiar() style="background-color:tomato;border:2px solid red;"
+                value="reset" name="btnControlReset">Reset</button>
+            <button id="btnControl" style="background-color: rgb(1, 168, 184);border:2px solid blue;" value="print"
+                onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
+            <button id="btnControl" style="background-color: darkseagreen;border:2px solid darkgreen;" value="print"
+                onclick="exportarCSV()" name="btnControlPrint"><i class="fas fa-file-excel"></i></button>
         </div>
-
     </div>
     <!--zona para representar las alarmas--->
     <div id="zonaAlarmas">
@@ -58,34 +64,30 @@
         <table id="tablaAlarmas">
         </table>
     </div>
-
 </main>
-
 <script>
-    window.onload = function() {
-        inicioFin();
-        var usu = '<?php echo $_SESSION['nombre'] ?>';
-        var pwd = '<?php echo $_SESSION['pwd'] ?>';
-        sessionStorage.setItem('nousu', usu);
-        sessionStorage.setItem('pwd', pwd);
-        actualizar(null);
-        setInterval(fechaYHora, 1000);
-        setInterval(actualizar(null), 20000);
-        setInterval(comprobarTiempo, 1000);
-        pantalla();
-        // $(window).blur(function() {
-        //     tiempoFuera("");
-        // });
-        // $(window).focus(function() {
-        //     tiempoFuera("volver")
-        // });
-
-    }
-    //muestra / oculta las opciones
-    // $(window).keydown(function(e) {
-    //     if (e.ctrlKey)
-    //         opciones();
+window.onload = function() {
+    inicioFin();
+    var usu = '<?php echo $_SESSION['nombre'] ?>';
+    var pwd = '<?php echo $_SESSION['pwd'] ?>';
+    sessionStorage.setItem('nousu', usu);
+    sessionStorage.setItem('pwd', pwd);
+    actualizar(null);
+    setInterval(fechaYHora, 1000);
+    setInterval(actualizar(null), 20000);
+    setInterval(comprobarTiempo, 1000);
+    pantalla();
+    // $(window).blur(function() {
+    //     tiempoFuera("");
     // });
+    // $(window).focus(function() {
+    //     tiempoFuera("volver")
+    // });
+}
+//muestra / oculta las opciones
+// $(window).keydown(function(e) {
+//     if (e.ctrlKey)
+//         opciones();
+// });
 </script>
-
 <?= $this->endSection() ?>

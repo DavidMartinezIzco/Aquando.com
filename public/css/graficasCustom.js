@@ -7,14 +7,9 @@ datosTagCustom[ 'serie' ] = [];
 datosTagCustom[ 'fechas' ] = [];
 var serie = {};
 var presets_config = new Array();
-
-
-
 //reestablece los filtros por defecto
-
 function limpiar() {
     document.getElementsByName( 'btnControlReset' )[ 0 ].innerText = 'limpio!';
-
     //tags y metas seleccionados
     var checkTags = document.querySelectorAll( 'input[name=checkTag]:checked' )
     for ( var i = 0; i < checkTags.length; i++ ) {
@@ -34,25 +29,20 @@ function limpiar() {
             checkMetas[ i ].parentNode.style.backgroundColor = 'darkgray';
         }
     }
-
     //quitar colores der tags y meta
     var inColor = document.querySelectorAll( 'input[name=colorDato]' )
     for ( var i = 0; i < inColor.length; i++ ) {
         inColor[ i ].value = '#000000';
         inColor[ i ].parentNode.style.color = '#000000';
     }
-
     //reset de fechas
     inicioFin();
-
     //limpiar zona de gráficos
     graficoCustom.clear();
-
     setTimeout( function () {
         document.getElementsByName( 'btnControlReset' )[ 0 ].innerHTML = "reset";
     }, 1000 );
 }
-
 //saca una captura del grafico en panatalla
 function imprimir() {
     var al = $( "#grafica" )
@@ -70,12 +60,10 @@ function imprimir() {
         html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
         jsPDF: { unit: 'px', format: [ an, al ], orientation: 'l' }
     };
-
     var exp_informe = new html2pdf( informe, opt );
     exp_informe.getPdf( true )
         .then( ( pdf ) => {} );
 }
-
 //establece los valores por defecto de los inputs de fecha
 //traduce y establece la fecha actual como predeterminado
 function inicioFin() {
@@ -106,7 +94,6 @@ function inicioFin() {
 }
 //pasa los tags historizables de una estacion en concreto
 function tagsEstacionCustom( id_estacion ) {
-
     $( document )
         .ready( function () {
             $.ajax( {
@@ -131,8 +118,6 @@ function tagsEstacionCustom( id_estacion ) {
                         }
                         e++;
                     }
-
-
                 },
                 error: function () {
                     console.log( "error" );
@@ -141,7 +126,6 @@ function tagsEstacionCustom( id_estacion ) {
             } );
         } );
 }
-
 //display de las opciones
 function mostrarOpciones() {
     if ( document.getElementById( "zonaControles" )
@@ -152,7 +136,6 @@ function mostrarOpciones() {
             .style.left = '65%';
         document.getElementById( "zonaGraficos" )
             .style.width = '65%';
-
     } else {
         document.getElementById( "zonaControles" )
             .style.width = 0;
@@ -160,11 +143,8 @@ function mostrarOpciones() {
             .style.left = '100%';
         document.getElementById( "zonaGraficos" )
             .style.width = '98%';
-
     }
-
 }
-
 //disparador inicial para mostrar el grafico según los ajustes en los contrles
 function aplicarCustom() {
     //mirar a ver si en vez de actualizar todo, ver si se pueden reutilizar
@@ -243,9 +223,7 @@ function infoTags( estacion, ajustesTag, tag, metas, fechaIni, fechaFin ) {
         },
         dataType: 'json'
     } );
-
 }
-
 //crea el objeto series con la info de un tag en concreto
 //junta en los series los historicos con los metadatos
 //es un caos pero hace lo que promete
@@ -253,27 +231,21 @@ function prepararTag( info, tag ) {
     var fechasTag = [];
     var nombreDato = "Info " + tag;
     var tagsAct = JSON.parse( '[' + sessionStorage.getItem( "tagsAct" ) + ']' );
-
     for ( var tindex in tagsAct[ 0 ] ) {
         if ( tagsAct[ 0 ][ tindex ][ 'id_tag' ] == tag ) {
             nombreDato = tagsAct[ 0 ][ tindex ][ 'nombre_tag' ];
         }
     }
-
     //elementos comunes
     var colorTag = document.getElementById( "color" + tag )
         .value;
     serie = {};
-
     // codigo provisional
-
     //cambiar escalado de los ejes Y en funcion de las series a las que pertenezcan
     //eliminiar los nombres de los tags en la parte superior (está en render)
     //mirar a ver si solucionamos el asunto del zoom
-
     var eje = {};
     eje[ 'type' ] = 'value';
-
     eje[ 'axisLine' ] = {
         show: true,
         lineStyle: { color: colorTag }
@@ -281,10 +253,8 @@ function prepararTag( info, tag ) {
     eje[ 'axisLabel' ] = { show: true };
     eje[ 'axisTick' ] = { show: true }
     eje[ 'boundaryGap' ] = [ 0, '100%' ];
-
     eje[ 'inside' ] = true;
     ejesYTagCustom.push( eje );
-
     serie[ 'name' ] = nombreDato;
     serie[ 'symbol' ] = 'none';
     serie[ 'connectNulls' ] = true;
@@ -301,10 +271,8 @@ function prepararTag( info, tag ) {
     };
     serie[ 'data' ] = [];
     serie[ 'markLine' ] = { data: [] };
-
     var mulstack = 1;
     for ( var index in info[ 'tag' ] ) {
-
         if ( info[ 'tag' ][ index ][ 'valor' ] != 't' ) {
             serie[ 'data' ].push( info[ 'tag' ][ index ][ 'valor' ] );
         } else {
@@ -313,19 +281,14 @@ function prepararTag( info, tag ) {
         }
         fechasTag.push( info[ 'tag' ][ index ][ 'fecha' ] );
     }
-
-
     //crear markline-data con los metadatos
     //se separa en dos por la naturaleza de ambos tipos de meta
-
     for ( var meta in info[ 'meta' ] ) {
         var colorMeta = '';
         var valMeta = info[ 'meta' ][ meta ];
         var marcaMeta = {};
         marcaMeta[ 'lineStyle' ] = { normal: new Array };
-
         //PARTE 1: GENERALES
-
         if ( meta == 'max' ) {
             colorMeta = document.getElementById( "colorMax" )
                 .value;
@@ -344,7 +307,6 @@ function prepararTag( info, tag ) {
             marcaMeta[ 'name' ] = "media gen";
             marcaMeta[ 'lineStyle' ][ 'normal' ][ 'color' ] = colorMeta;
         }
-
         //letrero con nombre y datos del markline
         //tal vez lo quite, tal vez no, tal vez lo cambie
         marcaMeta[ 'lineStyle' ][ 'normal' ][ 'type' ] = 'dashed';
@@ -360,7 +322,6 @@ function prepararTag( info, tag ) {
         marcaMeta[ 'yAxis' ] = valMeta;
         serie[ 'markLine' ][ 'data' ].push( marcaMeta );
     }
-
     //PARTE 2: INTERVALOS
     if ( document.getElementById( "checkMaxInt" )
         .checked ) {
@@ -428,7 +389,6 @@ function prepararTag( info, tag ) {
     datosTagCustom[ 'serie' ].push( serie );
     datosTagCustom[ 'fechas' ].push( fechasTag );
 }
-
 //crea el grafico con varios ajustes y con los objetos series
 function renderGrafico() {
     //llegan ajustesTags en tags
@@ -436,7 +396,6 @@ function renderGrafico() {
     var option;
     nombreDato = "info";
     var lineaTiempo = datosTagCustom[ 'fechas' ][ 0 ];
-
     //leyenda
     option = {
         legend: {
@@ -504,7 +463,6 @@ function renderGrafico() {
     //los ejes Y según se encuentran en mayor número, ocupan mayor espacio hasta el punto
     //de llegar a ocupar casi la mitad del gráfico. Su forma de aparecer va a tener que cambiar
     //(tal vez eliminando las labels)
-
     option[ 'yAxis' ] = [];
     let mul = 0;
     //DataZooms dedicados para los Ejes Y
@@ -513,7 +471,6 @@ function renderGrafico() {
     for ( var eje in ejesYTagCustom ) {
         if ( mul >= 1 ) {
             ejesYTagCustom[ eje ][ 'offset' ] = ( 75 ) * ( mul - 1 );
-
             option[ 'grid' ][ 'right' ] = ( 7 ) * ( mul - 1 ) + '%';
             option[ 'dataZoom' ].push( {
                 type: 'slider',
@@ -578,14 +535,10 @@ function renderGrafico() {
         .bind( 'widthChange', function () {
             graficoCustom.resize();
         } );
-
     option && graficoCustom.setOption( option, true );
-
 }
-
 // despliega las ventanas de opciones de los presets
 function ajustesPresets( modo ) {
-
     var con = document.getElementById( 'ajustesPresets' );
     if ( con.style.display == 'block' ) {
         con.style.display = 'none';
@@ -614,7 +567,6 @@ function ajustesPresets( modo ) {
         }
     }
 }
-
 //busca los presets del usuario y los lista o los carga
 function leerPresets( para ) {
     var datos = {};
@@ -635,7 +587,6 @@ function leerPresets( para ) {
                     success: function ( presets ) {
                         document.getElementById( "selPresets" )
                             .innerHTML = presets;
-
                     },
                     error: function ( e ) {
                         console.log( e );
@@ -696,14 +647,11 @@ function leerPresets( para ) {
                 } );
             } );
     }
-
 }
-
 //saca los presets en una lista
 function mostrarPresets() {
     leerPresets( 'mostrar' );
 }
-
 //a traves de AJAX lee la config de un preset y lo aplica con aplicarCustom()
 function cargarPreset() {
     document.getElementById( "btnControlCustom" )
@@ -753,7 +701,6 @@ function borrarPreset() {
         } );
     mostrarPresets();
 }
-
 //llama a AJAX para guardar un preset en la configuracion de usuario
 function guardarPreset() {
     if ( document.getElementById( 'txtPreset' )

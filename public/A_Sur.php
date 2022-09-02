@@ -1,20 +1,14 @@
 <?php
-
 require '../app/Database/Database.php';
-
 $caso = $_GET['caso'];
 $db = new Database();
-
 //actualiza el listado del menu sur
 //utiliza la config general
 if ($caso == "general") {
     $nombre = $_GET['nombre'];
     $pwd = $_GET['pwd'];
-
-
     $id_usuario = $db->obtenerIdUsuario($nombre, $pwd);
     $alarmasSur = $db->alarmasSur($id_usuario);
-
     echo "<tr>        
         <th>Estación</th>
         <th>Señal </th>
@@ -24,7 +18,6 @@ if ($caso == "general") {
         <th>Reconocida por</th>
         <th>Fecha de reconocimiento</th>
         </tr>";
-
     if ($alarmasSur != false) {
         $alarmasLimpio = array();
         foreach ($alarmasSur as $estacion => $alarmas) {
@@ -32,7 +25,6 @@ if ($caso == "general") {
                 $alarmasLimpio[$estacion] = $alarmas;
             }
         }
-
         foreach ($alarmasLimpio as $index => $alarma) {
 
             switch ($alarma['estado']) {
@@ -55,11 +47,8 @@ if ($caso == "general") {
                 default:
                     break;
             }
-
             foreach ($alarma as $dato => $valor) {
-
                 if ($dato != 'estado' && $dato != 'id_alarmas') {
-
                     echo "<td>";
                     echo $valor;
                     echo "</td>";
@@ -69,14 +58,11 @@ if ($caso == "general") {
         }
     }
 }
-
 //actualiza el listado del menu sur en la sección de estacion
 //utiliza la config particular
 if ($caso == "estacion") {
-
     $estacion = $_GET['estacion'];
     $alarmasSur = $db->alarmasEstacionSur($estacion);
-
     echo "<tr>        
         <th>Estación</th>
         <th>Señal </th>
@@ -86,11 +72,8 @@ if ($caso == "estacion") {
         <th>Reconocida por</th>
         <th>Fecha de reconocimiento</th>
         </tr>";
-
-
     if ($alarmasSur != false) {
         if (!empty($alarmasSur)) {
-
             $alarmasLimpio = array();
             foreach ($alarmasSur as $estacion => $alarmas) {
                 if ($alarmas != false) {
@@ -104,27 +87,20 @@ if ($caso == "estacion") {
                     switch ($alarma['estado']) {
                         case 1:
                             echo "<tr class='activaNo' >";
-
                             break;
                         case 2:
                             echo "<tr class='restNo'>";
-
                             break;
                         case 3:
                             echo "<tr class='activaSi'>";
-
                             break;
                         case 4:
                             echo "<tr class='restSi'>";
                             break;
-
                         default:
-
                             break;
                     }
-
                     foreach ($alarma as $dato => $valor) {
-
                         if ($dato != 'estado' && $dato != 'id_alarmas') {
                             echo "<td>";
                             echo $valor;

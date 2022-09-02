@@ -48,8 +48,6 @@
                 <script src="../../css/desconectado.js"></script>
                 <script src="../../css/sur.js"></script>';
     }
-
-
     ?>
     <!--cosillas de Fuentes-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,8 +55,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
         rel="stylesheet">
-
-
     <!--cosillas de bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
@@ -71,9 +67,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
         integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous">
     </script>
-
-
-
 </head>
 <?php
 //comprueba el estado de la session
@@ -220,11 +213,8 @@ if (isset($_GET['log'])) {
                 echo "<hr class='miniEstacion'>";
             }
             ?>
-
             <!--demas funciones--->
-
             <!-- wrap de graficas -->
-
             <li class="Func">
                 <button id="btnDesplegable" class="btn me-2 btn-block btnHerrGraf" name="btnGraf" value="grafs"
                     style="font-size:100%;" onclick="desplegar(this.value)"
@@ -282,9 +272,6 @@ if (isset($_GET['log'])) {
                     </button>
                 </form>
             </li>
-
-
-
             <!---LOGIN---->
             <li class="nav-item">
                 <form action="<?php echo base_url(); ?>/inicioSesion" method="POST">
@@ -307,7 +294,6 @@ if (isset($_GET['log'])) {
                 <ul id="amplificador" style="font-size: 80%;">
                     <p> Opciones para modificar Inactividad
                         <i class="fas fa-stopwatch"></i>
-
                     </p>
                     <li>
                         <button class="btnTiempo" value="15" onclick="modificarInactividad(this.value)">
@@ -326,12 +312,10 @@ if (isset($_GET['log'])) {
                     </li>
                 </ul>
             </li>
-
     </div>
     <script>
     function redir() {
         var dirActual = window.location.href;
-
         if (!dirActual.includes("index.php") || !dirActual.includes("Inicio")) {
             if (!dirActual.includes("index.php")) {
                 window.location.href = "index.php/Inicio/";
@@ -345,7 +329,6 @@ if (isset($_GET['log'])) {
     window.onload = function() {
         setInterval(fechaYHora, 1000);
         setInterval(desvanecer, 1500);
-
     }
     <?php
         if (!isset($_SESSION['nombre'])) {
@@ -375,7 +358,6 @@ if (isset($_GET['log'])) {
             // echo '<img src="../public/logo.png"';
             echo "<h1 id='txtDesconectado' style='width:30%;margin:25% 40%;color:grey; transition:1.5s;opacity:60%'>Desconectado</h1>";
         }
-
         ?>
     </div>
 </body>

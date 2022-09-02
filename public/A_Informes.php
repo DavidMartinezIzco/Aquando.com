@@ -1,27 +1,22 @@
 <?php
-
 require_once '../app/Database/Database.php';
 require_once "../app/Libraries/koolreport/core/autoload.php";
 require_once '../app/Models/InformeCaudales.php';
 
 use \koolreport\widgets\koolphp\Table;
 
-
 $db = new Database();
 $opcion = $_GET['opcion'];
 $fechaIni = $_GET['fechaIni'];
 $fechaFin = $_GET['fechaFin'];
 $nombres = json_decode(($_REQUEST['arrNombres']));
-
 //busca los datos de maximos minimos medias y metadados de las estaciones seleccionadas de los tags relacionados con caudales
 //despues crea un objeto tabla de Koolreport
 if ($opcion == "cau") {
-
     $estaciones = json_decode(($_REQUEST['arrEstaciones']));
     $informesDep = array();
     $informeDep = array();
     $informeTabla = array(['estacion', 'señal', 'fecha', 'maximo', 'minimo', 'media']);
-
     foreach ($estaciones as $index => $estacion) {
         // $informesDep[] = $estacion;
         $informeDep = $db->informeSeñalEstacion($estacion, 'cau', $fechaIni, $fechaFin);
@@ -34,14 +29,11 @@ if ($opcion == "cau") {
             }
         }
     }
-
     //crea obj KR y configs en su archivo aparte (Models)
     $informe = new InformeCaudales($informeTabla);
     $informe->run()->render();
-
     $table = Table::create(array(
         "dataSource" => $informeTabla,
-
         "columns" => array(
             "fecha" => array(
                 "cssStyle" => "text-align:left"
@@ -55,8 +47,6 @@ if ($opcion == "cau") {
             "media" => array(
                 "cssStyle" => "text-align:center"
             ),
-
-
         ),
         "grouping" => array(
             "estacion" => array(
@@ -72,7 +62,6 @@ if ($opcion == "cau") {
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Maximo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
-
                 "bottom" => function ($val) {
                     $fila = "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de " . $val['{señal}'] . ":</b></td>
                    <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Maximo: " . $val['{max}'] . "</td>
@@ -88,7 +77,6 @@ if ($opcion == "cau") {
         ),
     ));
 }
-
 //busca los datos de maximos minimos medias y metadados de las estaciones seleccionadas de los tags relacionados con niveles de las estaciones seleccionadas
 //despues crea un objeto tabla de Koolreport
 if ($opcion == "niv") {
@@ -108,15 +96,12 @@ if ($opcion == "niv") {
             }
         }
     }
-
     //crea obj KR y configs en su archivo aparte (Models)
     $informe = new InformeCaudales($informeTabla);
     $informe->run()->render();
-
     $table = Table::create(array(
         "dataSource" => $informeTabla,
         "columns" => array(
-
             "fecha" => array(
                 "cssStyle" => "text-align:center"
             ),
@@ -144,7 +129,6 @@ if ($opcion == "niv") {
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Maximo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
-
                 "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Maximo: {max}</td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Minimo: {min}</td>
@@ -157,7 +141,6 @@ if ($opcion == "niv") {
         ),
     ));
 }
-
 //busca los datos de maximos y metadatos de los tags relacionados con acumulados DIA de las estaciones seleccionadas
 //despues crea un objeto tabla de Koolreport
 if ($opcion == "acu") {
@@ -165,7 +148,6 @@ if ($opcion == "acu") {
     $informesDep = array();
     $informeDep = array();
     $informeTabla = array(['estacion', 'señal', 'fecha', 'valor']);
-
     foreach ($estaciones as $index => $estacion) {
         // $informesDep[] = $estacion;
         $informeDep = $db->informeSeñalEstacion($estacion, 'acu', $fechaIni, $fechaFin);
@@ -218,7 +200,6 @@ if ($opcion == "acu") {
         ),
     ));
 }
-
 //busca los datos de maximos minimos medias y metadatos de los tags relacionados con cloros y turbidez de las estaciones seleccionadas
 //despues crea un objeto tabla de Koolreport
 if ($opcion == "clo") {
@@ -226,7 +207,6 @@ if ($opcion == "clo") {
     $informesDep = array();
     $informeDep = array();
     $informeTabla = array(['estacion', 'señal', 'fecha', 'maximo', 'minimo', 'media']);
-
     foreach ($estaciones as $index => $estacion) {
         // $informesDep[] = $estacion;
         $informeDep = $db->informeSeñalEstacion($estacion, 'clo', $fechaIni, $fechaFin);
@@ -239,15 +219,12 @@ if ($opcion == "clo") {
             }
         }
     }
-
     //crea obj KR y configs en su archivo aparte (Models)
     $informe = new InformeCaudales($informeTabla);
     $informe->run()->render();
     $table = Table::create(array(
         "dataSource" => $informeTabla,
-
         "columns" => array(
-
             "fecha" => array(
                 "cssStyle" => "text-align:center"
             ),
@@ -260,7 +237,6 @@ if ($opcion == "clo") {
             "media" => array(
                 "cssStyle" => "text-align:center"
             ),
-
         ),
         "grouping" => array(
             "estacion" => array(
@@ -276,7 +252,6 @@ if ($opcion == "clo") {
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Maximo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
                 <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
-
                 "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Maximo: {max}</td>
                 <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Minimo: {min}</td>

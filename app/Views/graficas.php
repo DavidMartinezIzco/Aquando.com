@@ -9,12 +9,10 @@
 <link rel="stylesheet" type="text/css" href="../../css/graficas.css">
 <link rel="stylesheet" type="text/css" href="../../css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
-
     <!--necesitamos nombre de estacion, nombre de tags, datos de tags-->
     <div id="display">
         <div id="zonaControles">
             <div id="panelOpciones">
-
                 <form id="formOpciones">
                     <h3>Vista Rápida</h3>
                     <h6>Mostrando:</h6>
@@ -38,7 +36,6 @@
                         ?>
                     </select>
                 </form>
-
                 <!--controles-->
                 <button id="btnControl" style="background-color: yellowgreen;" value="aplicar"
                     onclick="aplicarOpciones()" name="btnControlAplicar">aplicar</button>
@@ -48,7 +45,6 @@
                     name="btnControlPrint"><i class="fas fa-print"></i></button>
             </div>
         </div>
-
         <!--espacio para las graficas--->
         <div id="zonaGraficos">
             <div id="grafica">
@@ -60,8 +56,6 @@
     <table id="alarmasSur">
     </table>
 </main>
-
-
 <script>
 window.onload = function() {
     pantalla();
@@ -73,7 +67,6 @@ window.onload = function() {
     setTimeout(aplicarOpciones, 1500);
     setInterval(fechaYHora, 1000);
     setInterval(comprobarTiempo, 1000);
-
     $(window).blur(function() {
         tiempoFuera("");
     });
@@ -88,7 +81,6 @@ function iniciar() {
         tagsEstacion(estacion);
     }
 }
-
 //CTRL + Z
 $(document).keypress(function(e) {
     console.log(e.which);
@@ -97,6 +89,4 @@ $(document).keypress(function(e) {
     }
 });
 </script>
-
-
 <?= $this->endSection() ?>

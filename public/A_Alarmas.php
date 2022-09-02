@@ -1,13 +1,9 @@
 <?php
-
 require '../app/Database/Database.php';
 $db = new Database();
-
 //declaraciones de variables
-
 //actualiza el listado de alarmas con la configuracion establecida por el usuario
 if ($_GET['funcion'] == "actualizar") {
-
     $nombre = $_GET['nombre'];
     $pwd = $_GET['pwd'];
     $emp = $_GET['emp'];
@@ -15,11 +11,8 @@ if ($_GET['funcion'] == "actualizar") {
     $sentido = $_GET['sentido'];
     $fechaIni = $_GET['fechaInicio'];
     $fechaFin = $_GET['fechaFin'];
-
     $idusu = $db->obtenerIdUsuario($nombre, $pwd, $emp);
-
     $alarmas = $db->obtenerAlarmasUsuario($idusu, $orden, $sentido, $fechaIni, $fechaFin);
-
     $alarmasLimpio = array();
     foreach ($alarmas as $estacion => $alarmas) {
         if ($alarmas != false) {
@@ -35,26 +28,20 @@ if ($_GET['funcion'] == "actualizar") {
         <th onclick=reordenar('reconusu')>Reconocida por</th>
         <th onclick=reordenar('reconfecha')>Fecha de reconocimiento</th>
         </tr>";
-
     foreach ($alarmasLimpio as $index => $alarma) {
-
         switch ($alarma['estado']) {
             case 1:
                 echo "<tr class='activaNo' >";
-
                 break;
             case 2:
                 echo "<tr class='restNo'>";
-
                 break;
             case 3:
                 echo "<tr class='activaSi'>";
-
                 break;
             case 4:
                 echo "<tr class='restSi'>";
                 break;
-
             default:
                 break;
         }
@@ -93,10 +80,8 @@ if ($_GET['funcion'] == "actualizar") {
         echo "</tr>";
     }
 }
-
 //obtiene el listado de alarmas de una estacion concreta
 if ($_GET['funcion'] == "estacion") {
-
     $orden = $_GET['orden'];
     $sentido = $_GET['sentido'];
     $fechaIni = $_GET['fechaInicio'];
@@ -119,7 +104,6 @@ if ($_GET['funcion'] == "estacion") {
         <th onclick=reordenar('reconusu')>Reconocida por</th>
         <th onclick=reordenar('reconfecha')>Fecha de reconocimiento</th>
             </tr>";
-
         foreach ($alarmasEstacionLimpio as $alarma) {
 
             switch ($alarma['estado']) {
@@ -192,7 +176,6 @@ if ($_GET['funcion'] == "reconocer") {
         echo "mal";
     }
 }
-
 if ($_GET['funcion'] == "detalles") {
     $id = $_GET['id'];
     $detalles = $db->obtenerDetallesAlarma($id);
@@ -201,6 +184,5 @@ if ($_GET['funcion'] == "detalles") {
     } else {
         echo 'error';
     }
-
     // $fecha_origen = $db
 }

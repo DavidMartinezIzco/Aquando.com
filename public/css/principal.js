@@ -1,7 +1,5 @@
 var feedDigital = new Array();
 var listaTags = new Array();
-
-
 //con los datos de coordenadas de estaciones, se hace un mapa con las estaciones que le pertenezcan al usuario
 //esas estaciones se listan con pines en el mapa y al hacer click tienen un popup con foto + nombre + ultima conex + enlace
 //utiliza OSM y Leaflet.
@@ -17,8 +15,7 @@ function mapas() {
             accessToken: 'pk.eyJ1IjoicmdyYXZlc3MiLCJhIjoiY2t6ZTFycXlkMmV3aDJ2bjk1d2Z0dzJvayJ9.LE3efQIzvbIOWOBDqazqyA'
         } )
         .addTo( map );
-
-    for ( var index in estacionesUbis ) {
+   for ( var index in estacionesUbis ) {
         // var accion = 'http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/estacion';
         var accion = '/Aquando.com/index.php/Inicio/estacion';
         var nombre = estacionesUbis[ index ][ 0 ][ 'nombre_estacion' ];
@@ -48,19 +45,14 @@ function mapas() {
         }
         // estacion.bindPopup(msg + btn).openPopup();
     }
-
 }
-
 //hace las llamadas a las funciones que consiguen los datos de las señales digitales y analógicas
 //se debe lanzar cada 10 minutos
 function actualizar() {
-
     var datos = {};
     datos[ 'nombre' ] = sessionStorage.getItem( 'nousu' );
     datos[ 'pwd' ] = sessionStorage.getItem( 'pwd' );
-
     var arrdatos = JSON.stringify( datos );
-
     $( document )
         .ready( function () {
             $.ajax( {
@@ -82,7 +74,6 @@ function actualizar() {
             } );
         } );
 }
-
 //crea los widgets de las señales deigitales del inicio
 function renderFeedDigi() {
     var pos = 1;
@@ -90,9 +81,7 @@ function renderFeedDigi() {
     var divInf = '<div id="widInf">';
     var gridWidDigi = document.getElementById( "prinIzqInf" );
     //recorrer el feed digital y crear un widget para cada uno
-
     for ( var tag in feedDigital ) {
-
         var iconoAlarma = '<i style="color:tomato" class="far fa-bell parpadeante"></i>';
         if ( feedDigital[ tag ][ 'valor_alarma' ].includes( "Min" ) || feedDigital[ tag ][ 'valor_alarma' ].includes( "Max" ) ) {
             iconoAlarma = '<i style="yellow" class="fas fa-exclamation-triangle"></i>';
@@ -109,7 +98,6 @@ function renderFeedDigi() {
         if ( feedDigital[ tag ][ 'valor_alarma' ].includes( "OFF" ) ) {
             iconoAlarma = '<i style="color:tomato" class="fas fa-power-off parpadeante"></i> ';
         }
-
         if ( pos == 1 ) {
             divSup += '<div class="digiIzq"><div id="digiWidTitulo">' + feedDigital[ tag ][ 'nombre' ] + '</div><div id="digiWidOrigen">' + feedDigital[ tag ][ 'estacion' ] + '</div><div id="digiWidMensaje"><span class="tooltiptext">' + feedDigital[ tag ][ 'valor_alarma' ] + '</span>' + iconoAlarma + '  </div></div>';
         }
@@ -127,9 +115,7 @@ function renderFeedDigi() {
     divSup += '</div>';
     divInf += '</div>';
     gridWidDigi.innerHTML = divSup + divInf;
-
 }
-
 //desplaza un widget de un carrusel
 function rotarCarrusel( carr ) {
     var elem = carr.children[ 0 ];
@@ -156,13 +142,11 @@ function rotarCarrusel( carr ) {
     }
     elem.style.right = posi;
 }
-
 //obtiene los tags de cada estacion que sean compatibles con los widgets de inico
 function cargarAjustes() {
     var sel = document.getElementById( "tagSel" );
     sel.innerHTML = "";
     var arrEstaciones = JSON.stringify( estacionesUsu );
-
     if ( sessionStorage.getItem( 'listaTags' ) != null && sessionStorage.getItem( 'listaTags' ) != undefined ) {
         listaTags = sessionStorage.getItem( 'listaTags' );
         listaTags = JSON.parse( listaTags );
@@ -182,7 +166,6 @@ function cargarAjustes() {
             sel.innerHTML += "</optgroup>";
         }
     } else {
-
         $( document )
             .ready( function () {
                 $.ajax( {
@@ -204,7 +187,6 @@ function cargarAjustes() {
                             }
                             sel.innerHTML += "</optgroup>";
                         }
-
                     },
                     error: function () {
                         console.log( 'error de ajustes' );
@@ -213,19 +195,15 @@ function cargarAjustes() {
                 } );
             } );
     }
-
 }
-
 //despliega u oculta la ventana de ajustes de los widgets de inicio
 function ajustes() {
     var menu = document.getElementById( "ajustesSeccion" );
     if ( menu.style.display == 'none' ) {
         menu.style.display = 'block';
-
     } else {
         menu.style.display = 'none';
     }
-
     var ul = document.getElementById( 'widList' );
     ul.onclick = function ( event ) {
         var wid = getEventTarget( event );
@@ -233,11 +211,9 @@ function ajustes() {
     };
     widgetSelec( 'Widget 1' );
 }
-
 //funciones de control de la interfaz de la ventana de ajustes de los widgets de inicio
 function widgetSelec( val ) {
     var seccion = document.getElementById( 'seccionAjustes' );
-
     if ( val == 'Widget 1' ) {
         var msg = '<h3>Preferencias de inicio</h3><hr><form action="javascript:void(0);"><p>Selecciona una señal para mostrar <b>arriba a la izquierda</b></p><p>Señales disponibles:<select id="tagSel" style="margin-left:1%"></select></p><button id="btnAceptarWidget" onclick=confirmarAjustesWidget("w1")>aceptar</button><button id="btnCancelarWidget" onclick="ajustes()">cancelar</button></form>';
         seccion.innerHTML = msg;
@@ -291,15 +267,12 @@ function widgetSelec( val ) {
         cargarAjustes();
     }
 }
-
 //acepta y guarda la configuracion del usuario para los widgets
 //de señales analogicas en inicio
 function confirmarAjustesWidget( wid ) {
-
     var widget = wid;
     var tag = document.getElementById( "tagSel" )
         .value;
-
     $( document )
         .ready( function () {
             $.ajax( {
@@ -307,7 +280,6 @@ function confirmarAjustesWidget( wid ) {
                 // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Principal.php?opcion=confirmar&wid=' + widget + '&tag=' + tag + '&usu=' + usu + '&pwd=' + pwd,
                 url: '/Aquando.com/A_Principal.php?opcion=confirmar&wid=' + widget + '&tag=' + tag + '&usu=' + usu + '&pwd=' + pwd,
                 success: function () {
-
                     document.getElementById( "seccionAjustes" )
                         .innerHTML += "<br><div id='ajustesRespuesta'>widget configurado con éxito</div>";
                     feedPrincipalCustom();
@@ -319,16 +291,13 @@ function confirmarAjustesWidget( wid ) {
             } );
         } );
 }
-
 //captador de eventos custom
 function getEventTarget( e ) {
     e = e || window.event;
     return e.target || e.srcElement;
 }
-
 //llama a AJAX para obtener los datos de inicio
 function feedPrincipalCustom() {
-
     $( document )
         .ready( function () {
             $.ajax( {
@@ -346,7 +315,6 @@ function feedPrincipalCustom() {
             } );
         } );
 }
-
 //crea los widgets para las señales analogicas definidas en inicio
 function renderPrincipalCustom( feed ) {
     document.getElementById( "prinDer" )
@@ -355,26 +323,20 @@ function renderPrincipalCustom( feed ) {
     var w2 = "";
     var w3 = "";
     var w4 = "";
-
     for ( var wid in feed ) {
-
         if ( feed[ wid ][ 'widget' ] == 'w1' ) {
             w1 += '<div  class="anaIzq" onclick="rotarCarrusel(this)">';
             w1 += '<div id="carrusel">';
             //primera vista
             w1 += '<div class="carr" id="gauw1">';
             w1 += "</div>";
-
             //segunda vista
             w1 += '<div class="carr" id="trendw1">';
             w1 += "</div>";
-
             //segunda vista
             w1 += '<div class="carr" id="agregw1">';
             w1 += "</div>";
-
             w1 += "</div></div>";
-
             //gauge + chart trend + chart agreg
         }
         if ( feed[ wid ][ 'widget' ] == 'w2' ) {
@@ -383,15 +345,12 @@ function renderPrincipalCustom( feed ) {
             //primera vista
             w2 += '<div class="carr" id="gauw2">';
             w2 += "</div>";
-
             //segunda vista
             w2 += '<div class="carr" id="trendw2">';
             w2 += "</div>";
-
             //segunda vista
             w2 += '<div class="carr" id="agregw2">';
             w2 += "</div>";
-
             w2 += "</div></div>";
         }
         if ( feed[ wid ][ 'widget' ] == 'w3' ) {
@@ -400,15 +359,12 @@ function renderPrincipalCustom( feed ) {
             //primera vista
             w3 += '<div class="carr" id="gauw3">';
             w3 += "</div>";
-
             //segunda vista
             w3 += '<div class="carr" id="trendw3">';
             w3 += "</div>";
-
             //segunda vista
             w3 += '<div class="carr" id="agregw3">';
             w3 += "</div>";
-
             w3 += "</div></div>";
         }
         if ( feed[ wid ][ 'widget' ] == 'w4' ) {
@@ -417,17 +373,14 @@ function renderPrincipalCustom( feed ) {
             //primera vista
             w4 += '<div class="carr" id="gauw4">';
             w4 += "</div>";
-
             //segunda vista
             w4 += '<div class="carr" id="trendw4">';
             w4 += "</div>";
-
             //segunda vista
             w4 += '<div class="carr" id="agregw4">';
             w4 += "</div>";
             w4 += "</div></div>";
         }
-
     }
     var widSup = "<div id='widSup'>" + w1 + w2 + "</div>";
     var widInf = "<div id='widInf'>" + w3 + w4 + "</div>";
@@ -436,7 +389,6 @@ function renderPrincipalCustom( feed ) {
         .innerHTML = conPrinDer;
     crearWidgetsChartsCustom( feed );
 }
-
 //render de los gaugue trend y agregados de las señales analogicas definidas 
 //para los widgets en inicio . usa la config de echarts
 function crearWidgetsChartsCustom( feed ) {
@@ -463,7 +415,6 @@ function crearWidgetsChartsCustom( feed ) {
         if ( feed[ wid ][ 'consignas' ] !== undefined ) {
             consignas_tag = feed[ wid ][ 'consignas' ]
         }
-
         if ( nombre_dato.includes( 'Nivel' ) || nombre_dato.includes( 'Acumulado' ) ) {
             if ( nombre_dato.includes( 'Nivel' ) ) {
                 var r_max = feed[ wid ][ 'ultimo_valor' ][ 'r_max' ];
@@ -471,7 +422,6 @@ function crearWidgetsChartsCustom( feed ) {
                     r_max = 10;
                 }
                 var t_x_c = ( valor_actual / r_max ) * 14;
-
                 var estilo = "linear-gradient(0deg, rgba(39,45,79,1) 0%, rgba(1,168,184,1) 60%, rgba(1,168,184,1) 100%)";
                 var depo = "<div style='padding:7%;height:100%;width:100%;margin:0% 0%;background-color:#83d7ee'><h4 style='text-align:center;color:rgb(65,65,65);'>" + nombre_estacion + ": " + nombre_dato + "<br>" + valor_actual + "</h4></div>";
                 document.getElementById( "gau" + feed[ wid ][ 'widget' ] )
@@ -498,7 +448,6 @@ function crearWidgetsChartsCustom( feed ) {
                 document.getElementById( "gau" + feed[ wid ][ 'widget' ] )
                     .innerHTML = 'Valor de ' + nombre_estacion + ": " + nombre_dato + '<br> ' + widCon;
             }
-
         } else {
             var con_max = null;
             var con_min = null;
@@ -508,7 +457,6 @@ function crearWidgetsChartsCustom( feed ) {
             var g_min = 0;
             var gc_max = 1;
             var gc_min = 0;
-
             for ( var index in consignas_tag ) {
                 if ( consignas_tag[ index ][ 'nombre_tag' ].includes( 'Max' ) ) {
                     con_max = consignas_tag[ index ][ 'valor_float' ];
@@ -517,7 +465,6 @@ function crearWidgetsChartsCustom( feed ) {
                     con_min = consignas_tag[ index ][ 'valor_float' ];
                 }
             }
-
             if ( r_max != null ) {
                 g_max = r_max;
                 gc_max = con_max / r_max;
@@ -530,7 +477,6 @@ function crearWidgetsChartsCustom( feed ) {
                     gc_min = 0;
                 }
             }
-
             //gauge con val actual
             var optGau = {
                 legend: {
@@ -616,9 +562,7 @@ function crearWidgetsChartsCustom( feed ) {
             };
             optGau && grafGau.setOption( optGau, true );
         }
-
         //chart lineas trend diario/semanal (acumulados)
-
         var titulo = "Dia:";
         if ( nombre_dato.includes( 'Acumulado' ) ) {
             titulo = "7 Dias:";
@@ -629,7 +573,6 @@ function crearWidgetsChartsCustom( feed ) {
             datos_dia.push( trend_dia[ index ][ 'valor' ] );
             horas_dia.push( trend_dia[ index ][ 'fecha' ] );
         }
-
         optDia = {
             legend: {
                 x: 'center',
@@ -711,15 +654,11 @@ function crearWidgetsChartsCustom( feed ) {
             } ]
         };
         optDia && grafTrend.setOption( optDia, true );
-
-
         //chart barras de agregados semanal
-
         var max_agreg = [];
         var min_agreg = [];
         var avg_agreg = [];
         var fechas_agreg = [];
-
         if ( nombre_dato.includes( 'Acumulado' ) ) {
             for ( var index in agreg_semanal ) {
                 max_agreg.push( agreg_semanal[ index ][ 'max' ] );
@@ -764,7 +703,6 @@ function crearWidgetsChartsCustom( feed ) {
                         fontStyle: 'bold',
                         fontSize: 14
                     },
-
                     axisPointer: {
                         axis: 'x',
                         snap: true,
@@ -811,10 +749,7 @@ function crearWidgetsChartsCustom( feed ) {
                     smooth: false
                 } ]
             };
-
-
         } else {
-
             for ( var index in agreg_semanal ) {
                 max_agreg.push( parseFloat( agreg_semanal[ index ][ 'max' ] )
                     .toFixed( 2 ) );
@@ -847,7 +782,6 @@ function crearWidgetsChartsCustom( feed ) {
                             icon: 'circle',
                         }
                     ],
-
                 },
                 grid: {
                     left: '5%',
@@ -863,7 +797,6 @@ function crearWidgetsChartsCustom( feed ) {
                     textStyle: {
                         fontStyle: 'bold',
                         fontSize: 16,
-
                     },
                 },
                 tooltip: {
@@ -872,7 +805,6 @@ function crearWidgetsChartsCustom( feed ) {
                         fontStyle: 'bold',
                         fontSize: 14
                     },
-
                     axisPointer: {
                         axis: 'x',
                         snap: true,
@@ -901,10 +833,8 @@ function crearWidgetsChartsCustom( feed ) {
                         connectNulls: true,
                         itemStyle: {
                             color: new echarts.graphic.LinearGradient( 0, 0, 0, 1, [
-
                                 { offset: 0, color: '#01a8b8' },
                                 { offset: 1, color: '#272d4f' }
-
                             ] )
                         },
                         emphasis: {
@@ -927,7 +857,6 @@ function crearWidgetsChartsCustom( feed ) {
 
                                 { offset: 0, color: 'yellow' },
                                 { offset: 1, color: 'darkorange' }
-
                             ] )
                         },
                         emphasis: {
@@ -951,7 +880,6 @@ function crearWidgetsChartsCustom( feed ) {
 
                                 { offset: 0, color: '#1aff00' },
                                 { offset: 1, color: '#307a27' }
-
                             ] )
                         },
                         emphasis: {
@@ -965,14 +893,11 @@ function crearWidgetsChartsCustom( feed ) {
                         symbol: 'none',
                         smooth: false
                     }
-
                 ]
             };
-
         }
         optionSemanal && grafAgreg.setOption( optionSemanal, true );
     }
-
     $( '#menuIzq' )
         .bind( 'widthChange', function () {
             for ( var wid in gauges ) {
@@ -981,5 +906,4 @@ function crearWidgetsChartsCustom( feed ) {
                 agregs[ wid ].resize();
             }
         } );
-
 }

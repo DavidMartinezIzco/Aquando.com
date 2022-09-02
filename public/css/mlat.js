@@ -2,8 +2,6 @@ $( window )
     .resize( function () {
         pantalla();
     } );
-
-
 $( document )
     .keypress( function ( e ) {
         console.log( e.which );
@@ -11,26 +9,19 @@ $( document )
             abrirCerrar();
         }
     } );
-
-
 //abre o cierra el menu lateral
 function abrirCerrar() {
-
     if ( document.getElementById( "menuIzq" )
         .style.width == '15%' ) {
         cerrarMenu();
-
     } else {
         abrirMenu();
     }
     $( "#menuIzq" )
         .trigger( 'widthChange' );
-
 }
-
 //despliega la zona de debug
 function desplegar( menu ) {
-
     if ( menu == 'estaciones' ) {
         if ( document.getElementsByClassName( 'miniEstacion' )[ 0 ].style.height == 0 || document.getElementsByClassName( 'miniEstacion' )[ 0 ].style.height == '0%' ) {
             document.getElementsByClassName( 'miniEstacion' )[ 0 ].style.height = '20%';
@@ -38,7 +29,6 @@ function desplegar( menu ) {
             document.getElementsByClassName( 'miniEstacion' )[ 0 ].style.height = '0%';
         }
     }
-
     if ( menu == 'grafs' ) {
         if ( document.getElementsByClassName( 'miniEstacion' )[ 2 ].style.height == 0 || document.getElementsByClassName( 'miniEstacion' )[ 2 ].style.height == '0%' ) {
             document.getElementsByClassName( 'miniEstacion' )[ 2 ].style.height = '15%';
@@ -46,12 +36,9 @@ function desplegar( menu ) {
             document.getElementsByClassName( 'miniEstacion' )[ 2 ].style.height = '0%';
         }
     }
-
 }
-
 //abre el menu y aplica las nnuevas dimensiones
 function abrirMenu() {
-
     var ancho = window.innerWidth;
     var aperturaMenu = "15%";
     if ( ancho < 600 ) {
@@ -98,9 +85,7 @@ function abrirMenu() {
     //     document.getElementById( "btnOpcionesgraficas" )
     //         .style.left = '81%';
     // }
-
 }
-
 //cierra el menu y aplica las nuevas dimensiones
 function cerrarMenu() {
     $( "#menuIzq" )
@@ -138,9 +123,7 @@ function cerrarMenu() {
     //     document.getElementById("displayComs").style.left = '5%';
     //     document.getElementById("displayComs").style.width = '50%';
     // }
-
 }
-
 //despliega el menu de inactividad
 function tiempoOpciones() {
     if ( document.getElementById( "amplificador" )
@@ -158,13 +141,11 @@ function tiempoOpciones() {
             .style.padding = '0%';
     }
 }
-
 //anima textos mientras cargan cosas
 function carga() {
     document.getElementById( "seccion" )
         .innerText = "Cargando..."
 }
-
 function pantalla() {
     var altoVen = window.innerHeight;
     document.getElementById( "menuIzq" )
@@ -210,7 +191,6 @@ function pantalla() {
         document.getElementById( 'menuIzq' )
             .style.height = 2 * window.innerHeight + 'px';
         if ( document.getElementById( "alarmasSur" ) != undefined ) {
-
             var relAlto = window.innerHeight / defAltoVen;
             var alAl = ( 150 * relAlto ) + 'px';
             document.getElementById( "alarmasSur" )
@@ -221,7 +201,5 @@ function pantalla() {
             // document.getElementById( 'conPrincipal' )
             //     .style.height = window.innerHeight + 'px';
         }
-
-
     }
 }

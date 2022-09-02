@@ -6,7 +6,6 @@
 <link rel="stylesheet" type="text/css" href="../../css/sur.css">
 <main id="conPrincipal" style="width:100%;border-radius:10px; margin-top:1%">
     <!---zona superior--->
-
     <div id="estacionIzq">
         <div id="seccionSup">
             <div id="seccionFoto"></div>
@@ -20,44 +19,28 @@
         <div id="seccionInf">
         </div>
     </div>
-
     <div id="estacionCentro">
     </div>
-
     <div id="estacionDer">
     </div>
-
     <div id="ajustesEstacion">
         <i class="fas fa-times" id="btnAjustesCerrar" onclick="ajustes()"></i>
         <h1>Ajustes de estación <?php echo $nombreEstacion; ?></h1>
         <div id="cuerpoAjustes" class="cuerpoAjustes">
-
             <form id="formAjustes" action="javascript:void(0);">
                 <div id="ajustesSeleccion">
                     <ul id="listaTags">
-
                     </ul>
                 </div>
                 <div id="ajustesDisplay">
-
                 </div>
-
-
-
             </form>
-
         </div>
     </div>
-
     <!---zona alarmas--->
-
     <table id="alarmasSur">
     </table>
-
-
 </main>
-
-
 <script>
 var estacion = <?php echo $id_estacion ?>;
 
@@ -85,5 +68,4 @@ window.onload = function() {
     // });
 }
 </script>
-
 <?= $this->endSection() ?>

@@ -1,18 +1,13 @@
 <?php
-
 require '../app/Database/Database.php';
-
 $opcion = $_GET['opcion'];
 $db = new Database();
-
 //calcula el tiempo que lleva una estación sin comunicar
 //determina en función del y tiempo basandose en unas reglas
 //si la estación tiene problemas no
 if ($opcion == 'conex') {
-
     $nombre = $_GET['nombre'];
     $pwd = $_GET['pwd'];
-
     $estaciones = $db->mostrarEstacionesCliente($nombre, $pwd);
     $ultimasConexiones = array();
     foreach ($estaciones as $estacion) {
@@ -35,7 +30,6 @@ if ($opcion == 'conex') {
             }
         }
     }
-
     foreach ($ultimasConexiones as $estacion => $datos) {
         echo "<tr id='seccionEstacion' name=" . $datos[0]['id_estacion'] . ">";
         foreach ($datos[0] as $dato => $valor) {
@@ -68,11 +62,9 @@ if ($opcion == 'conex') {
         echo "</tr>";
     }
 }
-
 //obtiene los nombres de una estación dado su tag
 if ($opcion == 'nom') {
     $id_estacion = $_GET['estacion'];
-
     $estacion = $db->obtenerNombreEstacion($id_estacion);
     echo ($estacion[0]['nombre_estacion']);
 }

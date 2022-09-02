@@ -10,8 +10,6 @@ function limpiar() {
     setTimeout( function () { document.getElementsByName( "btnControlReset" )[ 0 ].textContent = "reset" }, 1000 );
     actualizar();
 }
-
-
 //establece los valores por defecto de los inputs de fecha
 //traduce y establece la fecha actual como predeterminado
 function inicioFin() {
@@ -40,16 +38,12 @@ function inicioFin() {
                     .setearHasta() );
         } );
 }
-
-
 //saca una captura de las alarmas
 function imprimir() {
 
     var hoy = new Date();
     var fechaHoy = hoy.getFullYear() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getDate();
     var nombre_informe = 'Alarmas ' + fechaHoy + '.pdf';
-
-
     var informe = document.getElementById( 'tablaAlarmas' );
     var opt = {
         margin: 0,
@@ -58,13 +52,10 @@ function imprimir() {
         html2canvas: { scale: 2, logging: false, dpi: 300, letterRendering: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
     };
-
     var exp_informe = new html2pdf( informe, opt );
     exp_informe.getPdf( true )
         .then( ( pdf ) => {
-
         } );
-
 }
 //crea un objeto csv de la tabla de alarmas
 function exportarCSV() {
@@ -98,7 +89,6 @@ function descargarArchivoCSV( csv, archivo ) {
     document.body.appendChild( link_descarga );
     link_descarga.click();
 }
-
 //esconde o muestra las opciones
 function opciones() {
     if ( document.getElementById( "zonaOpciones" )
@@ -114,10 +104,8 @@ function opciones() {
             .style.maxHeight = '85%';
     }
 }
-
 //refresca la lista de alarmas según los ajustes seleccionados en los controles
 function actualizar( reorden ) {
-
     var id_estacion = document.getElementById( "estaciones" )
         .value;
     if ( id_estacion != 'all' ) {
@@ -132,22 +120,18 @@ function actualizar( reorden ) {
         if ( reorden != null ) {
             orden = reorden;
         }
-
         var sentido = 'DESC';
         if ( document.getElementById( 'radioAsc' )
             .checked == true ) {
             sentido = 'ASC';
         }
-
         var fechaInicio = document.getElementById( 'fechaInicio' )
             .value;
         var fechaFin = document.getElementById( 'fechaFin' )
             .value;
-
         var nombre = sessionStorage.getItem( 'nousu' );
         var pwd = sessionStorage.getItem( 'pwd' );
         var emp = sessionStorage.getItem( 'emp' );
-
         $( document )
             .ready( function () {
                 $.ajax( {
@@ -161,12 +145,10 @@ function actualizar( reorden ) {
                     error: function () {
                         console.log( "error" );
                     }
-
                 } );
             } );
     }
 }
-
 //muestra en la tabla las alarmas de una estacion concreta en funcion de los ajustes seleccionados en los controles
 function filtrarPorEstacion() {
     var fechaInicio = document.getElementById( 'fechaInicio' )
@@ -189,7 +171,6 @@ function filtrarPorEstacion() {
             .checked == true ) {
             sentido = 'ASC';
         }
-
         $( document )
             .ready( function () {
                 $.ajax( {
@@ -203,12 +184,10 @@ function filtrarPorEstacion() {
                     error: function () {
                         console.log( "error" );
                     }
-
                 } );
             } );
     }
 }
-
 //establece el valor de una alarma como ACK con la fecha actual como fecha_ack y el usuasrio como reconocedor de la alarma y refresca la lista
 function reconocer( id_alarma ) {
     var fecha_ack = Date.now();
@@ -231,7 +210,6 @@ function reconocer( id_alarma ) {
 function reordenar( opcion ) {
     actualizar( opcion );
 }
-
 //recoger el nombre de la señal tambien?
 function detallesAlarma(id){
     $( document )
@@ -269,19 +247,15 @@ function detallesAlarma(id){
             } );
         } );
 }
-
 //crea un pop-up con un chart de los detalles de una alarma
 function popDetalles(detalles) {
     var pop = "<div id='popDetalles'><div style='width:100%;height:100%' id='detChart'></div></div>";
     document.getElementById('conPrincipal').innerHTML += pop;
-
     var fechas = detalles[0];
-    var vals = detalles[1];
-    
+    var vals = detalles[1];  
         var chartDom = document.getElementById('detChart');
         var myChart = echarts.init(chartDom);
         var option;
-
         option = {
         title:{
             text: 'Detalles de ' + detalles[3] + '-' + detalles[2]  
@@ -318,14 +292,11 @@ function popDetalles(detalles) {
             }
         ]
         };
-
         option && myChart.setOption(option);
 }
-
 function cerrarDetalles() {
     document.getElementById('popDetalles').remove();
 }
-
 document.addEventListener('click',(event)=>{
     if(document.getElementById('popDetalles')){
         const clickFuera = document.getElementById('popDetalles').contains(event.target);

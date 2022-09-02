@@ -8,8 +8,6 @@ var todoDato = Array();
 var todoTrends = Array();
 var tagsAcumulados = Array();
 sessionStorage.setItem( 'tagViejo', null );
-
-
 //actualizar la info de la seccion estacion
 function actualizar( id_estacion ) {
     $( document )
@@ -28,15 +26,11 @@ function actualizar( id_estacion ) {
             } );
         } );
 }
-
 //obiene los trends de los ultimos 7 dias de los tags analógicos
 function trendsTags() {
-
     var listaTags = datosAnalog.concat( tagsAcumulados );
     var arrTags = JSON.stringify( listaTags );
     var id_estacion = estacion;
-
-
     $( document )
         .ready( function () {
             $.ajax( {
@@ -57,9 +51,7 @@ function trendsTags() {
                 dataType: 'json'
             } );
         } );
-
 }
-
 //divide los ultimos datos de la estacion según el tipo de señal  
 function filtrarDatos( datos ) {
     var tagsBombas = Array();
@@ -116,7 +108,6 @@ function filtrarDatos( datos ) {
     todoDato[ 'bombas' ] = bombas;
     trendsTags();
 }
-
 //montar widgets de tags digitales
 function montarWidgetsDigi() {
     var seccionDigital = document.getElementById( 'seccionInf' );
@@ -187,7 +178,6 @@ function montarWidgetsDigi() {
         seccionDigital.innerHTML += widg;
     }
 }
-
 //montar widgets analógicos
 function montarWidgetsAnalogicos() {
     var seccionAnalog = document.getElementById( 'estacionDer' );
@@ -277,12 +267,10 @@ function montarWidgetsAnalogicos() {
     montarGraficosWidget();
     controlMobile();
 }
-
 //render de los graficos
 //hay que hacer el captador con resize
 //wid de deposito?
-function montarGraficosWidget() {
-    
+function montarGraficosWidget() {   
     for ( var tag in tagsAcumulados ) {
         var nombreDato = tagsAcumulados[ tag ][ 'nombre_tag' ].replace( /\s+/g, '' );
         if ( nombreDato.includes( "Dia" ) ) {
@@ -369,7 +357,6 @@ function montarGraficosWidget() {
             }
         }
     }
-
     for ( var tag in datosAnalog ) {
         var optionGauge;
         var r_max = 10;
@@ -472,14 +459,12 @@ function montarGraficosWidget() {
                 } ]
             } ]
         };
-
         var valores = [];
         var fechas = [];
         if ( todoTrends[ tag ] != null && todoTrends[ tag ] != 'undefined' ) {
             valores.push( todoTrends[ tag ][ 'max' ] );
             fechas.push( todoTrends[ tag ][ 'fecha' ] );
         }
-
         optionChart = {
             grid: {
                 left: '2%',
@@ -494,7 +479,6 @@ function montarGraficosWidget() {
                     fontStyle: 'bold',
                     fontSize: 12
                 },
-
                 axisPointer: {
                     axis: 'x',
                     snap: true,
@@ -539,7 +523,6 @@ function montarGraficosWidget() {
                 smooth: false
             } ]
         };
-
         widsAnalogLista.push( [ gauge, grafTrend ] );
         optionGauge && gauge.setOption( optionGauge, true );
         optionChart && grafTrend.setOption( optionChart, true );
@@ -557,9 +540,7 @@ function montarGraficosWidget() {
                 }
             }
         } );
-
 }
-
 //muestra u oculta el menu de ajustes de las estaciones
 //de momento no lo vamos a implementar
 function ajustes() {
@@ -567,13 +548,9 @@ function ajustes() {
     if ( ajustes.style.display == 'block' ) {
         ajustes.style.opacity = '0%';
         setTimeout( function () { ajustes.style.display = 'none' }, 200 );
-
     } else {
         ajustes.style.display = 'block';
         setTimeout( function () { ajustes.style.opacity = '100%'; }, 200 );
-
-
-
         var selec = document.getElementById( "listaTags" );
         selec.innerHTML = "";
         var lista = "";
@@ -589,9 +566,7 @@ function ajustes() {
         selec.innerHTML += lista;
     }
     mostrarAjustesTag( primero );
-
 }
-
 //funciones para los ajustes. Muestran los tags con consignas modificables de la estación
 function mostrarAjustesTag( id_tag ) {
     var zona = document.getElementById( "ajustesDisplay" );
@@ -621,12 +596,9 @@ function mostrarAjustesTag( id_tag ) {
     lista += "</form>";
     zona.innerHTML = lista;
     sessionStorage.setItem( 'AjTag', lista );
-
 }
-
 //muestra las consignas del tag seleccionado en los ajustes
 function mostrarFormConsigna( id_consigna ) {
-
     var consigna = consignas[ id_consigna ];
     var zona = document.getElementById( "ajustesDisplay" );
     var contenido = sessionStorage.getItem( 'AjTag' );
@@ -657,7 +629,6 @@ function mostrarFormConsigna( id_consigna ) {
     lista += "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>"
     zona.innerHTML = contenido + lista;
 }
-
 //muestra en caso de tenerla, la imagen correspondiente a la estacion
 function fotoEstacion( id_estacion ) {
     $( document )
@@ -683,7 +654,6 @@ function fotoEstacion( id_estacion ) {
             } );
         } );
 }
-
 //funcion que establece a los widgets un control para alternar los trends y la info
 //solo se ejecuta si la pantalla es menor a 600px
 function controlMobile(){
@@ -700,8 +670,7 @@ function controlMobile(){
                         widsAnalogLista[ index ][ 0 ].resize();
                         if ( widsAnalogLista[ index ].length > 1 ) {
                             widsAnalogLista[ index ][ 1 ].resize();
-                        }
-    
+                        }   
                     }
                 }
             }
@@ -718,8 +687,7 @@ function controlMobile(){
                         widsAnalogLista[ index ][ 0 ].resize();
                         if ( widsAnalogLista[ index ].length > 1 ) {
                             widsAnalogLista[ index ][ 1 ].resize();
-                        }
-    
+                        }    
                     }
                 }
             }

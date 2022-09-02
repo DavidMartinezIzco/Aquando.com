@@ -9,7 +9,6 @@
 <link rel="stylesheet" type="text/css" href="../../css/graficasCustom.css">
 <link rel="stylesheet" type="text/css" href="../../css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px;">
-
     <!--necesitamos nombre de estacion, nombre de tags, datos de tags-->
     <div id="display">
         <div id="zonaControles">
@@ -18,10 +17,8 @@
                     <h3>Vista Personalizada</h3>
                     <select id="selPresets" onchange='ajustesPresets("cargar")'>Predefinidos:</select>
                     <!--selector de tag/tags-->
-
                     <h6>Mostrar:</h6>
                     <ul class='listaGrafCustom' id="opcionesTag" name="opcionesTag" onchange=""></ul>
-
                     <!--opciones de metadatos-->
                     <h6>Opciones:</h6>
                     <ul id="conMetaTag" class='listaGrafCustom'>
@@ -74,7 +71,6 @@
                                     list="coloresMetaGraf"></label>
                         </li>
                     </ul>
-
                     <!--lista de colores-->
                     <datalist id="coloresTagGraf">
                         <option value="#01a9b8"></option>
@@ -107,7 +103,6 @@
                         <option value="0077b6">
                         <option value="023e8a">
                     </datalist>
-
                     <!-- rango de fechas-->
                     <label for="fecha">Desde</label>
                     <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin" value="2021-12-01">
@@ -140,23 +135,18 @@
                 </form>
             </div>
         </div>
-
         <!--espacio para las graficas--->
         <div id="zonaGraficos">
             <div id="grafica">
             </div>
         </div>
-
         <div id="ajustesPresets">
         </div>
-
-
     </div>
     <!---alarmas--->
     <table id="alarmasSur">
     </table>
 </main>
-
 <script>
 var chartDom = document.getElementById('grafica');
 var graficoCustom = echarts.init(chartDom);
@@ -192,7 +182,6 @@ window.onload = function() {
         tiempoFuera("volver")
     });
 }
-
 //procesos necesarios al principio para hacer todo lo demás
 function iniciar() {
     if (document.getElementById("opciones")) {

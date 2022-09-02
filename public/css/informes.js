@@ -8,23 +8,19 @@ function imprimir() {
         document.getElementsByName('btnControlPrint')[0].innerHTML = '<i class="fas fa-print"></i>';
     }, 4000);
 }
-
 //descarga la captura de las alarmas 
 function guardar(uri, filename) {
     var link = document.createElement('a');
     if (typeof link.download === 'string') {
-
         link.href = uri;
         link.download = filename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-
     } else {
         window.open(uri);
     }
 }
-
 //crea objeto CSV a aprtir del informe
 function exportarCSV() {
     tipo = document.querySelector('input[name="radInforme"]:checked').value;
@@ -54,7 +50,6 @@ function exportarCSV() {
     console.log(datosExp.join("\n"));
     descargarArchivoCSV(datosExp.join("\n"), nombre_informe);
 }
-
 //descarga el archivo CSV
 function descargarArchivoCSV(csv, archivo) {
     var archivo_csv, link_descarga;
@@ -68,7 +63,6 @@ function descargarArchivoCSV(csv, archivo) {
     document.body.appendChild(link_descarga);
     link_descarga.click();
 }
-
 //crea objeto js-html2pdf 
 //docs de la librería: https://openbase.com/js/js-html2pdf/documentation#dependencies
 function pasarAPDF() {
@@ -84,16 +78,13 @@ function pasarAPDF() {
         html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
-
     var exp_informe = new html2pdf(informe, opt);
     exp_informe.getPdf(true).then((pdf) => {});
 }
-
 //elimina los ajustes
 function reset() {
     document.getElementById('espacioInforme').innerHTML = "";
 }
-
 //abre o cierra la cabeza de opciones para el informe
 function opciones() {
     if(screen.width < 900){
@@ -119,9 +110,7 @@ function opciones() {
             document.getElementById("btnMenuInformes").style.top = '22%';
         }
     }
-
 }
-
 //inicia con valores los formularios de las fechas
 function inicioFin() {
     Date.prototype.seteardesde = (function() {
@@ -139,7 +128,6 @@ function inicioFin() {
         $('#fechaFin').val(new Date().setearHasta());
     });
 }
-
 //crea un informe basándose en los ajustes y preferencias elegidas
 function obtenerInforme() {
     tipo = document.querySelector('input[name="radInforme"]:checked').value;
@@ -161,8 +149,6 @@ function obtenerInforme() {
         opcion = 'clo';
         tipoInf = 'cloros y turbidez';
     }
-
-
     var fInicio = document.getElementById('fechaInicio').value;
     var fFin = document.getElementById("fechaFin").value;
     // var estaciones = document.getElementById("opcionesEstacion").value;
@@ -174,7 +160,6 @@ function obtenerInforme() {
     }
     var arrEstaciones = JSON.stringify(estaciones);
     var arrNombres = JSON.stringify(nestaciones);
-
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
@@ -192,10 +177,8 @@ function obtenerInforme() {
                     ahora.getFullYear() + " a las " +
                     ahora.getHours() + ":" +
                     ahora.getMinutes();
-
                 var cabecera = "<h1 style='color:rgb(1, 168, 184);'>Informe sobre " + tipoInf + "</h1><hr><p style='color:rgb(65, 65, 65);'>Desde: " + fInicio + " hasta: " + fFin + " </p><p style='color:rgb(65, 65, 65);'>Por " + nomusuario + " el " + fechahora + "</p><br>";
                 var pie = '<p style="text-align:center">powered by <img src="../../logo.png" style="height: 3.5em; margin-left: 1%;"></p>';
-
                 document.getElementById('espacioInforme').innerHTML += cabecera;
                 document.getElementById('espacioInforme').innerHTML += informe;
                 document.getElementById('espacioInforme').innerHTML += pie;
@@ -206,6 +189,4 @@ function obtenerInforme() {
             //dataType: 'json'
         });
     });
-
-
 }

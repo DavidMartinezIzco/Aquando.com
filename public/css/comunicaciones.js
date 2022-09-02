@@ -1,5 +1,4 @@
 function actualizarConexiones( nombre, pwd ) {
-
     $( document )
         .ready( function () {
             $.ajax( {
@@ -17,13 +16,10 @@ function actualizarConexiones( nombre, pwd ) {
             } );
         } );
 }
-
-
 function parpadeoProblema() {
     desvanecer();
     setTimeout( aparecer, 1000 );
 }
-
 function desvanecer() {
 
     var nalertas = document.getElementsByName( 'alerta' )
@@ -32,7 +28,6 @@ function desvanecer() {
         document.getElementsByName( 'alerta' )[ i ].style.opacity = '0';
     }
 }
-
 function aparecer() {
     var nalertas = document.getElementsByName( 'alerta' )
         .length;
@@ -40,9 +35,7 @@ function aparecer() {
         document.getElementsByName( 'alerta' )[ i ].style.opacity = '1';
     }
 }
-
 function nombrarEstacion( estacion ) {
-
     $( document )
         .ready( function () {
             $.ajax( {
@@ -52,13 +45,10 @@ function nombrarEstacion( estacion ) {
                 success: function ( est ) {
                     document.getElementById( "calidadSenales" )
                         .innerHTML = '<h4 id="calidadSenales"> Calidad de señal: ' + est + '</h4>';
-
                 },
                 error: function () {
                     console.log( "error" );
                 }
-
             } );
         } );
-
 }

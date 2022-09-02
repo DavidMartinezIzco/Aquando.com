@@ -2,7 +2,6 @@
 function actualizarSur( entorno, nombre, pwd, estacion ) {
     if(screen.width > 800){
         if ( entorno == "general" ) {
-
             $( document )
                 .ready( function () {
                     $.ajax( {
@@ -37,9 +36,5 @@ function actualizarSur( entorno, nombre, pwd, estacion ) {
                     } );
                 } );
         }
-    
-    
     }
-    
-
 }

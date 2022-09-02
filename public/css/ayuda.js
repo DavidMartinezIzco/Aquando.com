@@ -1,6 +1,5 @@
 //hace aparecer o desaparecer la caja de tips
 function ayuda() {
-
     if (document.getElementById("conAyuda").style.opacity == 0) {
         document.getElementById("conAyuda").style.opacity = '100%';
         document.getElementById("conAyuda").style.visibility = 'visible';
@@ -15,14 +14,10 @@ function ayuda() {
             document.getElementById("conAyuda").style.visibility = 'hidden';
         }
     };
-
 }
-
 //cambia al siguiente mensaje de ayuda de la caja de tips
 function ayudaNext() {
-
     var tip = "";
-
     if (localStorage.getItem("tip") === null) {
         tip = 1;
     } else {
@@ -56,7 +51,5 @@ function ayudaNext() {
             document.getElementById("conAyuda").innerHTML = '<i class="fas fa-times" id="btnAyudaCerrar" onclick="ayuda()"></i><h3>Ayuda:</h3><p id="txtAyuda">Pulsa "Ctrl + espacio" para abrir o cerrar el menú lateral de navegación</p><br><button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()"><i class="fas fa-arrow-right"></i></button>';
             break;
     }
-
     localStorage.setItem("tip", tip);
-
 }

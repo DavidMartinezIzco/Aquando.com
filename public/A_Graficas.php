@@ -1,14 +1,11 @@
 <?php
-require '../app/Database/Database.php';
-
+'../app/Database/Database.php';
 if (isset($_GET['tag'])) {
     $id_tag = $_GET['tag'];
 }
 $opcion = $_GET['opcion'];
 $id_estacion = $_GET['estacion'];
 $db = new Database();
-
-
 //obtiene datos historicos de un tag
 if ($opcion == "render") {
 
@@ -19,7 +16,6 @@ if ($opcion == "render") {
         echo "error";
     }
 }
-
 //obtiene los tags historizables de una estación
 if ($opcion == "tags") {
     $tags = $db->tagsEstacion($id_estacion);
@@ -29,8 +25,6 @@ if ($opcion == "tags") {
         echo "error";
     }
 }
-
-
 //obtiene los metadatos (max, min, avg) de un tag
 if ($opcion == "meta") {
     $metaDatos = $db->metaTag($id_tag, $id_estacion);

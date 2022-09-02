@@ -1,9 +1,7 @@
 <?php
 require '../app/Database/Database.php';
-
 $db = new Database();
 $opcion = $_GET['opcion'];
-
 //obtiene los historicos de un tag en un intervalo de fechas determinado
 if ($opcion == 'tag') {
     $id_estacion = $_GET['estacion'];
@@ -15,22 +13,17 @@ if ($opcion == 'tag') {
     $info = $db->historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaIni, $fechaFin);
     echo json_encode($info);
 }
-
 //guarda un preset con la configuracion de tags y colores seleccionados
 if ($opcion == 'guardar') {
-
     $datosPreset = json_decode($_REQUEST['arrDatosPreset']);
     $usuario = $datosPreset->usuario;
     $pwd = $datosPreset->pwd;
     $nombre_preset = $datosPreset->nombre;
     $id_estacion = $datosPreset->id_estacion;
     $tags_colores = $datosPreset->tags_colores;
-
     $resultado = $db->guardarPreset($usuario, $pwd, $nombre_preset, $id_estacion, $tags_colores);
-
     echo $resultado;
 }
-
 //muestra una lista con los presets guardados por el usuario
 if ($opcion == 'leerPresets') {
     $datos = json_decode($_REQUEST['arrdatos']);
@@ -40,7 +33,6 @@ if ($opcion == 'leerPresets') {
     if ($id_usuario) {
         $presets = $db->leerPresets($id_usuario);
         if ($_GET['para'] == 'mostrar') {
-
             $res = "";
             foreach ($presets as $index => $datos) {
                 $nombre_preset = substr($datos['configuracion'], 0, strpos($datos['configuracion'], '@'));
@@ -53,13 +45,11 @@ if ($opcion == 'leerPresets') {
         }
     }
 }
-
 //elimina un preset
 if ($opcion == 'borrar') {
     $datos = json_decode($_REQUEST['arrdatos']);
     $usuario = $datos->nombre;
     $pwd = $datos->pwd;
-
     $id_usuario = $db->obtenerIdUsuario($usuario, $pwd);
     if ($id_usuario) {
         $preset = $_GET['preset'];
