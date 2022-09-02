@@ -96,7 +96,7 @@ function reset() {
 
 //abre o cierra la cabeza de opciones para el informe
 function opciones() {
-    if(screen.width < 600){
+    if(screen.width < 900){
         if (document.getElementById("informesNorte").style.height == '15%') {
             document.getElementById("informesNorte").style.height = 0;
             document.getElementById("btnMenuInformes").style.top = '6%';

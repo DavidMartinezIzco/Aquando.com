@@ -135,9 +135,9 @@
     width: 96%;
     height: 100%;
     margin: 2%;
-    border: 2px solid darkgray;
+    /* border: 2px solid darkgray;
     background-color: lightgrey;
-    border-radius: 10px;
+    border-radius: 10px; */
 }
 
 .controlSel {

@@ -668,8 +668,8 @@ function fotoEstacion( id_estacion ) {
                 url: '/Aquando.com/A_Estacion.php?opcion=foto&estacion=' + id_estacion,
                 success: function ( foto ) {
                     var ima;
-                    if ( foto != '' ) {
-                        ima = 'url("data:image/jpg;base64,' + foto + '")';
+                    if ( foto != '' ) {    
+                        ima = 'linear-gradient(to left, rgba(255,255,255,0.99),rgba(255,255,255,0)),url("data:image/jpg;base64,' + foto + '")';
                         document.getElementById( 'seccionFoto' )
                             .style.backgroundImage = ima;
                         document.getElementById( 'seccionFoto' )

@@ -31,7 +31,7 @@
 }
 
 #tipoInforme {
-    padding: 0.5% 1%;
+    padding: 1% 1%;
     font-size: 100%;
     text-align: left;
     position: relative;
@@ -49,7 +49,7 @@
 #opcionesInforme {
     text-align: left;
     font-size: small;
-    padding: 1%;
+    padding: 2%;
     position: relative;
     width: 30%;
     left: 25%;
@@ -90,7 +90,7 @@
     left: 55%;
     height: 100%;
     bottom: 200%;
-    padding: 1%;
+    padding: 2.5em 1%;
 }
 
 #camposInforme form {
@@ -110,7 +110,7 @@
     left: 73%;
     height: 100%;
     bottom: 300%;
-    padding: 0.2% 1%;
+    padding: 0.5% 1%;
 }
 
 #btnInforme {
@@ -158,6 +158,18 @@
     min-height: 100%;
 }
 
+@media only screen and (max-width: 900px) {
+    #conPrincipal {
+        margin-top: 0%;
+        overflow-y: unset;
+        padding-bottom: -5%;
+    }
+    #informesNorte {
+        margin-top: 0%;
+        height: 15%;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     #conPrincipal {
         margin-top: 6.9%;
@@ -170,6 +182,9 @@
     }
 
     #btnMenuInformes{
+        background-color: rgb(1, 168, 184);
+        color: white;
+        top: 19.5%;
         font-size: large;
         padding: 1% 2%;
         left:45%;
@@ -182,9 +197,11 @@
     }
     #camposInforme {
         width: 40%;
+        padding: 1.5em 1%;
         z-index: 99;
         bottom: 150%;
         height: 40%;
+        margin-bottom: 1em;
     }
     #camposInforme form input {
         margin: 0;

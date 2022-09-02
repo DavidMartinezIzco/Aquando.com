@@ -298,6 +298,10 @@
     }
 }
 
+.leaflet-control-attribution {
+    display: none;
+}
+
 .tooltiptext {
     transition: 0.2s;
     opacity: 0%;
@@ -334,6 +338,18 @@
     --mask: linear-gradient(#000 0 0) bottom/100% calc(100% - 26px) no-repeat, radial-gradient(circle farthest-side, #0000 98%, #000) 50% -26px/48.10px 52px;
     -webkit-mask: var(--mask);
     mask: var(--mask);
+}
+
+@media only screen and (max-width: 900px) {
+    
+    #conPrincipal {
+        overflow-y: scroll;
+        height: 1000px;
+        overflow-y: scroll;
+        padding-bottom: -180px;
+        /* margin-bottom: 220px; */
+    }
+
 }
 
 @media only screen and (max-width: 900px) {
