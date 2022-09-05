@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 
 require(APPPATH . "Models/Usuario.php");
+require(APPPATH . "Models/Contras.php");
 
+use Contras;
 use Usuario;
 
 class Inicio extends BaseController
@@ -63,13 +65,20 @@ class Inicio extends BaseController
             $pwd = $_POST["txtContrasena"];
             $this->usuario = new Usuario($nombre, $pwd);
             if ($this->usuario->existeUsuario() == true) {
-                $_SESSION['nombre'] = $nombre;
-                $_SESSION['pwd'] = $pwd;
-
-                $this->usuario->obtenerEstacionesUsuario();
-                return $this->index();
+                //mirar contra y eso
+                $h = $this->usuario->userData();
+                $conSys = new Contras($h[0]['id_usuario']);
+                if ($conSys->loginUsuario($h[0]['hash'])) {
+                    $this->usuario->obtenerEstacionesUsuario();
+                    $_SESSION['nombre'] = $nombre;
+                    $_SESSION['pwd'] = $pwd;
+                    return $this->index();
+                } else {
+                    echo '<script language="javascript">alert("Datos incorrectos")</script>';
+                    return view('inicioSesion');
+                }
             } else {
-                echo '<script language="javascript">alert("Datos incorrectos")</script>';
+                echo '<script language="javascript">alert("Revisa los datos")</script>';
                 return view('inicioSesion');
             }
         } else {

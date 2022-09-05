@@ -4,9 +4,10 @@
 
 class Database
 {
+
     // ¿habra que cambiar esto algun dia?
     // puede que si, puede que no
-
+    // private $salt = 'AdminD0Salt';
     private $host = "172.16.5.1";
     private $dbname = "aquando_ddbb";
     private $user = "postgres";
@@ -58,7 +59,6 @@ class Database
             }
         }
     }
-
     //devuelve el nombre de la empresa de un usuario
     public function obtenerClienteUsuario($nombre_usuario, $pwd)
     {
@@ -93,6 +93,33 @@ class Database
             return false;
         }
     }
+
+    public function userData($id_usu)
+    {
+        $uData = null;
+        if ($this->conectar()) {
+            $con = "SELECT * FROM usuarios WHERE id_usuario =" . $id_usu . "LIMIT 1";
+            $res = pg_query($this->conexion, $con);
+            if ($this->consultaExitosa($res)) {
+                $uData = pg_fetch_all($res);
+                return $uData;
+            }
+        }
+        return false;
+    }
+
+    public function updateUserData($id_usu, $pwd)
+    {
+        if ($this->conectar()) {
+            $con = "UPDATE usuarios SET usuarios.hash = " . $pwd . " WHERE usuarios.id_usuario = $id_usu";
+            $res = pg_query($this->conexion, $con);
+            if ($this->consultaExitosa($res)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     //obtiene las estacioenes que pertenecen a un usuario
     //se usa en varios sitios

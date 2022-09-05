@@ -1,37 +1,29 @@
-CAMBIOS PARA MOBILE
+REDIRECT UPDATE
 
-INICIO/PRINCIPAL
-    - Reducción de espacios en blanco
-    - Menu de ajustes mas corto y mas ancho
-    -
+    OP1:
+    alarmas.php:
+        -Pop-up detalles alarma (?)
+            -val
+            -fecha
+            -msg
+            -otros
+            -btn salir
+            -btn "detalles"
+        
+        -Btn de detalles en lista:
+            -icono de graficas/lupa
 
-ESTACIONES: 
-    - cabecera reducida
-    - grid de cabecera ajustado
-    - widgets digitales mas pequeños (contenedor) y con iconos mas grandes
-    - rediseño de las secciones de analogicos y acumulados (quitar trends?)
-    -
-
-GRAFICAS:
-    - ambos modos deshabilitados
-
-ALARMAS:
-    - Modificar/Quitar/Simplificar controles
-    - Espacio inferior (alargar lista)
-    -
-
-INFORMES:
-    - Arreglar/Simplificar controles
-    - Espacio inferior
-    - 
-
-COMUNICACIONES:
-    - Alargar lista
-
-OTROS:
-    - Tips de ayuda mas grandes
-    - Eliminar/rediseñar barra superior
-    - Arreglar colision en log-inferior
-    - Formulario mas ancho en el log-in
-    - corregir desplazamiento de texto "desconectado"
+        -Envio params (id, ts) Inicio.php
     
+    Inicio.php:
+        -graficas():
+            -valorar si existen params
+            -recoger datos historicos margen +- 12h del tag
+            -devolver a graficasCustom.php con datos
+        
+    graficasCustom.php:
+        core:
+            -valorar si existen datos iniciales
+            -setear controles conforme a params (?)
+        aplicarCustom():
+            -aplicar datos iniciales

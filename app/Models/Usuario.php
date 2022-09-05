@@ -22,6 +22,12 @@ class Usuario
         $this->DB = new Database($this->nombre, $this->contrasena);
     }
 
+    public function userData()
+    {
+        $id = $this->DB->obtenerIdUsuario($this->nombre, $this->contrasena);
+        return $this->DB->userData($id[0]['id_usuario']);
+    }
+
     public function existeUsuario()
     {
         try {
@@ -111,7 +117,7 @@ class Usuario
         return false;
     }
 
-    
+
 
     /**
      * Get the value of contrasena
