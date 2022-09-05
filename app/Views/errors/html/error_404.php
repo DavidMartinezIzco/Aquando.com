@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>Error</title>
-
+    <link rel="stylesheet" type="text/css" href="css/fontawesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="../../css/fontawesome/css/all.css">
     <style>
     div.logo {
         height: 200px;
@@ -86,8 +87,13 @@
             <?= nl2br(esc($message)) ?>
             <?php else : ?>
             Parece que algo no ha ido como debía, revisa tu conexión
+
             <?php endif ?>
         </p>
+        <br>
+            <a href="http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/">Volver al inicio</a>
+        <br>
+            <i style="margin-top:0.5em;text-align:center;font-size:12em" class="fas fa-unlink"></i>
     </div>
 </body>
 
