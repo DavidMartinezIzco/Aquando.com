@@ -1,6 +1,5 @@
 <?php
 
-require(APPPATH . "Database/Database.php");
 class Contras
 {
     const HASH = PASSWORD_DEFAULT;
@@ -8,10 +7,11 @@ class Contras
 
     // Almacenamiento de datos del usuario:
     public $uData;
-    private $db = new Database();
+    private $db;
     // Constructor simulado:
     public function __construct($id)
     {
+        $this->db = new Database();
         $this->uData = $this->db->userData($id);
     }
     // Funcionalidad de guardar los datos simulada:
@@ -22,8 +22,8 @@ class Contras
 
     public function loginUsuario($password)
     {
-        // echo "Login: ", $this->uData[0]['hash'], "\n";
-        if (password_verify($password, $this->uData[0]['hash'])) {
+        // if (password_verify($password, $this->uData[0]['hash'])) {
+        if($password == $this->uData[0]['hash']){
             if (password_needs_rehash($this->uData[0]['hash'], self::HASH, ['cost' => self::COST])) {
                 $this->setPassword($password);
                 $this->save();
@@ -37,5 +37,9 @@ class Contras
     public function setPassword($password)
     {
         $this->uData[0]['hash'] = password_hash($password, self::HASH, ['cost' => self::COST]);
+    }
+
+    public function hashear($pwd){
+        return password_hash($pwd, self::HASH, ['cost' => self::COST]);
     }
 }

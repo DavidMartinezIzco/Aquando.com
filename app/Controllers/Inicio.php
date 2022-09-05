@@ -68,6 +68,7 @@ class Inicio extends BaseController
                 //mirar contra y eso
                 $h = $this->usuario->userData();
                 $conSys = new Contras($h[0]['id_usuario']);
+               
                 if ($conSys->loginUsuario($h[0]['hash'])) {
                     $this->usuario->obtenerEstacionesUsuario();
                     $_SESSION['nombre'] = $nombre;
