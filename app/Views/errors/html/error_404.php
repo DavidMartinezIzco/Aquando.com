@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>No encontramos esta sección</title>
+    <title>Error</title>
 
     <style>
     div.logo {
@@ -80,13 +80,12 @@
 
 <body>
     <div class="wrap">
-        <h1>404 - File Not Found</h1>
-
+        <h1>Sección desconocida</h1>
         <p>
             <?php if (!empty($message) && $message !== '(null)') : ?>
             <?= nl2br(esc($message)) ?>
             <?php else : ?>
-            Sorry! Cannot seem to find the page you were looking for.
+            Parece que algo no ha ido como debía, revisa tu conexión
             <?php endif ?>
         </p>
     </div>
