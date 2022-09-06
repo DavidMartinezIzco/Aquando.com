@@ -11,7 +11,7 @@ if ($_GET['funcion'] == "actualizar") {
     $sentido = $_GET['sentido'];
     $fechaIni = $_GET['fechaInicio'];
     $fechaFin = $_GET['fechaFin'];
-    $idusu = $db->obtenerIdUsuario($nombre, $pwd, $emp);
+    $idusu = $db->obtenerIdUsuario($nombre, $emp);
     $alarmas = $db->obtenerAlarmasUsuario($idusu, $orden, $sentido, $fechaIni, $fechaFin);
     $alarmasLimpio = array();
     foreach ($alarmas as $estacion => $alarmas) {

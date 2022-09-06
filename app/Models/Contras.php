@@ -22,8 +22,8 @@ class Contras
 
     public function loginUsuario($password)
     {
-        // if (password_verify($password, $this->uData[0]['hash'])) {
-        if($password == $this->uData[0]['hash']){
+        if (password_verify($password, $this->uData[0]['hash'])) {
+        //if($password == $this->uData[0]['hash']){
             if (password_needs_rehash($this->uData[0]['hash'], self::HASH, ['cost' => self::COST])) {
                 $this->setPassword($password);
                 $this->save();

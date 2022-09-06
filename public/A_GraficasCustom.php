@@ -29,7 +29,7 @@ if ($opcion == 'leerPresets') {
     $datos = json_decode($_REQUEST['arrdatos']);
     $n_usuario = $datos->nombre;
     $pwd = $datos->pwd;
-    $id_usuario = $db->obtenerIdUsuario($n_usuario, $pwd);
+    $id_usuario = $db->obtenerIdUsuario($n_usuario);
     if ($id_usuario) {
         $presets = $db->leerPresets($id_usuario);
         if ($_GET['para'] == 'mostrar') {
@@ -50,7 +50,7 @@ if ($opcion == 'borrar') {
     $datos = json_decode($_REQUEST['arrdatos']);
     $usuario = $datos->nombre;
     $pwd = $datos->pwd;
-    $id_usuario = $db->obtenerIdUsuario($usuario, $pwd);
+    $id_usuario = $db->obtenerIdUsuario($usuario);
     if ($id_usuario) {
         $preset = $_GET['preset'];
         $db->borrarPreset($preset, $id_usuario);

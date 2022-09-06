@@ -7,7 +7,7 @@ $db = new Database();
 if ($caso == "general") {
     $nombre = $_GET['nombre'];
     $pwd = $_GET['pwd'];
-    $id_usuario = $db->obtenerIdUsuario($nombre, $pwd);
+    $id_usuario = $db->obtenerIdUsuario($nombre);
     $alarmasSur = $db->alarmasSur($id_usuario);
     echo "<tr>        
         <th>Estación</th>

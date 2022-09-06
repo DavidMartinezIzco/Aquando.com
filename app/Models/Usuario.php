@@ -24,14 +24,14 @@ class Usuario
 
     public function userData()
     {
-        $id = $this->DB->obtenerIdUsuario($this->nombre, $this->contrasena);
+        $id = $this->DB->obtenerIdUsuario($this->nombre);
         return $this->DB->userData($id[0]['id_usuario']);
     }
 
     public function existeUsuario()
     {
         try {
-            return $this->DB->existeUsuario($this->nombre, $this->contrasena);
+            return $this->DB->existeUsuario($this->nombre);
         } catch (\Throwable $th) {
         }
     }
@@ -117,9 +117,9 @@ class Usuario
         return false;
     }
 
-    public function obtenerIdUsuario($nombre, $pwd)
+    public function obtenerIdUsuario($nombre)
     {
-        $id = $this->DB->obtenerIdUsuario($nombre, $pwd);
+        $id = $this->DB->obtenerIdUsuario($nombre);
         return $id[0]['id_usuario'];
     }
 

@@ -45,10 +45,10 @@ class Database
 
     //obtiene el ID de un usuario dadas sus credenciales en caso de que exista
     //apaño para algunas secciones
-    public function obtenerIdUsuario($nombre, $pwd)
+    public function obtenerIdUsuario($nombre)
     {
         if ($this->conectar()) {
-            $consulta = "SELECT id_usuario FROM usuarios WHERE nombre ='$nombre' AND password ='$pwd'";
+            $consulta = "SELECT id_usuario FROM usuarios WHERE nombre ='$nombre'";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $id_usu = pg_fetch_all($resultado);
@@ -62,7 +62,7 @@ class Database
     //devuelve el nombre de la empresa de un usuario
     public function obtenerClienteUsuario($nombre_usuario, $pwd)
     {
-        $id_usuario = $this->obtenerIdUsuario($nombre_usuario, $pwd)[0]['id_usuario'];
+        $id_usuario = $this->obtenerIdUsuario($nombre_usuario)[0]['id_usuario'];
         if ($id_usuario) {
             $con = "SELECT cliente.nombre FROM cliente inner join usuarios on usuarios.id_cliente = cliente.id_cliente
            WHERE usuarios.id_usuario = " . $id_usuario;
@@ -78,10 +78,10 @@ class Database
     //comprueba que un usuario exite en la BD
     //está pendiente de cambios (encriptación)
     //se usa en el login
-    public function existeUsuario($nombre, $pwd)
+    public function existeUsuario($nombre)
     {
         if ($this->conectar()) {
-            $consulta = "SELECT * FROM public.usuarios WHERE nombre ='$nombre' AND password ='$pwd'";
+            $consulta = "SELECT * FROM public.usuarios WHERE nombre ='$nombre'";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 return true;
@@ -1296,7 +1296,7 @@ class Database
                 $codigo .= "/" . $tag . ":" . $color . "";
             }
         }
-        $id_usuario = $this->obtenerIdUsuario($usuario, $pwd);
+        $id_usuario = $this->obtenerIdUsuario($usuario);
         if ($id_usuario) {
             $secu = "INSERT INTO graficas(id_usuario, configuracion)
             VALUES (" . $id_usuario[0]['id_usuario'] . ", '" . $codigo . "')";

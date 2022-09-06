@@ -51,7 +51,7 @@ if ($_GET['opcion'] == 'confirmar') {
     $tag = $_GET['tag'];
     $usu = $_GET['usu'];
     $pwd = $_GET['pwd'];
-    $id_usuario = $db->obtenerIdUsuario($usu, $pwd);
+    $id_usuario = $db->obtenerIdUsuario($usu);
     if ($id_usuario) {
         $db->confirmarWidget($widget, $tag, $id_usuario[0]['id_usuario']);
     }
@@ -60,7 +60,7 @@ if ($_GET['opcion'] == 'confirmar') {
 if ($_GET['opcion'] == 'feed') {
     $usu = $_GET['usu'];
     $pwd = $_GET['pwd'];
-    $id_usuario = $db->obtenerIdUsuario($usu, $pwd);
+    $id_usuario = $db->obtenerIdUsuario($usu);
     if ($id_usuario) {
         echo json_encode($db->feedPrincipalCustom($id_usuario[0]['id_usuario']));
         // $datosFeedCustom = $db->feedPrincipalCustom($id_usuario[0]['id_usuario']);

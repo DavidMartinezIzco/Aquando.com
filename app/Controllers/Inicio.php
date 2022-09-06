@@ -64,23 +64,29 @@ class Inicio extends BaseController
             $nombre = $_POST["txtNombre"];
             $pwd = $_POST["txtContrasena"];
             $this->usuario = new Usuario($nombre, $pwd);
+            //comrpueba que exista un usuario con ese nombre y en ese caso verifica contraseñas
             if ($this->usuario->existeUsuario() == true) {
                 //mirar contra y eso
-                $hpwd = password_hash($pwd, PASSWORD_DEFAULT, array("cost" => 14));
-                echo "console.log(" . $hpwd . ")";
-                $id_usu = $this->usuario->obtenerIdUsuario($nombre, $pwd);
-                $conSys = new Contras($id_usu);
-                if ($conSys->loginUsuario($hpwd)) {
-                    $this->usuario->obtenerEstacionesUsuario();
-                    $_SESSION['nombre'] = $nombre;
-                    $_SESSION['pwd'] = $pwd;
-                    return $this->index();
-                } else {
+                //  $hpwd = password_hash($pwd, PASSWORD_DEFAULT, array("cost" => 14));
+                //  echo $hpwd;
+                $id_usu = $this->usuario->obtenerIdUsuario($nombre);
+                if($id_usu != null){
+                    $conSys = new Contras($id_usu);
+                    if ($conSys->loginUsuario($pwd)) {
+                        $this->usuario->obtenerEstacionesUsuario();
+                        $_SESSION['nombre'] = $nombre;
+                        $_SESSION['pwd'] = $pwd;
+                        return $this->index();
+                    } else {
+                        echo '<script language="javascript">alert("Contraseña incorrecta")</script>';
+                        return view('inicioSesion');
+                    }
+                }else{
                     echo '<script language="javascript">alert("Datos incorrectos")</script>';
-                    return view('inicioSesion');
+                        return view('inicioSesion');
                 }
             } else {
-                echo '<script language="javascript">alert("Revisa los datos")</script>';
+                echo '<script language="javascript">alert("Usuario desconocido")</script>';
                 return view('inicioSesion');
             }
         } else {
