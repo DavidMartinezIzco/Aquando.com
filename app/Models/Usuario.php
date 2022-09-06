@@ -117,6 +117,12 @@ class Usuario
         return false;
     }
 
+    public function obtenerIdUsuario($nombre, $pwd)
+    {
+        $id = $this->DB->obtenerIdUsuario($nombre, $pwd);
+        return $id[0]['id_usuario'];
+    }
+
 
 
     /**

@@ -66,10 +66,11 @@ class Inicio extends BaseController
             $this->usuario = new Usuario($nombre, $pwd);
             if ($this->usuario->existeUsuario() == true) {
                 //mirar contra y eso
-                $h = $this->usuario->userData();
-                $conSys = new Contras($h[0]['id_usuario']);
-               
-                if ($conSys->loginUsuario($h[0]['hash'])) {
+                $hpwd = password_hash($pwd, PASSWORD_DEFAULT, array("cost" => 14));
+                echo "console.log(" . $hpwd . ")";
+                $id_usu = $this->usuario->obtenerIdUsuario($nombre, $pwd);
+                $conSys = new Contras($id_usu);
+                if ($conSys->loginUsuario($hpwd)) {
                     $this->usuario->obtenerEstacionesUsuario();
                     $_SESSION['nombre'] = $nombre;
                     $_SESSION['pwd'] = $pwd;
