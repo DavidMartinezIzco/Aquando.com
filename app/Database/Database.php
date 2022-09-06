@@ -1,19 +1,14 @@
 <?php
 //algun dia documentaré esta clase entera
 // o igual no
-
 class Database
 {
-
-    // ¿habra que cambiar esto algun dia?
-    // puede que si, puede que no
-    // private $salt = 'AdminD0Salt';
+    //cambiar en caso de mover BD
     private $host = "172.16.5.1";
     private $dbname = "aquando_ddbb";
     private $user = "postgres";
     private $password = "123456";
     private $conexion;
-
     public function __construct()
     {
         if (!function_exists('str_contains')) {
@@ -23,14 +18,12 @@ class Database
             }
         }
     }
-
     //conecta con la BD
     //uso interno
     private function conectar()
     {
         return $this->conexion = pg_connect("host=$this->host dbname=$this->dbname user=$this->user password=$this->password");
     }
-
     //comprueba si una consulta a BD tiene respuesta
     //uso interno
     private function consultaExitosa($resultado)
@@ -42,7 +35,6 @@ class Database
             return false;
         }
     }
-
     //obtiene el ID de un usuario dadas sus credenciales en caso de que exista
     //apaño para algunas secciones
     public function obtenerIdUsuario($nombre)
@@ -73,10 +65,7 @@ class Database
         }
         return "";
     }
-
-
     //comprueba que un usuario exite en la BD
-    //está pendiente de cambios (encriptación)
     //se usa en el login
     public function existeUsuario($nombre)
     {
@@ -93,7 +82,7 @@ class Database
             return false;
         }
     }
-
+    //uso para el constructor de Contras.php
     public function userData($id_usu)
     {
         $uData = null;
@@ -107,7 +96,7 @@ class Database
         }
         return false;
     }
-
+    //actualiza el campo hash de una contraseña que necesite actualizarse
     public function updateUserData($id_usu, $pwd)
     {
         if ($this->conectar()) {
@@ -119,8 +108,6 @@ class Database
         }
         return false;
     }
-
-
     //obtiene las estacioenes que pertenecen a un usuario
     //se usa en varios sitios
     public function mostrarEstacionesCliente($nombre, $pwd)
@@ -139,7 +126,6 @@ class Database
             }
         }
     }
-
     //obtiene la foto codificada en base64 de una estacion en concreto
     //la devuelve como texto plano
     public function obtenerFotoEstacion($id_estacion)
@@ -157,8 +143,6 @@ class Database
             }
         }
     }
-
-
     //obtiene las alarmas en general de un usuario
     //se usa en varias cosas
     public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido, $fechaInicio, $fechaFin)
@@ -242,7 +226,6 @@ class Database
             return false;
         }
     }
-
     //obtiene las alarmas de una estación en concreto
     //se usa para varias cosas
     public function obtenerAlarmasEstacion($id_estacion, $orden, $sentido, $fechaInicio, $fechaFin)
@@ -345,7 +328,6 @@ class Database
         }
         return false;
     }
-
     //obtiene la ultima información conocida de una estación concreta
     //se usará en la sección de estaciones y probablemente mediante AJAX
     public function datosEstacion($id_estacion, $todos)
@@ -387,7 +369,6 @@ class Database
             return $ultimosDatosEstacionLimpio;
         }
     }
-
     //obtiene los tags historizables de una estacion concreta
     //se usa en graficas y en la sección estacion
     public function tagsEstacion($id_estacion)
@@ -425,7 +406,6 @@ class Database
             return false;
         }
     }
-
     //obtiene los tags analogicos historizables de un grupo de estaciones
     public function tagsAnalogHisto($estaciones)
     {
@@ -449,16 +429,13 @@ class Database
         }
         return false;
     }
-
     //para las fechas vamos a necesitar un traductor de Date() a TimeStamp()
     public function historicosEstacion($id_estacion, $fechaIni, $fechaFin)
     {
         if ($this->conectar()) {
-
             $tagsEstacion = $this->tagsEstacion($id_estacion);
             $_SESSION['tagsEstacion'] = $tagsEstacion;
             if ($tagsEstacion != false) {
-
                 foreach ($tagsEstacion as $index => $tag) {
                     if ($tag['id_tag'] != 1) {
                         $conHisto = "SELECT fecha, calidad, valor_bool, valor_int, valor_acu, valor_float, valor_string, valor_date FROM datos_historicos WHERE id_tag = " . $tag['id_tag'] . " ";
@@ -510,7 +487,6 @@ class Database
             from contiguous_ts_list 
             left outer join t using (ts)
             order by ts;";
-
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
             if ($this->consultaExitosa($resulHistoTagEst)) {
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
@@ -535,19 +511,15 @@ class Database
             return false;
         }
     }
-
     //funcion para AJAX, obtiene los historicos de un tag de una estación en un periodo determinado
     //se usa en graficas-> vista personalizada
     public function historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaInicio, $fechaFin)
     {
         if ($this->conectar()) {
-
             $seriesTagCustom = array();
             $metaCustom = array();
-
             //obtener el metadata del TAG 
             $meta = $this->metaTag($id_tag, $id_estacion);
-
             // filtrar metadata
             foreach ($ajustesMeta as $index => $tipo) {
                 if ($tipo == "maxGen") {
@@ -560,14 +532,10 @@ class Database
                     $metaCustom['avg'] = $meta['avg'];
                 }
             }
-
             $seriesTagCustom['meta'] = $metaCustom;
-
             //traducir fechas(?)
-
             $ini = strtotime($fechaInicio);
             $fin = strtotime($fechaFin);
-
             //EXPERIMENTO 8
             //GENERA SERIES PARA ALINEAR LAS LINEAS DE TIEMPO A 5mins 
             $conHistoTagEst = "WITH t as 
@@ -591,15 +559,12 @@ class Database
             from contiguous_ts_list 
             left outer join t using (ts)
             order by ts;";
-
-
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
             if ($this->consultaExitosa($resulHistoTagEst)) {
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
                 $datosHisto = array();
                 foreach ($datosHistoTagEst as $index => $dato) {
                     foreach ($dato as $factor => $valor) {
-
                         if ($valor != null && $factor != 'ts') {
                             $datosHisto[$index]['valor'] = number_format($valor, 2);
                         }
@@ -619,26 +584,22 @@ class Database
         //pasar por caja de cambios el $seriesTagCustom['tag']
         return $seriesTagCustom;
     }
-
     //secuencia para pasar una alarma de un usuario a estado ACK e incluir nombre del usuario y la fecha de ACK
     //se usa en la sección de alarmas
     public function reconocerAlarma($id_alarma, $usuario, $hora)
     {
-
         if ($this->conectar()) {
             $conDatosAlarma = "SELECT estado FROM alarmas WHERE id_alarmas = $id_alarma";
             $resulDatosAlarma = pg_query($this->conexion, $conDatosAlarma);
             if ($this->consultaExitosa($resulDatosAlarma)) {
                 $datosAlarma = pg_fetch_all($resulDatosAlarma);
                 $estadoAlarma = $datosAlarma[0]['estado'];
-
                 if ($estadoAlarma == "1") {
                     $nuevoEstado = 3;
                 }
                 if ($estadoAlarma == "2") {
                     $nuevoEstado = 4;
                 }
-
                 $secuencia = "UPDATE alarmas SET estado = $nuevoEstado, ack_por = '$usuario', fecha_ack = '$hora' WHERE id_alarmas = $id_alarma";
                 $resultado = pg_query($this->conexion, $secuencia);
                 if ($this->consultaExitosa($resultado)) {
@@ -651,7 +612,6 @@ class Database
             return false;
         }
     }
-
     //proceso para AJAX para obetener las ultimas alarmas de un usuario y mostrarlas en el menu SUR
     //se usa en casi todas partes y en todo momento
     public function alarmasSur($id_usuario)
@@ -660,7 +620,6 @@ class Database
             $conAlarmas = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
         FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
         WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . " ORDER BY alarmas.fecha_origen DESC limit 7";
-
             $resulAlarmas = pg_query($conAlarmas);
             if ($this->consultaExitosa($resulAlarmas)) {
                 $alarmas = pg_fetch_all($resulAlarmas);
@@ -672,7 +631,6 @@ class Database
             return false;
         }
     }
-
     //proceso para AJAX para obtener las alarmas del Menu SUR
     //se usa en las secciones de estacion
     public function alarmasEstacionSur($id_estacion)
@@ -690,7 +648,6 @@ class Database
             return false;
         }
     }
-
     //secuencia para sacar las ultimas conexiones de las estaciones
     //se usa en comunicaciones
     public function ultimaComunicacionEstacion($id_estacion)
@@ -708,7 +665,6 @@ class Database
             return false;
         }
     }
-
     //obtiene la calidad de los ultimos datos de una estacion
     //se usa en comunicaciones
     public function calidadTagsEstacion($id_estacion)
@@ -726,7 +682,6 @@ class Database
             return false;
         }
     }
-
     //adivina que hace
     //se usa en varios sitios
     public function obtenerNombreEstacion($id_estacion)
@@ -744,7 +699,6 @@ class Database
             return false;
         }
     }
-
     //obtiene los metadatos de un tag de una estacion
     //se usa en las graficas
     public function metaTag($id_tag, $id_estacion)
@@ -755,11 +709,9 @@ class Database
             $conmaxval = "SELECT MAX(datos_historicos.valor_int), CAST(MAX(datos_historicos.valor_float)*100 AS INT), MAX(datos_historicos.valor_acu) FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . "";
             $conminval = "SELECT MIN(datos_historicos.valor_int),CAST(MIN(datos_historicos.valor_float)*100 AS INT), MIN(datos_historicos.valor_acu) FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . "";
             $conmedia = "SELECT AVG(datos_historicos.valor_int),CAST(AVG(datos_historicos.valor_float)*100 AS INT), AVG(datos_historicos.valor_acu) FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . "";
-
             $resulmaxval = pg_query($this->conexion, $conmaxval);
             $resulminval = pg_query($this->conexion, $conminval);
             $resulmedia = pg_query($this->conexion, $conmedia);
-
             if ($this->consultaExitosa($resulmaxval)) {
                 $maxval = pg_fetch_all($resulmaxval);
                 foreach ($maxval[0] as $index => $valor) {
@@ -801,7 +753,6 @@ class Database
             return false;
         }
     }
-
     //obtiene los 7 ultimos maximos valores de un tag de una estación
     //hasta que no tengamos comunicación en TR hay que sumar dias al intervalo
     public function tagTrend($id_tag, $id_estacion)
@@ -818,39 +769,30 @@ class Database
             }
         }
     }
-
     //obtiene los informes de un tipo de señal de un grupo de estaciones de un usuario en concreto
     public function informeSeñalEstacion($id_estacion, $señal, $fechaIni, $fechaFin)
     {
         $ini = strtotime($fechaIni);
         $fin = strtotime($fechaFin);
-
         if ($this->conectar()) {
             if ($señal == 'cau') {
                 $tagscaudales = array();
                 $informeTags = array();
-
-
                 $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad
                 FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
                 WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Caudal%')";
-
                 $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
                 if ($this->consultaExitosa($resTagsCaudales)) {
-
                     $tagscaudales = pg_fetch_all($resTagsCaudales);
                     foreach ($tagscaudales as $index => $tag) {
-
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                         where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
                         GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha desc";
-
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
                             if ($tag['unidad'] != null) {
                                 $nombretag = $tag['nombre_tag'] . " (" . $tag['unidad'] . ")";
-
                                 $informeTags[$nombretag] = pg_fetch_all($resAgregTag);
                             } else {
                                 $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
@@ -860,32 +802,24 @@ class Database
                 }
                 return $informeTags;
             }
-
             if ($señal == 'niv') {
                 $tagscaudales = array();
                 $informeTags = array();
-
-
                 $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad
                 FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
                 WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Nivel%')";
-
                 $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
                 if ($this->consultaExitosa($resTagsCaudales)) {
-
                     $tagscaudales = pg_fetch_all($resTagsCaudales);
                     foreach ($tagscaudales as $index => $tag) {
-
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                         where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
                         GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
-
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
                             if ($tag['unidad'] != null) {
                                 $nombretag = $tag['nombre_tag'] . " (" . $tag['unidad'] . ")";
-
                                 $informeTags[$nombretag] = pg_fetch_all($resAgregTag);
                             } else {
                                 $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
@@ -893,35 +827,26 @@ class Database
                         }
                     }
                 }
-
                 return $informeTags;
             }
-
             if ($señal == 'acu') {
                 $tagscaudales = array();
                 $informeTags = array();
-
-
                 $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad 
                 FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
                 WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Acumulado%') AND tags.nombre_tag LIKE('%Dia')";
-
                 $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
                 if ($this->consultaExitosa($resTagsCaudales)) {
-
                     $tagscaudales = pg_fetch_all($resTagsCaudales);
                     foreach ($tagscaudales as $index => $tag) {
-
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_acu) as valor, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                         where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
                         GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
-
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
                             if ($tag['unidad'] != null) {
                                 $nombretag = $tag['nombre_tag'] . " (" . $tag['unidad'] . ")";
-
                                 $informeTags[$nombretag] = pg_fetch_all($resAgregTag);
                             } else {
                                 $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
@@ -929,36 +854,28 @@ class Database
                         }
                     }
                 }
-
                 return $informeTags;
             }
-
             if ($señal == "clo") {
                 $tagscaudales = array();
                 $informeTags = array();
-
                 $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad
                 FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
                 WHERE id_estacion = " . $id_estacion . " 
                 AND tags.nombre_tag LIKE('Cloro%')
                 OR tags.nombre_tag LIKE('Turbidez%')";
-
                 $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
                 if ($this->consultaExitosa($resTagsCaudales)) {
-
                     $tagscaudales = pg_fetch_all($resTagsCaudales);
                     foreach ($tagscaudales as $index => $tag) {
-
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                         where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
                         GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
-
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
                             if ($tag['unidad'] != null) {
                                 $nombretag = $tag['nombre_tag'] . " (" . $tag['unidad'] . ")";
-
                                 $informeTags[$nombretag] = pg_fetch_all($resAgregTag);
                             } else {
                                 $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
@@ -966,35 +883,27 @@ class Database
                         }
                     }
                 }
-
                 return $informeTags;
             }
         }
     }
-
     //obtiene toda la informacion de las señales digitales de inicio
     //busca tags digitales con alarma en un periodo de 48h
     public function feedPrincipalDigital($estaciones)
     {
         if ($this->conectar()) {
-
             //recorrer estaciones y sacar tags digitales
             //ver si esa estación tiene alarmas activas recientes de tags digitales y coger la mas reciente
             //guardarlas en un array
-
-
             $feed = array();
             foreach ($estaciones as $index => $estacion) {
                 $id_estacion = $estacion['id_estacion'];
-
                 $conTagsDigi = "SELECT tags.id_tag, tags.nombre_tag 
                 FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag 
                 WHERE estacion_tag.id_estacion = $id_estacion AND tags.type_tag = 1";
-
                 $resTagsDigi = pg_query($this->conexion, $conTagsDigi);
                 if ($this->consultaExitosa($resTagsDigi)) {
                     $tagsDigiEstacion = pg_fetch_all($resTagsDigi);
-
                     foreach ($tagsDigiEstacion as $index => $tag) {
                         $id = $tag['id_tag'];
                         $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
@@ -1002,7 +911,6 @@ class Database
                         WHERE estado = 1 AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '1 days' 
                         AND NOT valor_alarma = '' 
                         ORDER BY fecha_origen DESC LIMIT 1";
-
                         $resAlarmas = pg_query($this->conexion, $conAlarma);
                         if ($this->consultaExitosa($resAlarmas)) {
                             $alarmasTagDigi = pg_fetch_all($resAlarmas);
@@ -1019,7 +927,6 @@ class Database
             return false;
         }
     }
-
     //función para guardar la configuracion de usuario en los ajustes de inicio
     //Ejemplo de codigo de config --> "w1:126-w2:260-w3:261-w4:167";
     public function confirmarWidget($wid, $tag, $id_usuario)
@@ -1058,7 +965,6 @@ class Database
         }
         return false;
     }
-
     //obtiene la configuracion de widgets de un usuario
     //es una funcion para feedPrincipalCustom
     private function obtenerConfigInicio($id_usuario)
@@ -1073,7 +979,6 @@ class Database
         }
         return false;
     }
-
     //obtiene el nombre de un tag concreto
     //uso interno
     private function obtenerNombreTag($id_tag)
@@ -1086,14 +991,11 @@ class Database
             }
         }
     }
-
     //obtiene (si existen) las consignas de un tag
     //uso interno
     private function obtenerConsignasTag($id_tag)
     {
-
         $nombre_tag = $this->obtenerNombreTag($id_tag);
-
         if ($this->conectar()) {
             $con = "SELECT estaciones.nombre_estacion,tags.nombre_tag,tags.unidad, datos_valores.valor_float 
             from datos_valores inner join tags on tags.id_tag = datos_valores.id_tag 
@@ -1122,13 +1024,11 @@ class Database
                     $configuracionWidgetsUsuario[$arrConfigWid[0]] = $arrConfigWid[1];
                 }
             }
-
             $ultvalor = "";
             $trendDia = array();
             $agregSemana = array();
             $infoTag = array();
             $consignas_tag = array();
-
             foreach ($configuracionWidgetsUsuario as $widget => $tag) {
                 $tag = intval($tag);
                 $consignas_tag = $this->obtenerConsignasTag($tag);
@@ -1155,7 +1055,6 @@ class Database
                 } else {
                     $ultvalor = false;
                 }
-
                 //trend diario (o semanal si es acumulado) del tag
                 $conTrendDia = "";
                 $n_tag = $this->obtenerNombreTag($tag);
@@ -1187,16 +1086,13 @@ class Database
                 } else {
                     $trendDia = false;
                 }
-
                 //trend semanal de agregados (o solo maximos y 2 semanas si es acumulado) del tag
-
                 $conAgregSemanal = "";
                 if (strpos($n_tag, 'Acumulado') !== false) {
                     $conAgregSemanal = "SELECT MAX(datos_historicos.valor_acu) as max_acu, MAX(datos_historicos.valor_int) as max_int, MAX(datos_historicos.valor_float) as max_float,datos_historicos.fecha::date
                     from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                     where datos_historicos.id_tag = " . $tag . "
                     and datos_historicos.fecha::date > current_date::date - interval '14 days' AND datos_historicos.fecha::date <= current_date::date GROUP BY datos_historicos.fecha::date LIMIT 14";
-
                     $resAgregSemanal = pg_query($this->conexion, $conAgregSemanal);
                     if ($this->consultaExitosa($resAgregSemanal)) {
                         $agregSemana = pg_fetch_all($resAgregSemanal);
@@ -1221,7 +1117,6 @@ class Database
                     from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                     where datos_historicos.id_tag = " . $tag . "
                     and datos_historicos.fecha::date > current_date::date - interval '7 days' AND datos_historicos.fecha::date <= current_date::date GROUP BY datos_historicos.fecha::date LIMIT 7";
-
                     $resAgregSemanal = pg_query($this->conexion, $conAgregSemanal);
                     if ($this->consultaExitosa($resAgregSemanal)) {
                         $agregSemana = pg_fetch_all($resAgregSemanal);
@@ -1248,7 +1143,6 @@ class Database
                         $agregSemana = false;
                     }
                 }
-
                 if ($consignas_tag != false) {
                     $infoTag[$widget] = ["unidad" => $ultvalor['unidad'], "consignas" => $consignas_tag, "widget" => $widget, "nombre" => $ultvalor['nombre_tag'], "estacion" => $ultvalor['nombre_estacion'], "ultimo_valor" => $ultvalor, "trend_dia" => $trendDia, "agreg_semana" => $agregSemana];
                 } else {
@@ -1258,7 +1152,6 @@ class Database
             return $infoTag;
         }
     }
-
     //funcion para la seccion de graficosCustom. Borra un preset seleccionado del usuario
     public function borrarPreset($n_preset, $id_usuario)
     {
@@ -1270,7 +1163,6 @@ class Database
             return false;
         }
     }
-
     //obtiene la lista de presets guardada de un usuario
     public function leerPresets($id_usuario)
     {
@@ -1284,7 +1176,6 @@ class Database
         }
         return false;
     }
-
     // guarda un preset nuevo para un usuario
     //ejemplo de codigo --> nombre@6?/1:12#fffff-23#gggg-45#kkkkk/2:xxxxxx/3:xxxxx
     //estructura de config --> nombre@id_estacion?/tag:color-tag:color-tag:color-

@@ -1,25 +1,19 @@
 <?php
 
 namespace App\Controllers;
-
-
 require(APPPATH . "Models/Usuario.php");
 require(APPPATH . "Models/Contras.php");
-
 use Contras;
 use Usuario;
-
 class Inicio extends BaseController
 {
     private $usuario;
     private $sesion;
-
     public function __construct()
     {
         $this->sesion = \Config\Services::session();
         $this->sesion->start();
     }
-
     //arranque del proyecto
     public function index()
     {
@@ -46,7 +40,6 @@ class Inicio extends BaseController
             }
         }
     }
-
     //inicia la sesion comprobando si existe un usuario con esas credenciales
     //debería cifrar esto cuando empiece a haber usuarios de verdad
     //sobretodo por que no me termino de fiar del AJAX pero no queda otra
@@ -117,7 +110,6 @@ class Inicio extends BaseController
             return view('inicio');
         }
     }
-
     //muestra la vista de graficas (historicos y demas)
     //puede ir a vista rapida o personalizada (a.k.a custom)
     public function graficas()
@@ -135,7 +127,6 @@ class Inicio extends BaseController
             return view('inicio');
         }
     }
-
     // //muestra la zona principal de alarmas
     public function alarmas()
     {
@@ -149,13 +140,11 @@ class Inicio extends BaseController
                 $estaciones = $this->usuario->obtenerEstacionesUsuario();
                 $datos['estaciones'] = $estaciones;
             }
-
             return view('alarmas', $datos);
         } else {
             return view('inicio');
         }
     }
-
     //muestra la zona de informes
     public function informes()
     {
@@ -166,7 +155,6 @@ class Inicio extends BaseController
             return $this->inicioSesion();
         }
     }
-
     //muestra el estado de las conexiones con las estaciones
     public function comunicaciones()
     {
