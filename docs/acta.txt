@@ -27,3 +27,7 @@ REDIRECT UPDATE
             -setear controles conforme a params (?)
         aplicarCustom():
             -aplicar datos iniciales
+
+    arreglar cifrado del controlador
+    revisar A_estaciones.php for error 500
+    overflow de estaciones

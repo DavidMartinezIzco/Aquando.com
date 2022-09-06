@@ -1,5 +1,5 @@
 <?php
-'../app/Database/Database.php';
+require '../app/Database/Database.php';
 if (isset($_GET['tag'])) {
     $id_tag = $_GET['tag'];
 }
