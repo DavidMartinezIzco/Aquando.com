@@ -116,8 +116,17 @@ function montarWidgetsDigi() {
     var iconoAlarma = "";
     seccionDigital.innerHTML = '';
     for ( var indexDato in datosDigi ) {
+        var tf = datosDigi[ indexDato ][ 'valor' ];
+        if(datosDigi[indexDato]['unidad'] == 'i'){
+            if(tf == 't'){
+                tf = 'f';
+            }
+            else{
+                tf = 't';
+            }
+        }
         //GENERICO
-        if ( datosDigi[ indexDato ][ 'valor' ] == 'f' ) {
+        if ( tf == 'f' ) {
             iconoAlarma = '<i style="color:yellowgreen" class="fas fa-check"></i>';
             msg = "BIEN";
         } else {
@@ -126,7 +135,7 @@ function montarWidgetsDigi() {
         }
         //PUERTAS
         if ( datosDigi[ indexDato ][ 'nombre_tag' ].includes( "Puerta" ) ) {
-            if ( datosDigi[ indexDato ][ 'valor' ] == 't' ) {
+            if ( tf == 't' ) {
                 iconoAlarma = '<i class="fas fa-lock-open"></i>';
                 msg = "ABIERTA";
             } else {
@@ -136,7 +145,7 @@ function montarWidgetsDigi() {
         }
         //varistores
         if ( datosDigi[ indexDato ][ 'nombre_tag' ].includes( "Varistores" ) ) {
-            if ( datosDigi[ indexDato ][ 'valor' ] == 'f' ) {
+            if ( tf == 'f' ) {
                 iconoAlarma = '<i style="color:yellowgreen" class="fas fa-shield-alt"></i>';
                 msg = "SEGURO";
             } else {
@@ -146,7 +155,7 @@ function montarWidgetsDigi() {
         }
         //red 220
         if ( datosDigi[ indexDato ][ 'nombre_tag' ].includes( "Red 220" ) ) {
-            if ( datosDigi[ indexDato ][ 'valor' ] == 'f' ) {
+            if ( tf == 'f' ) {
                 iconoAlarma = '<i style="color:yellowgreen" class="fas fa-plug"></i>';
                 msg = "BIEN";
             } else {
@@ -156,7 +165,7 @@ function montarWidgetsDigi() {
         }
         //bateria 
         if ( datosDigi[ indexDato ][ 'nombre_tag' ].includes( "Bateria" ) ) {
-            if ( datosDigi[ indexDato ][ 'valor' ] == 'f' ) {
+            if ( tf == 'f' ) {
                 iconoAlarma = '<i style="color:yellowgreen" class="fas fa-battery-full"></i>';
                 msg = "BIEN";
             } else {
@@ -166,7 +175,7 @@ function montarWidgetsDigi() {
         }
         //ELECTROVALVULAS
         if ( datosDigi[ indexDato ][ 'nombre_tag' ].includes( "Electrovalvula" ) ) {
-            if ( datosDigi[ indexDato ][ 'valor' ] == 't' ) {
+            if ( tf == 't' ) {
                 iconoAlarma = '<i style="color:yellowgreen" class="fas fa-power-off"></i>';
                 msg = "ABIERTA";
             } else {
@@ -379,19 +388,19 @@ function montarGraficosWidget() {
         var titu = "";
         if ( datosAnalog[ tag ][ 'consignas' ].length >= 1 ) {
             maximo = datosAnalog[ tag ][ 'consignas' ][ 0 ][ 'valor' ];
-            maximo = maximo / r_max;
             titu += "Max: " + parseFloat( maximo )
                 .toFixed( 2 ) + "\n";
+            maximo = maximo / r_max;
         }
         if ( datosAnalog[ tag ][ 'consignas' ].length == 2 ) {
             minimo = datosAnalog[ tag ][ 'consignas' ][ 1 ][ 'valor' ];
+            titu += "Min: " + parseFloat( minimo )
+                .toFixed( 2 );
             if ( r_min != 0 ) {
                 minimo = minimo / r_min;
             } else {
                 minimo = 0;
             }
-            titu += "Min: " + parseFloat( minimo )
-                .toFixed( 2 );
         }
         optionGauge = {
             title: {

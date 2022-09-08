@@ -45,6 +45,8 @@ function abrirMenu() {
         aperturaMenu = "50%";
         document.getElementById( "menuIzq" )
             .style.width = aperturaMenu;
+        document.getElementById( "btnMenuIzq" )
+            .style.visibility = 'hidden';
     }
     if ( document.getElementById( "menuIzq" ) ) {
         document.getElementById( "menuIzq" )
