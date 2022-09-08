@@ -34,7 +34,8 @@ class Contras
     {
         $this->uData[0]['hash'] = password_hash($password, self::HASH, ['cost' => self::COST]);
     }
-    public function hashear($pwd){
+    public function hashear($pwd)
+    {
         return password_hash($pwd, self::HASH, ['cost' => self::COST]);
     }
 }

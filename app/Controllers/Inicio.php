@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Controllers;
+
 require(APPPATH . "Models/Usuario.php");
 require(APPPATH . "Models/Contras.php");
+
 use Contras;
 use Usuario;
+
 class Inicio extends BaseController
 {
     private $usuario;
@@ -63,7 +66,7 @@ class Inicio extends BaseController
                 //  $hpwd = password_hash($pwd, PASSWORD_DEFAULT, array("cost" => 14));
                 //  echo $hpwd;
                 $id_usu = $this->usuario->obtenerIdUsuario($nombre);
-                if($id_usu != null){
+                if ($id_usu != null) {
                     $conSys = new Contras($id_usu);
                     if ($conSys->loginUsuario($pwd)) {
                         $this->usuario->obtenerEstacionesUsuario();
@@ -74,9 +77,9 @@ class Inicio extends BaseController
                         echo '<script language="javascript">alert("Contraseña incorrecta")</script>';
                         return view('inicioSesion');
                     }
-                }else{
+                } else {
                     echo '<script language="javascript">alert("Datos incorrectos")</script>';
-                        return view('inicioSesion');
+                    return view('inicioSesion');
                 }
             } else {
                 echo '<script language="javascript">alert("Usuario desconocido")</script>';
