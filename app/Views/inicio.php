@@ -198,7 +198,8 @@ if (isset($_GET['log'])) {
             <?php
             if (isset($_SESSION['estaciones'])) {
                 $estaciones = $_SESSION['estaciones'];
-                echo "<ul class='miniEstacion'>";
+                if(!empty($estaciones)){
+                    echo "<ul class='miniEstacion'>";
                 foreach ($estaciones as $index => $estacion) {
                     echo
                     '<li>
@@ -211,6 +212,8 @@ if (isset($_GET['log'])) {
                 }
                 echo "</ul>";
                 echo "<hr class='miniEstacion'>";
+                }
+                
             }
             ?>
             <!--demas funciones--->

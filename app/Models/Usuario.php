@@ -90,7 +90,8 @@ class Usuario
                 $ultimasConexiones[$estacion['nombre_estacion']] = $this->DB->ultimaComunicacionEstacion($estacion['id_estacion']);
             }
             foreach ($ultimasConexiones as $estacion => $datos) {
-                foreach ($datos[0] as $dato => $valor) {
+                if(!empty($datos[0])){
+                    foreach ($datos[0] as $dato => $valor) {
                     if ($dato == 'valor_date') {
                         $ultima = new DateTime;
                         $ultima = DateTime::createFromFormat('Y-m-d H:i:s', $valor);
@@ -102,6 +103,7 @@ class Usuario
                             $ultimasConexiones[$estacion][0]['estado'] = "correcto";
                         }
                     }
+                }
                 }
             }
             return $ultimasConexiones;
