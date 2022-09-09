@@ -90,20 +90,20 @@ class Usuario
                 $ultimasConexiones[$estacion['nombre_estacion']] = $this->DB->ultimaComunicacionEstacion($estacion['id_estacion']);
             }
             foreach ($ultimasConexiones as $estacion => $datos) {
-                if(!empty($datos[0])){
+                if (!empty($datos[0])) {
                     foreach ($datos[0] as $dato => $valor) {
-                    if ($dato == 'valor_date' && $valor != false) {
-                        $ultima = new DateTime;
-                        $ultima = DateTime::createFromFormat('Y-m-d H:i:s', $valor);
-                        $ahora = new DateTime("now");
-                        $dif = $ahora->diff($ultima);
-                        if ($dif->days >= 1) {
-                            $ultimasConexiones[$estacion][0]['estado'] = "error";
-                        } else {
-                            $ultimasConexiones[$estacion][0]['estado'] = "correcto";
+                        if ($dato == 'valor_date' && $valor != false) {
+                            $ultima = new DateTime;
+                            $ultima = DateTime::createFromFormat('Y-m-d H:i:s', $valor);
+                            $ahora = new DateTime("now");
+                            $dif = $ahora->diff($ultima);
+                            if ($dif->days >= 1) {
+                                $ultimasConexiones[$estacion][0]['estado'] = "error";
+                            } else {
+                                $ultimasConexiones[$estacion][0]['estado'] = "correcto";
+                            }
                         }
                     }
-                }
                 }
             }
             return $ultimasConexiones;
