@@ -92,7 +92,7 @@ class Usuario
             foreach ($ultimasConexiones as $estacion => $datos) {
                 if(!empty($datos[0])){
                     foreach ($datos[0] as $dato => $valor) {
-                    if ($dato == 'valor_date') {
+                    if ($dato == 'valor_date' && $valor != false) {
                         $ultima = new DateTime;
                         $ultima = DateTime::createFromFormat('Y-m-d H:i:s', $valor);
                         $ahora = new DateTime("now");

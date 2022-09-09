@@ -18,53 +18,58 @@ function mapas() {
     }
   ).addTo(map);
   for (var index in estacionesUbis) {
-    // var accion = 'http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/estacion';
-    var accion = "/Aquando.com/index.php/Inicio/estacion";
-    var nombre = estacionesUbis[index][0]["nombre_estacion"];
-    var ubi = [
-      estacionesUbis[index][0]["latitud"],
-      estacionesUbis[index][0]["longitud"],
-    ];
-    var ultimaConex = estacionesUbis[index][0]["valor_date"].slice(0, 10);
-    var estado = estacionesUbis[index][0]["estado"];
-    var id_est = estacionesUbis[index][0]["id_estacion"];
-    if (estado == "correcto") {
-      estado = '<i style="color:yellowgreen" class="fas fa-check"></i>';
-    } else {
-      estado =
-        '<i style="color:tomato" class="fas fa-exclamation-triangle parpadeante"></i>';
-    }
-    var msg =
-      "<b>Estación: " +
-      nombre +
-      "</b><br>Última conexión: " +
-      ultimaConex +
-      "<br>Estado: " +
-      estado +
-      "<br>";
-    var estilo =
-      "style='width:100%;border-radius:10px;padding:1% 2%;background-color:rgb(1, 168, 184);border:1px solid white;color:white'";
-    var btn =
-      "<form action='" +
-      accion +
-      "' method=POST><button " +
-      estilo +
-      " id='btnEstacion' name='btnEstacion' value=" +
-      parseInt(id_est) +
-      ">ver detalles</button></form>";
-    var estacion = L.marker(ubi).addTo(map);
-    if (estacionesUbis[index][0]["foto"] != null) {
-      var foto =
-        'url("data:image/jpg;base64,' + estacionesUbis[index][0]["foto"] + '")';
-      var imagen =
-        "<div style='height:90px;width:100%;background-image:" +
-        foto +
-        ";background-size:cover;background-position:center' ></div><br>";
+    if(estacionesUbis[index]!=false){
+        var accion = "/Aquando.com/index.php/Inicio/estacion";
+        var nombre = estacionesUbis[index][0]["nombre_estacion"];
+        var ubi = [
+        estacionesUbis[index][0]["latitud"],
+        estacionesUbis[index][0]["longitud"],
+        ];
+        var ultimaConex = '';
+        if(estacionesUbis[index][0]["valor_date"]!=null){
+            ultimaConex = estacionesUbis[index][0]["valor_date"].slice(0, 10);
+        }
+        var estado = estacionesUbis[index][0]["estado"];
+        var id_est = estacionesUbis[index][0]["id_estacion"];
+        if (estado == "correcto") {
+        estado = '<i style="color:yellowgreen" class="fas fa-check"></i>';
+        } else {
+        estado =
+            '<i style="color:tomato" class="fas fa-exclamation-triangle parpadeante"></i>';
+        }
+        var msg =
+        "<b>Estación: " +
+        nombre +
+        "</b><br>Última conexión: " +
+        ultimaConex +
+        "<br>Estado: " +
+        estado +
+        "<br>";
+        var estilo =
+        "style='width:100%;border-radius:10px;padding:1% 2%;background-color:rgb(1, 168, 184);border:1px solid white;color:white'";
+        var btn =
+        "<form action='" +
+        accion +
+        "' method=POST><button " +
+        estilo +
+        " id='btnEstacion' name='btnEstacion' value=" +
+        parseInt(id_est) +
+        ">ver detalles</button></form>";
+        var estacion = L.marker(ubi).addTo(map);
+        if (estacionesUbis[index][0]["foto"] != null) {
+        var foto =
+            'url("data:image/jpg;base64,' + estacionesUbis[index][0]["foto"] + '")';
+        var imagen =
+            "<div style='height:90px;width:100%;background-image:" +
+            foto +
+            ";background-size:cover;background-position:center' ></div><br>";
 
-      estacion.bindPopup(imagen + msg + btn).openPopup();
-    } else {
-      estacion.bindPopup(msg + btn).openPopup();
+        estacion.bindPopup(imagen + msg + btn).openPopup();
+        } else {
+        estacion.bindPopup(msg + btn).openPopup();
+        }
     }
+    
     // estacion.bindPopup(msg + btn).openPopup();
   }
 }

@@ -228,7 +228,7 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
       }
     },
     error: function (e) {
-      console.log(e);
+      console.log('error');
     },
     dataType: "json",
   });
@@ -594,7 +594,7 @@ function leerPresets(para) {
           document.getElementById("selPresets").innerHTML = presets;
         },
         error: function (e) {
-          console.log(e);
+          console.log('error');
         },
         // dataType: 'json'
       });
@@ -649,7 +649,7 @@ function leerPresets(para) {
           }
         },
         error: function (e) {
-          console.log(e);
+          console.log('error');
         },
         dataType: "json",
       });
@@ -701,7 +701,7 @@ function borrarPreset() {
         setTimeout(ajustesPresets(null), 1000);
       },
       error: function (e) {
-        console.log(e);
+        console.log('error');
       },
       dataType: "json",
     });
@@ -734,7 +734,7 @@ function guardarPreset() {
     datosPreset["nombre"] = nombre_preset;
     datosPreset["id_estacion"] = document.getElementById("opciones").value;
     datosPreset["tags_colores"] = tags_colores;
-    console.log(datosPreset);
+    
     var arrDatosPreset = JSON.stringify(datosPreset);
     $(document).ready(function () {
       $.ajax({
