@@ -411,7 +411,6 @@ class Database
     {
         $tagsAnalogsHisto = array();
         if ($this->conectar()) {
-
             foreach ($estaciones as $index) {
                 $id = $index->id_estacion;
                 $conAnalog = "select tags.id_tag,tags.nombre_tag, estaciones.id_estacion, estaciones.nombre_estacion from tags inner join estacion_tag on tags.id_tag = estacion_tag.id_tag inner join estaciones on estaciones.id_estacion = estacion_tag.id_estacion
