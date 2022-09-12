@@ -561,7 +561,8 @@ form button {
   }
   #usuario {
     color: rgb(1, 168, 184);
-    width: 20%;
+    max-width: 15%;
+    overflow: hidden;
     margin: 0;
     padding: 5px;
     position: fixed;
