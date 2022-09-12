@@ -218,35 +218,9 @@ function cargarAjustes() {
   var sel = document.getElementById("tagSel");
   sel.innerHTML = "";
   var arrEstaciones = JSON.stringify(estacionesUsu);
-  if (
-    sessionStorage.getItem("listaTags") != null &&
-    sessionStorage.getItem("listaTags") != undefined
-  ) {
-    listaTags = sessionStorage.getItem("listaTags");
-    listaTags = JSON.parse(listaTags);
-  }
-  var i = 0;
-  for (var index in listaTags) {
-    i++;
-  }
-  if (i > 0) {
-    for (var deposito in listaTags) {
-      sel.innerHTML +=
-        "<optgroup label = '" +
-        listaTags[deposito][0]["nombre_estacion"] +
-        "'>";
-      for (var tag in listaTags[deposito]) {
-        var n_tag = listaTags[deposito][tag]["nombre_tag"];
-        var id_tag = listaTags[deposito][tag]["id_tag"];
-        sel.innerHTML += "<option value=" + id_tag + ">" + n_tag + "</option>";
-      }
-      sel.innerHTML += "</optgroup>";
-    }
-  } else {
     $(document).ready(function () {
       $.ajax({
         type: "GET",
-        // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Principal.php?opcion=ajustes',
         url: "/Aquando.com/A_Principal.php?opcion=ajustes",
         data: {
           arrEstaciones: arrEstaciones,
@@ -274,7 +248,7 @@ function cargarAjustes() {
         dataType: "json",
       });
     });
-  }
+  
 }
 //despliega u oculta la ventana de ajustes de los widgets de inicio
 function ajustes() {

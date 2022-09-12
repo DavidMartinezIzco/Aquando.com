@@ -1,33 +1,14 @@
-REDIRECT UPDATE
 
-    OP1:
-    alarmas.php:
-        -Pop-up detalles alarma (?)
-            -val
-            -fecha
-            -msg
-            -otros
-            -btn salir
-            -btn "detalles"
-        
-        -Btn de detalles en lista:
-            -icono de graficas/lupa
+Aquando:
+- arreglar ajustes-session
+- Hover en movil (nombre usuario largos)
+- revision de datos
+- [Node-red] Sincro de OPCs (Sofrel) y PostgreSQL
 
-        -Envio params (id, ts) Inicio.php
-    
-    Inicio.php:
-        -graficas():
-            -valorar si existen params
-            -recoger datos historicos margen +- 12h del tag
-            -devolver a graficasCustom.php con datos
-        
-    graficasCustom.php:
-        core:
-            -valorar si existen datos iniciales
-            -setear controles conforme a params (?)
-        aplicarCustom():
-            -aplicar datos iniciales
 
-    arreglar cifrado del controlador
-    revisar A_estaciones.php for error 500
-    overflow de estaciones
+Maqueta:
+- mirar librerias de charts python
+- mirar librerias de controles en JS (barcode-reader)
+- 
+- mirar librerías de charts en Java
+- mirar WILDFLY
