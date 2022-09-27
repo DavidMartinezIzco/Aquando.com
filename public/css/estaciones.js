@@ -800,6 +800,8 @@ function fotoEstacion(id_estacion) {
 //funcion que establece a los widgets un control para alternar los trends y la info
 //solo se ejecuta si la pantalla es menor a 600px
 function controlMobile() {
+  
+
   if (screen.width < 600) {
     var a = document.getElementsByClassName("widAnaInfo");
     for (let i = 0; i < a.length; i++) {

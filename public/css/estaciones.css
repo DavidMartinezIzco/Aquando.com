@@ -541,6 +541,7 @@
 }
 
 @media only screen and (max-width: 600px) {
+  
   #conPrincipal {
     overflow-y: scroll;
   }
@@ -549,7 +550,7 @@
     position: unset;
     width: 90%;
     margin: 8% 5% 5% 5%;
-    height: 25%;
+    height: min-content;
     font-size: 80%;
   }
   #seccionSup {
@@ -557,20 +558,21 @@
     margin-bottom: 2%;
   }
   #seccionInf {
-    height: 60%;
-    border-radius: 0px;
+    height: min-content;
+    border-radius: 15px;
     margin-top: 0px;
     padding: 0px;
+    overflow: hidden;
   }
   .widDigi {
     width: 100%;
-    height: 100%;
+    height: 125px;
     margin: 0%;
     border: 2px solid rgb(1, 168, 184);
     border-bottom: none;
     border-radius: 0px;
   }
-  #seccionInf::-webkit-scrollbar {
+  /* #seccionInf::-webkit-scrollbar {
     height: 15px;
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
@@ -580,6 +582,12 @@
     background-color: rgb(1, 168, 184);
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
+  } */
+  #seccionInf::-webkit-scrollbar {
+    display: none;
+  }
+  #seccionInf::-webkit-scrollbar-thumb {
+    display: none;
   }
   #digiWidTitulo {
     border-radius: 0px;
@@ -590,11 +598,14 @@
     left: unset;
     bottom: unset;
     width: 90%;
-    margin: 0% 5% 5% 5%;
-    height: 30%;
-    border-radius: 0px;
+    margin: 10% 5% 5% 5%;
+    height:min-content;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 0px;
+    background-color: lightgray;
   }
-  #estacionCentro::-webkit-scrollbar {
+  /* #estacionCentro::-webkit-scrollbar {
     height: 15px;
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
@@ -604,18 +615,26 @@
     background-color: rgb(1, 168, 184);
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
+  } */
+  #estacionCentro::-webkit-scrollbar {
+    display: none;
   }
+  #estacionCentro::-webkit-scrollbar-thumb {
+    display: none;
+  }
+
   .widAna {
-    height: 100%;
+    height: 300px;
     width: 100%;
-    margin: 0px;
-    margin-bottom: -8px;
-    border: 1px solid rgb(1, 168, 184);
+    margin: 0px 0 -5px 0;
+    /* border: 1px solid rgb(1, 168, 184); */
+    border:none;
     border-radius: 0px;
+    background-color: whitesmoke;
   }
   .widAnaInfo {
     width: 100%;
-    font-size: large;
+    font-size: larger;
   }
   .widAnaGraf {
     width: 0%;
@@ -633,15 +652,18 @@
     text-align: center;
   }
   .panelNegro {
-    width: 100%;
-    float: unset;
+    padding:1em 0em;
+    width: 50%;
+    float: left;
+    text-align: center;
   }
   .panelRojo {
-    width: 100%;
-    float: unset;
+    padding:1em 0em;
+    width: 50%;
+    float: right;
   }
   #widBomba {
-    height: 100%;
+    height: 300px;
     margin: 0%;
     width: 100%;
     border: 1px solid rgb(1, 168, 184);
@@ -659,10 +681,12 @@
     bottom: unset;
     width: 90%;
     margin: 0.5% 5% 330px 5%;
-    height: 30%;
-    border-radius: 0px;
+    height:min-content;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 0px;
   }
-  #estacionDer::-webkit-scrollbar {
+  /* #estacionDer::-webkit-scrollbar {
     height: 15px;
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
@@ -672,5 +696,11 @@
     background-color: rgb(1, 168, 184);
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
+  } */
+  #estacionDer::-webkit-scrollbar {
+    display: none;
+  }
+  #estacionDer::-webkit-scrollbar-thumb {
+    display: none;
   }
 }
