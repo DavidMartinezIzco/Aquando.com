@@ -380,7 +380,7 @@ function montarGraficosWidget() {
         grid: {
           left: "2%",
           right: "4%",
-          top: "8%",
+          top: "12%",
           bottom: "2%",
           containLabel: true,
         },
@@ -498,7 +498,7 @@ function montarGraficosWidget() {
       grid: {
         left: "0%",
         right: "0%",
-        top: "4%",
+        top: "8%",
         bottom: "0%",
         containLabel: true,
       },
@@ -566,7 +566,7 @@ function montarGraficosWidget() {
       grid: {
         left: "2%",
         right: "4%",
-        top: "8%",
+        top: "12%",
         bottom: "2%",
         containLabel: true,
       },

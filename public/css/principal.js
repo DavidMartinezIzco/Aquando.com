@@ -497,14 +497,14 @@ function crearWidgetsChartsCustom(feed) {
       if (nombre_dato.includes("Acumulado")) {
         var txt_actual = valor_actual.toString();
         var estilo =
-          "border:1px solid black;font-size:300%;background-color:grey;color:white";
+          "border:1px solid black;font-size:500%;background-color:grey;color:white";
         var widCon =
           "<table style='text-align:center;width:80%;height:40%;margin:15% 10% 20% 10%;'><tr style='border-radius:10px'>";
         for (var carac in txt_actual) {
           if (txt_actual[carac] == ".") {
             // widCon += '<td style="border:1px solid black;font-size:500%;">' + txt_actual[carac] + '</td>';
             estilo =
-              "border:1px solid black;font-size:300%;background-color:tomato;color:white";
+              "border:1px solid black;font-size:500%;background-color:tomato;color:white";
           } else {
             widCon +=
               '<td style="' + estilo + '">' + txt_actual[carac] + "</td>";
@@ -564,7 +564,7 @@ function crearWidgetsChartsCustom(feed) {
         grid: {
           left: "0%",
           right: "0%",
-          top: "10%",
+          top: "15%",
           bottom: "0%",
           containLabel: true,
         },
@@ -573,7 +573,7 @@ function crearWidgetsChartsCustom(feed) {
           text: "Valor actual:",
           textStyle: {
             fontStyle: "bold",
-            fontSize: 14,
+            fontSize: 18,
           },
         },
         series: [
@@ -622,7 +622,7 @@ function crearWidgetsChartsCustom(feed) {
               show: true,
               valueAnimation: true,
               formatter: nombre_dato + ":{value}",
-              fontSize: 8,
+              fontSize: 12,
             },
             data: [
               {
@@ -880,7 +880,7 @@ function crearWidgetsChartsCustom(feed) {
           trigger: "axis",
           textStyle: {
             fontStyle: "bold",
-            fontSize: 14,
+            fontSize: 18,
           },
           axisPointer: {
             axis: "x",
