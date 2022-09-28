@@ -206,12 +206,14 @@
   float: right;
 }
 
+/* movil */
+
 @media only screen and (max-width: 600px) {
   #prinIzq {
     width: 90%;
-    margin: 10% 5%;
+    margin: 15% 5%;
     float: unset;
-    height: 60%;
+    height: 80%;
     max-height: unset;
     margin-bottom: 0%;
     font-size: smaller;
@@ -230,6 +232,27 @@
   #widInf {
     height: 45%;
   }
+
+#digiWidTitulo {
+  height: 15%;
+  font-size: 130%;
+  font-weight: bold;
+}
+
+#digiWidOrigen {
+  font-size: 120%;
+  height: 15%;
+}
+
+#digiWidMensaje {
+  height: 60%;
+  font-size: 500%;
+  padding: 0%;
+}
+
+#digiWidMensaje i{
+  margin: 0;
+}
 
   #prinDer {
     width: 96%;
@@ -340,6 +363,8 @@
     /* margin-bottom: 220px; */
   }
 }
+
+/*movil*/
 
 @media only screen and (max-width: 600px) {
   #prinIzq {

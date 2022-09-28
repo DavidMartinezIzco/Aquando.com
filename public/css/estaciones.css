@@ -551,9 +551,10 @@
     width: 90%;
     margin: 8% 5% 5% 5%;
     height: min-content;
-    font-size: 80%;
+    
   }
   #seccionSup {
+    font-size: 150%;
     height: 40%;
     margin-bottom: 2%;
   }
@@ -591,7 +592,8 @@
   }
   #digiWidTitulo {
     border-radius: 0px;
-    font-size: large;
+    font-size: larger;
+    padding:2% 0;
   }
   #estacionCentro {
     position: unset;
@@ -634,12 +636,13 @@
   }
   .widAnaInfo {
     width: 100%;
-    font-size: larger;
   }
   .widAnaGraf {
     width: 0%;
   }
   .widAnaInfoPrin {
+    font-size: larger;
+    padding: 2% 0;
     border-radius: 0px;
     height: 20%;
   }
@@ -663,7 +666,7 @@
     float: right;
   }
   #widBomba {
-    height: 300px;
+    height: 150px;
     margin: 0%;
     width: 100%;
     border: 1px solid rgb(1, 168, 184);

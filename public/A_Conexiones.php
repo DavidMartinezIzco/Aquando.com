@@ -16,16 +16,20 @@ if ($opcion == 'conex') {
     foreach ($ultimasConexiones as $estacion => $datos) {
         foreach ($datos[0] as $dato => $valor) {
             if ($dato == 'valor_date') {
-                $ultima = new DateTime;
-                $ultima = DateTime::createFromFormat('Y-m-d H:i:s', $valor);
-                $ahora = new DateTime("now");
-                $dif = $ahora->diff($ultima);
-                $ultimasConexiones[$estacion][0]['estado'] = "correcto";
-                if ($dif->days >= 1) {
+                if($valor != null){
+                    $ultima = new DateTime;
+                    $ultima = DateTime::createFromFormat('Y-m-d H:i:s', $valor);
+                    $ahora = new DateTime("now");
+                    $dif = $ahora->diff($ultima);
+                    $ultimasConexiones[$estacion][0]['estado'] = "correcto";
+                    if ($dif->days >= 1) {
+                        $ultimasConexiones[$estacion][0]['estado'] = "aviso";
+                    }
+                    if ($dif->days >= 2) {
+                        $ultimasConexiones[$estacion][0]['estado'] = "error";
+                    }
+                }else{
                     $ultimasConexiones[$estacion][0]['estado'] = "aviso";
-                }
-                if ($dif->days >= 2) {
-                    $ultimasConexiones[$estacion][0]['estado'] = "error";
                 }
             }
         }
@@ -39,9 +43,16 @@ if ($opcion == 'conex') {
                 echo "</td>";
             }
             if ($dato == 'valor_date') {
-                echo "<td id='secUltima'>";
-                echo "Última conexión: " . $valor;
-                echo "</td>";
+                if($valor != null){
+                    echo "<td id='secUltima'>";
+                    echo "Última conexión: " . $valor;
+                    echo "</td>";
+                }
+                else{
+                    echo "<td id='secUltima'>";
+                    echo "Última conexión: desconocida";
+                    echo "</td>";
+                }
             }
             if ($dato == 'nombre_tag') {
             }

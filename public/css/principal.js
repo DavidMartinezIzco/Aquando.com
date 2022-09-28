@@ -4,12 +4,12 @@ var listaTags = new Array();
 //esas estaciones se listan con pines en el mapa y al hacer click tienen un popup con foto + nombre + ultima conex + enlace
 //utiliza OSM y Leaflet.
 function mapas() {
-  var ubiIni = [estacionesUsu[0]["latitud"], estacionesUsu[0]["longitud"]];
+  var ubiIni = [estacionesUsu[estacionesUsu.length -1]["latitud"], estacionesUsu[estacionesUsu.length -1]["longitud"]];
   var map = L.map("conMapa").setView(ubiIni, 10);
   L.tileLayer(
     "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}",
     {
-      maxZoom: 18,
+      maxZoom: 14,
       id: "mapbox/streets-v11",
       tileSize: 512,
       zoomOffset: -1,
@@ -139,9 +139,10 @@ function renderFeedDigi() {
         feedDigital[tag]["nombre"] +
         '</div><div id="digiWidOrigen">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje"><span class="tooltiptext">' +
-        feedDigital[tag]["valor_alarma"] +
-        "</span>" +
+        '</div><div id="digiWidMensaje">'+
+        // '<span class="tooltiptext">' +
+        // feedDigital[tag]["valor_alarma"] +
+        // "</span>" +
         iconoAlarma +
         "  </div></div>";
     }
@@ -151,9 +152,10 @@ function renderFeedDigi() {
         feedDigital[tag]["nombre"] +
         '</div><div id="digiWidOrigen">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje"><span class="tooltiptext">' +
-        feedDigital[tag]["valor_alarma"] +
-        "</span>" +
+        '</div><div id="digiWidMensaje">'+
+        // '<span class="tooltiptext">' +
+        // feedDigital[tag]["valor_alarma"] +
+        // "</span>" +
         iconoAlarma +
         "  </div></div>";
     }
@@ -163,9 +165,10 @@ function renderFeedDigi() {
         feedDigital[tag]["nombre"] +
         '</div><div id="digiWidOrigen">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje"><span class="tooltiptext">' +
-        feedDigital[tag]["valor_alarma"] +
-        "</span>" +
+        '</div><div id="digiWidMensaje">'+
+        // '<span class="tooltiptext">' +
+        // feedDigital[tag]["valor_alarma"] +
+        // "</span>" +
         iconoAlarma +
         "  </div></div>";
     }
@@ -175,9 +178,10 @@ function renderFeedDigi() {
         feedDigital[tag]["nombre"] +
         '</div><div id="digiWidOrigen">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje"><span class="tooltiptext">' +
-        feedDigital[tag]["valor_alarma"] +
-        "</span>" +
+        '</div><div id="digiWidMensaje">'+
+        // '<span class="tooltiptext">' +
+        // feedDigital[tag]["valor_alarma"] +
+        // "</span>" +
         iconoAlarma +
         "  </div></div>";
     }

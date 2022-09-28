@@ -43,78 +43,30 @@ function abrirMenu() {
   var ancho = window.innerWidth;
   var aperturaMenu = "15%";
   if (ancho < 600) {
-    aperturaMenu = "50%";
+    aperturaMenu = "75%";
     document.getElementById("menuIzq").style.width = aperturaMenu;
     document.getElementById("btnMenuIzq").style.visibility = "hidden";
   }
   if (document.getElementById("menuIzq")) {
     document.getElementById("menuIzq").style.width = aperturaMenu;
-    // document.getElementById( "contenido" )
-    //     .style.paddingLeft = '15%';
     document.getElementById("btnMenuIzq").style.left = "15%";
     document.getElementById("btnMenuIzq").style.visibility = "hidden";
     document.getElementById("menuIzq").value = "abierto";
   }
-  // if ( document.getElementById( "conInfo" ) ) {
-  //     document.getElementById( "conInfo" )
-  //         .style.left = '16%';
-  //     document.getElementById( "conCarrusel" )
-  //         .style.right = '2%';
-  // }
-  // if ( document.getElementById( "logoGrande" ) ) {
-  //     document.getElementById( "logoGrande" )
-  //         .style.left = '39%';
-  //     document.getElementById( "logoGrande" )
-  //         .style.top = '15%';
-  // }
-  // if ( document.getElementById( "alarmasSur" ) ) {
-  //     document.getElementById( "alarmasSur" )
-  //         .style.marginLeft = '0%';
-  //     document.getElementById( "alarmasSur" )
-  //         .style.width = '85%';
-  // }
-  // if (document.getElementById("displayComs")) {
-  //     document.getElementById("displayComs").style.left = '20%';
-  //     document.getElementById("displayComs").style.width = '50%';
-
-  // }
-  // if ( document.getElementById( "btnOpcionesgraficas" ) ) {
-  //     document.getElementById( "btnOpcionesgraficas" )
-  //         .style.left = '81%';
-  // }
+  
 }
 //cierra el menu y aplica las nuevas dimensiones
 function cerrarMenu() {
   $("#menuIzq").trigger("widthChange");
   if (document.getElementById("menuIzq")) {
     document.getElementById("menuIzq").style.width = "0%";
-    // document.getElementById( "contenido" )
-    //     .style.paddingLeft = '0%';
+    document.getElementById("menuIzq").style.paddingLeft = "0";
+    document.getElementById("menuIzq").style.paddingRight = "0";
     document.getElementById("btnMenuIzq").style.visibility = "visible";
     document.getElementById("btnMenuIzq").style.left = "0%";
     document.getElementById("menuIzq").value = "cerrado";
   }
-  // if ( document.getElementById( "conInfo" ) ) {
-  //     document.getElementById( "conInfo" )
-  //         .style.left = '8%';
-  //     document.getElementById( "conCarrusel" )
-  //         .style.right = '10%';
-  // }
-  // if ( document.getElementById( "logoGrande" ) ) {
-  //     document.getElementById( "logoGrande" )
-  //         .style.left = '32%';
-  //     document.getElementById( "logoGrande" )
-  //         .style.top = '30%';
-  // }
-  // if ( document.getElementById( "alarmasSur" ) ) {
-  //     document.getElementById( "alarmasSur" )
-  //         .style.width = '100%';
-
-  // }
-  // if (document.getElementById("displayComs")) {
-  //     document.getElementById("displayComs").style.left = '5%';
-  //     document.getElementById("displayComs").style.width = '50%';
-  // }
+  
 }
 //despliega el menu de inactividad
 function tiempoOpciones() {
@@ -140,6 +92,7 @@ function pantalla() {
   if (ancho > 600 && ancho < 900) {
     document.getElementById("btnGrafRap").disabled = false;
     document.getElementById("btnGrafPer").disabled = true;
+    document.getElementById('iconoAyuda').style.display = 'none';
     var defectoAncho = 1920;
     var relAncho = (window.innerWidth / defectoAncho) * 90;
     document.body.style.zoom = relAncho + "%";

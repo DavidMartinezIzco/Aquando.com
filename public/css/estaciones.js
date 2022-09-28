@@ -809,8 +809,7 @@ function controlMobile() {
         a[i].style.width = "0%";
         a[i].style.display = "none";
         document.getElementsByClassName("widAnaGraf")[i].style.width = "100%";
-        document.getElementsByClassName("widAnaGraf")[i].style.display =
-          "block";
+        document.getElementsByClassName("widAnaGraf")[i].style.display = "block";
         if (widsAnalogLista != undefined) {
           for (var index in widsAnalogLista) {
             widsAnalogLista[index][0].resize();

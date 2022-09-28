@@ -2,7 +2,7 @@
 
 #btnMenuInformes {
   position: absolute;
-  z-index: 9999;
+  z-index: 1001;
   top: 22%;
   left: 95%;
   padding: 0.2% 1%;
@@ -176,7 +176,8 @@
     padding-bottom: -5%;
   }
   #informesNorte {
-    margin-top: 0%;
+    margin-top: 10%;
+    padding-top: 1%;
     height: 15%;
   }
 

@@ -80,7 +80,7 @@ if (isset($_GET['log'])) {
 
 <body>
     <header id="cabeceraPrincipal" class="p-1 text-white">
-        <div style="width: 100%; padding-left: 1em">powered by
+        <div style="width: 100%; padding-left: 1em" ><span id="powered">powered by</span>
             <?php
             if (isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio') {
                 echo '<img id="logoPrincipal" src="logo.png" onclick="pantalla()">';
