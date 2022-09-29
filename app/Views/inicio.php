@@ -26,7 +26,6 @@
             <script src="css/desconectado.js"></script>
             <script src="css/sur.js"></script>
             <link rel="manifest" href="/manifest.json">';
-            
         } else {
             echo '<link rel="shortcut icon" type="image/png" href="../../favicon.ico" />
                 <link rel="stylesheet" type="text/css" href="../../css/estilos.css">
@@ -378,6 +377,11 @@ if (isset($_GET['log'])) {
             echo "<h1 id='txtDesconectado' style='width:30%;margin:25% 40%;color:grey; transition:1.5s;opacity:60%'>Desconectado</h1>";
         }
         ?>
+        <div style="background-color: rgb(39, 45, 79);width:100%;color:whitesmoke;">
+            <h2>Descarga la app de Aquando para Android</h2>
+            <hr>
+            <button style="background-color: rgb(1, 168, 184);padding:10px;border-radius:1%">Aquando.apk</button>
+        </div>
     </div>
 </body>
 <script>
@@ -390,9 +394,6 @@ function cerrarMenuEsp() {
     cerrarMenu();
     $("#menuIzq").trigger('widthChange');
 }
-
-
-
 </script>
 
 </html>
