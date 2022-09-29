@@ -46,7 +46,8 @@
                 <script src="../../css/reloj.js"></script>
                 <script src="../../css/ayuda.js"></script>
                 <script src="../../css/desconectado.js"></script>
-                <script src="../../css/sur.js"></script>';
+                <script src="../../css/sur.js"></script>
+                <link rel="manifest" href="../../css/manifest.json>';
     }
     ?>
     <!--cosillas de Fuentes-->
@@ -80,7 +81,7 @@ if (isset($_GET['log'])) {
 
 <body>
     <header id="cabeceraPrincipal" class="p-1 text-white">
-        <div style="width: 100%; padding-left: 1em" ><span id="powered">powered by</span>
+        <div style="width: 100%; padding-left: 1em"><span id="powered">powered by</span>
             <?php
             if (isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio') {
                 echo '<img id="logoPrincipal" src="logo.png" onclick="pantalla()">';
@@ -198,22 +199,21 @@ if (isset($_GET['log'])) {
             <?php
             if (isset($_SESSION['estaciones'])) {
                 $estaciones = $_SESSION['estaciones'];
-                if(!empty($estaciones)){
+                if (!empty($estaciones)) {
                     echo "<ul class='miniEstacion'>";
-                foreach ($estaciones as $index => $estacion) {
-                    echo
-                    '<li>
+                    foreach ($estaciones as $index => $estacion) {
+                        echo
+                        '<li>
                                 <form action=' . base_url() . '/estacion method="POST">
                                     <button class="btn me-2 btn-block" name="btnEstacion" value="' . $estacion['id_estacion'] . '""
                                     style="padding:0.1em;width:100%; border-radius:0; color:white;">' . $estacion['nombre_estacion'] . '
                                     </button>
                                 </form>
                             </li>';
+                    }
+                    echo "</ul>";
+                    echo "<hr class='miniEstacion'>";
                 }
-                echo "</ul>";
-                echo "<hr class='miniEstacion'>";
-                }
-                
             }
             ?>
             <!--demas funciones--->
@@ -373,6 +373,11 @@ if (screen.width < 600) {
 function cerrarMenuEsp() {
     cerrarMenu();
     $("#menuIzq").trigger('widthChange');
+}
+
+//WPA:comprobar navegador
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
 }
 </script>
 
