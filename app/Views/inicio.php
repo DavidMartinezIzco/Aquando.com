@@ -6,6 +6,7 @@
     <title>Aquando</title>
     <meta name="description" content="Aquando: powered by Dateando">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible">
 
     <!--demás archivos JavaScript-->
     <?php
@@ -20,8 +21,12 @@
             <script src="css/mlat.js"></script>
             <script src="css/reloj.js"></script>
             <script src="css/ayuda.js"></script>
+            <script src="sw.js"></script>
+            <script src="sw-register.js"></script>
             <script src="css/desconectado.js"></script>
-            <script src="css/sur.js"></script>';
+            <script src="css/sur.js"></script>
+            <link rel="manifest" href="/manifest.json">';
+            
         } else {
             echo '<link rel="shortcut icon" type="image/png" href="../../favicon.ico" />
                 <link rel="stylesheet" type="text/css" href="../../css/estilos.css">
@@ -33,7 +38,10 @@
                 <script src="../../css/reloj.js"></script>
                 <script src="../../css/ayuda.js"></script>
                 <script src="../../css/desconectado.js"></script>
-                <script src="../../css/sur.js"></script>';
+                <script src="../../css/sur.js"></script>
+                <script src="../../sw.js"></script>
+                <script src="../../sw-register.js"></script>
+                <link rel="manifest" href="../../manifest.json">';
         }
     } else {
         echo '<link rel="shortcut icon" type="image/png" href="../../favicon.ico" />
@@ -47,7 +55,9 @@
                 <script src="../../css/ayuda.js"></script>
                 <script src="../../css/desconectado.js"></script>
                 <script src="../../css/sur.js"></script>
-                <link rel="manifest" href="../../css/manifest.json>';
+                <script src="../../sw.js"></script>
+                <script src="../../sw-register.js"></script>
+                <link rel="manifest" href="../../manifest.json">';
     }
     ?>
     <!--cosillas de Fuentes-->
@@ -67,6 +77,12 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
         integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous">
+    </script>
+    <script>
+    //WPA:comprobar navegador
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
     </script>
 </head>
 <?php
@@ -375,10 +391,8 @@ function cerrarMenuEsp() {
     $("#menuIzq").trigger('widthChange');
 }
 
-//WPA:comprobar navegador
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-}
+
+
 </script>
 
 </html>
