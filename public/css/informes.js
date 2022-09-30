@@ -227,7 +227,7 @@ function obtenerInforme() {
         arrEstaciones: arrEstaciones,
         arrNombres: arrNombres,
       },
-      contentType: "application/json;charset=utf-8",
+      // contentType: "application/json;charset=utf-8",
       url: "/Aquando.com/A_Informes.php",
       success: function (informe) {
         reset();
