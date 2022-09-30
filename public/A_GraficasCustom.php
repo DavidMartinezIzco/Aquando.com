@@ -1,15 +1,9 @@
 <?php
 require '../app/Database/Database.php';
 $db = new Database();
-// $opcion = $_GET['opcion'];
 $opcion = $_POST['opcion'];
 //obtiene los historicos de un tag en un intervalo de fechas determinado
 if ($opcion == 'tag') {
-    // $id_estacion = $_GET['estacion'];
-    // $id_tag = $_GET['id_tag'];
-    // $fechaIni = $_GET['fechaIni'];
-    // $fechaFin = $_GET['fechaFin'];
-    // $meta = $_GET['meta'];
     $id_estacion = $_POST['estacion'];
     $id_tag = $_POST['id_tag'];
     $fechaIni = $_POST['fechaIni'];
@@ -21,7 +15,7 @@ if ($opcion == 'tag') {
 }
 //guarda un preset con la configuracion de tags y colores seleccionados
 if ($opcion == 'guardar') {
-    // $datosPreset = json_decode($_REQUEST['arrDatosPreset']);
+
     $datosPreset = json_decode($_POST['arrDatosPreset']);
     $usuario = $datosPreset->usuario;
     $pwd = $datosPreset->pwd;
@@ -33,24 +27,12 @@ if ($opcion == 'guardar') {
 }
 //muestra una lista con los presets guardados por el usuario
 if ($opcion == 'leerPresets') {
-    // $datos = json_decode($_REQUEST['arrdatos']);
     $datos = json_decode($_POST['arrdatos']);
     $n_usuario = $datos->nombre;
     $pwd = $datos->pwd;
     $id_usuario = $db->obtenerIdUsuario($n_usuario);
     if ($id_usuario) {
         $presets = $db->leerPresets($id_usuario);
-        // if ($_GET['para'] == 'mostrar') {
-        //     $res = "";
-        //     foreach ($presets as $index => $datos) {
-        //         $nombre_preset = substr($datos['configuracion'], 0, strpos($datos['configuracion'], '@'));
-        //         $res .= "<option value='" . $nombre_preset . "'>" . $nombre_preset . "</option>";
-        //     }
-        //     echo $res;
-        // }
-        // if ($_GET['para'] == 'cargar') {
-        //     echo json_encode($presets);
-        // }
         if ($_POST['para'] == 'mostrar') {
             $res = "";
             foreach ($presets as $index => $datos) {
@@ -66,7 +48,6 @@ if ($opcion == 'leerPresets') {
 }
 //elimina un preset
 if ($opcion == 'borrar') {
-    // $datos = json_decode($_REQUEST['arrdatos']);
     $datos = json_decode($_POST['arrdatos']);
     $usuario = $datos->nombre;
     $pwd = $datos->pwd;

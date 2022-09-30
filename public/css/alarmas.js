@@ -117,16 +117,16 @@ function actualizar(reorden) {
     $(document).ready(function () {
       $.ajax({
         type: "POST",
-        url: '/Aquando.com/A_Alarmas.php',
-        data:{
-          funcion:"actualizar",
-          nombre:nombre,
-          pwd:pwd,
-          emp:emp,
-          sentido:sentido,
-          orden:orden,
-          fechaInicio:fechaInicio,
-          fechaFin:fechaFin
+        url: "/Aquando.com/A_Alarmas.php",
+        data: {
+          funcion: "actualizar",
+          nombre: nombre,
+          pwd: pwd,
+          emp: emp,
+          sentido: sentido,
+          orden: orden,
+          fechaInicio: fechaInicio,
+          fechaFin: fechaFin,
         },
         success: function (alarmas) {
           document.getElementById("tablaAlarmas").innerHTML = alarmas;
@@ -159,14 +159,14 @@ function filtrarPorEstacion() {
     $(document).ready(function () {
       $.ajax({
         type: "POST",
-        url: '/Aquando.com/A_Alarmas.php',
-        data:{
-          funcion:"estacion",
-          sentido:sentido,
-          orden:orden,
-          estacion:id_estacion,
-          fechaInicio:fechaInicio,
-          fechaFin:fechaFin
+        url: "/Aquando.com/A_Alarmas.php",
+        data: {
+          funcion: "estacion",
+          sentido: sentido,
+          orden: orden,
+          estacion: id_estacion,
+          fechaInicio: fechaInicio,
+          fechaFin: fechaFin,
         },
         success: function (alarmas) {
           document.getElementById("tablaAlarmas").innerHTML = alarmas;
@@ -183,11 +183,11 @@ function reconocer(id_alarma) {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
-      url: '/Aquando.com/A_Alarmas.php',
-      data:{
+      url: "/Aquando.com/A_Alarmas.php",
+      data: {
         funcion: "reconocer",
         alarma: id_alarma,
-        nombre: sessionStorage.getItem('nousu')
+        nombre: sessionStorage.getItem("nousu"),
       },
       success: function () {
         actualizar(null);
@@ -208,7 +208,7 @@ function detallesAlarma(id) {
     $.ajax({
       type: "POST",
       url: "/Aquando.com/A_Alarmas.php",
-      data:{funcion:"detalles",id:id},
+      data: { funcion: "detalles", id: id },
       success: function (det) {
         var nombre_estacion = det[0]["nombre_estacion"];
         var nombre_tag = det[0]["nombre_tag"];

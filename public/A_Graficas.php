@@ -1,10 +1,5 @@
 <?php
 require '../app/Database/Database.php';
-// if (isset($_GET['tag'])) {
-//     $id_tag = $_GET['tag'];
-// }
-// $opcion = $_GET['opcion'];
-// $id_estacion = $_GET['estacion'];
 if (isset($_POST['tag'])) {
     $id_tag = $_POST['tag'];
 }

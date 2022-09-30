@@ -13,12 +13,11 @@ function actualizar(id_estacion) {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
-      url:
-        "/Aquando.com/A_Estacion.php",
-        data:{
-          opcion:"actualizar",
-          estacion:id_estacion,
-          tipo:"todos"
+      url: "/Aquando.com/A_Estacion.php",
+      data: {
+        opcion: "actualizar",
+        estacion: id_estacion,
+        tipo: "todos",
       },
       success: function (datos) {
         filtrarDatos(datos);
@@ -38,14 +37,13 @@ function trendsTags() {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
-      data: { 
-        opcion:"trends",
-        estacion:id_estacion,
+      data: {
+        opcion: "trends",
+        estacion: id_estacion,
         arrTags: arrTags,
-        tipo:"todos"
-       },
-      url:
-        "/Aquando.com/A_Estacion.php",
+        tipo: "todos",
+      },
+      url: "/Aquando.com/A_Estacion.php",
       success: function (trends) {
         montarWidgetsAnalogicos();
         todoTrends = trends;
@@ -780,9 +778,9 @@ function fotoEstacion(id_estacion) {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
-      data:{
-        opcion:"foto",
-        estacion:id_estacion
+      data: {
+        opcion: "foto",
+        estacion: id_estacion,
       },
       url: "/Aquando.com/A_Estacion.php?",
       success: function (foto) {
@@ -812,7 +810,8 @@ function controlMobile() {
         a[i].style.width = "0%";
         a[i].style.display = "none";
         document.getElementsByClassName("widAnaGraf")[i].style.width = "100%";
-        document.getElementsByClassName("widAnaGraf")[i].style.display = "block";
+        document.getElementsByClassName("widAnaGraf")[i].style.display =
+          "block";
         if (widsAnalogLista != undefined) {
           for (var index in widsAnalogLista) {
             widsAnalogLista[index][0].resize();

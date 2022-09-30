@@ -2,13 +2,12 @@ function actualizarConexiones(nombre, pwd) {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
-      url:
-        "/Aquando.com/A_Conexiones.php",
-        data:{
-          nombre:nombre,
-          pwd:pwd,
-          opcion:"conex"
-        },
+      url: "/Aquando.com/A_Conexiones.php",
+      data: {
+        nombre: nombre,
+        pwd: pwd,
+        opcion: "conex",
+      },
       success: function (conex) {
         document.getElementById("tablaConex").innerHTML = conex;
       },
@@ -39,9 +38,9 @@ function nombrarEstacion(estacion) {
     $.ajax({
       type: "POST",
       url: "/Aquando.com/A_Conexiones.php",
-      data:{
-        estacion:estacion,
-        opcion:"nom"
+      data: {
+        estacion: estacion,
+        opcion: "nom",
       },
       success: function (est) {
         document.getElementById("calidadSenales").innerHTML =

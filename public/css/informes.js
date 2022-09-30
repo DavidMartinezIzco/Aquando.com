@@ -167,20 +167,68 @@ function obtenerInforme() {
   var arrEstaciones = JSON.stringify(estaciones);
   var arrNombres = JSON.stringify(nestaciones);
   $(document).ready(function () {
+    // $.ajax({
+    //   type: "GET",
+    //   data: {
+    //     arrEstaciones: arrEstaciones,
+    //     arrNombres: arrNombres,
+    //   },
+    //   contentType: "application/json;charset=utf-8",
+    //   url:
+    //     "/Aquando.com/A_Informes.php?opcion=" +
+    //     opcion +
+    //     "&fechaIni=" +
+    //     fInicio +
+    //     "&fechaFin=" +
+    //     fFin,
+    //   success: function (informe) {
+    //     reset();
+    //     var ahora = new Date();
+    //     var fechahora =
+    //       "" +
+    //       ahora.getDate() +
+    //       "-" +
+    //       (ahora.getMonth() + 1) +
+    //       "-" +
+    //       ahora.getFullYear() +
+    //       " a las " +
+    //       ahora.getHours() +
+    //       ":" +
+    //       ahora.getMinutes();
+    //     var cabecera =
+    //       "<h1 style='color:rgb(1, 168, 184);'>Informe sobre " +
+    //       tipoInf +
+    //       "</h1><hr><p style='color:rgb(65, 65, 65);'>Desde: " +
+    //       fInicio +
+    //       " hasta: " +
+    //       fFin +
+    //       " </p><p style='color:rgb(65, 65, 65);'>Por " +
+    //       nomusuario +
+    //       " el " +
+    //       fechahora +
+    //       "</p><br>";
+    //     var pie =
+    //       '<p style="text-align:center">powered by <img src="../../logo.png" style="height: 3.5em; margin-left: 1%;"></p>';
+    //     document.getElementById("espacioInforme").innerHTML += cabecera;
+    //     document.getElementById("espacioInforme").innerHTML += informe;
+    //     document.getElementById("espacioInforme").innerHTML += pie;
+    //   },
+    //   error: function () {
+    //     console.log("error en los informes");
+    //   },
+    //   //dataType: 'json'
+    // });
     $.ajax({
-      type: "GET",
+      type: "POST",
       data: {
+        opcion: opcion,
+        fechaIni: fInicio,
+        fechaFin: fFin,
         arrEstaciones: arrEstaciones,
         arrNombres: arrNombres,
       },
       contentType: "application/json;charset=utf-8",
-      url:
-        "/Aquando.com/A_Informes.php?opcion=" +
-        opcion +
-        "&fechaIni=" +
-        fInicio +
-        "&fechaFin=" +
-        fFin,
+      url: "/Aquando.com/A_Informes.php",
       success: function (informe) {
         reset();
         var ahora = new Date();
