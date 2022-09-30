@@ -6,11 +6,6 @@ require_once '../app/Models/InformeCaudales.php';
 use \koolreport\widgets\koolphp\Table;
 
 $db = new Database();
-// $opcion = $_GET['opcion'];
-// $fechaIni = $_GET['fechaIni'];
-// $fechaFin = $_GET['fechaFin'];
-// $nombres = json_decode(($_REQUEST['arrNombres']));
-
 $opcion = $_POST['opcion'];
 $fechaIni = $_POST['fechaIni'];
 $fechaFin = $_POST['fechaFin'];
@@ -19,7 +14,6 @@ $nombres = json_decode(($_POST['arrNombres']));
 //busca los datos de maximos minimos medias y metadados de las estaciones seleccionadas de los tags relacionados con caudales
 //despues crea un objeto tabla de Koolreport
 if ($opcion == "cau") {
-    // $estaciones = json_decode(($_REQUEST['arrEstaciones']));
     $estaciones = json_decode(($_POST['arrEstaciones']));
     $informesDep = array();
     $informeDep = array();
@@ -87,7 +81,6 @@ if ($opcion == "cau") {
 //busca los datos de maximos minimos medias y metadados de las estaciones seleccionadas de los tags relacionados con niveles de las estaciones seleccionadas
 //despues crea un objeto tabla de Koolreport
 if ($opcion == "niv") {
-    // $estaciones = json_decode(($_REQUEST['arrEstaciones']));
     $estaciones = json_decode(($_POST['arrEstaciones']));
     $informesDep = array();
     $informeDep = array();
@@ -152,7 +145,6 @@ if ($opcion == "niv") {
 //busca los datos de maximos y metadatos de los tags relacionados con acumulados DIA de las estaciones seleccionadas
 //despues crea un objeto tabla de Koolreport
 if ($opcion == "acu") {
-    // $estaciones = json_decode(($_REQUEST['arrEstaciones']));
     $estaciones = json_decode(($_POST['arrEstaciones']));
     $informesDep = array();
     $informeDep = array();
@@ -212,7 +204,6 @@ if ($opcion == "acu") {
 //busca los datos de maximos minimos medias y metadatos de los tags relacionados con cloros y turbidez de las estaciones seleccionadas
 //despues crea un objeto tabla de Koolreport
 if ($opcion == "clo") {
-    // $estaciones = json_decode(($_REQUEST['arrEstaciones']));
     $estaciones = json_decode(($_POST['arrEstaciones']));
     $informesDep = array();
     $informeDep = array();

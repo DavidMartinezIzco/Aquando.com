@@ -17,29 +17,30 @@ PARA ANDORID:
 
 CAMBIOS DE SEGURIDAD: https://stackoverflow.com/questions/40041380/using-post-via-ajax-and-php-to-send-data
 
-    - Metodos de Peticiones: sustituir GET a POST en AJAX
+    - Metodos de Peticiones: sustituir GET a POST en AJAX ✓
         AJAXs a retocar:
             - A_Alarmas.php ✓
             - A_Conexiones.php ✓
             - A_Estacion.php ✓
-            - A_Graficas.php
-            - A_GraficasCustom.php
-            - A_Informes.php
-            - A_Sur.php
+            - A_Graficas.php ✓
+            - A_GraficasCustom.php ✓
+            - A_Informes.php ✓
+            - A_Sur.php ✓
+            - A_Principal.php
 
         JavaScript a Modificar:
             - alarmas.js ✓
             - comunicaciones.js ✓
             - estaciones.js ✓
-            - gráficas.js + graficasCustom.js
-            - informes.js
+            - gráficas.js + graficasCustom.js ✓
+            - informes.js ✓
             - principal.js
-            - sur.js
+            - sur.js ✓
 
     - PARAMS:
         - usar pwds cifrados
         - renombrar id_tags,id_estacion
-        - limpiar basurilla en los REQUEST
+        - limpiar basurilla en los REQUEST 
 
     
     

@@ -1,13 +1,10 @@
 <?php
 require '../app/Database/Database.php';
-// $caso = $_GET['caso'];
 $caso = $_POST['caso'];
 $db = new Database();
 //actualiza el listado del menu sur
 //utiliza la config general
 if ($caso == "general") {
-    // $nombre = $_GET['nombre'];
-    // $pwd = $_GET['pwd'];
     $nombre = $_POST['nombre'];
     $pwd = $_POST['pwd'];
     $id_usuario = $db->obtenerIdUsuario($nombre);
@@ -64,7 +61,6 @@ if ($caso == "general") {
 //actualiza el listado del menu sur en la sección de estacion
 //utiliza la config particular
 if ($caso == "estacion") {
-    // $estacion = $_GET['estacion'];
     $estacion = $_POST['estacion'];
     $alarmasSur = $db->alarmasEstacionSur($estacion);
     echo "<tr>        
