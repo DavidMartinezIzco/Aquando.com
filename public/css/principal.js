@@ -4,7 +4,10 @@ var listaTags = new Array();
 //esas estaciones se listan con pines en el mapa y al hacer click tienen un popup con foto + nombre + ultima conex + enlace
 //utiliza OSM y Leaflet.
 function mapas() {
-  var ubiIni = [estacionesUsu[estacionesUsu.length -1]["latitud"], estacionesUsu[estacionesUsu.length -1]["longitud"]];
+  var ubiIni = [
+    estacionesUsu[estacionesUsu.length - 1]["latitud"],
+    estacionesUsu[estacionesUsu.length - 1]["longitud"],
+  ];
   var map = L.map("conMapa").setView(ubiIni, 10);
   L.tileLayer(
     "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}",
@@ -83,28 +86,11 @@ function actualizar() {
   datos["pwd"] = sessionStorage.getItem("pwd");
   var arrdatos = JSON.stringify(datos);
   $(document).ready(function () {
-    // $.ajax({
-    //   type: "GET",
-    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Principal.php?opcion=refresh',
-    //   url: "/Aquando.com/A_Principal.php?opcion=refresh",
-    //   data: {
-    //     arrdatos: arrdatos,
-    //   },
-    //   success: function (feedDigi) {
-    //     feedDigital = feedDigi;
-    //     feedPrincipalCustom();
-    //     renderFeedDigi();
-    //   },
-    //   error: function () {
-    //     console.log("refresh error");
-    //   },
-    //   dataType: "json",
-    // });
     $.ajax({
       type: "POST",
       url: "/Aquando.com/A_Principal.php",
       data: {
-        opcion:"refresh",
+        opcion: "refresh",
         arrdatos: arrdatos,
       },
       success: function (feedDigi) {
@@ -156,7 +142,7 @@ function renderFeedDigi() {
         feedDigital[tag]["nombre"] +
         '</div><div id="digiWidOrigen">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje">'+
+        '</div><div id="digiWidMensaje">' +
         // '<span class="tooltiptext">' +
         // feedDigital[tag]["valor_alarma"] +
         // "</span>" +
@@ -169,7 +155,7 @@ function renderFeedDigi() {
         feedDigital[tag]["nombre"] +
         '</div><div id="digiWidOrigen">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje">'+
+        '</div><div id="digiWidMensaje">' +
         // '<span class="tooltiptext">' +
         // feedDigital[tag]["valor_alarma"] +
         // "</span>" +
@@ -182,7 +168,7 @@ function renderFeedDigi() {
         feedDigital[tag]["nombre"] +
         '</div><div id="digiWidOrigen">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje">'+
+        '</div><div id="digiWidMensaje">' +
         // '<span class="tooltiptext">' +
         // feedDigital[tag]["valor_alarma"] +
         // "</span>" +
@@ -195,7 +181,7 @@ function renderFeedDigi() {
         feedDigital[tag]["nombre"] +
         '</div><div id="digiWidOrigen">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje">'+
+        '</div><div id="digiWidMensaje">' +
         // '<span class="tooltiptext">' +
         // feedDigital[tag]["valor_alarma"] +
         // "</span>" +
@@ -239,67 +225,37 @@ function cargarAjustes() {
   var sel = document.getElementById("tagSel");
   sel.innerHTML = "";
   var arrEstaciones = JSON.stringify(estacionesUsu);
-    $(document).ready(function () {
-      // $.ajax({
-      //   type: "GET",
-      //   url: "/Aquando.com/A_Principal.php?opcion=ajustes",
-      //   data: {
-      //     arrEstaciones: arrEstaciones,
-      //   },
-      //   success: function (tagsAnalog) {
-      //     listaTags = tagsAnalog;
-      //     sessionStorage.setItem("listaTags", JSON.stringify(listaTags));
-      //     for (var deposito in tagsAnalog) {
-      //       sel.innerHTML +=
-      //         "<optgroup label = '" +
-      //         tagsAnalog[deposito][0]["nombre_estacion"] +
-      //         "'>";
-      //       for (var tag in tagsAnalog[deposito]) {
-      //         var n_tag = tagsAnalog[deposito][tag]["nombre_tag"];
-      //         var id_tag = tagsAnalog[deposito][tag]["id_tag"];
-      //         sel.innerHTML +=
-      //           "<option value=" + id_tag + ">" + n_tag + "</option>";
-      //       }
-      //       sel.innerHTML += "</optgroup>";
-      //     }
-      //   },
-      //   error: function () {
-      //     console.log("error de ajustes");
-      //   },
-      //   dataType: "json",
-      // });
-      $.ajax({
-        type: "POST",
-        url: "/Aquando.com/A_Principal.php",
-        data: {
-          opcion:"ajustes",
-          arrEstaciones: arrEstaciones,
-        },
-        success: function (tagsAnalog) {
-          listaTags = tagsAnalog;
-          sessionStorage.setItem("listaTags", JSON.stringify(listaTags));
-          for (var deposito in tagsAnalog) {
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      url: "/Aquando.com/A_Principal.php",
+      data: {
+        opcion: "ajustes",
+        arrEstaciones: arrEstaciones,
+      },
+      success: function (tagsAnalog) {
+        listaTags = tagsAnalog;
+        sessionStorage.setItem("listaTags", JSON.stringify(listaTags));
+        for (var deposito in tagsAnalog) {
+          sel.innerHTML +=
+            "<optgroup label = '" +
+            tagsAnalog[deposito][0]["nombre_estacion"] +
+            "'>";
+          for (var tag in tagsAnalog[deposito]) {
+            var n_tag = tagsAnalog[deposito][tag]["nombre_tag"];
+            var id_tag = tagsAnalog[deposito][tag]["id_tag"];
             sel.innerHTML +=
-              "<optgroup label = '" +
-              tagsAnalog[deposito][0]["nombre_estacion"] +
-              "'>";
-            for (var tag in tagsAnalog[deposito]) {
-              var n_tag = tagsAnalog[deposito][tag]["nombre_tag"];
-              var id_tag = tagsAnalog[deposito][tag]["id_tag"];
-              sel.innerHTML +=
-                "<option value=" + id_tag + ">" + n_tag + "</option>";
-            }
-            sel.innerHTML += "</optgroup>";
+              "<option value=" + id_tag + ">" + n_tag + "</option>";
           }
-        },
-        error: function () {
-          console.log("error de ajustes");
-        },
-        dataType: "json",
-      });
-      
+          sel.innerHTML += "</optgroup>";
+        }
+      },
+      error: function () {
+        console.log("error de ajustes");
+      },
+      dataType: "json",
     });
-  
+  });
 }
 //despliega u oculta la ventana de ajustes de los widgets de inicio
 function ajustes() {
@@ -366,33 +322,10 @@ function confirmarAjustesWidget(wid) {
   var widget = wid;
   var tag = document.getElementById("tagSel").value;
   $(document).ready(function () {
-    // $.ajax({
-    //   type: "GET",
-    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Principal.php?opcion=confirmar&wid=' + widget + '&tag=' + tag + '&usu=' + usu + '&pwd=' + pwd,
-    //   url:
-    //     "/Aquando.com/A_Principal.php?opcion=confirmar&wid=" +
-    //     widget +
-    //     "&tag=" +
-    //     tag +
-    //     "&usu=" +
-    //     usu +
-    //     "&pwd=" +
-    //     pwd,
-    //   success: function () {
-    //     document.getElementById("seccionAjustes").innerHTML +=
-    //       "<br><div id='ajustesRespuesta'>widget configurado con éxito</div>";
-    //     feedPrincipalCustom();
-    //   },
-    //   error: function () {
-    //     console.log("error de confirmación");
-    //   },
-    //   // dataType: 'json'
-    // });
     $.ajax({
       type: "POST",
-      url:
-        "/Aquando.com/A_Principal.php",
-      data:{opcion:"confirmar",wid:widget,tag:tag,usu:usu,pwd,pwd},
+      url: "/Aquando.com/A_Principal.php",
+      data: { opcion: "confirmar", wid: widget, tag: tag, usu: usu, pwd, pwd },
       success: function () {
         document.getElementById("seccionAjustes").innerHTML +=
           "<br><div id='ajustesRespuesta'>widget configurado con éxito</div>";
@@ -403,7 +336,6 @@ function confirmarAjustesWidget(wid) {
       },
       // dataType: 'json'
     });
-    
   });
 }
 //captador de eventos custom
@@ -414,25 +346,10 @@ function getEventTarget(e) {
 //llama a AJAX para obtener los datos de inicio
 function feedPrincipalCustom() {
   $(document).ready(function () {
-    // $.ajax({
-    //   type: "GET",
-    //   url:
-    //     "/Aquando.com/A_Principal.php?opcion=feed&usu=" + usu + "&pwd=" + pwd,
-
-    //   success: function (feedAna) {
-    //     renderPrincipalCustom(feedAna);
-    //   },
-    //   error: function (e) {
-    //     //console.log('error feed principal analog');
-    //     console.log(e);
-    //   },
-    //   dataType: "json",
-    // });
     $.ajax({
       type: "POST",
-      url:
-        "/Aquando.com/A_Principal.php",
-      data:{opcion:"feed",usu:usu,pwd:pwd},
+      url: "/Aquando.com/A_Principal.php",
+      data: { opcion: "feed", usu: usu, pwd: pwd },
       success: function (feedAna) {
         renderPrincipalCustom(feedAna);
       },
