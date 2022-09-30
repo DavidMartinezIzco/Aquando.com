@@ -193,6 +193,8 @@ if ($_POST['funcion'] == "reconocer") {
         echo "bien";
     } else {
         echo "mal";
+        echo "\n n" . $nombre;
+        echo "\n i" . $id_alarma;
     }
 }
 
