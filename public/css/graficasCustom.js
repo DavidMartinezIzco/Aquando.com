@@ -282,7 +282,14 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
     type: "POST",
     url:
       "/Aquando.com/A_GraficasCustom.php",
-    data:{estacion:estacion,tag:tag,fechaIni:fechaIni,fechaFin:fechaFin,meta:metas,opcion:"tag"},
+    data:{
+      estacion:estacion,
+      id_tag:tag,
+      fechaIni:fechaIni,
+      fechaFin:fechaFin,
+      meta:metas,
+      opcion:"tag"
+    },
     success: function (datosTag) {
       prepararTag(datosTag, tag);
       if (ajustesTag.at(-1) == tag) {
