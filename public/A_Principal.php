@@ -6,8 +6,10 @@ $db = new Database();
 //falta alguna funcion para sacar los tags de la config de usuario
 //y que despues saque el valor actual, trend y agregación semanal de cada uno
 //para pasarla al render de widgets
-if ($_GET['opcion'] == 'refresh') {
-    $datos = json_decode($_REQUEST['arrdatos']);
+// if ($_GET['opcion'] == 'refresh') {
+//     $datos = json_decode($_REQUEST['arrdatos']);
+if ($_POST['opcion'] == 'refresh') {
+    $datos = json_decode($_POST['arrdatos']);
     $nombre = $datos->nombre;
     $pwd = $datos->pwd;
     $estacionesUsuario = $db->mostrarEstacionesCliente($nombre, $pwd);
@@ -28,8 +30,10 @@ if ($_GET['opcion'] == 'refresh') {
     echo json_encode($feedDigital);
 }
 //obtiene los tags analógicos disponibles para mostrar en el grid de widgets derecho
-if ($_GET['opcion'] == 'ajustes') {
-    $datos = json_decode($_REQUEST['arrEstaciones']);
+// if ($_GET['opcion'] == 'ajustes') {
+//     $datos = json_decode($_REQUEST['arrEstaciones']);
+if ($_POST['opcion'] == 'ajustes') {
+    $datos = json_decode($_POST['arrEstaciones']);
     $datosAnalog = $db->tagsAnalogHisto($datos);
     $datosSinAcus = array();
     foreach ($datosAnalog as $estacion => $tags) {
@@ -46,20 +50,28 @@ if ($_GET['opcion'] == 'ajustes') {
     echo json_encode($datosSinAcus);
 }
 //establece la configuración de un widget
-if ($_GET['opcion'] == 'confirmar') {
-    $widget = $_GET['wid'];
-    $tag = $_GET['tag'];
-    $usu = $_GET['usu'];
-    $pwd = $_GET['pwd'];
+// if ($_GET['opcion'] == 'confirmar') {
+//     $widget = $_GET['wid'];
+//     $tag = $_GET['tag'];
+//     $usu = $_GET['usu'];
+//     $pwd = $_GET['pwd'];
+if ($_POST['opcion'] == 'confirmar') {
+    $widget = $_POST['wid'];
+    $tag = $_POST['tag'];
+    $usu = $_POST['usu'];
+    $pwd = $_POST['pwd'];
     $id_usuario = $db->obtenerIdUsuario($usu);
     if ($id_usuario) {
         $db->confirmarWidget($widget, $tag, $id_usuario[0]['id_usuario']);
     }
 }
 //recoge los datos para el grid de widgets derecho en función de los ajustes del usuario
-if ($_GET['opcion'] == 'feed') {
-    $usu = $_GET['usu'];
-    $pwd = $_GET['pwd'];
+// if ($_GET['opcion'] == 'feed') {
+//     $usu = $_GET['usu'];
+//     $pwd = $_GET['pwd'];
+if ($_POST['opcion'] == 'feed') {
+    $usu = $_POST['usu'];
+    $pwd = $_POST['pwd'];
     $id_usuario = $db->obtenerIdUsuario($usu);
     if ($id_usuario) {
         echo json_encode($db->feedPrincipalCustom($id_usuario[0]['id_usuario']));
