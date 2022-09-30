@@ -40,7 +40,18 @@ if ($opcion == 'leerPresets') {
     $id_usuario = $db->obtenerIdUsuario($n_usuario);
     if ($id_usuario) {
         $presets = $db->leerPresets($id_usuario);
-        if ($_GET['para'] == 'mostrar') {
+        // if ($_GET['para'] == 'mostrar') {
+        //     $res = "";
+        //     foreach ($presets as $index => $datos) {
+        //         $nombre_preset = substr($datos['configuracion'], 0, strpos($datos['configuracion'], '@'));
+        //         $res .= "<option value='" . $nombre_preset . "'>" . $nombre_preset . "</option>";
+        //     }
+        //     echo $res;
+        // }
+        // if ($_GET['para'] == 'cargar') {
+        //     echo json_encode($presets);
+        // }
+        if ($_POST['para'] == 'mostrar') {
             $res = "";
             foreach ($presets as $index => $datos) {
                 $nombre_preset = substr($datos['configuracion'], 0, strpos($datos['configuracion'], '@'));
@@ -48,7 +59,7 @@ if ($opcion == 'leerPresets') {
             }
             echo $res;
         }
-        if ($_GET['para'] == 'cargar') {
+        if ($_POST['para'] == 'cargar') {
             echo json_encode($presets);
         }
     }
