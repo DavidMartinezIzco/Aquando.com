@@ -24,7 +24,9 @@ if ($opcion == 'actualizar' && $tipo == 'todos') {
 //obtiene los trends de las estaciones (valores de los ultimos 7 dias)
 if ($opcion == 'trends') {
     // $datosAnalog = json_decode($_REQUEST['arrTags']);
-    $datosAnalog = json_decode($_POST['arrTags']);
+    // $datosAnalog = $_REQUEST['arrTags'];
+    $datosAnalog = $_POST['arrTags'];
+    // $datosAnalog = json_decode($_POST['arrTags']);
     $trendsEstacion = [];
     foreach ($datosAnalog as $indexTag => $datosTag) {
         if ($indexTag != null && $datosTag != null) {

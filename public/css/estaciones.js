@@ -74,12 +74,12 @@ function trendsTags() {
     $.ajax({
       type: "POST",
       data: { 
-        arrTags: arrTags,
         opcion:"trends",
         estacion:id_estacion,
+        arrTags: arrTags,
         tipo:"todos"
        },
-      contentType: "application/json;charset=utf-8",
+      // contentType: "application/json;charset=utf-8",
       url:
         "/Aquando.com/A_Estacion.php",
       success: function (trends) {
