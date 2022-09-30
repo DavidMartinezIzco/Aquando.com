@@ -95,7 +95,7 @@ if ($_POST['funcion'] == "estacion") {
     $sentido = $_POST['sentido'];
     $fechaIni = $_POST['fechaInicio'];
     $fechaFin = $_POST['fechaFin'];
-    $id_estacion = $_GET['estacion'];
+    $id_estacion = $_POST['estacion'];
     // if ($_GET['funcion'] == "estacion") {
     //     $orden = $_GET['orden'];
     //     $sentido = $_GET['sentido'];
@@ -205,7 +205,8 @@ if ($_POST['funcion'] == "detalles") {
     if ($detalles != false) {
         echo json_encode($detalles);
     } else {
-        echo 'error';
+        echo $id;
+        echo ' error';
     }
     // $fecha_origen = $db
 }

@@ -251,7 +251,7 @@ function reconocer(id_alarma) {
         funcion:"reconocer",
         alarma:id_alarma,
         nombre: sessionStorage.getItem('nousu'),
-        fecha_ack:fecha_ack,
+        fecha_ack:fecha_ack
       },
       success: function () {
         actualizar(null);
