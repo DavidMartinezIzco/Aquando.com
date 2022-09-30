@@ -16,28 +16,63 @@ function limpiar() {
 }
 //obtiene los metadatos (max, min, avg) de los historicos (tag)
 function metaDatosTag(id_tag, id_estacion) {
+  // $.ajax({
+  //   type: "GET",
+  //   url:
+  //     "http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?opcion=meta&tag=" +
+  //     id_tag +
+  //     "&estacion=" +
+  //     id_estacion,
+  //   success: function (meta) {
+  //     datosM["max"] = meta["max"];
+  //     datosM["min"] = meta["min"];
+  //     datosM["avg"] = meta["avg"];
+  //     $.ajax({
+  //       type: "GET",
+  //       url:
+  //         "http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=" +
+  //         id_estacion +
+  //         "&tag=" +
+  //         id_tag +
+  //         "&opcion=render",
+  //       success: function (histo) {
+  //         datosR = histo;
+  //         //var tipo = document.getElementById("tipoRender").value;
+  //         renderGrafico(datosR);
+  //       },
+  //       error: function (e) {
+  //         console.log(e);
+  //       },
+  //       dataType: "json",
+  //     });
+  //   },
+  //   error: function (e) {
+  //     console.log(e);
+  //   },
+  //   dataType: "json",
+  // });
   $.ajax({
-    type: "GET",
+    type: "POST",
     url:
-      "http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?opcion=meta&tag=" +
-      id_tag +
-      "&estacion=" +
-      id_estacion,
+      "/Aquando.com/A_Graficas.php",
+      data:{
+        opcion:"meta",
+        tag:id_tag,
+        estacion:id_estacion
+      },
     success: function (meta) {
       datosM["max"] = meta["max"];
       datosM["min"] = meta["min"];
       datosM["avg"] = meta["avg"];
       $.ajax({
-        type: "GET",
+        type: "POST",
         url:
-          "http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=" +
-          id_estacion +
-          "&tag=" +
-          id_tag +
-          "&opcion=render",
+          "/Aquando.com/A_Graficas.php",
+          data:{
+            estacion:id_estacion,tag:id_tag,opcion:"render"
+          },
         success: function (histo) {
           datosR = histo;
-          //var tipo = document.getElementById("tipoRender").value;
           renderGrafico(datosR);
         },
         error: function (e) {
@@ -62,11 +97,52 @@ function aplicarOpciones() {
 //lista los tags disponibles de una estacion
 function tagsEstacion(id_estacion) {
   $(document).ready(function () {
+    // $.ajax({
+    //   type: "GET",
+    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
+    //   url:
+    //     "/Aquando.com/A_Graficas.php?estacion=" + id_estacion + "&opcion=tags",
+    //   success: function (tags) {
+    //     document.getElementById("opcionesTag").innerHTML = "";
+    //     document.getElementById("compararSel").innerHTML =
+    //       "<option value='nada' selected>Nada</option>";
+    //     var e = 0;
+    //     sessionStorage.setItem("tagsAct", JSON.stringify(tags));
+    //     for (var tag in tags) {
+    //       if (e == 0) {
+    //         document.getElementById("opcionesTag").innerHTML +=
+    //           "<option value=" +
+    //           tags[tag]["id_tag"] +
+    //           " selected>" +
+    //           tags[tag]["nombre_tag"] +
+    //           "</option>";
+    //       } else {
+    //         document.getElementById("opcionesTag").innerHTML +=
+    //           "<option value=" +
+    //           tags[tag]["id_tag"] +
+    //           ">" +
+    //           tags[tag]["nombre_tag"] +
+    //           "</option>";
+    //       }
+    //       document.getElementById("compararSel").innerHTML +=
+    //         "<option value=" +
+    //         tags[tag]["id_tag"] +
+    //         ">" +
+    //         tags[tag]["nombre_tag"] +
+    //         "</option>";
+    //       e++;
+    //     }
+    //     aplicarOpciones();
+    //   },
+    //   error: function () {
+    //     console.log("error");
+    //   },
+    //   dataType: "json",
+    // });
     $.ajax({
-      type: "GET",
-      // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
-      url:
-        "/Aquando.com/A_Graficas.php?estacion=" + id_estacion + "&opcion=tags",
+      type: "POST",
+      url:"/Aquando.com/A_Graficas.php",
+      data:{estacion:id_estacion,opcion:"tags"},
       success: function (tags) {
         document.getElementById("opcionesTag").innerHTML = "";
         document.getElementById("compararSel").innerHTML =

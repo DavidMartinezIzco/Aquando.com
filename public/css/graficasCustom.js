@@ -83,11 +83,57 @@ function inicioFin() {
 //pasa los tags historizables de una estacion en concreto
 function tagsEstacionCustom(id_estacion) {
   $(document).ready(function () {
+    // $.ajax({
+    //   type: "GET",
+    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
+    //   url:
+    //     "/Aquando.com/A_Graficas.php?estacion=" + id_estacion + "&opcion=tags",
+    //   success: function (tags) {
+    //     document.getElementById("opcionesTag").innerHTML = "";
+    //     var e = 0;
+    //     sessionStorage.setItem("tagsAct", JSON.stringify(tags));
+    //     for (var tag in tags) {
+    //       if (e == 0) {
+    //         //document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + " selected>" + tags[tag]['nombre_tag'] + "</option>";
+    //         document.getElementById("opcionesTag").innerHTML +=
+    //           '<li><input type="checkbox" name="checkTag" style="visibility: hidden;" value="' +
+    //           tags[tag]["id_tag"] +
+    //           '" id = ' +
+    //           tags[tag]["id_tag"] +
+    //           '><label for = "' +
+    //           tags[tag]["id_tag"] +
+    //           '" style="box-sizing: none"> ' +
+    //           tags[tag]["nombre_tag"] +
+    //           ' </label> <label> <i class= "fas fa-palette"> </i><input type="color" class="form-control-color" id="color' +
+    //           tags[tag]["id_tag"] +
+    //           '" style="visibility:hidden" title="color" name="colorDato" list="coloresTagGraf"></label></li>';
+    //       } else {
+    //         //document.getElementById("opcionesTag").innerHTML += "<option value=" + tags[tag]['id_tag'] + ">" + tags[tag]['nombre_tag'] + "</option>";
+    //         document.getElementById("opcionesTag").innerHTML +=
+    //           '<li> <input type = "checkbox" name="checkTag" style = "visibility: hidden;" value="' +
+    //           tags[tag]["id_tag"] +
+    //           '" id = ' +
+    //           tags[tag]["id_tag"] +
+    //           ' ><label for = "' +
+    //           tags[tag]["id_tag"] +
+    //           '" style="box-sizing: none"> ' +
+    //           tags[tag]["nombre_tag"] +
+    //           ' </label> <label> <i class= "fas fa-palette"> </i><input type="color" class="form-control-color" id="color' +
+    //           tags[tag]["id_tag"] +
+    //           '" style="visibility:hidden" title="color" name="colorDato" list="coloresTagGraf"></label ></li>';
+    //       }
+    //       e++;
+    //     }
+    //   },
+    //   error: function () {
+    //     console.log("error");
+    //   },
+    //   dataType: "json",
+    // });
     $.ajax({
-      type: "GET",
-      // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Graficas.php?estacion=' + id_estacion + '&opcion=tags',
-      url:
-        "/Aquando.com/A_Graficas.php?estacion=" + id_estacion + "&opcion=tags",
+      type: "POST",
+      url:"/Aquando.com/A_Graficas.php",
+      data:{estacion:id_estacion,opcion:"tags"},
       success: function (tags) {
         document.getElementById("opcionesTag").innerHTML = "";
         var e = 0;
@@ -207,20 +253,36 @@ function aplicarCustom() {
 //consigue los metadata de un tag
 function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
   var nTags = ajustesTag.length;
+  // $.ajax({
+  //   type: "GET",
+  //   url:
+  //     "/Aquando.com/A_GraficasCustom.php?estacion=" +
+  //     estacion +
+  //     "&id_tag=" +
+  //     tag +
+  //     "&fechaIni=" +
+  //     fechaIni +
+  //     "&fechaFin=" +
+  //     fechaFin +
+  //     "&meta=" +
+  //     metas +
+  //     "&opcion=tag",
+  //   success: function (datosTag) {
+  //     prepararTag(datosTag, tag);
+  //     if (ajustesTag.at(-1) == tag) {
+  //       setTimeout(renderGrafico, nTags * 500);
+  //     }
+  //   },
+  //   error: function (e) {
+  //     console.log("error");
+  //   },
+  //   dataType: "json",
+  // });
   $.ajax({
-    type: "GET",
+    type: "POST",
     url:
-      "/Aquando.com/A_GraficasCustom.php?estacion=" +
-      estacion +
-      "&id_tag=" +
-      tag +
-      "&fechaIni=" +
-      fechaIni +
-      "&fechaFin=" +
-      fechaFin +
-      "&meta=" +
-      metas +
-      "&opcion=tag",
+      "/Aquando.com/A_GraficasCustom.php",
+    data:{estacion:estacion,tag:tag,fechaIni:fechaIni,fechaFin:fechaFin,meta:metas,opcion:"tag"},
     success: function (datosTag) {
       prepararTag(datosTag, tag);
       if (ajustesTag.at(-1) == tag) {
@@ -582,12 +644,29 @@ function leerPresets(para) {
     para = "mostrar";
     var arrdatos = JSON.stringify(datos);
     $(document).ready(function () {
-      $.ajax({
-        type: "GET",
-        // url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?opcion=leerPresets&para=' + para,
+      // $.ajax({
+      //   type: "GET",
+      //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?opcion=leerPresets&para=' + para,
+      //   url:
+      //     "/Aquando.com/A_GraficasCustom.php?opcion=leerPresets&para=" + para,
+      //   data: {
+      //     arrdatos: arrdatos,
+      //   },
+      //   success: function (presets) {
+      //     document.getElementById("selPresets").innerHTML = presets;
+      //   },
+      //   error: function (e) {
+      //     console.log("error");
+      //   },
+      //   // dataType: 'json'
+      // });
+    $.ajax({
+        type: "POST",
         url:
-          "/Aquando.com/A_GraficasCustom.php?opcion=leerPresets&para=" + para,
+          "/Aquando.com/A_GraficasCustom.php",
         data: {
+          opcion:"leerPresets",
+          para:para,
           arrdatos: arrdatos,
         },
         success: function (presets) {
@@ -604,12 +683,62 @@ function leerPresets(para) {
     para = "cargar";
     var arrdatos = JSON.stringify(datos);
     $(document).ready(function () {
+      // $.ajax({
+      //   type: "GET",
+      //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?opcion=leerPresets&para=' + para,
+      //   url:
+      //     "/Aquando.com/A_GraficasCustom.php?opcion=leerPresets&para=" + para,
+      //   data: {
+      //     arrdatos: arrdatos,
+      //   },
+      //   success: function (presets) {
+      //     presets_config = presets;
+      //     for (var index in presets_config) {
+      //       if (presets_config[index]["configuracion"].includes(n_preset)) {
+      //         var config = presets_config[index]["configuracion"];
+      //         config = config.substring(config.indexOf("@") + 1);
+      //         var id_est = config.substring(0, config.indexOf("?"));
+      //         var config_tags = config.substring(config.indexOf("/") + 1);
+      //         var tagsycolores = config_tags.split("/");
+      //         var config_tags_colores = new Array();
+      //         for (var index in tagsycolores) {
+      //           var info = tagsycolores[index].split(":");
+      //           config_tags_colores[info[0]] = info[1];
+      //           document.getElementById(info[0]).checked = "true";
+      //           document.getElementById("color" + info[0]).value = info[1];
+      //           if (
+      //             document.getElementById(info[0]).parentNode.style
+      //               .backgroundColor == "darkgray"
+      //           ) {
+      //             document.getElementById(
+      //               info[0]
+      //             ).parentNode.style.backgroundColor = "lightgray";
+      //           } else {
+      //             document.getElementById(
+      //               info[0]
+      //             ).parentNode.style.backgroundColor = "darkgray";
+      //           }
+      //           document.getElementById(
+      //             "color" + info[0]
+      //           ).parentNode.style.color = info[1];
+      //         }
+      //         aplicarCustom();
+      //         ajustesPresets(null);
+      //       }
+      //     }
+      //   },
+      //   error: function (e) {
+      //     console.log("error");
+      //   },
+      //   dataType: "json",
+      // });
       $.ajax({
-        type: "GET",
-        // url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?opcion=leerPresets&para=' + para,
+        type: "POST",
         url:
-          "/Aquando.com/A_GraficasCustom.php?opcion=leerPresets&para=" + para,
+          "/Aquando.com/A_GraficasCustom.php",
         data: {
+          opcion:"leerPresets",
+          para:para,
           arrdatos: arrdatos,
         },
         success: function (presets) {
@@ -690,10 +819,27 @@ function borrarPreset() {
   datos["pwd"] = pwd;
   var arrdatos = JSON.stringify(datos);
   $(document).ready(function () {
+    // $.ajax({
+    //   type: "GET",
+    //   url: "A_GraficasCustom.php?opcion=borrar&preset=" + n_preset,
+    //   data: {
+    //     arrdatos: arrdatos,
+    //   },
+    //   success: function () {
+    //     leerPresets("mostrar");
+    //     setTimeout(ajustesPresets(null), 1000);
+    //   },
+    //   error: function (e) {
+    //     console.log("error");
+    //   },
+    //   dataType: "json",
+    // });
     $.ajax({
-      type: "GET",
-      url: "A_GraficasCustom.php?opcion=borrar&preset=" + n_preset,
+      type: "POST",
+      url: "/Aquando.com/A_GraficasCustom.php",
       data: {
+        opcion:"borrar",
+        preset:n_preset,
         arrdatos: arrdatos,
       },
       success: function () {
@@ -737,11 +883,29 @@ function guardarPreset() {
 
     var arrDatosPreset = JSON.stringify(datosPreset);
     $(document).ready(function () {
+      // $.ajax({
+      //   type: "GET",
+      //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?opcion=guardar',
+      //   url: "/Aquando.com/A_GraficasCustom.php?opcion=guardar",
+      //   data: {
+      //     arrDatosPreset: arrDatosPreset,
+      //   },
+      //   success: function (info) {
+      //     document.getElementById("ajustesPresets").innerHTML +=
+      //       "preset guardado";
+      //     leerPresets("mostrar");
+      //     setTimeout(ajustesPresets(null), 1000);
+      //   },
+      //   error: function () {
+      //     console.log("error en el guardado");
+      //   },
+      //   dataType: "json",
+      // });
       $.ajax({
-        type: "GET",
-        // url: 'http://dateando.ddns.net:3000/Aquando.com/A_GraficasCustom.php?opcion=guardar',
-        url: "/Aquando.com/A_GraficasCustom.php?opcion=guardar",
+        type: "POST",
+        url: "/Aquando.com/A_GraficasCustom.php",
         data: {
+          opcion:"guardar",
           arrDatosPreset: arrDatosPreset,
         },
         success: function (info) {

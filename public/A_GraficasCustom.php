@@ -1,21 +1,28 @@
 <?php
 require '../app/Database/Database.php';
 $db = new Database();
-$opcion = $_GET['opcion'];
+// $opcion = $_GET['opcion'];
+$opcion = $_POST['opcion'];
 //obtiene los historicos de un tag en un intervalo de fechas determinado
 if ($opcion == 'tag') {
-    $id_estacion = $_GET['estacion'];
-    $id_tag = $_GET['id_tag'];
-    $fechaIni = $_GET['fechaIni'];
-    $fechaFin = $_GET['fechaFin'];
-    $meta = $_GET['meta'];
+    // $id_estacion = $_GET['estacion'];
+    // $id_tag = $_GET['id_tag'];
+    // $fechaIni = $_GET['fechaIni'];
+    // $fechaFin = $_GET['fechaFin'];
+    // $meta = $_GET['meta'];
+    $id_estacion = $_POST['estacion'];
+    $id_tag = $_POST['id_tag'];
+    $fechaIni = $_POST['fechaIni'];
+    $fechaFin = $_POST['fechaFin'];
+    $meta = $_POST['meta'];
     $ajustesMeta = explode("/", $meta);
     $info = $db->historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaIni, $fechaFin);
     echo json_encode($info);
 }
 //guarda un preset con la configuracion de tags y colores seleccionados
 if ($opcion == 'guardar') {
-    $datosPreset = json_decode($_REQUEST['arrDatosPreset']);
+    // $datosPreset = json_decode($_REQUEST['arrDatosPreset']);
+    $datosPreset = json_decode($_POST['arrDatosPreset']);
     $usuario = $datosPreset->usuario;
     $pwd = $datosPreset->pwd;
     $nombre_preset = $datosPreset->nombre;
@@ -26,7 +33,8 @@ if ($opcion == 'guardar') {
 }
 //muestra una lista con los presets guardados por el usuario
 if ($opcion == 'leerPresets') {
-    $datos = json_decode($_REQUEST['arrdatos']);
+    // $datos = json_decode($_REQUEST['arrdatos']);
+    $datos = json_decode($_POST['arrdatos']);
     $n_usuario = $datos->nombre;
     $pwd = $datos->pwd;
     $id_usuario = $db->obtenerIdUsuario($n_usuario);
@@ -47,7 +55,8 @@ if ($opcion == 'leerPresets') {
 }
 //elimina un preset
 if ($opcion == 'borrar') {
-    $datos = json_decode($_REQUEST['arrdatos']);
+    // $datos = json_decode($_REQUEST['arrdatos']);
+    $datos = json_decode($_POST['arrdatos']);
     $usuario = $datos->nombre;
     $pwd = $datos->pwd;
     $id_usuario = $db->obtenerIdUsuario($usuario);

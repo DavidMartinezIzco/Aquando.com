@@ -1,10 +1,15 @@
 <?php
 require '../app/Database/Database.php';
-if (isset($_GET['tag'])) {
-    $id_tag = $_GET['tag'];
+// if (isset($_GET['tag'])) {
+//     $id_tag = $_GET['tag'];
+// }
+// $opcion = $_GET['opcion'];
+// $id_estacion = $_GET['estacion'];
+if (isset($_POST['tag'])) {
+    $id_tag = $_POST['tag'];
 }
-$opcion = $_GET['opcion'];
-$id_estacion = $_GET['estacion'];
+$opcion = $_POST['opcion'];
+$id_estacion = $_POST['estacion'];
 $db = new Database();
 //obtiene datos historicos de un tag
 if ($opcion == "render") {
