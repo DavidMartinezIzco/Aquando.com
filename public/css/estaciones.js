@@ -11,21 +11,6 @@ sessionStorage.setItem("tagViejo", null);
 //actualizar la info de la seccion estacion
 function actualizar(id_estacion) {
   $(document).ready(function () {
-    // $.ajax({
-    //   type: "GET",
-    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Estacion.php?opcion=actualizar&estacion=' + id_estacion + '&tipo=todos',
-    //   url:
-    //     "/Aquando.com/A_Estacion.php?opcion=actualizar&estacion=" +
-    //     id_estacion +
-    //     "&tipo=todos",
-    //   success: function (datos) {
-    //     filtrarDatos(datos);
-    //   },
-    //   error: function () {
-    //     console.log("error");
-    //   },
-    //   dataType: "json",
-    // });
     $.ajax({
       type: "POST",
       url:
@@ -51,26 +36,6 @@ function trendsTags() {
   var arrTags = JSON.stringify(listaTags);
   var id_estacion = estacion;
   $(document).ready(function () {
-    // $.ajax({
-    //   type: "GET",
-    //   data: { arrTags: arrTags },
-    //   contentType: "application/json;charset=utf-8",
-    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Estacion.php?opcion=trends&estacion=' + id_estacion + '&tipo=todos',
-    //   url:
-    //     "/Aquando.com/A_Estacion.php?opcion=trends&estacion=" +
-    //     id_estacion +
-    //     "&tipo=todos",
-    //   success: function (trends) {
-    //     // console.log( trends );
-    //     montarWidgetsAnalogicos();
-    //     todoTrends = trends;
-    //     montarWidgetsDigi();
-    //   },
-    //   error: function () {
-    //     console.log("error en las trends");
-    //   },
-    //   dataType: "json",
-    // });
     $.ajax({
       type: "POST",
       data: { 
@@ -79,7 +44,6 @@ function trendsTags() {
         arrTags: arrTags,
         tipo:"todos"
        },
-      // contentType: "application/json;charset=utf-8",
       url:
         "/Aquando.com/A_Estacion.php",
       success: function (trends) {
@@ -814,25 +778,6 @@ function mostrarFormConsigna(id_consigna) {
 //muestra en caso de tenerla, la imagen correspondiente a la estacion
 function fotoEstacion(id_estacion) {
   $(document).ready(function () {
-    // $.ajax({
-    //   type: "GET",
-    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Estacion.php?opcion=foto&estacion=' + id_estacion,
-    //   url: "/Aquando.com/A_Estacion.php?opcion=foto&estacion=" + id_estacion,
-    //   success: function (foto) {
-    //     var ima;
-    //     if (foto != "") {
-    //       ima =
-    //         'linear-gradient(to left, rgba(255,255,255,0.99),rgba(255,255,255,0)),url("data:image/jpg;base64,' +
-    //         foto +
-    //         '")';
-    //       document.getElementById("seccionFoto").style.backgroundImage = ima;
-    //       document.getElementById("seccionFoto").style.backgroundSize = "cover";
-    //     }
-    //   },
-    //   error: function () {
-    //     console.log("error");
-    //   },
-    // });
     $.ajax({
       type: "POST",
       data:{
