@@ -4,15 +4,7 @@ $db = new Database();
 //declaraciones de variables
 //actualiza el listado de alarmas con la configuracion establecida por el usuario
 
-// if ($_GET['funcion'] == "actualizar") {
 if ($_POST['funcion'] == "actualizar") {
-    // $nombre = $_GET['nombre'];
-    // $pwd = $_GET['pwd'];
-    // $emp = $_GET['emp'];
-    // $orden = $_GET['orden'];
-    // $sentido = $_GET['sentido'];
-    // $fechaIni = $_GET['fechaInicio'];
-    // $fechaFin = $_GET['fechaFin'];
     $nombre = $_POST['nombre'];
     $pwd = $_POST['pwd'];
     $emp = $_POST['emp'];
@@ -96,12 +88,6 @@ if ($_POST['funcion'] == "estacion") {
     $fechaIni = $_POST['fechaInicio'];
     $fechaFin = $_POST['fechaFin'];
     $id_estacion = $_POST['estacion'];
-    // if ($_GET['funcion'] == "estacion") {
-    //     $orden = $_GET['orden'];
-    //     $sentido = $_GET['sentido'];
-    //     $fechaIni = $_GET['fechaInicio'];
-    //     $fechaFin = $_GET['fechaFin'];
-    //     $id_estacion = $_GET['estacion'];
     $alarmasEstacion = $db->obtenerAlarmasEstacion($id_estacion, $orden, $sentido, null, null);
     if ($alarmasEstacion != false) {
         $alarmasEstacionLimpio = array();
@@ -184,31 +170,22 @@ if ($_POST['funcion'] == "estacion") {
 if ($_POST['funcion'] == "reconocer") {
     $nombre = $_POST['nombre'];
     $id_alarma = $_POST['alarma'];
-    // if ($_GET['funcion'] == "reconocer") {
-    //     $nombre = $_GET['nombre'];
-    //     $id_alarma = $_GET['alarma'];
     $hora = date('Y/m/d H:i:s', time());
     $recon = $db->reconocerAlarma($id_alarma, $nombre, $hora);
     if ($recon != false) {
         echo "bien";
     } else {
-        echo "mal";
-        echo " n " . $nombre;
-        echo " i " . $id_alarma;
+        echo "fallo al reconocer la alarma";
     }
 }
 
 
 if ($_POST['funcion'] == "detalles") {
     $id = $_POST['id'];
-    // if ($_GET['funcion'] == "detalles") {
-    //     $id = $_GET['id'];
     $detalles = $db->obtenerDetallesAlarma($id);
     if ($detalles != false) {
         echo json_encode($detalles);
     } else {
-        echo $id;
-        echo ' error';
+        echo ' error extrayendo detalles (origen no historizable)';
     }
-    // $fecha_origen = $db
 }

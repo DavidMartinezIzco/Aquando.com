@@ -1,11 +1,16 @@
 <?php
 require '../app/Database/Database.php';
 $DB = new Database();
-$opcion = $_GET['opcion'];
-$id_estacion = $_GET['estacion'];
+// $opcion = $_GET['opcion'];
+// $id_estacion = $_GET['estacion'];
+// if (isset($_GET['tipo'])) {
+//     $tipo = $_GET['tipo'];
+// }
+$opcion = $_POST['opcion'];
+$id_estacion = $_POST['estacion'];
 $tipo = "";
-if (isset($_GET['tipo'])) {
-    $tipo = $_GET['tipo'];
+if (isset($_POST['tipo'])) {
+    $tipo = $_POST['tipo'];
 }
 // echo json_encode($DB->tagTrend(141, $id_estacion));
 //obtiene los ultimos datos de los tags de la estacion
@@ -18,7 +23,8 @@ if ($opcion == 'actualizar' && $tipo == 'todos') {
 }
 //obtiene los trends de las estaciones (valores de los ultimos 7 dias)
 if ($opcion == 'trends') {
-    $datosAnalog = json_decode($_REQUEST['arrTags']);
+    // $datosAnalog = json_decode($_REQUEST['arrTags']);
+    $datosAnalog = json_decode($_POST['arrTags']);
     $trendsEstacion = [];
     foreach ($datosAnalog as $indexTag => $datosTag) {
         if ($indexTag != null && $datosTag != null) {

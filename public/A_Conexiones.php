@@ -1,13 +1,16 @@
 <?php
 require '../app/Database/Database.php';
-$opcion = $_GET['opcion'];
+// $opcion = $_GET['opcion'];
+$opcion = $_POST['opcion'];
 $db = new Database();
 //calcula el tiempo que lleva una estación sin comunicar
 //determina en función del y tiempo basandose en unas reglas
 //si la estación tiene problemas no
 if ($opcion == 'conex') {
-    $nombre = $_GET['nombre'];
-    $pwd = $_GET['pwd'];
+    // $nombre = $_GET['nombre'];
+    // $pwd = $_GET['pwd'];
+    $nombre = $_POST['nombre'];
+    $pwd = $_POST['pwd'];
     $estaciones = $db->mostrarEstacionesCliente($nombre, $pwd);
     $ultimasConexiones = array();
     foreach ($estaciones as $estacion) {
@@ -16,7 +19,7 @@ if ($opcion == 'conex') {
     foreach ($ultimasConexiones as $estacion => $datos) {
         foreach ($datos[0] as $dato => $valor) {
             if ($dato == 'valor_date') {
-                if($valor != null){
+                if ($valor != null) {
                     $ultima = new DateTime;
                     $ultima = DateTime::createFromFormat('Y-m-d H:i:s', $valor);
                     $ahora = new DateTime("now");
@@ -28,7 +31,7 @@ if ($opcion == 'conex') {
                     if ($dif->days >= 2) {
                         $ultimasConexiones[$estacion][0]['estado'] = "error";
                     }
-                }else{
+                } else {
                     $ultimasConexiones[$estacion][0]['estado'] = "aviso";
                 }
             }
@@ -43,12 +46,11 @@ if ($opcion == 'conex') {
                 echo "</td>";
             }
             if ($dato == 'valor_date') {
-                if($valor != null){
+                if ($valor != null) {
                     echo "<td id='secUltima'>";
                     echo "Última conexión: " . $valor;
                     echo "</td>";
-                }
-                else{
+                } else {
                     echo "<td id='secUltima'>";
                     echo "Última conexión: desconocida";
                     echo "</td>";
@@ -75,7 +77,8 @@ if ($opcion == 'conex') {
 }
 //obtiene los nombres de una estación dado su tag
 if ($opcion == 'nom') {
-    $id_estacion = $_GET['estacion'];
+    // $id_estacion = $_GET['estacion'];
+    $id_estacion = $_POST['estacion'];
     $estacion = $db->obtenerNombreEstacion($id_estacion);
     echo ($estacion[0]['nombre_estacion']);
 }

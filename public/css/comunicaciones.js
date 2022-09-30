@@ -1,14 +1,30 @@
 function actualizarConexiones(nombre, pwd) {
   $(document).ready(function () {
+    // $.ajax({
+    //   type: "GET",
+    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Conexiones.php?nombre=' + nombre + '&pwd=' + pwd + '&opcion=conex',
+    //   url:
+    //     "/Aquando.com/A_Conexiones.php?nombre=" +
+    //     nombre +
+    //     "&pwd=" +
+    //     pwd +
+    //     "&opcion=conex",
+    //   success: function (conex) {
+    //     document.getElementById("tablaConex").innerHTML = conex;
+    //   },
+    //   error: function () {
+    //     console.log("error");
+    //   },
+    // });
     $.ajax({
-      type: "GET",
-      // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Conexiones.php?nombre=' + nombre + '&pwd=' + pwd + '&opcion=conex',
+      type: "POST",
       url:
-        "/Aquando.com/A_Conexiones.php?nombre=" +
-        nombre +
-        "&pwd=" +
-        pwd +
-        "&opcion=conex",
+        "/Aquando.com/A_Conexiones.php",
+        data:{
+          nombre:nombre,
+          pwd:pwd,
+          opcion:"conex"
+        },
       success: function (conex) {
         document.getElementById("tablaConex").innerHTML = conex;
       },
@@ -36,10 +52,25 @@ function aparecer() {
 }
 function nombrarEstacion(estacion) {
   $(document).ready(function () {
+    // $.ajax({
+    //   type: "GET",
+    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Conexiones.php?estacion=' + estacion + '&opcion=nom',
+    //   url: "/Aquando.com/A_Conexiones.php?estacion=" + estacion + "&opcion=nom",
+    //   success: function (est) {
+    //     document.getElementById("calidadSenales").innerHTML =
+    //       '<h4 id="calidadSenales"> Calidad de señal: ' + est + "</h4>";
+    //   },
+    //   error: function () {
+    //     console.log("error");
+    //   },
+    // });
     $.ajax({
-      type: "GET",
-      // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Conexiones.php?estacion=' + estacion + '&opcion=nom',
-      url: "/Aquando.com/A_Conexiones.php?estacion=" + estacion + "&opcion=nom",
+      type: "POST",
+      url: "/Aquando.com/A_Conexiones.php",
+      data:{
+        estacion:estacion,
+        opcion:"nom"
+      },
       success: function (est) {
         document.getElementById("calidadSenales").innerHTML =
           '<h4 id="calidadSenales"> Calidad de señal: ' + est + "</h4>";

@@ -20,21 +20,17 @@ CAMBIOS DE SEGURIDAD: https://stackoverflow.com/questions/40041380/using-post-vi
     - Metodos de Peticiones: sustituir GET a POST en AJAX
         AJAXs a retocar:
             - A_Alarmas.php ✓
-            - A_Conexiones.php
-            - A_Estacion.php
+            - A_Conexiones.php ✓
+            - A_Estacion.php ✓
             - A_Graficas.php
             - A_GraficasCustom.php
             - A_Informes.php
             - A_Sur.php
 
         JavaScript a Modificar:
-            - alarmas.js:
-                -actualizar  ✓
-                -filtrarPorEstacion ✓
-                -reconocer ✓
-                -detallesAlarma ✓
-
-            - comunicaciones.js
+            - alarmas.js ✓
+            - comunicaciones.js ✓
+            - estaciones.js ✓
             - gráficas.js + graficasCustom.js
             - informes.js
             - principal.js
