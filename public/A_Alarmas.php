@@ -3,14 +3,23 @@ require '../app/Database/Database.php';
 $db = new Database();
 //declaraciones de variables
 //actualiza el listado de alarmas con la configuracion establecida por el usuario
-if ($_GET['funcion'] == "actualizar") {
-    $nombre = $_GET['nombre'];
-    $pwd = $_GET['pwd'];
-    $emp = $_GET['emp'];
-    $orden = $_GET['orden'];
-    $sentido = $_GET['sentido'];
-    $fechaIni = $_GET['fechaInicio'];
-    $fechaFin = $_GET['fechaFin'];
+
+// if ($_GET['funcion'] == "actualizar") {
+if ($_POST['funcion'] == "actualizar") {
+    // $nombre = $_GET['nombre'];
+    // $pwd = $_GET['pwd'];
+    // $emp = $_GET['emp'];
+    // $orden = $_GET['orden'];
+    // $sentido = $_GET['sentido'];
+    // $fechaIni = $_GET['fechaInicio'];
+    // $fechaFin = $_GET['fechaFin'];
+    $nombre = $_POST['nombre'];
+    $pwd = $_POST['pwd'];
+    $emp = $_POST['emp'];
+    $orden = $_POST['orden'];
+    $sentido = $_POST['sentido'];
+    $fechaIni = $_POST['fechaInicio'];
+    $fechaFin = $_POST['fechaFin'];
     $idusu = $db->obtenerIdUsuario($nombre, $emp);
     $alarmas = $db->obtenerAlarmasUsuario($idusu, $orden, $sentido, $fechaIni, $fechaFin);
     $alarmasLimpio = array();
@@ -81,12 +90,18 @@ if ($_GET['funcion'] == "actualizar") {
     }
 }
 //obtiene el listado de alarmas de una estacion concreta
-if ($_GET['funcion'] == "estacion") {
-    $orden = $_GET['orden'];
-    $sentido = $_GET['sentido'];
-    $fechaIni = $_GET['fechaInicio'];
-    $fechaFin = $_GET['fechaFin'];
+if ($_POST['funcion'] == "estacion") {
+    $orden = $_POST['orden'];
+    $sentido = $_POST['sentido'];
+    $fechaIni = $_POST['fechaInicio'];
+    $fechaFin = $_POST['fechaFin'];
     $id_estacion = $_GET['estacion'];
+    // if ($_GET['funcion'] == "estacion") {
+    //     $orden = $_GET['orden'];
+    //     $sentido = $_GET['sentido'];
+    //     $fechaIni = $_GET['fechaInicio'];
+    //     $fechaFin = $_GET['fechaFin'];
+    //     $id_estacion = $_GET['estacion'];
     $alarmasEstacion = $db->obtenerAlarmasEstacion($id_estacion, $orden, $sentido, null, null);
     if ($alarmasEstacion != false) {
         $alarmasEstacionLimpio = array();
@@ -165,10 +180,14 @@ if ($_GET['funcion'] == "estacion") {
 //establece el estado como reconocida
 //establece la fecha de reconocimiento
 //establece el usuario que reconoció la alarma
-if ($_GET['funcion'] == "reconocer") {
-    $nombre = $_GET['nombre'];
-    $id_alarma = $_GET['alarma'];
-    $hora = date('Y/m/d H:i:s', time());
+
+if ($_POST['funcion'] == "reconocer") {
+    $nombre = $_POST['nombre'];
+    $id_alarma = $_POST['alarma'];
+    // if ($_GET['funcion'] == "reconocer") {
+    //     $nombre = $_GET['nombre'];
+    //     $id_alarma = $_GET['alarma'];
+    //     $hora = date('Y/m/d H:i:s', time());
     $recon = $db->reconocerAlarma($id_alarma, $nombre, $hora);
     if ($recon != false) {
         echo "bien";
@@ -176,8 +195,12 @@ if ($_GET['funcion'] == "reconocer") {
         echo "mal";
     }
 }
-if ($_GET['funcion'] == "detalles") {
-    $id = $_GET['id'];
+
+
+if ($_POST['funcion'] == "detalles") {
+    $id = $_POST['id'];
+    // if ($_GET['funcion'] == "detalles") {
+    //     $id = $_GET['id'];
     $detalles = $db->obtenerDetallesAlarma($id);
     if ($detalles != false) {
         echo json_encode($detalles);

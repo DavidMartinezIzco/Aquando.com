@@ -115,24 +115,44 @@ function actualizar(reorden) {
     var pwd = sessionStorage.getItem("pwd");
     var emp = sessionStorage.getItem("emp");
     $(document).ready(function () {
+      // $.ajax({
+      //   type: "GET",
+      //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=actualizar&nombre=' + nombre + '&pwd=' + pwd + '&emp=' + emp + '&sentido=' + sentido + '&orden=' + orden + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin,
+      //   url:
+      //     "/Aquando.com/A_Alarmas.php?funcion=actualizar&nombre=" +
+      //     nombre +
+      //     "&pwd=" +
+      //     pwd +
+      //     "&emp=" +
+      //     emp +
+      //     "&sentido=" +
+      //     sentido +
+      //     "&orden=" +
+      //     orden +
+      //     "&fechaInicio=" +
+      //     fechaInicio +
+      //     "&fechaFin=" +
+      //     fechaFin,
+      //   success: function (alarmas) {
+      //     document.getElementById("tablaAlarmas").innerHTML = alarmas;
+      //   },
+      //   error: function () {
+      //     console.log("error");
+      //   },
+      // });
       $.ajax({
-        type: "GET",
-        // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=actualizar&nombre=' + nombre + '&pwd=' + pwd + '&emp=' + emp + '&sentido=' + sentido + '&orden=' + orden + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin,
-        url:
-          "/Aquando.com/A_Alarmas.php?funcion=actualizar&nombre=" +
-          nombre +
-          "&pwd=" +
-          pwd +
-          "&emp=" +
-          emp +
-          "&sentido=" +
-          sentido +
-          "&orden=" +
-          orden +
-          "&fechaInicio=" +
-          fechaInicio +
-          "&fechaFin=" +
-          fechaFin,
+        type: "POST",
+        url: '/Aquando.com/A_Alarmas.php',
+        data:{
+          funcion:"actualizar",
+          nombre:nombre,
+          pwd:pwd,
+          emp:emp,
+          sentido:sentido,
+          orden:orden,
+          fechaInicio:fechaInicio,
+          fechaFin:fechaFin
+        },
         success: function (alarmas) {
           document.getElementById("tablaAlarmas").innerHTML = alarmas;
         },
@@ -162,20 +182,38 @@ function filtrarPorEstacion() {
       sentido = "ASC";
     }
     $(document).ready(function () {
+      // $.ajax({
+      //   type: "GET",
+      //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=estacion&sentido=' + sentido + '&orden=' + orden + '&estacion=' + id_estacion + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin,
+      //   url:
+      //     "/Aquando.com/A_Alarmas.php?funcion=estacion&sentido=" +
+      //     sentido +
+      //     "&orden=" +
+      //     orden +
+      //     "&estacion=" +
+      //     id_estacion +
+      //     "&fechaInicio=" +
+      //     fechaInicio +
+      //     "&fechaFin=" +
+      //     fechaFin,
+      //   success: function (alarmas) {
+      //     document.getElementById("tablaAlarmas").innerHTML = alarmas;
+      //   },
+      //   error: function () {
+      //     console.log("error");
+      //   },
+      // });
       $.ajax({
-        type: "GET",
-        // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=estacion&sentido=' + sentido + '&orden=' + orden + '&estacion=' + id_estacion + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin,
-        url:
-          "/Aquando.com/A_Alarmas.php?funcion=estacion&sentido=" +
-          sentido +
-          "&orden=" +
-          orden +
-          "&estacion=" +
-          id_estacion +
-          "&fechaInicio=" +
-          fechaInicio +
-          "&fechaFin=" +
-          fechaFin,
+        type: "POST",
+        url: '/Aquando.com/A_Alarmas.php',
+        data:{
+          funcion:"estacion",
+          sentido:sentido,
+          orden:orden,
+          estacion:id_estacion,
+          fechaInicio:fechaInicio,
+          fechaFin:fechaFin
+        },
         success: function (alarmas) {
           document.getElementById("tablaAlarmas").innerHTML = alarmas;
         },
@@ -190,15 +228,31 @@ function filtrarPorEstacion() {
 function reconocer(id_alarma) {
   var fecha_ack = Date.now();
   $(document).ready(function () {
+    // $.ajax({
+    //   type: "GET",
+    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
+    //   url:
+    //     "/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=" +
+    //     id_alarma +
+    //     "&nombre=" +
+    //     sessionStorage.getItem("nousu") +
+    //     "&fecha_ack=",
+    //   success: function () {
+    //     actualizar(null);
+    //   },
+    //   error: function () {
+    //     console.log("error en la update");
+    //   },
+    // });
     $.ajax({
-      type: "GET",
-      // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
-      url:
-        "/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=" +
-        id_alarma +
-        "&nombre=" +
-        sessionStorage.getItem("nousu") +
-        "&fecha_ack=",
+      type: "POST",
+      url: '/Aquando.com/A_Alarmas.php',
+      data:{
+        funcion:"reconocer",
+        alarma:id_alarma,
+        nombre: sessionStorage.getItem('nousu'),
+        fecha_ack:fecha_ack,
+      },
       success: function () {
         actualizar(null);
       },
@@ -215,10 +269,43 @@ function reordenar(opcion) {
 //recoger el nombre de la señal tambien?
 function detallesAlarma(id) {
   $(document).ready(function () {
+    // $.ajax({
+    //   type: "GET",
+    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
+    //   url: "/Aquando.com/A_Alarmas.php?funcion=detalles&id=" + id,
+    //   success: function (det) {
+    //     // console.log(det);
+    //     var nombre_estacion = det[0]["nombre_estacion"];
+    //     var nombre_tag = det[0]["nombre_tag"];
+    //     var fechas = [];
+    //     var vals = [];
+    //     for (var i = 0; i < det.length; i++) {
+    //       for (var cosa in det[i]) {
+    //         if (cosa == "fecha") {
+    //           fechas.push(det[i][cosa]);
+    //         } else {
+    //           if (
+    //             det[i][cosa] != null &&
+    //             cosa != "nombre_estacion" &&
+    //             cosa != "nombre_tag"
+    //           ) {
+    //             vals.push(det[i][cosa]);
+    //           }
+    //         }
+    //       }
+    //     }
+    //     var det_p = [fechas, vals, nombre_estacion, nombre_tag];
+    //     popDetalles(det_p);
+    //   },
+    //   error: function (e) {
+    //     console.log("error en los detalles");
+    //   },
+    //   dataType: "json",
+    // });
     $.ajax({
-      type: "GET",
-      // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
-      url: "/Aquando.com/A_Alarmas.php?funcion=detalles&id=" + id,
+      type: "POST",
+      url: "/Aquando.com/A_Alarmas.php",
+      data:{funcion:"detalles",id:id},
       success: function (det) {
         // console.log(det);
         var nombre_estacion = det[0]["nombre_estacion"];

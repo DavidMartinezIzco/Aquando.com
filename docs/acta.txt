@@ -1,14 +1,50 @@
 
-Aquando:
-- arreglar ajustes-session
-- Hover en movil (nombre usuario largos)
-- revision de datos
-- [Node-red] Sincro de OPCs (Sofrel) y PostgreSQL
+PARA ANDORID:
 
+    GRID/DISPLAY:
+    - textos widgets digis
+    - zoom general
+    - altura secciones
+    - nombre señal en los trends de estacion
+    - desde/hasta informes
+    - remake entero del fomrulario de informes para movil
 
-Maqueta:
-- mirar librerias de charts python
-- mirar librerias de controles en JS (barcode-reader)
-- 
-- mirar librerías de charts en Java
-- mirar WILDFLY
+    FUNCIONES:
+    - Eliminar btn de exportaciones
+    - Quitar debugs
+    - Investigar cambios de color en sistema
+    - bloquear "Vista Personalizada" de las gráficas de historicos
+
+CAMBIOS DE SEGURIDAD: https://stackoverflow.com/questions/40041380/using-post-via-ajax-and-php-to-send-data
+
+    - Metodos de Peticiones: sustituir GET a POST en AJAX
+        AJAXs a retocar:
+            - A_Alarmas.php ✓
+            - A_Conexiones.php
+            - A_Estacion.php
+            - A_Graficas.php
+            - A_GraficasCustom.php
+            - A_Informes.php
+            - A_Sur.php
+
+        JavaScript a Modificar:
+            - alarmas.js:
+                -actualizar  ✓
+                -filtrarPorEstacion ✓
+                -reconocer ✓
+                -detallesAlarma ✓
+
+            - comunicaciones.js
+            - gráficas.js + graficasCustom.js
+            - informes.js
+            - principal.js
+            - sur.js
+
+    - PARAMS:
+        - usar pwds cifrados
+        - renombrar id_tags,id_estacion
+        - limpiar basurilla en los REQUEST
+
+    
+    
+
