@@ -226,11 +226,11 @@ function filtrarPorEstacion() {
 }
 //establece el valor de una alarma como ACK con la fecha actual como fecha_ack y el usuasrio como reconocedor de la alarma y refresca la lista
 function reconocer(id_alarma) {
-  var fecha_ack = Date.now();
+  // var fecha_ack = Date.now();
   $(document).ready(function () {
     // $.ajax({
     //   type: "GET",
-    //   // url: 'http://dateando.ddns.net:3000/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=' + id_alarma + '&nombre=' + sessionStorage.getItem('nousu') + '&fecha_ack=',
+    //   
     //   url:
     //     "/Aquando.com/A_Alarmas.php?funcion=reconocer&alarma=" +
     //     id_alarma +
@@ -248,10 +248,9 @@ function reconocer(id_alarma) {
       type: "POST",
       url: '/Aquando.com/A_Alarmas.php',
       data:{
-        funcion:"reconocer",
-        alarma:id_alarma,
-        nombre: sessionStorage.getItem('nousu'),
-        fecha_ack:fecha_ack
+        funcion: "reconocer",
+        alarma: id_alarma,
+        nombre: sessionStorage.getItem('nousu')
       },
       success: function () {
         actualizar(null);

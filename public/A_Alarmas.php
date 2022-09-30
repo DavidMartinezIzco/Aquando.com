@@ -187,14 +187,14 @@ if ($_POST['funcion'] == "reconocer") {
     // if ($_GET['funcion'] == "reconocer") {
     //     $nombre = $_GET['nombre'];
     //     $id_alarma = $_GET['alarma'];
-    //     $hora = date('Y/m/d H:i:s', time());
+    $hora = date('Y/m/d H:i:s', time());
     $recon = $db->reconocerAlarma($id_alarma, $nombre, $hora);
     if ($recon != false) {
         echo "bien";
     } else {
         echo "mal";
-        echo "\n n" . $nombre;
-        echo "\n i" . $id_alarma;
+        echo " n " . $nombre;
+        echo " i " . $id_alarma;
     }
 }
 
