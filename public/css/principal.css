@@ -233,26 +233,26 @@
     height: 45%;
   }
 
-#digiWidTitulo {
-  height: 15%;
-  font-size: 130%;
-  font-weight: bold;
-}
+  #digiWidTitulo {
+    height: 15%;
+    font-size: 100%;
+    font-weight: bold;
+  }
 
-#digiWidOrigen {
-  font-size: 120%;
-  height: 15%;
-}
+  #digiWidOrigen {
+    font-size: 90%;
+    height: 15%;
+  }
 
-#digiWidMensaje {
-  height: 60%;
-  font-size: 500%;
-  padding: 0%;
-}
+  #digiWidMensaje {
+    height: 60%;
+    font-size: 400%;
+    padding: 0%;
+  }
 
-#digiWidMensaje i{
-  margin: 0;
-}
+  #digiWidMensaje i {
+    margin: 0;
+  }
 
   #prinDer {
     width: 96%;

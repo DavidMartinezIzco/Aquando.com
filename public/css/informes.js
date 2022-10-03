@@ -94,14 +94,26 @@ function reset() {
 //abre o cierra la cabeza de opciones para el informe
 function opciones() {
   if (screen.width < 900) {
-    if (document.getElementById("informesNorte").style.height == "15%") {
-      document.getElementById("informesNorte").style.height = 0;
-      document.getElementById("btnMenuInformes").style.top = "6%";
-      document.getElementById("informesSur").style.height = "100%";
+    if (screen.width < 600) {
+      if (document.getElementById("informesNorte").style.height == "50%") {
+        document.getElementById("informesNorte").style.height = 0;
+        document.getElementById("btnMenuInformes").style.top = "6%";
+        document.getElementById("informesSur").style.height = "100%";
+      } else {
+        document.getElementById("informesNorte").style.height = "50%";
+        document.getElementById("btnMenuInformes").style.top = "55%";
+        document.getElementById("informesSur").style.height = "100%";
+      }
     } else {
-      document.getElementById("informesNorte").style.height = "15%";
-      document.getElementById("btnMenuInformes").style.top = "19.5%";
-      document.getElementById("informesSur").style.height = "100%";
+      if (document.getElementById("informesNorte").style.height == "15%") {
+        document.getElementById("informesNorte").style.height = 0;
+        document.getElementById("btnMenuInformes").style.top = "6%";
+        document.getElementById("informesSur").style.height = "100%";
+      } else {
+        document.getElementById("informesNorte").style.height = "15%";
+        document.getElementById("btnMenuInformes").style.top = "19.5%";
+        document.getElementById("informesSur").style.height = "100%";
+      }
     }
   } else {
     if (document.getElementById("informesNorte").style.height == "20%") {
