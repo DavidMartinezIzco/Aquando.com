@@ -95,13 +95,13 @@ function reset() {
 function opciones() {
   if (screen.width < 900) {
     if (screen.width < 600) {
-      if (document.getElementById("informesNorte").style.height == "50%") {
+      if (document.getElementById("informesNorte").style.height == "30%") {
         document.getElementById("informesNorte").style.height = 0;
-        document.getElementById("btnMenuInformes").style.top = "6%";
+        document.getElementById("btnMenuInformes").style.top = "7%";
         document.getElementById("informesSur").style.height = "100%";
       } else {
-        document.getElementById("informesNorte").style.height = "50%";
-        document.getElementById("btnMenuInformes").style.top = "55%";
+        document.getElementById("informesNorte").style.height = "30%";
+        document.getElementById("btnMenuInformes").style.top = "34.5%";
         document.getElementById("informesSur").style.height = "100%";
       }
     } else {

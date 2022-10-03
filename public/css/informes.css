@@ -57,6 +57,13 @@
   bottom: 100%;
 }
 
+#opcionesEstacion{
+  margin-top:1.5%;
+  margin-left:3%;
+  width:97%;
+  height:100%;
+}
+
 #opcionesEstacion::-webkit-scrollbar {
   margin-top: 5%;
   background-color: rgb(56, 56, 56);
@@ -178,28 +185,33 @@
   #informesNorte {
     margin-top: 10%;
     padding-top: 1%;
-    height: 50%;
+    height: 30%;
+    font-size: large;
   }
-
   #btnMenuInformes {
     background-color: rgb(1, 168, 184);
     color: white;
-    top: 19.5%;
+    top: 34.5%;
     font-size: large;
     padding: 1% 2%;
     left: 45%;
   }
-
   #tipoInforme {
-    left: 2%;
-    width: 24%;
+    margin: 0% 10%;
+    left: unset;
+    right: unset;
+    width: 80%;
     font-size: 90%;
+    z-index: 99;
   }
   #camposInforme {
-    width: 40%;
+    margin: 0% 10%;
+    left: unset;
+    right: unset;
+    width: 80%;
     padding: 1.5em 1%;
     z-index: 99;
-    bottom: 150%;
+    bottom: 120%;
     height: 40%;
     margin-bottom: 1em;
   }
@@ -211,19 +223,31 @@
     z-index: 99;
     height: 50%;
   }
+
+  #opcionesEstacion{
+    margin-top:20%;
+    margin-left: 75%;
+    font-size: larger;
+    width:100%;
+    height:100%;
+  }
+
   #controles {
-    margin-top: 25%;
+    margin-top: 43%;
   }
   #controlesInforme {
-    width: 70%;
-    left: 25%;
+    width: 90%;
+    left: unset;
+    right: unset;
+    margin: 0% 5% 0% 5%;
     bottom: 200%;
   }
   #btnInforme {
     width: 20%;
     display: inline-block;
     margin: 1%;
-    z-index: 99;
+    z-index: 999;
+    padding: 0.5em 0;
   }
   #informesSur {
     padding: 3% 5%;

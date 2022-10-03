@@ -24,7 +24,7 @@
         <!--controles de fecha busqueda y otros--->
         <div id="opcionesInforme">
             <form>
-                <select style="margin-top:1.5%;margin-left:3%;width:97%; height:100%" id="opcionesEstacion" multiple
+                <select  id="opcionesEstacion" multiple
                     name="opcionesEstacion">
                     <?php
                     foreach ($_SESSION['estaciones'] as $index => $estacion) {
