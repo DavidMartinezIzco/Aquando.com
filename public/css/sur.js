@@ -6,7 +6,7 @@ function actualizarSur(entorno, nombre, pwd, estacion) {
         $.ajax({
           type: "POST",
           url: "/Aquando.com/A_Sur.php",
-          data: { caso: "general", nombre: nombre, pwd: pwd },
+          data: { caso: "general", nombre: nombre },
           success: function (alarmas) {
             document.getElementById("alarmasSur").innerHTML = alarmas;
           },

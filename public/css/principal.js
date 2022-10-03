@@ -83,7 +83,7 @@ function mapas() {
 function actualizar() {
   var datos = {};
   datos["nombre"] = sessionStorage.getItem("nousu");
-  datos["pwd"] = sessionStorage.getItem("pwd");
+  // datos["pwd"] = sessionStorage.getItem("pwd");
   var arrdatos = JSON.stringify(datos);
   $(document).ready(function () {
     $.ajax({
@@ -325,7 +325,7 @@ function confirmarAjustesWidget(wid) {
     $.ajax({
       type: "POST",
       url: "/Aquando.com/A_Principal.php",
-      data: { opcion: "confirmar", wid: widget, tag: tag, usu: usu, pwd, pwd },
+      data: { opcion: "confirmar", wid: widget, tag: tag, usu: usu },
       success: function () {
         document.getElementById("seccionAjustes").innerHTML +=
           "<br><div id='ajustesRespuesta'>widget configurado con éxito</div>";
@@ -349,7 +349,7 @@ function feedPrincipalCustom() {
     $.ajax({
       type: "POST",
       url: "/Aquando.com/A_Principal.php",
-      data: { opcion: "feed", usu: usu, pwd: pwd },
+      data: { opcion: "feed", usu: usu },
       success: function (feedAna) {
         renderPrincipalCustom(feedAna);
       },

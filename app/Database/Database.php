@@ -52,7 +52,7 @@ class Database
         }
     }
     //devuelve el nombre de la empresa de un usuario
-    public function obtenerClienteUsuario($nombre_usuario, $pwd)
+    public function obtenerClienteUsuario($nombre_usuario)
     {
         $id_usuario = $this->obtenerIdUsuario($nombre_usuario)[0]['id_usuario'];
         if ($id_usuario) {
@@ -116,7 +116,7 @@ class Database
             $consulta = "SELECT estaciones.nombre_estacion, estaciones.id_estacion, estaciones.latitud, estaciones.longitud 
             FROM usuarios INNER JOIN usuario_estacion ON usuarios.id_usuario = usuario_estacion.id_usuario 
             INNER JOIN estaciones ON usuario_estacion.id_estacion = estaciones.id_estacion 
-            WHERE usuarios.nombre ='$nombre' AND usuarios.password ='$pwd'";
+            WHERE usuarios.nombre ='$nombre' AND usuarios.hash ='$pwd'";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $estacionesArr = pg_fetch_all($resultado);
@@ -1179,7 +1179,7 @@ class Database
     // guarda un preset nuevo para un usuario
     //ejemplo de codigo --> nombre@6?/1:12#fffff-23#gggg-45#kkkkk/2:xxxxxx/3:xxxxx
     //estructura de config --> nombre@id_estacion?/tag:color-tag:color-tag:color-
-    public function guardarPreset($usuario, $pwd, $nombre, $estacion, $tags_colores)
+    public function guardarPreset($usuario, $nombre, $estacion, $tags_colores)
     {
         $codigo = $nombre . "@" . $estacion . "?";
         foreach ($tags_colores as $tag => $color) {

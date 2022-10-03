@@ -573,7 +573,7 @@ function ajustesPresets(modo) {
 function leerPresets(para) {
   var datos = {};
   datos["nombre"] = usu;
-  datos["pwd"] = pwd;
+  // datos["pwd"] = pwd;
   if (para == null || para == "mostrar") {
     para = "mostrar";
     var arrdatos = JSON.stringify(datos);
@@ -683,7 +683,7 @@ function borrarPreset() {
     ].value;
   var datos = {};
   datos["nombre"] = usu;
-  datos["pwd"] = pwd;
+  // datos["pwd"] = pwd;
   var arrdatos = JSON.stringify(datos);
   $(document).ready(function () {
     $.ajax({
@@ -728,7 +728,7 @@ function guardarPreset() {
       ).value;
     }
     datosPreset["usuario"] = usu;
-    datosPreset["pwd"] = pwd;
+    // datosPreset["pwd"] = pwd;
     datosPreset["nombre"] = nombre_preset;
     datosPreset["id_estacion"] = document.getElementById("opciones").value;
     datosPreset["tags_colores"] = tags_colores;

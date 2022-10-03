@@ -6,7 +6,7 @@ $db = new Database();
 
 if ($_POST['funcion'] == "actualizar") {
     $nombre = $_POST['nombre'];
-    $pwd = $_POST['pwd'];
+    // $pwd = $_POST['pwd'];
     $emp = $_POST['emp'];
     $orden = $_POST['orden'];
     $sentido = $_POST['sentido'];

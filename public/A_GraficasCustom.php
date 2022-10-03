@@ -18,18 +18,18 @@ if ($opcion == 'guardar') {
 
     $datosPreset = json_decode($_POST['arrDatosPreset']);
     $usuario = $datosPreset->usuario;
-    $pwd = $datosPreset->pwd;
+    // $pwd = $datosPreset->pwd;
     $nombre_preset = $datosPreset->nombre;
     $id_estacion = $datosPreset->id_estacion;
     $tags_colores = $datosPreset->tags_colores;
-    $resultado = $db->guardarPreset($usuario, $pwd, $nombre_preset, $id_estacion, $tags_colores);
+    $resultado = $db->guardarPreset($usuario, $nombre_preset, $id_estacion, $tags_colores);
     echo $resultado;
 }
 //muestra una lista con los presets guardados por el usuario
 if ($opcion == 'leerPresets') {
     $datos = json_decode($_POST['arrdatos']);
     $n_usuario = $datos->nombre;
-    $pwd = $datos->pwd;
+    // $pwd = $datos->pwd;
     $id_usuario = $db->obtenerIdUsuario($n_usuario);
     if ($id_usuario) {
         $presets = $db->leerPresets($id_usuario);
@@ -50,7 +50,7 @@ if ($opcion == 'leerPresets') {
 if ($opcion == 'borrar') {
     $datos = json_decode($_POST['arrdatos']);
     $usuario = $datos->nombre;
-    $pwd = $datos->pwd;
+    // $pwd = $datos->pwd;
     $id_usuario = $db->obtenerIdUsuario($usuario);
     if ($id_usuario) {
         $preset = $_GET['preset'];

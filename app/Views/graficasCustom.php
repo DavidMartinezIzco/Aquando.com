@@ -151,7 +151,7 @@
 var chartDom = document.getElementById('grafica');
 var graficoCustom = echarts.init(chartDom);
 var usu = '<?php echo $_SESSION['nombre'] ?>';
-var pwd = '<?php echo $_SESSION['pwd'] ?>';
+var pwd = '<?php echo $_SESSION['hpwd'] ?>';
 //Falta de momento: actualizar los controles, control de colores en las series
 window.onload = function() {
     iniciar();

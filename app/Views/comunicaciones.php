@@ -20,7 +20,7 @@ window.onload = function() {
     pantalla();
     var usu = '<?php echo $_SESSION['nombre'] ?>';
     sessionStorage.setItem('usu', usu);
-    var pwd = '<?php echo $_SESSION['pwd'] ?>';
+    var pwd = '<?php echo $_SESSION['hpwd'] ?>';
     sessionStorage.setItem('pwd', pwd);
     actualizarSur('general', usu, pwd, null);
     setInterval(actualizarConexiones(usu, pwd), 1000 * 60 * 5);

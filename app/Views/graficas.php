@@ -60,7 +60,7 @@
 window.onload = function() {
     pantalla();
     var usu = '<?php echo $_SESSION['nombre'] ?>';
-    var pwd = '<?php echo $_SESSION['pwd'] ?>';
+    var pwd = '<?php echo $_SESSION['hpwd'] ?>';
     comprobarTiempo();
     iniciar();
     setInterval(actualizarSur('general', usu, pwd, null), 20000);

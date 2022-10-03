@@ -6,7 +6,7 @@ $db = new Database();
 //utiliza la config general
 if ($caso == "general") {
     $nombre = $_POST['nombre'];
-    $pwd = $_POST['pwd'];
+    // $pwd = $_POST['pwd'];
     $id_usuario = $db->obtenerIdUsuario($nombre);
     $alarmasSur = $db->alarmasSur($id_usuario);
     echo "<tr>        

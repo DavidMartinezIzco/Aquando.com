@@ -121,7 +121,7 @@ function actualizar(reorden) {
         data: {
           funcion: "actualizar",
           nombre: nombre,
-          pwd: pwd,
+          // pwd: pwd,
           emp: emp,
           sentido: sentido,
           orden: orden,

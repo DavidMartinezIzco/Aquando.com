@@ -63,7 +63,7 @@ class Inicio extends BaseController
             //comrpueba que exista un usuario con ese nombre y en ese caso verifica contraseñas
             if ($this->usuario->existeUsuario() == true) {
                 //mirar contra y eso
-                //  $hpwd = password_hash($pwd, PASSWORD_DEFAULT, array("cost" => 14));
+                $hpwd = password_hash($pwd, PASSWORD_DEFAULT, array("cost" => 14));
                 //  echo $hpwd;
                 $id_usu = $this->usuario->obtenerIdUsuario($nombre);
                 if ($id_usu != null) {
@@ -72,6 +72,7 @@ class Inicio extends BaseController
                         $this->usuario->obtenerEstacionesUsuario();
                         $_SESSION['nombre'] = $nombre;
                         $_SESSION['pwd'] = $pwd;
+                        $_SESSION['hpwd'] = $hpwd;
                         return $this->index();
                     } else {
                         echo '<script language="javascript">alert("Contraseña incorrecta")</script>';

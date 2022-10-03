@@ -50,7 +50,7 @@ if ($_POST['opcion'] == 'confirmar') {
     $widget = $_POST['wid'];
     $tag = $_POST['tag'];
     $usu = $_POST['usu'];
-    $pwd = $_POST['pwd'];
+    // $pwd = $_POST['pwd'];
     $id_usuario = $db->obtenerIdUsuario($usu);
     if ($id_usuario) {
         $db->confirmarWidget($widget, $tag, $id_usuario[0]['id_usuario']);
@@ -59,10 +59,9 @@ if ($_POST['opcion'] == 'confirmar') {
 //recoge los datos para el grid de widgets derecho en función de los ajustes del usuario
 if ($_POST['opcion'] == 'feed') {
     $usu = $_POST['usu'];
-    $pwd = $_POST['pwd'];
+    // $pwd = $_POST['pwd'];
     $id_usuario = $db->obtenerIdUsuario($usu);
     if ($id_usuario) {
         echo json_encode($db->feedPrincipalCustom($id_usuario[0]['id_usuario']));
-        // $datosFeedCustom = $db->feedPrincipalCustom($id_usuario[0]['id_usuario']);
     }
 }

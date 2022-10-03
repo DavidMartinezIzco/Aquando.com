@@ -69,7 +69,7 @@
 window.onload = function() {
     inicioFin();
     var usu = '<?php echo $_SESSION['nombre'] ?>';
-    var pwd = '<?php echo $_SESSION['pwd'] ?>';
+    var pwd = '<?php echo $_SESSION['hpwd'] ?>';
     sessionStorage.setItem('nousu', usu);
     sessionStorage.setItem('pwd', pwd);
     actualizar(null);
