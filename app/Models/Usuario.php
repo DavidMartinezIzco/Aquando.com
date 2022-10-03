@@ -9,6 +9,7 @@ class Usuario
     private $nombre;
     private $contrasena;
     private $cliente;
+    public $estacionesUsuario;
     private $DB;
 
 
@@ -16,8 +17,8 @@ class Usuario
     {
         $this->nombre = $nombre;
         $this->contrasena = $contrasena;
-
-
+        // $this->hash = password_hash($contrasena, PASSWORD_DEFAULT, array("cost" => 14));
+        
         //falta: cambiar a nueva BD
         $this->DB = new Database($this->nombre, $this->contrasena);
     }
@@ -36,10 +37,11 @@ class Usuario
         }
     }
 
-    public function obtenerEstacionesUsuario()
+    public function obtenerEstacionesUsuario($hash)
     {
         try {
-            return $this->DB->mostrarEstacionesCliente($this->nombre, $this->contrasena);
+            $this->estacionesUsuario = $this->DB->mostrarEstacionesCliente($this->nombre, $hash);
+            return $this->estacionesUsuario;
         } catch (Throwable $e) {
             return false;
         }
@@ -68,10 +70,8 @@ class Usuario
         }
     }
 
-    public function obtenerTagsEstaciones()
+    public function obtenerTagsEstaciones($estaciones)
     {
-
-        $estaciones = $this->obtenerEstacionesUsuario();
         $tagsEstacion = array();
         foreach ($estaciones as $estacion) {
             $id_estacion = $estacion['id_estacion'];
@@ -83,7 +83,7 @@ class Usuario
     public function ultimasConexiones()
     {
 
-        $estaciones = $this->obtenerEstacionesUsuario();
+        $estaciones = $this->estacionesUsuario;
         if ($estaciones != false) {
             $ultimasConexiones = array();
             foreach ($estaciones as $index => $estacion) {
@@ -134,6 +134,8 @@ class Usuario
     {
         return $this->contrasena;
     }
+
+
     /**
      * Set the value of contrasena
      *
