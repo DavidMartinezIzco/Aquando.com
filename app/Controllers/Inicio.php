@@ -30,7 +30,7 @@ class Inicio extends BaseController
             if (isset($_SESSION['nombre'])) {
                 $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
                 $_SESSION['nombre_cliente'] = $this->usuario->getCliente();
-                $datos['estaciones'] = $this->usuario->obtenerEstacionesUsuario();
+                $datos['estaciones'] = $this->usuario->obtenerEstacionesUsuario($_SESSION['hpwd']);
                 $_SESSION['estaciones'] = $datos['estaciones'];
                 $datos['estacionesUbis'] = $this->usuario->ultimasConexiones();
                 $_SESSION['seccion'] = "prin";
@@ -63,16 +63,15 @@ class Inicio extends BaseController
             //comrpueba que exista un usuario con ese nombre y en ese caso verifica contraseñas
             if ($this->usuario->existeUsuario() == true) {
                 //mirar contra y eso
-                $hpwd = password_hash($pwd, PASSWORD_DEFAULT, array("cost" => 14));
-                //  echo $hpwd;
                 $id_usu = $this->usuario->obtenerIdUsuario($nombre);
                 if ($id_usu != null) {
                     $conSys = new Contras($id_usu);
+                    // $hpwd = $conSys->hashear($pwd);
                     if ($conSys->loginUsuario($pwd)) {
-                        $this->usuario->obtenerEstacionesUsuario();
+                        $_SESSION['hpwd'] = $conSys->getHash();
+                        $_SESSION['estaciones'] = $this->usuario->obtenerEstacionesUsuario($_SESSION['hpwd']);
                         $_SESSION['nombre'] = $nombre;
                         $_SESSION['pwd'] = $pwd;
-                        $_SESSION['hpwd'] = $hpwd;
                         return $this->index();
                     } else {
                         echo '<script language="javascript">alert("Contraseña incorrecta")</script>';
@@ -121,7 +120,7 @@ class Inicio extends BaseController
         if (isset($_SESSION['nombre'])) {
             $_SESSION['seccion'] = "graficos";
             $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
-            $datos['tagsEstaciones'] = $usuario->obtenerTagsEstaciones();
+            $datos['tagsEstaciones'] = $usuario->obtenerTagsEstaciones($usuario->obtenerEstacionesUsuario($_SESSION['hpwd']));
             if (isset($_POST['btnGraf']) && $_POST['btnGraf'] == 'rapida') {
                 return view('graficas', $datos);
             } else {
@@ -141,7 +140,7 @@ class Inicio extends BaseController
             } else {
                 $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
                 //alarmas desde un mes
-                $estaciones = $this->usuario->obtenerEstacionesUsuario();
+                $estaciones = $this->usuario->obtenerEstacionesUsuario($_SESSION['hpwd']);
                 $datos['estaciones'] = $estaciones;
             }
             return view('alarmas', $datos);

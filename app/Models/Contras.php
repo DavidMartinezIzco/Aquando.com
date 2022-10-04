@@ -6,6 +6,7 @@ class Contras
     // Almacenamiento de datos del usuario:
     public $uData;
     private $db;
+    public $hash;
     // Constructor simulado:
     public function __construct($id)
     {
@@ -20,6 +21,7 @@ class Contras
     public function loginUsuario($password)
     {
         if (password_verify($password, $this->uData[0]['hash'])) {
+            $this->hash = $this->uData[0]['hash'];
             if (password_needs_rehash($this->uData[0]['hash'], self::HASH, ['cost' => self::COST])) {
                 $this->setPassword($password);
                 $this->save();
@@ -35,7 +37,10 @@ class Contras
         $this->uData[0]['hash'] = password_hash($password, self::HASH, ['cost' => self::COST]);
     }
     public function hashear($pwd)
-    {
+    {   
         return password_hash($pwd, self::HASH, ['cost' => self::COST]);
+    }
+    public function getHash(){
+        return $this->hash;
     }
 }
