@@ -135,11 +135,11 @@ function renderFeedDigi() {
     }
     if (pos == 1) {
       divSup +=
-        '<div class="digiIzq"><div id="digiWidTitulo" maxlength="20">' +
+        '<div class="digiIzq"><div id="digiWidTitulo" maxlength="20ch">' +
         feedDigital[tag]["nombre"] +
-        '</div><div id="digiWidOrigen" maxlength="20">' +
+        '</div><div id="digiWidOrigen" maxlength="20ch">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje" maxlength="20">' +
+        '</div><div id="digiWidMensaje" maxlength="20ch">' +
         // '<span class="tooltiptext">' +
         // feedDigital[tag]["valor_alarma"] +
         // "</span>" +
@@ -148,11 +148,11 @@ function renderFeedDigi() {
     }
     if (pos == 2) {
       divSup +=
-        '<div class="digiDer"><div id="digiWidTitulo" maxlength="20">' +
+        '<div class="digiDer"><div id="digiWidTitulo" maxlength="20ch">' +
         feedDigital[tag]["nombre"] +
-        '</div><div id="digiWidOrigen" maxlength="20">' +
+        '</div><div id="digiWidOrigen" maxlength="20ch">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje" maxlength="20">' +
+        '</div><div id="digiWidMensaje" maxlength="20ch">' +
         // '<span class="tooltiptext">' +
         // feedDigital[tag]["valor_alarma"] +
         // "</span>" +
@@ -161,11 +161,11 @@ function renderFeedDigi() {
     }
     if (pos == 3) {
       divInf +=
-        '<div class="digiIzq"><div id="digiWidTitulo" maxlength="20">' +
+        '<div class="digiIzq"><div id="digiWidTitulo" maxlength="20ch">' +
         feedDigital[tag]["nombre"] +
-        '</div><div id="digiWidOrigen" maxlength="20">' +
+        '</div><div id="digiWidOrigen" maxlength="20ch">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje" maxlength="20">' +
+        '</div><div id="digiWidMensaje" maxlength="20ch">' +
         // '<span class="tooltiptext">' +
         // feedDigital[tag]["valor_alarma"] +
         // "</span>" +
@@ -174,11 +174,11 @@ function renderFeedDigi() {
     }
     if (pos == 4) {
       divInf +=
-        '<div class="digiDer"><div id="digiWidTitulo" maxlength="20">' +
+        '<div class="digiDer"><div id="digiWidTitulo" maxlength="20ch">' +
         feedDigital[tag]["nombre"] +
-        '</div><div id="digiWidOrigen" maxlength="20">' +
+        '</div><div id="digiWidOrigen" maxlength="20ch">' +
         feedDigital[tag]["estacion"] +
-        '</div><div id="digiWidMensaje" maxlength="20">' +
+        '</div><div id="digiWidMensaje" maxlength="20ch">' +
         // '<span class="tooltiptext">' +
         // feedDigital[tag]["valor_alarma"] +
         // "</span>" +

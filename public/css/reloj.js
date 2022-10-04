@@ -56,7 +56,7 @@ function comprobarTiempo() {
   if (document.getElementById("seccion").value != "login")
     formatearTiempo(tiempoMax - tiempoStandBy);
   tiempoStandBy++;
-  if (tiempoStandBy == tiempoMax) {
+  if (tiempoStandBy >= tiempoMax) {
     window.location.href =
       "http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/?log=out";
   }

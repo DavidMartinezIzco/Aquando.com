@@ -62,11 +62,12 @@ class Inicio extends BaseController
             $this->usuario = new Usuario($nombre, $pwd);
             //comrpueba que exista un usuario con ese nombre y en ese caso verifica contraseñas
             if ($this->usuario->existeUsuario() == true) {
+                
                 //mirar contra y eso
                 $id_usu = $this->usuario->obtenerIdUsuario($nombre);
                 if ($id_usu != null) {
                     $conSys = new Contras($id_usu);
-                    // $hpwd = $conSys->hashear($pwd);
+                    // echo $conSys->hashear($pwd);
                     if ($conSys->loginUsuario($pwd)) {
                         $_SESSION['hpwd'] = $conSys->getHash();
                         $_SESSION['estaciones'] = $this->usuario->obtenerEstacionesUsuario($_SESSION['hpwd']);

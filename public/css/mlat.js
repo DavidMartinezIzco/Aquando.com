@@ -119,13 +119,14 @@ function pantalla() {
     document.getElementsByClassName("btnHerrGraf")[0].disabled = "true";
     document.getElementById("btnGrafRap").disabled = "true";
     document.getElementById("btnGrafPer").disabled = "true";
-    var defectoAncho = 450;
+    var defectoAncho = 550;
     var zoom = 100;
     var relAncho = (zoom * ancho) / defectoAncho;
+    document.body.style.height= window.innerHeight;
+    document.body.style.width = window.innerWidth;
+    document.getElementById("menuIzq").style.height = 2 * window.innerHeight + 'px';
     document.body.style.zoom = relAncho + "%";
     var defAltoVen = 949;
-    document.getElementById("menuIzq").style.height =
-      2 * window.innerHeight + "px";
     if (document.getElementById("alarmasSur") != undefined) {
       var relAlto = window.innerHeight / defAltoVen;
       var alAl = 150 * relAlto + "px";
