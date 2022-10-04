@@ -5,7 +5,7 @@ PARA ANDORID:
     - textos widgets digis
     - zoom general
     - altura secciones
-    - nombre señal en los trends de estacion
+    - nombre señal en los trends de estacion (??)
     - desde/hasta informes ✓
     - remake entero del fomrulario de informes para movil ✓
 

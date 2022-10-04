@@ -90,8 +90,8 @@ function pantalla() {
   document.getElementById("menuIzq").style.height = altoVen + "px";
   var ancho = window.innerWidth;
   if (ancho > 600 && ancho < 900) {
-    document.getElementById("btnGrafRap").disabled = false;
-    document.getElementById("btnGrafPer").disabled = true;
+    document.getElementById("btnGrafRap").disabled = "false";
+    document.getElementById("btnGrafPer").disabled = "true";
     document.getElementById('iconoAyuda').style.display = 'none';
     var defectoAncho = 1920;
     var relAncho = (window.innerWidth / defectoAncho) * 90;
@@ -118,10 +118,10 @@ function pantalla() {
       }
     }
   } else {
-    document.getElementsByClassName("btnHerrGraf")[0].disabled = true;
-    document.getElementById("btnGrafRap").disabled = true;
-    document.getElementById("btnGrafPer").disabled = true;
-    var defectoAncho = 500;
+    document.getElementsByClassName("btnHerrGraf")[0].disabled = "true";
+    document.getElementById("btnGrafRap").disabled = "true";
+    document.getElementById("btnGrafPer").disabled = "true";
+    var defectoAncho = 600;
     var zoom = 100;
     var relAncho = (zoom * ancho) / defectoAncho;
     document.body.style.zoom = relAncho + "%";

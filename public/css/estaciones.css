@@ -501,6 +501,8 @@
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
   color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #digiWidMensaje {
@@ -513,6 +515,8 @@
   background-color: white;
   color: rgb(85, 85, 85);
   transition: 0s;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #digiWidMensaje i {
@@ -541,7 +545,6 @@
 }
 
 @media only screen and (max-width: 600px) {
-  
   #conPrincipal {
     overflow-y: scroll;
   }
@@ -551,7 +554,6 @@
     width: 90%;
     margin: 8% 5% 5% 5%;
     height: min-content;
-    
   }
   #seccionSup {
     font-size: 150%;
@@ -593,7 +595,7 @@
   #digiWidTitulo {
     border-radius: 0px;
     font-size: larger;
-    padding:2% 0;
+    padding: 2% 0;
   }
   #estacionCentro {
     position: unset;
@@ -601,7 +603,7 @@
     bottom: unset;
     width: 90%;
     margin: 10% 5% 5% 5%;
-    height:min-content;
+    height: min-content;
     border-radius: 15px;
     overflow: hidden;
     padding: 0px;
@@ -630,7 +632,7 @@
     width: 100%;
     margin: 0px 0 -5px 0;
     /* border: 1px solid rgb(1, 168, 184); */
-    border:none;
+    border: none;
     border-radius: 0px;
     background-color: whitesmoke;
   }
@@ -655,13 +657,13 @@
     text-align: center;
   }
   .panelNegro {
-    padding:1em 0em;
+    padding: 1em 0em;
     width: 50%;
     float: left;
     text-align: center;
   }
   .panelRojo {
-    padding:1em 0em;
+    padding: 1em 0em;
     width: 50%;
     float: right;
   }
@@ -684,7 +686,7 @@
     bottom: unset;
     width: 90%;
     margin: 0.5% 5% 330px 5%;
-    height:min-content;
+    height: min-content;
     border-radius: 10px;
     overflow: hidden;
     padding: 0px;
