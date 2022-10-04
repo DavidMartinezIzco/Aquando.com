@@ -2,18 +2,18 @@
 PARA ANDORID:
 
     GRID/DISPLAY:
-    - textos widgets digis
-    - zoom general
+    - textos widgets digis (?✓?)
+    - zoom general (?✓?)
     - altura secciones
-    - nombre señal en los trends de estacion (??)
+    - nombre señal en los trends de estacion (?✓?)
     - desde/hasta informes ✓
     - remake entero del fomrulario de informes para movil ✓
 
     FUNCIONES:
-    - Eliminar btn de exportaciones
-    - Quitar debugs
+    - Eliminar btn de exportaciones (...)
+    - Quitar debugs ✓
     - Investigar cambios de color en sistema
-    - bloquear "Vista Personalizada" de las gráficas de historicos
+    - bloquear "Vista Personalizada" de las gráficas de historicos ✓
 
 CAMBIOS DE SEGURIDAD: https://stackoverflow.com/questions/40041380/using-post-via-ajax-and-php-to-send-data
 

@@ -53,7 +53,6 @@ function abrirMenu() {
     document.getElementById("btnMenuIzq").style.visibility = "hidden";
     document.getElementById("menuIzq").value = "abierto";
   }
-  
 }
 //cierra el menu y aplica las nuevas dimensiones
 function cerrarMenu() {
@@ -65,8 +64,7 @@ function cerrarMenu() {
     document.getElementById("btnMenuIzq").style.visibility = "visible";
     document.getElementById("btnMenuIzq").style.left = "0%";
     document.getElementById("menuIzq").value = "cerrado";
-  }
-  
+  } 
 }
 //despliega el menu de inactividad
 function tiempoOpciones() {

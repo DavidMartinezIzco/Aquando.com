@@ -22,7 +22,7 @@
             <script src="css/reloj.js"></script>
             <script src="css/ayuda.js"></script>
             <script src="sw.js"></script>
-            <script src="sw-register.js"></script>
+            
             <script src="css/desconectado.js"></script>
             <script src="css/sur.js"></script>
             <link rel="manifest" href="/manifest.json">';
@@ -39,7 +39,7 @@
                 <script src="../../css/desconectado.js"></script>
                 <script src="../../css/sur.js"></script>
                 <script src="../../sw.js"></script>
-                <script src="../../sw-register.js"></script>
+                
                 <link rel="manifest" href="../../manifest.json">';
         }
     } else {
@@ -55,7 +55,6 @@
                 <script src="../../css/desconectado.js"></script>
                 <script src="../../css/sur.js"></script>
                 <script src="../../sw.js"></script>
-                <script src="../../sw-register.js"></script>
                 <link rel="manifest" href="../../manifest.json">';
     }
     ?>
@@ -358,8 +357,6 @@ if (isset($_GET['log'])) {
             abrirCerrar();
         }
     }
-    
-
     </script>
     <!--seccion flotante de ayuda--->
     <div id="conAyuda">
