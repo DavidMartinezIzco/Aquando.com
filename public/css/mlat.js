@@ -64,7 +64,7 @@ function cerrarMenu() {
     document.getElementById("btnMenuIzq").style.visibility = "visible";
     document.getElementById("btnMenuIzq").style.left = "0%";
     document.getElementById("menuIzq").value = "cerrado";
-  } 
+  }
 }
 //despliega el menu de inactividad
 function tiempoOpciones() {
@@ -90,7 +90,7 @@ function pantalla() {
   if (ancho > 600 && ancho < 900) {
     document.getElementById("btnGrafRap").disabled = "false";
     document.getElementById("btnGrafPer").disabled = "true";
-    document.getElementById('iconoAyuda').style.display = 'none';
+    document.getElementById("iconoAyuda").style.display = "none";
     var defectoAncho = 1920;
     var relAncho = (window.innerWidth / defectoAncho) * 90;
     document.body.style.zoom = relAncho + "%";
@@ -122,9 +122,10 @@ function pantalla() {
     var defectoAncho = 550;
     var zoom = 100;
     var relAncho = (zoom * ancho) / defectoAncho;
-    document.body.style.height= window.innerHeight;
+    document.body.style.height = window.innerHeight;
     document.body.style.width = window.innerWidth;
-    document.getElementById("menuIzq").style.height = 2 * window.innerHeight + 'px';
+    document.getElementById("menuIzq").style.height =
+      2 * window.innerHeight + "px";
     document.body.style.zoom = relAncho + "%";
     var defAltoVen = 949;
     if (document.getElementById("alarmasSur") != undefined) {

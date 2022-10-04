@@ -62,7 +62,7 @@ class Inicio extends BaseController
             $this->usuario = new Usuario($nombre, $pwd);
             //comrpueba que exista un usuario con ese nombre y en ese caso verifica contraseñas
             if ($this->usuario->existeUsuario() == true) {
-                
+
                 //mirar contra y eso
                 $id_usu = $this->usuario->obtenerIdUsuario($nombre);
                 if ($id_usu != null) {
