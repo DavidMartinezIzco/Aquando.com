@@ -205,9 +205,9 @@ function montarWidgetsDigi() {
       }
     }
     widg =
-      '<div class="widDigi"><div id="digiWidTitulo">' +
+      '<div class="widDigi"><div id="digiWidTitulo" maxlength="20">' +
       datosDigi[indexDato]["nombre_tag"] +
-      '</div><div id="digiWidMensaje">' +
+      '</div><div id="digiWidMensaje" maxlength="20">' +
       iconoAlarma +
       '</div><span class="tooltiptext">' +
       msg +

@@ -24,8 +24,7 @@
         <!--controles de fecha busqueda y otros--->
         <div id="opcionesInforme">
             <form>
-                <select  id="opcionesEstacion" multiple
-                    name="opcionesEstacion">
+                <select id="opcionesEstacion" multiple name="opcionesEstacion">
                     <?php
                     foreach ($_SESSION['estaciones'] as $index => $estacion) {
                         echo '<option id=est' . $estacion['id_estacion'] . ' value=' . $estacion['id_estacion'] . ' name="' . $estacion['nombre_estacion'] . '" >' . $estacion['nombre_estacion'] . '</option>';
@@ -38,9 +37,9 @@
         <div id="camposInforme">
             <form>
                 <input type="date" id="fechaFin" name="fechaFin" value="2022-01-01">
-                <label for="fecha">Desde</label>
-                <input type="date" id="fechaInicio" name="fechaInicio">
                 <label for="fecha">Hasta</label>
+                <input type="date" id="fechaInicio" name="fechaInicio">
+                <label for="fecha">Desde</label>
             </form>
         </div>
         <!-- botonera para los informes -->

@@ -6,8 +6,8 @@ PARA ANDORID:
     - zoom general
     - altura secciones
     - nombre señal en los trends de estacion
-    - desde/hasta informes
-    - remake entero del fomrulario de informes para movil
+    - desde/hasta informes ✓
+    - remake entero del fomrulario de informes para movil ✓
 
     FUNCIONES:
     - Eliminar btn de exportaciones
