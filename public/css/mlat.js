@@ -119,7 +119,7 @@ function pantalla() {
     document.getElementsByClassName("btnHerrGraf")[0].disabled = "true";
     document.getElementById("btnGrafRap").disabled = "true";
     document.getElementById("btnGrafPer").disabled = "true";
-    var defectoAncho = 600;
+    var defectoAncho = 450;
     var zoom = 100;
     var relAncho = (zoom * ancho) / defectoAncho;
     document.body.style.zoom = relAncho + "%";
