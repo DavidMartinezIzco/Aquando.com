@@ -938,10 +938,10 @@ class Database
                         $id = $tag['id_tag'];
                         $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
                         FROM alarmas 
-                        --WHERE estado IN(1,3) AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days' 
-                        WHERE id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '30 days' 
+                        WHERE estado IN(1,3) AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days' 
                         AND NOT valor_alarma = '' 
                         ORDER BY fecha_origen DESC LIMIT 1";
+                        //WHERE id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days' 
                         $resAlarmas = pg_query($this->conexion, $conAlarma);
                         if ($this->consultaExitosa($resAlarmas)) {
                             $alarmasTagDigi = pg_fetch_all($resAlarmas);
