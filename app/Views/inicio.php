@@ -21,11 +21,11 @@
             <script src="css/mlat.js"></script>
             <script src="css/reloj.js"></script>
             <script src="css/ayuda.js"></script>
-            <script src="sw.js"></script>
-            
             <script src="css/desconectado.js"></script>
             <script src="css/sur.js"></script>
-            <link rel="manifest" href="/manifest.json">';
+
+            <link rel="manifest" href="manifest.json">
+            <script src="sw.js"></script>';
         } else {
             echo '<link rel="shortcut icon" type="image/png" href="../../favicon.ico" />
                 <link rel="stylesheet" type="text/css" href="../../css/estilos.css">
@@ -38,9 +38,9 @@
                 <script src="../../css/ayuda.js"></script>
                 <script src="../../css/desconectado.js"></script>
                 <script src="../../css/sur.js"></script>
-                <script src="../../sw.js"></script>
-                
-                <link rel="manifest" href="../../manifest.json">';
+
+                <link rel="manifest" href="../../manifest.json">
+                <script src="../../sw.js"></script>';
         }
     } else {
         echo '<link rel="shortcut icon" type="image/png" href="../../favicon.ico" />
@@ -54,8 +54,9 @@
                 <script src="../../css/ayuda.js"></script>
                 <script src="../../css/desconectado.js"></script>
                 <script src="../../css/sur.js"></script>
-                <script src="../../sw.js"></script>
-                <link rel="manifest" href="../../manifest.json">';
+                
+                <link rel="manifest" href="../../manifest.json">
+                <script src="../../sw.js"></script>';
     }
     ?>
     <!--cosillas de Fuentes-->
