@@ -35,6 +35,37 @@ class Database
             return false;
         }
     }
+    //obtiene el nombre de un tag concreto
+    //uso interno
+    private function obtenerNombreTag($id_tag)
+    {
+        if ($this->conectar()) {
+            $con = "SELECT nombre_tag FROM tags WHERE id_tag = " . $id_tag;
+            $res = pg_query($this->conexion, $con);
+            if ($this->consultaExitosa($res)) {
+                return pg_fetch_all($res)[0]['nombre_tag'];
+            }
+        }
+    }
+    //obtiene (si existen) las consignas de un tag
+    //uso interno
+    private function obtenerConsignasTag($id_tag)
+    {
+        $nombre_tag = $this->obtenerNombreTag($id_tag);
+        if ($this->conectar()) {
+            $con = "SELECT estaciones.nombre_estacion,tags.nombre_tag,tags.unidad, datos_valores.valor_float 
+            from datos_valores inner join tags on tags.id_tag = datos_valores.id_tag 
+            inner join estacion_tag on estacion_tag.id_tag = tags.id_tag
+            inner join estaciones on estaciones.id_estacion = estacion_tag.id_estacion
+            WHERE tags.nombre_tag LIKE('Consigna " . $nombre_tag . "%') and estaciones.id_estacion = (select id_estacion from estacion_tag where id_tag = " . $id_tag . ")
+            order by estaciones.nombre_estacion";
+            $res = pg_query($this->conexion, $con);
+            if ($this->consultaExitosa($res)) {
+                return pg_fetch_all($res);
+            }
+        }
+        return false;
+    }
     //obtiene el ID de un usuario dadas sus credenciales en caso de que exista
     //apaño para algunas secciones
     public function obtenerIdUsuario($nombre)
@@ -908,7 +939,7 @@ class Database
                         $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
                         FROM alarmas 
                         --WHERE estado IN(1,3) AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days' 
-                        WHERE id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days' 
+                        WHERE id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '30 days' 
                         AND NOT valor_alarma = '' 
                         ORDER BY fecha_origen DESC LIMIT 1";
                         $resAlarmas = pg_query($this->conexion, $conAlarma);
@@ -975,37 +1006,6 @@ class Database
             if ($this->consultaExitosa($res)) {
                 $config = pg_fetch_all($res)[0];
                 return $config;
-            }
-        }
-        return false;
-    }
-    //obtiene el nombre de un tag concreto
-    //uso interno
-    private function obtenerNombreTag($id_tag)
-    {
-        if ($this->conectar()) {
-            $con = "SELECT nombre_tag FROM tags WHERE id_tag = " . $id_tag;
-            $res = pg_query($this->conexion, $con);
-            if ($this->consultaExitosa($res)) {
-                return pg_fetch_all($res)[0]['nombre_tag'];
-            }
-        }
-    }
-    //obtiene (si existen) las consignas de un tag
-    //uso interno
-    private function obtenerConsignasTag($id_tag)
-    {
-        $nombre_tag = $this->obtenerNombreTag($id_tag);
-        if ($this->conectar()) {
-            $con = "SELECT estaciones.nombre_estacion,tags.nombre_tag,tags.unidad, datos_valores.valor_float 
-            from datos_valores inner join tags on tags.id_tag = datos_valores.id_tag 
-            inner join estacion_tag on estacion_tag.id_tag = tags.id_tag
-            inner join estaciones on estaciones.id_estacion = estacion_tag.id_estacion
-            WHERE tags.nombre_tag LIKE('Consigna " . $nombre_tag . "%') and estaciones.id_estacion = (select id_estacion from estacion_tag where id_tag = " . $id_tag . ")
-            order by estaciones.nombre_estacion";
-            $res = pg_query($this->conexion, $con);
-            if ($this->consultaExitosa($res)) {
-                return pg_fetch_all($res);
             }
         }
         return false;
