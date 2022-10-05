@@ -360,7 +360,7 @@ function montarWidgetsAnalogicos() {
 function montarGraficosWidget() {
   for (var tag in tagsAcumulados) {
     var nombreDato = tagsAcumulados[tag]["nombre_tag"].replace(/\s+/g, "");
-    if (nombreDato.includes("Dia")) {
+    if (nombreDato.includes("Dia") && !nombreDato.includes("Delta")) {
       var chartDom2 = document.getElementById("chart" + nombreDato);
       var grafTrend = echarts.init(chartDom2);
       var valores = [];
