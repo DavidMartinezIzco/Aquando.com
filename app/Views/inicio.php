@@ -25,6 +25,7 @@
             <script src="css/sur.js"></script>
 
             <link rel="manifest" href="manifest.json">
+            <script src="css/upup.min.js"></script>
             <script src="sw.js"></script>';
         } else {
             echo '<link rel="shortcut icon" type="image/png" href="../../favicon.ico" />
@@ -40,6 +41,7 @@
                 <script src="../../css/sur.js"></script>
 
                 <link rel="manifest" href="../../manifest.json">
+                <script src="../../css/upup.min.js"></script>
                 <script src="../../sw.js"></script>';
         }
     } else {
@@ -55,6 +57,7 @@
                 <script src="../../css/desconectado.js"></script>
                 <script src="../../css/sur.js"></script>
                 
+                <script src="../../css/upup.min.js"></script>
                 <link rel="manifest" href="../../manifest.json">
                 <script src="../../sw.js"></script>';
     }
@@ -82,6 +85,10 @@
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js');
     }
+    // UpUp.start({
+    //     'content-url': 'Inicio',
+    //     'assets': ['/img/logo.png', '/css/style.css', 'headlines.json']
+    // });
     </script>
 </head>
 <?php

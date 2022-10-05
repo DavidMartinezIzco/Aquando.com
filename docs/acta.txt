@@ -11,7 +11,7 @@ PARA ANDORID:
     FUNCIONES:
     - Eliminar btn de exportaciones (?) -> probar funciones de android primero
     - Quitar debugs ✓
-    - Investigar cambios de color en sistema -> themes en android
+    - Investigar cambios de color en sistema -> themes en android 
     - bloquear "Vista Personalizada" de las gráficas de historicos ✓
 
 
@@ -38,7 +38,7 @@ CAMBIOS DE SEGURIDAD:
 
     - PARAMS:
         - usar pwds cifrados ✓
-        - renombrar id_tags,id_estacion (?) -> no hace falta realmente 
+        - renombrar id_tags, id_estacion (?) -> no hace falta realmente 
         - limpiar basurilla en los REQUEST  ✓
 
     
@@ -49,3 +49,6 @@ MAQUETA/DEMO:
     - crear tags para el depósito ficticio ✓
     - configurar tags e inicio ? -> los tags no están guardando sus históricos ni sus TRs
 
+A:2~?15
+S:41?
+D:50

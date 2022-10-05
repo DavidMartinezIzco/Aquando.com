@@ -7,9 +7,10 @@
   text-align: center;
   border-radius: 10px;
   border: 5px solid darkgray;
+  overflow-y: scroll;
 }
 
-/* #displayComs::-webkit-scrollbar {
+#displayComs::-webkit-scrollbar {
   height: 15px;
   border-bottom-right-radius: 0px;
   border-top-right-radius: 0px;
@@ -19,7 +20,7 @@
   background-color: rgb(1, 168, 184);
   border-bottom-right-radius: 0px;
   border-top-right-radius: 0px;
-} */
+}
 
 #displayComs tr {
   color: white;
@@ -183,10 +184,18 @@
 
 @media only screen and (max-width: 600px) {
   #displayComs {
+    overflow-y: hidden;
     height: min-content;
     width: 94%;
     margin: 15% 3% 330px 3%;
   }
+  #displayComs::-webkit-scrollbar {
+    display: none;
+  }
+  #displayComs::-webkit-scrollbar-thumb {
+    display: none;
+  }
+
   #displayComs tr {
     font-size: 100%;
     padding: 0;
