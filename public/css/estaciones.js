@@ -437,18 +437,20 @@ function montarGraficosWidget() {
       widsAnalogLista.push([grafTrend]);
       optionChart && grafTrend.setOption(optionChart, true);
     } else {
-      if (
-        document.getElementById(
-          "panelNegro" + nombreDato.replace(/\s+/g, "") + "Dia"
-        )
-      ) {
-        document.getElementById(
-          "panelNegro" + nombreDato.replace(/\s+/g, "") + "Dia"
-        ).innerHTML = "Total: " + todoDato["tags_acu"][tag]["valor"];
-      } else {
-        document.getElementById(
-          "panelNegro" + nombreDato.replace(/\s+/g, "") + "Dia"
-        ).innerHTML = "sin datos de la señal";
+      if(!nombreDato.includes("Delta")){
+        if (
+          document.getElementById(
+            "panelNegro" + nombreDato.replace(/\s+/g, "") + "Dia"
+          )
+        ) {
+          document.getElementById(
+            "panelNegro" + nombreDato.replace(/\s+/g, "") + "Dia"
+          ).innerHTML = "Total: " + todoDato["tags_acu"][tag]["valor"];
+        } else {
+          document.getElementById(
+            "panelNegro" + nombreDato.replace(/\s+/g, "") + "Dia"
+          ).innerHTML = "sin datos de la señal";
+        }
       }
     }
   }
