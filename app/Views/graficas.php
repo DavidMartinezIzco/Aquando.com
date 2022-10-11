@@ -41,8 +41,8 @@
                     onclick="aplicarOpciones()" name="btnControlAplicar">aplicar</button>
                 <button id="btnControl" type="reset" onclick=limpiar() style="background-color: tomato;" value="reset"
                     name="btnControlReset">reset</button>
-                <button id="btnControl" style="background-color: darkseagreen;" value="print" onclick="imprimir()"
-                    name="btnControlPrint"><i class="fas fa-print"></i></button>
+                <button id="btnControl" class="btnOp" style="background-color: darkseagreen;" value="print"
+                    onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
             </div>
         </div>
         <!--espacio para las graficas--->

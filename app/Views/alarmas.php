@@ -39,28 +39,25 @@
             <input type="radio" id="radioDesc" name="orden" value="DESC" checked>
             <label for="radioDesc">Descendiente</label>
         </div>
-
         <div id="fechas">
             <label for="fecha">Desde</label>
             <input type="date" id="fechaFin" style="transition: 0.5s;" name="fechaFin" value="2022-01-25">
             <label for="fecha">Hasta</label>
             <input type="date" id="fechaInicio" style="transition: 0.5s;" name="fechaInicio">
         </div>
-
         <div id="acciones">
             <button id="btnControl" style="background-color: yellowgreen;border:2px solid green;" value="aplicar"
                 onclick=actualizar() name="btnControl">Aplicar</button>
             <button id="btnControl" onclick=limpiar() style="background-color:tomato;border:2px solid red;"
                 value="reset" name="btnControlReset">Reset</button>
-            <button id="btnControl" style="background-color: rgb(1, 168, 184);border:2px solid blue;" value="print"
-                onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
-            <button id="btnControl" style="background-color: darkseagreen;border:2px solid darkgreen;" value="print"
-                onclick="exportarCSV()" name="btnControlPrint"><i class="fas fa-file-excel"></i></button>
+            <button id="btnControl" class="btnOp" style="background-color: rgb(1, 168, 184);border:2px solid blue;"
+                value="print" onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
+            <button id="btnControl" class="btnOp" style="background-color: darkseagreen;border:2px solid darkgreen;"
+                value="print" onclick="exportarCSV()" name="btnControlPrint"><i class="fas fa-file-excel"></i></button>
         </div>
     </div>
     <!--zona para representar las alarmas--->
     <div id="zonaAlarmas">
-
         <table id="tablaAlarmas">
         </table>
     </div>

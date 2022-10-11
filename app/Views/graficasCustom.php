@@ -126,10 +126,10 @@
                     <button id="btnControlCustom" type="reset" onclick=limpiar()
                         style="background-color: tomato;border: 2px solid red;" value="reset"
                         name="btnControlReset">reset</button>
-                    <button id="btnControlCustom"
+                    <button id="btnControlCustom" class="btnOp"
                         style="background-color: darkseagreen;border: 2px solid rgb(0, 128, 58);" value="print"
                         onclick="imprimir()" name="btnControlPrint"><i class="fas fa-print"></i></button>
-                    <button id="btnControlCustom"
+                    <button id="btnControlCustom" class="btnOp"
                         style="background-color: rgb(1, 168, 184);border: 2px solid rgb(39, 45, 79);" value="guardar"
                         onclick="ajustesPresets('guardar')" name="btnControlPrint"><i class="fas fa-save"></i></button>
                 </form>

@@ -47,9 +47,9 @@
             <div id="controles">
                 <button id="btnInforme" name="btnControl" onclick="obtenerInforme()">ver informe</button>
                 <button id="btnInforme" onclick=reset() value="reset" name="btnControlReset">reset</button>
-                <button id="btnInforme" value="print" onclick="imprimir()" name="btnControlPrint"><i
+                <button id="btnInforme" class="btnOp" value="print" onclick="imprimir()" name="btnControlPrint"><i
                         class="fas fa-print"></i></button>
-                <button id="btnInforme" value="print" onclick="exportarCSV()" name="btnControlPrint"><i
+                <button id="btnInforme" class="btnOp" value="print" onclick="exportarCSV()" name="btnControlPrint"><i
                         class="fas fa-file-excel"></i></button>
             </div>
         </div>
