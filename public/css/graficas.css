@@ -156,4 +156,7 @@
   #zonaControles {
     max-height: unset;
   }
+  .btnOp {
+    display: none;
+  }
 }

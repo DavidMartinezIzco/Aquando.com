@@ -257,4 +257,8 @@
   #espacioInforme {
     margin-bottom: 30px;
   }
+  .btnOp {
+    display: none;
+    visibility: hidden;
+  }
 }

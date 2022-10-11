@@ -327,4 +327,7 @@ table tr td i:hover {
     font-size: 90%;
     background-color: rgb(85, 85, 85);
   }
+  .btnOp {
+    display: none;
+  }
 }

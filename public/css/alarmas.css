@@ -231,4 +231,7 @@ table tr td i:hover {
   #alarmasSur {
     display: none;
   }
+  .btnOp {
+    display: none;
+  }
 }

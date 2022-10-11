@@ -597,4 +597,7 @@ form button {
     background-color: rgb(1, 168, 184);
     transition: 0s;
   }
+  .btnOp {
+    display: none;
+  }
 }
