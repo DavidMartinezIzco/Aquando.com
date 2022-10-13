@@ -594,14 +594,14 @@ class Database
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
                 $datosHisto = array();
                 foreach ($datosHistoTagEst as $index => $dato) {
+                    $ultVal = null;
                     foreach ($dato as $factor => $valor) {
-                        $ultVal = null;
                         if ($valor != null && $factor != 'ts') {
                             $datosHisto[$index]['valor'] = number_format($valor, 2);
                             $ultVal = number_format($valor, 2);
                         }
                         //rellena huecos vacios con el ultimo valor (proto)
-                        if ($valor == null && $factor != "ts") {
+                        else if ($valor == null && $factor != "ts") {
                             $datosHisto[$index]['valor'] = $ultVal;
                         }
                         if ($factor == 'ts') {
