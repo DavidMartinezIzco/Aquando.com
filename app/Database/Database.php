@@ -595,8 +595,14 @@ class Database
                 $datosHisto = array();
                 foreach ($datosHistoTagEst as $index => $dato) {
                     foreach ($dato as $factor => $valor) {
+                        $ultVal = null;
                         if ($valor != null && $factor != 'ts') {
                             $datosHisto[$index]['valor'] = number_format($valor, 2);
+                            $ultVal = number_format($valor, 2);
+                        }
+                        //rellena huecos vacios con el ultimo valor (proto)
+                        if ($valor == null && $factor != "ts") {
+                            $datosHisto[$index]['valor'] = $ultVal;
                         }
                         if ($factor == 'ts') {
                             $datosHisto[$index]['fecha'] = $valor;

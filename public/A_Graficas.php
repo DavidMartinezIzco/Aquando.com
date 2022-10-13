@@ -8,7 +8,6 @@ $id_estacion = $_POST['estacion'];
 $db = new Database();
 //obtiene datos historicos de un tag
 if ($opcion == "render") {
-
     $histos = $db->historicosTagEstacion($id_estacion, $id_tag);
     if ($histos != false) {
         echo json_encode($histos);
