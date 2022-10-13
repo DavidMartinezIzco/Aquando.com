@@ -601,7 +601,7 @@ class Database
                             $ultVal = number_format($valor, 2);
                         }
                         //rellena huecos vacios con el ultimo valor (proto)
-                        else if ($valor == null && $factor != "ts") {
+                        if ($valor == null && $factor != "ts") {
                             $datosHisto[$index]['valor'] = $ultVal;
                         }
                         if ($factor == 'ts') {
