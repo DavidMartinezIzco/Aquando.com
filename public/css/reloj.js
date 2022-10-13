@@ -57,8 +57,9 @@ function comprobarTiempo() {
     formatearTiempo(tiempoMax - tiempoStandBy);
   tiempoStandBy++;
   if (tiempoStandBy >= tiempoMax) {
-    window.location.href =
-      "http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/?log=out";
+    // window.location.href =
+    //   "http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/?log=out";
+    document.getElementById("btnLogin").click();
   }
 }
 //da formato a la hora y la prepara para representarla
