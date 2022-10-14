@@ -39,6 +39,14 @@ class Datawit
         }
     }
 
+    public function testeoConex(){
+        if($this->conectar()){
+            return "conectado";
+        }else{
+            return "desconectado";
+        }
+    }
+
     public function obtenerConsignasWit() //probablemente habrá que incluir parametros (estacion)
     {
         if ($this->conectar()) {

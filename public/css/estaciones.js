@@ -844,3 +844,27 @@ function controlMobile() {
     }
   }
 }
+
+//experimental y provisional
+function consignasAltBd(){
+
+//sis WIT test
+$(document).ready(function () {
+  $.ajax({
+    type: "POST",
+    url: "/Aquando.com/A_Ajustes.php",
+    data: {
+      opcion: "test",
+    },
+    success: function (datos) {
+      console.log(datos);
+    },
+    error: function (e) {
+      console.log("error");
+      console.log(e);
+    },
+    // dataType: "json",
+  });
+});
+
+}
