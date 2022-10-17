@@ -39,7 +39,7 @@ class Datawit
         }
     }
 
-    public function testeoConex(){
+    public function estadoConex(){
         if($this->conectar()){
             return "conectado";
         }else{
