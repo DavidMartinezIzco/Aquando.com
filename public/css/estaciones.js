@@ -641,6 +641,77 @@ function montarGraficosWidget() {
     }
   });
 }
+//muestra en caso de tenerla, la imagen correspondiente a la estacion
+function fotoEstacion(id_estacion) {
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      data: {
+        opcion: "foto",
+        estacion: id_estacion,
+      },
+      url: "/Aquando.com/A_Estacion.php?",
+      success: function (foto) {
+        var ima;
+        if (foto != "") {
+          ima =
+            'linear-gradient(to left, rgba(255,255,255,0.99),rgba(255,255,255,0)),url("data:image/jpg;base64,' +
+            foto +
+            '")';
+          document.getElementById("seccionFoto").style.backgroundImage = ima;
+          document.getElementById("seccionFoto").style.backgroundSize = "cover";
+        }
+      },
+      error: function () {
+        console.log("error");
+      },
+    });
+  });
+}
+//funcion que establece a los widgets un control para alternar los trends y la info
+//solo se ejecuta si la pantalla es menor a 600px
+function controlMobile() {
+  if (screen.width < 600) {
+    var a = document.getElementsByClassName("widAnaInfo");
+    for (let i = 0; i < a.length; i++) {
+      a[i].onclick = function () {
+        a[i].style.width = "0%";
+        a[i].style.display = "none";
+        document.getElementsByClassName("widAnaGraf")[i].style.width = "100%";
+        document.getElementsByClassName("widAnaGraf")[i].style.display =
+          "block";
+        if (widsAnalogLista != undefined) {
+          for (var index in widsAnalogLista) {
+            widsAnalogLista[index][0].resize();
+            if (widsAnalogLista[index].length > 1) {
+              widsAnalogLista[index][1].resize();
+            }
+          }
+        }
+      };
+    }
+    var b = document.getElementsByClassName("widAnaGraf");
+    for (let i = 0; i < b.length; i++) {
+      b[i].onclick = function () {
+        b[i].style.width = "0%";
+        b[i].style.display = "none";
+        document.getElementsByClassName("widAnaInfo")[i].style.width = "100%";
+        document.getElementsByClassName("widAnaInfo")[i].style.display =
+          "block";
+        if (widsAnalogLista != undefined) {
+          for (var index in widsAnalogLista) {
+            widsAnalogLista[index][0].resize();
+            if (widsAnalogLista[index].length > 1) {
+              widsAnalogLista[index][1].resize();
+            }
+          }
+        }
+      };
+    }
+  }
+}
+
+//AJUSTES DE CONSIGNAS VIEJOS
 //muestra u oculta el menu de ajustes de las estaciones
 //de momento no lo vamos a implementar
 function ajustes() {
@@ -775,96 +846,43 @@ function mostrarFormConsigna(id_consigna) {
     "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>";
   zona.innerHTML = contenido + lista;
 }
-//muestra en caso de tenerla, la imagen correspondiente a la estacion
-function fotoEstacion(id_estacion) {
-  $(document).ready(function () {
-    $.ajax({
-      type: "POST",
-      data: {
-        opcion: "foto",
-        estacion: id_estacion,
-      },
-      url: "/Aquando.com/A_Estacion.php?",
-      success: function (foto) {
-        var ima;
-        if (foto != "") {
-          ima =
-            'linear-gradient(to left, rgba(255,255,255,0.99),rgba(255,255,255,0)),url("data:image/jpg;base64,' +
-            foto +
-            '")';
-          document.getElementById("seccionFoto").style.backgroundImage = ima;
-          document.getElementById("seccionFoto").style.backgroundSize = "cover";
-        }
-      },
-      error: function () {
-        console.log("error");
-      },
-    });
-  });
-}
-//funcion que establece a los widgets un control para alternar los trends y la info
-//solo se ejecuta si la pantalla es menor a 600px
-function controlMobile() {
-  if (screen.width < 600) {
-    var a = document.getElementsByClassName("widAnaInfo");
-    for (let i = 0; i < a.length; i++) {
-      a[i].onclick = function () {
-        a[i].style.width = "0%";
-        a[i].style.display = "none";
-        document.getElementsByClassName("widAnaGraf")[i].style.width = "100%";
-        document.getElementsByClassName("widAnaGraf")[i].style.display =
-          "block";
-        if (widsAnalogLista != undefined) {
-          for (var index in widsAnalogLista) {
-            widsAnalogLista[index][0].resize();
-            if (widsAnalogLista[index].length > 1) {
-              widsAnalogLista[index][1].resize();
-            }
-          }
-        }
-      };
-    }
-    var b = document.getElementsByClassName("widAnaGraf");
-    for (let i = 0; i < b.length; i++) {
-      b[i].onclick = function () {
-        b[i].style.width = "0%";
-        b[i].style.display = "none";
-        document.getElementsByClassName("widAnaInfo")[i].style.width = "100%";
-        document.getElementsByClassName("widAnaInfo")[i].style.display =
-          "block";
-        if (widsAnalogLista != undefined) {
-          for (var index in widsAnalogLista) {
-            widsAnalogLista[index][0].resize();
-            if (widsAnalogLista[index].length > 1) {
-              widsAnalogLista[index][1].resize();
-            }
-          }
-        }
-      };
-    }
-  }
-}
+
 
 //experimental y provisional
 function consignasAltBd(){
-
-//sis WIT test
 $(document).ready(function () {
   $.ajax({
     type: "POST",
     url: "/Aquando.com/A_Ajustes.php",
     data: {
-      opcion: "test",
+      estacion:nestacion,
+      opcion: "con",
     },
     success: function (datos) {
-      console.log(datos);
+      //console.log(datos);
+      var infoConsig = [];
+      for(var i=0;i<datos.length;i++){
+        infoConsig.push({"NW":datos[i]["Nombre_WIT"].trim(),"RW":datos[i]["Recurso_wit"].trim(),"NT":datos[i]["nombre_tag"]});
+      }
+      console.log(infoConsig);
+      menuConsignasWit(infoConsig);
     },
     error: function (e) {
       console.log("error");
       console.log(e);
     },
-    // dataType: "json",
+    dataType: "json",
   });
 });
+
+function menuConsignasWit(info){
+  lista = "";
+  if(info.length != 0){
+    for(var index in info){
+      lista += info[index]['NT'] + "<i onclick='mostrarFormConsigna("+ [info[index]["NW"],info[index]["RW"]] +")' id=btnEditarTag class='fas fa-edit'></i><br>";
+    }
+  }
+  return lista;
+}
 
 }

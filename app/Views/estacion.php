@@ -42,6 +42,7 @@
     </table>
 </main>
 <script>
+var nestacion = "<?php echo $ultimaConex[0]['nombre_estacion'];?>";    
 var estacion = <?php echo $id_estacion ?>;
 
 function updateEstacion() {
