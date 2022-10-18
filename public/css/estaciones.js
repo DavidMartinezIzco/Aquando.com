@@ -819,7 +819,8 @@ function mostrarAjustesTag(ref) {
   var zona = document.getElementById("ajustesDisplay");
   var n = "";
   for(var e; e<listaCon.length;e++){
-    if(listaCon[e]["RW"]+"."+listaCon[e]["NW"] == ref){
+    var refCon = listaCon[e]["RW"]+"."+listaCon[e]["NW"];
+    if(refCon == ref){
       n = listaCon[e]["NT"];
     }
   }
