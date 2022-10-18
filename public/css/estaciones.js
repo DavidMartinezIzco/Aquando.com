@@ -815,9 +815,6 @@ function modificarConsignas(ref, valor) {
   });
 }
 
-//AJUSTES DE CONSIGNAS VIEJOS
-//muestra u oculta el menu de ajustes de las estaciones
-//de momento no lo vamos a implementar
 function ajustes() {
   var ajustes = document.getElementById("ajustesEstacion");
   if (ajustes.style.display == "block") {
@@ -844,11 +841,9 @@ function ajustes() {
         " >" +
         listaCon[index]["NT"] +
         "</li>";
-      // if (index == 0) {
-      //   primero = datosAnalog[indexTag]["id_tag"];
-      // }
     }
     selec.innerHTML += lista;
+    document.getElementsByClassName("tagEnLista")[0].click();
   }
   // mostrarAjustesTag(primero);
 }
