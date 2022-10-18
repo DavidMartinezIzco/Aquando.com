@@ -14,8 +14,8 @@ class Datawit
     private $conexion;
     private $info_server;
     //dbname, uid, pwd, puerto, direccion...
-    
-    
+
+
 
     public function __construct()
     {
@@ -89,7 +89,7 @@ class Datawit
     public function leerConsignaWIT($recurso)
     {
         if ($this->conectar()) {
-            $consulta = "SELECT * FROM [DBEASY452].[dbo].[WValue] WHERE ValueWOSAdd LIKE('%".$recurso."%')";
+            $consulta = "SELECT * FROM [DBEASY452].[dbo].[WValue] WHERE ValueWOSAdd LIKE('%" . $recurso . "%')";
             $respuesta = sqlsrv_query($this->conexion, $consulta);
             if ($this->consultaExitosa($respuesta)) {
                 $datos = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC);

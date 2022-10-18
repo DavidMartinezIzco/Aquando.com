@@ -23,7 +23,6 @@ function actualizar(id_estacion) {
       },
       success: function (datos) {
         filtrarDatos(datos);
-        
       },
       error: function () {
         console.log("error");
@@ -744,7 +743,7 @@ function consignasAltBd() {
   });
 }
 
-function leerValorConsigna(ref, nombre){
+function leerValorConsigna(ref, nombre) {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
@@ -755,25 +754,36 @@ function leerValorConsigna(ref, nombre){
       },
       success: function (datos) {
         var estado = "desconocido";
-        if(datos['ValueWriteStatus'] == 0){
+        if (datos["ValueWriteStatus"] == 0) {
           estado = "Confirmado";
-        }else{
+        } else {
           estado = "Pendiente de comunicar";
         }
         datosConsig = {
-          "valor":datos['ValueReadData'].replace(/ /g,''), 
-          "estado":estado,
-          "nombre":nombre
+          valor: datos["ValueReadData"].replace(/ /g, ""),
+          estado: estado,
+          nombre: nombre,
         };
         var zona = document.getElementById("ajustesDisplay");
         zona.innerHTML = "";
         var ajustes = "";
-        ajustes += "<h4><b>Modificar consignas</b><i style='font-size:115%' class='far fa-bell'></i></h4><hr>";
-        ajustes += "<p>Valor actual de <b>" + datosConsig['nombre']+"</b>: "+ datosConsig['valor'] +" </p>";
-        ajustes += "<p>Estado: <b>" + datosConsig['estado'] + "</b></p><hr>";
-        ajustes += "<p><b>Nuevo valor: <input type='number' id='inputAjustes' value="+datosConsig['valor']+" ></b></p>";
-        ajustes += "<button id=btnAceptarConsigna>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
-        ajustes += "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>";
+        ajustes +=
+          "<h4><b>Modificar consignas</b><i style='font-size:115%' class='far fa-bell'></i></h4><hr>";
+        ajustes +=
+          "<p>Valor actual de <b>" +
+          datosConsig["nombre"] +
+          "</b>: " +
+          datosConsig["valor"] +
+          " </p>";
+        ajustes += "<p>Estado: <b>" + datosConsig["estado"] + "</b></p><hr>";
+        ajustes +=
+          "<p><b>Nuevo valor: <input type='number' id='inputAjustes' value=" +
+          datosConsig["valor"] +
+          " ></b></p>";
+        ajustes +=
+          "<button id=btnAceptarConsigna>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
+        ajustes +=
+          "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>";
         zona.innerHTML += ajustes;
       },
       error: function (e) {
@@ -784,7 +794,7 @@ function leerValorConsigna(ref, nombre){
   });
 }
 
-function modificarConsignas(ref,valor){
+function modificarConsignas(ref, valor) {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
@@ -794,7 +804,7 @@ function modificarConsignas(ref,valor){
         opcion: "mod",
       },
       success: function (datos) {
-        console.log('exito?');
+        console.log("exito?");
       },
       error: function (e) {
         console.log("error");
@@ -845,6 +855,5 @@ function ajustes() {
 function mostrarAjustesTag(obj) {
   ref = obj.id.toString();
   var n = obj.innerText;
-  var datosConsigna = leerValorConsigna(ref,n);
+  var datosConsigna = leerValorConsigna(ref, n);
 }
-

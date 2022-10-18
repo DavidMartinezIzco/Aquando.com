@@ -18,6 +18,6 @@ if ($opcion == "det") {
 }
 
 //modifica una consigna
-if($opcion == "mod"){
+if ($opcion == "mod") {
     //[coger params]
 }
