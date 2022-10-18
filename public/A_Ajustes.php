@@ -15,16 +15,9 @@ if ($opcion == "det") {
     $recurso = $_POST['ref'];
     $info = $DW->leerConsignaWIT($recurso);
     echo json_encode($info);
-
 }
 
 //modifica una consigna
 if($opcion == "mod"){
     //[coger params]
-    $nok = $DW->modificarConsignaWit();
-    if($nok){
-        echo "ok";
-    }else{
-        echo "error";
-    }
 }
