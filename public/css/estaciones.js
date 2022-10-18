@@ -437,7 +437,7 @@ function montarGraficosWidget() {
       widsAnalogLista.push([grafTrend]);
       optionChart && grafTrend.setOption(optionChart, true);
     } else {
-      if(!nombreDato.includes("Delta")){
+      if (!nombreDato.includes("Delta")) {
         if (
           document.getElementById(
             "panelNegro" + nombreDato.replace(/\s+/g, "") + "Dia"
@@ -711,10 +711,79 @@ function controlMobile() {
   }
 }
 
+//experimental y provisional
+function consignasAltBd() {
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      url: "/Aquando.com/A_Ajustes.php",
+      data: {
+        estacion: nestacion,
+        opcion: "con",
+      },
+      success: function (datos) {
+        //console.log(datos);
+        var infoConsig = [];
+        for (var i = 0; i < datos.length; i++) {
+          infoConsig.push({
+            NW: datos[i]["Nombre_WIT"].trim(),
+            RW: datos[i]["Recurso_wit"].trim(),
+            NT: datos[i]["nombre_tag"],
+          });
+        }
+        console.log(infoConsig);
+        menuConsignasWit(infoConsig);
+      },
+      error: function (e) {
+        console.log("error");
+        console.log(e);
+      },
+      dataType: "json",
+    });
+  });
+}
+
+function menuConsignasWit(info) {
+  lista = "";
+  if (info.length != 0) {
+    for (var index in info) {
+      lista +=
+        info[index]["NT"] +
+        "<i onclick='mostrarFormConsigna(" +
+        [info[index]["NW"], info[index]["RW"]] +
+        ")' id=btnEditarTag class='fas fa-edit'></i><br>";
+    }
+  }
+  return lista;
+}
+
+function leerValorConsigna(ref){
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      url: "/Aquando.com/A_Ajustes.php",
+      data: {
+        ref: ref,
+        opcion: "det",
+      },
+      success: function (datos) {
+        console.log(datos);
+        //mostrarAjustesTag()
+      },
+      error: function (e) {
+        console.log("error");
+        console.log(e);
+      },
+      dataType: "json",
+    });
+  });
+}
+
 //AJUSTES DE CONSIGNAS VIEJOS
 //muestra u oculta el menu de ajustes de las estaciones
 //de momento no lo vamos a implementar
 function ajustes() {
+  var listaCon = consignasAltBd();
   var ajustes = document.getElementById("ajustesEstacion");
   if (ajustes.style.display == "block") {
     ajustes.style.opacity = "0%";
@@ -731,19 +800,23 @@ function ajustes() {
     var lista = "";
     var i = 0;
     var primero;
-    for (var indexTag in datosAnalog) {
+
+    for (var index in listaCon) {
       lista +=
         "<li class=tagEnLista onclick=mostrarAjustesTag(this.value) id=tag" +
-        datosAnalog[indexTag]["id_tag"] +
+        listaCon[index]["NW"] +
+        "." +
+        listaCon[index]["RW"] +
         " value=" +
-        datosAnalog[indexTag]["id_tag"] +
+        listaCon[index]["NW"] +
+        "." +
+        listaCon[index]["RW"] +
         ">" +
-        datosAnalog[indexTag]["nombre_tag"] +
+        listaCon[index]["NT"] +
         "</li>";
-      if (i == 0) {
+      if (index == 0) {
         primero = datosAnalog[indexTag]["id_tag"];
       }
-      i++;
     }
     selec.innerHTML += lista;
   }
@@ -752,7 +825,10 @@ function ajustes() {
 //funciones para los ajustes. Muestran los tags con consignas modificables de la estación
 function mostrarAjustesTag(id_tag) {
   var zona = document.getElementById("ajustesDisplay");
-  var tag = datosAnalog[id_tag];
+  // var tag = datosAnalog[id_tag];
+  // var consignaObj = 
+  
+
   if (
     sessionStorage.getItem("tagViejo") !== null &&
     sessionStorage.getItem("tagViejo") != "null"
@@ -766,123 +842,86 @@ function mostrarAjustesTag(id_tag) {
   }
   document.getElementById("tag" + tag["id_tag"]).style.backgroundColor =
     "rgb(39,45,79)";
-  var lista =
-    "<form class=formAjustesTag><h4>Ajustes de " + tag["nombre_tag"] + "</h4>";
-  lista +=
-    "Ajustes de consignas  <i style='font-size:115%' class='far fa-bell'></i><hr>";
-  var e = 0;
-  if (tag["consignas"].length != 0) {
-    for (var consi in tag["consignas"]) {
-      e++;
-      lista +=
-        tag["consignas"][consi]["nombre_tag"] +
-        ": " +
-        tag["consignas"][consi]["valor"] +
-        "<i onclick='mostrarFormConsigna(" +
-        tag["consignas"][consi]["id_tag"] +
-        ")' id=btnEditarTag class='fas fa-edit'></i><br>";
-    }
-  }
-  while (e < 2) {
-    lista +=
-      "Consigna sin definir: <i style='color:tomato' class='fas fa-bell-slash'></i> <i onclick='mostrarFormConsigna(this.value)' id=btnEditarTag value=" +
-      consi +
-      "  class='fas fa-edit'></i><br>";
-    e++;
-  }
-  lista += "</form>";
-  zona.innerHTML = lista;
-  sessionStorage.setItem("AjTag", lista);
+
+
+  // var lista =
+  //   "<form class=formAjustesTag><h4>Ajustes de " + tag["nombre_tag"] + "</h4>";
+  // lista +=
+  //   "Ajustes de consignas  <i style='font-size:115%' class='far fa-bell'></i><hr>";
+  // var e = 0;
+  // if (tag["consignas"].length != 0) {
+  //   for (var consi in tag["consignas"]) {
+  //     e++;
+  //     lista +=
+  //       tag["consignas"][consi]["nombre_tag"] +
+  //       ": " +
+  //       tag["consignas"][consi]["valor"] +
+  //       "<i onclick='mostrarFormConsigna(" +
+  //       tag["consignas"][consi]["id_tag"] +
+  //       ")' id=btnEditarTag class='fas fa-edit'></i><br>";
+  //   }
+  // }
+  // while (e < 2) {
+  //   lista +=
+  //     "Consigna sin definir: <i style='color:tomato' class='fas fa-bell-slash'></i> <i onclick='mostrarFormConsigna(this.value)' id=btnEditarTag value=" +
+  //     consi +
+  //     "  class='fas fa-edit'></i><br>";
+  //   e++;
+  // }
+  // lista += "</form>";
+  // zona.innerHTML = lista;
+  // sessionStorage.setItem("AjTag", lista);
+
 }
 //muestra las consignas del tag seleccionado en los ajustes
-function mostrarFormConsigna(id_consigna) {
-  var consigna = consignas[id_consigna];
-  var zona = document.getElementById("ajustesDisplay");
-  var contenido = sessionStorage.getItem("AjTag");
-  var lista = "";
-  if (consigna != null) {
-    lista += "<hr><h4>modificar consigna:</h4>";
-    lista +=
-      "Nuevo valor de " +
-      consigna["nombre_tag"] +
-      ": <input type='number' value=" +
-      consigna["valor"] +
-      "><br>";
-    lista +=
-      "<button id=btnBorrarConsigna>Borrar Consigna<i id='iconoBorrarConsigna' onclick='' class='fas fa-trash-alt'></i></button><hr>";
-  } else {
-    lista += "<hr><h4>Establecer consigna </h4>";
-    var tag = sessionStorage.getItem("tagViejo");
-    var repe = "no";
-    if (datosAnalog[tag]["consignas"].length != 0) {
-      for (var consi in datosAnalog[tag]["consignas"]) {
-        if (
-          datosAnalog[tag]["consignas"][consi]["nombre_tag"].includes("Maximo")
-        ) {
-          lista +=
-            "Nombre:<br>Consigna Minimo " +
-            datosAnalog[tag]["nombre_tag"] +
-            "<br>";
-        } else {
-          lista +=
-            "Nombre:<br>Consigna Maximo " +
-            datosAnalog[tag]["nombre_tag"] +
-            "<br>";
-        }
-      }
-    } else {
-      lista +=
-        "Nombre:<br>Consigna <select><option>Maximo</option><option>Minimo</option></select> " +
-        datosAnalog[tag]["nombre_tag"] +
-        "<br>";
-    }
-    lista += "Valor de la consigna: <input type='number'><hr>";
-  }
-  lista +=
-    "<p>Mensaje bien explicado sobre que no se actualizará inmediatamente</p>";
-  lista +=
-    "<button id=btnAceptarConsigna>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
-  lista +=
-    "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>";
-  zona.innerHTML = contenido + lista;
-}
-
-
-//experimental y provisional
-function consignasAltBd(){
-$(document).ready(function () {
-  $.ajax({
-    type: "POST",
-    url: "/Aquando.com/A_Ajustes.php",
-    data: {
-      estacion:nestacion,
-      opcion: "con",
-    },
-    success: function (datos) {
-      //console.log(datos);
-      var infoConsig = [];
-      for(var i=0;i<datos.length;i++){
-        infoConsig.push({"NW":datos[i]["Nombre_WIT"].trim(),"RW":datos[i]["Recurso_wit"].trim(),"NT":datos[i]["nombre_tag"]});
-      }
-      console.log(infoConsig);
-      menuConsignasWit(infoConsig);
-    },
-    error: function (e) {
-      console.log("error");
-      console.log(e);
-    },
-    dataType: "json",
-  });
-});
-
-function menuConsignasWit(info){
-  lista = "";
-  if(info.length != 0){
-    for(var index in info){
-      lista += info[index]['NT'] + "<i onclick='mostrarFormConsigna("+ [info[index]["NW"],info[index]["RW"]] +")' id=btnEditarTag class='fas fa-edit'></i><br>";
-    }
-  }
-  return lista;
-}
-
-}
+// function mostrarFormConsigna(id_consigna) {
+//   var consigna = consignas[id_consigna];
+//   var zona = document.getElementById("ajustesDisplay");
+//   var contenido = sessionStorage.getItem("AjTag");
+//   var lista = "";
+//   if (consigna != null) {
+//     lista += "<hr><h4>modificar consigna:</h4>";
+//     lista +=
+//       "Nuevo valor de " +
+//       consigna["nombre_tag"] +
+//       ": <input type='number' value=" +
+//       consigna["valor"] +
+//       "><br>";
+//     lista +=
+//       "<button id=btnBorrarConsigna>Borrar Consigna<i id='iconoBorrarConsigna' onclick='' class='fas fa-trash-alt'></i></button><hr>";
+//   } else {
+//     lista += "<hr><h4>Establecer consigna </h4>";
+//     var tag = sessionStorage.getItem("tagViejo");
+//     var repe = "no";
+//     if (datosAnalog[tag]["consignas"].length != 0) {
+//       for (var consi in datosAnalog[tag]["consignas"]) {
+//         if (
+//           datosAnalog[tag]["consignas"][consi]["nombre_tag"].includes("Maximo")
+//         ) {
+//           lista +=
+//             "Nombre:<br>Consigna Minimo " +
+//             datosAnalog[tag]["nombre_tag"] +
+//             "<br>";
+//         } else {
+//           lista +=
+//             "Nombre:<br>Consigna Maximo " +
+//             datosAnalog[tag]["nombre_tag"] +
+//             "<br>";
+//         }
+//       }
+//     } else {
+//       lista +=
+//         "Nombre:<br>Consigna <select><option>Maximo</option><option>Minimo</option></select> " +
+//         datosAnalog[tag]["nombre_tag"] +
+//         "<br>";
+//     }
+//     lista += "Valor de la consigna: <input type='number'><hr>";
+//   }
+//   lista +=
+//     "<p>Mensaje bien explicado sobre que no se actualizará inmediatamente</p>";
+//   lista +=
+//     "<button id=btnAceptarConsigna>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
+//   lista +=
+//     "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>";
+//   zona.innerHTML = contenido + lista;
+// }
