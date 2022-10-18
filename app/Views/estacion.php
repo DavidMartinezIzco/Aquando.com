@@ -5,7 +5,6 @@
 <link rel="stylesheet" type="text/css" href="../../css/estaciones.css">
 <link rel="stylesheet" type="text/css" href="../../css/sur.css">
 <main id="conPrincipal" style="width:100%;border-radius:10px; margin-top:1%">
-    <!---zona superior--->
     <div id="estacionIzq">
         <div id="seccionSup">
             <div id="seccionFoto"></div>
@@ -37,7 +36,6 @@
             </form>
         </div>
     </div>
-    <!---zona alarmas--->
     <table id="alarmasSur">
     </table>
 </main>
@@ -55,18 +53,11 @@ function updateEstacion() {
 window.onload = function() {
     actualizar(estacion);
     setInterval(updateEstacion(), 60000 * 5);
-    // pantalla();
     fotoEstacion(estacion);
     comprobarTiempo();
     setInterval(fechaYHora, 1000);
     setInterval(actualizarSur('estacion', null, null, estacion), 20000);
     setInterval(comprobarTiempo, 1000);
-    // $(window).blur(function() {
-    //     tiempoFuera("");
-    // });
-    // $(window).focus(function() {
-    //     tiempoFuera("volver")
-    // });
 }
 </script>
 <?= $this->endSection() ?>

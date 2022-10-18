@@ -7,8 +7,6 @@
     <meta name="description" content="Aquando: powered by Dateando">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible">
-
-    <!--demás archivos JavaScript-->
     <?php
     if (isset($_SESSION['seccion'])) {
         if ($_SESSION['seccion'] == 'inicio' || $_SESSION['seccion'] == 'log-in') {
@@ -23,9 +21,7 @@
             <script src="css/ayuda.js"></script>
             <script src="css/desconectado.js"></script>
             <script src="css/sur.js"></script>
-
             <link rel="manifest" href="manifest.json">
-            <script src="css/upup.min.js"></script>
             <script src="sw.js"></script>';
         } else {
             echo '<link rel="shortcut icon" type="image/png" href="../../favicon.ico" />
@@ -41,7 +37,6 @@
                 <script src="../../css/sur.js"></script>
 
                 <link rel="manifest" href="../../manifest.json">
-                <script src="../../css/upup.min.js"></script>
                 <script src="../../sw.js"></script>';
         }
     } else {
@@ -56,19 +51,15 @@
                 <script src="../../css/ayuda.js"></script>
                 <script src="../../css/desconectado.js"></script>
                 <script src="../../css/sur.js"></script>
-                
-                <script src="../../css/upup.min.js"></script>
                 <link rel="manifest" href="../../manifest.json">
                 <script src="../../sw.js"></script>';
     }
     ?>
-    <!--cosillas de Fuentes-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
         rel="stylesheet">
-    <!--cosillas de bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
@@ -81,14 +72,9 @@
         integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous">
     </script>
     <script>
-    //WPA:comprobar navegador
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js');
     }
-    // UpUp.start({
-    //     'content-url': 'Inicio',
-    //     'assets': ['/img/logo.png', '/css/style.css', 'headlines.json']
-    // });
     </script>
 </head>
 <?php
@@ -100,7 +86,6 @@ if (isset($_GET['log'])) {
     echo '</script>';
 }
 ?>
-
 <body>
     <header id="cabeceraPrincipal" class="p-1 text-white">
         <div style="width: 100%; padding-left: 1em"><span id="powered">powered by</span>
@@ -112,7 +97,6 @@ if (isset($_GET['log'])) {
             }
             ?>
             <i style="margin-left: 1%" class="far fa-lightbulb" id="iconoAyuda" onclick="ayuda()"></i>
-            <!-- zona ajustes -->
             <?php if (isset($_SESSION['seccion'])) {
                 switch ($_SESSION['seccion']) {
                     case 'login':
@@ -138,7 +122,6 @@ if (isset($_GET['log'])) {
                         break;
                 }
             } ?>
-            <!----zona secciones---->
             <?php
             if (isset($_SESSION['seccion'])) {
                 echo "<div id='seccion' value=" . $_SESSION['seccion'] . ">";
@@ -190,34 +173,25 @@ if (isset($_GET['log'])) {
         </div>
         </div>
     </header>
-    <!-- HEADER: MENU + HEROE SECTION -->
     <button class="btn me-2 btn-block" id="btnMenuIzq" title="ocultar/mostrar menú" onclick="abrirCerrar()">☰</button>
     <div class="d-flex flex-column flex-shrink-0 text-light container-fluid" value="abierto" id="menuIzq">
         <form action="<?php
                         echo "http://dateando.ddns.net:3000/Aquando.com/index.php/Inicio/"; ?>" id="contenidoMenuIzq1"
             method="POST">
             <button name="btnFuncion" onclick="carga()" class="btn me-2 btn-block" value="inicio"
-                style="width: 100%; border-radius:0px; font-size:200%; color:white; <?php if (isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio') {
-                                                                                                                                                                            echo "background-color:rgb(1, 168, 184)";
-                                                                                                                                                                        } ?>">
+                style="width: 100%; border-radius:0px; font-size:200%; color:white; <?php if (isset($_SESSION['seccion']) && $_SESSION['seccion'] == 'inicio') {echo "background-color:rgb(1, 168, 184)";} ?>">
                 <i class="fas fa-home"></i>Inicio
             </button>
-
         </form>
         <ul class="nav nav-pills flex-column" id="contenidoMenuIzq2">
-
-            <!---estaciones--->
             <li class="Func">
                 <button id="btnDesplegable" class="btn me-2 btn-block" name="btnFuncion" value="estaciones"
                     style="font-size:100%;" onclick="desplegar(this.value)"
-                    <?php if (!isset($_SESSION["nombre"])) {
-                                                                                                                                                                        echo "disabled";
-                                                                                                                                                                    } ?>>
+                    <?php if (!isset($_SESSION["nombre"])) {echo "disabled";} ?>>
                     <i class="fas fa-broadcast-tower" style="margin-right:5%;font-size:80%"></i>Estaciones<i
                         class="fas fa-caret-down"></i>
                 </button>
             </li>
-            <!---wrap estaciones--->
             <?php
             if (isset($_SESSION['estaciones'])) {
                 $estaciones = $_SESSION['estaciones'];
@@ -238,14 +212,10 @@ if (isset($_GET['log'])) {
                 }
             }
             ?>
-            <!--demas funciones--->
-            <!-- wrap de graficas -->
             <li class="Func">
                 <button id="btnDesplegable" class="btn me-2 btn-block btnHerrGraf" name="btnGraf" value="grafs"
                     style="font-size:100%;" onclick="desplegar(this.value)"
-                    <?php if (!isset($_SESSION["nombre"])) {
-                                                                                                                                                                            echo "disabled";
-                                                                                                                                                                        } ?>>
+                    <?php if (!isset($_SESSION["nombre"])) {echo "disabled";} ?>>
                     <i class="far fa-chart-bar" style="margin-right:5%"></i>Graficas <i class="fas fa-caret-down"></i>
                 </button>
             </li>
@@ -269,9 +239,7 @@ if (isset($_GET['log'])) {
             </ul>
             <li class="Func">
                 <form action="<?php echo base_url(); ?>/alarmas" method="POST">
-                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if (!isset($_SESSION["nombre"])) {
-                                                                                                echo "disabled";
-                                                                                            } ?>
+                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if (!isset($_SESSION["nombre"])) {echo "disabled";} ?>
                         style="font-size:100%;padding:1em;width:100%;border-radius:0;color:white;">
                         <i class="fas fa-bell" style="margin-right:5%"></i>Alarmas
                     </button>
@@ -279,9 +247,7 @@ if (isset($_GET['log'])) {
             </li>
             <li class="Func">
                 <form action="<?php echo base_url(); ?>/informes" method="POST">
-                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if (!isset($_SESSION["nombre"])) {
-                                                                                                echo "disabled";
-                                                                                            } ?>
+                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if (!isset($_SESSION["nombre"])) {echo "disabled";} ?>
                         style="font-size:100%;padding:1em;width:100%;border-radius:0;  color:white;">
                         <i class="fas fa-file" style="margin-right:5%"></i>Informes
                     </button>
@@ -289,15 +255,12 @@ if (isset($_GET['log'])) {
             </li>
             <li class="Func">
                 <form action="<?php echo base_url(); ?>/comunicaciones" method="POST">
-                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if (!isset($_SESSION["nombre"])) {
-                                                                                                echo "disabled";
-                                                                                            } ?>
+                    <button onclick="carga()" class="btn me-2 btn-block" name="btnFuncion" <?php if (!isset($_SESSION["nombre"])) {echo "disabled";} ?>
                         style="font-size:100%;padding:1em;width:100%;border-radius:0;  color:white;">
                         <i class="fas fa-satellite-dish" style="margin-right:5%"></i>Comunicaciones
                     </button>
                 </form>
             </li>
-            <!---LOGIN---->
             <li class="nav-item">
                 <form action="<?php echo base_url(); ?>/inicioSesion" method="POST">
                     <button onclick="carga()" class="btn me-2" id="btnLogin" value="log-in" name="btnFuncion">
@@ -366,7 +329,6 @@ if (isset($_GET['log'])) {
         }
     }
     </script>
-    <!--seccion flotante de ayuda--->
     <div id="conAyuda">
         <i class="fas fa-times" style="font-size: 150%" id="btnAyudaCerrar" onclick="ayuda()"></i>
         <h3>Ayuda:</h3>
@@ -375,12 +337,10 @@ if (isset($_GET['log'])) {
             <i class="fas fa-arrow-right"></i>
         </button>
     </div>
-    <!--render de las distintas vistas--->
     <div id="contenido" style="padding-top: 3.8%; padding-left:0%; color:lightgrey;" onclick="cerrarMenuEsp();">
         <?php $this->renderSection('content'); ?>
         <?php
         if (!isset($_SESSION['nombre']) && $_SESSION['mensajeDesc'] == true) {
-            // echo '<img src="../public/logo.png"';
             echo "<h1 id='txtDesconectado' style='width:30%;margin:25% 40%;color:grey; transition:1.5s;opacity:60%'>Desconectado</h1>";
             echo "<script>var ua = navigator.userAgent;if (!(ua.match(/Android/i)) && !(ua.match(/iOS/i))) {document.getElementById('contenido').innerHTML +='";
             echo '<div style="z-index:99;background-color: rgb(1, 168, 184);width:100%;color:whitesmoke;padding:1em 3em;position:fixed;bottom:0;left:0"><i class="fas fa-times" style="font-size: 150%" id="btnAyudaCerrar" onclick=cerrarBanner(this)></i><h2>Descarga la app gratuita de Aquando para Android</h2><hr><button style="background-color: yellowgreen;padding:15px;color:whitesmoke;border-radius: 9px;border:2px solid whitesmoke">Aquando<i class="fab fa-android"></i></button></div>';
@@ -388,21 +348,17 @@ if (isset($_GET['log'])) {
         } ?>
     </div>
 </body>
-
 <script>
 if (screen.width < 600) {
     document.getElementsByClassName('fas fa-tools')[0].style.display = 'none';
     document.getElementsByClassName('far fa-lightbulb')[0].style.display = 'none';
 }
-
 function cerrarMenuEsp() {
     cerrarMenu();
     $("#menuIzq").trigger('widthChange');
 }
-
 function cerrarBanner(e) {
     e.parentElement.style.display = 'none';
 }
 </script>
-
 </html>

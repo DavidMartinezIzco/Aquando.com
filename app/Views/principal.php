@@ -4,22 +4,15 @@
 <script src="../../css/principal.js"></script>
 <script src='../../css/echarts.js'></script>
 <script src="../../css/reloj.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-    crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-    crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 <main id="conPrincipal" style="width:100%;border-radius:10px; margin-top:1%">
-    <!-- zona IZQUIERDA -->
     <div id="prinIzq">
         <div id="prinIzqSup">
-            <!-- zona del mapa -->
             <div id="conMapa">
             </div>
         </div>
         <div id="prinIzqInf">
-            <!-- zona de wid digitales -->
             <div id="widSup">
                 <div style="border: 2px dashed rgb(1, 168, 184) ;" class="digiIzq"></div>
                 <div style="border: 2px dashed rgb(1, 168, 184);" class="digiDer"></div>
@@ -30,7 +23,6 @@
             </div>
         </div>
     </div>
-    <!-- ZONA DERECHA -->
     <div id="prinDer">
         <div id="widSup">
             <div style="border: 4px dashed rgb(1, 168, 184);" class="digiIzq"></div>
@@ -41,11 +33,8 @@
             <div style="border: 4px dashed rgb(1, 168, 184);" class="digiDer"></div>
         </div>
     </div>
-    <!---zona alarmas--->
     <table id="alarmasSur">
     </table>
-    <!-- ajustes generales de seccion -->
-    <!-- mucho del codigo es provisional -->
     <div id="ajustesSeccion">
         <div id="seccionSel">
             <ul id="widList" style="list-style: none; padding-left: 0;width:100%;height:100%">
@@ -63,21 +52,21 @@
     </div>
 </main>
 <script>
-var estacionesUsu = <?php echo json_encode($estaciones); ?>;
-var estacionesUbis = <?php echo json_encode($estacionesUbis); ?>;
-var usu = '<?php echo $_SESSION['nombre'] ?>';
-var pwd = '<?php echo $_SESSION['hpwd'] ?>';
-sessionStorage.setItem('nousu', usu);
-sessionStorage.setItem('pwd', pwd);
-window.onload = function() {
-    setInterval(actualizar(), 1000 * 60 * 10);
-    mapas();
-    ajustes();
-    setInterval(fechaYHora, 1000);
-    setInterval(comprobarTiempo, 1000);
-    $("#menuIzq").trigger('widthChange');
-    setInterval(actualizarSur('general', usu, pwd, null), 20000);
-    pantalla();
-}
+    var estacionesUsu = <?php echo json_encode($estaciones); ?>;
+    var estacionesUbis = <?php echo json_encode($estacionesUbis); ?>;
+    var usu = '<?php echo $_SESSION['nombre'] ?>';
+    var pwd = '<?php echo $_SESSION['hpwd'] ?>';
+    sessionStorage.setItem('nousu', usu);
+    sessionStorage.setItem('pwd', pwd);
+    window.onload = function() {
+        setInterval(actualizar(), 1000 * 60 * 10);
+        mapas();
+        ajustes();
+        setInterval(fechaYHora, 1000);
+        setInterval(comprobarTiempo, 1000);
+        $("#menuIzq").trigger('widthChange');
+        setInterval(actualizarSur('general', usu, pwd, null), 20000);
+        pantalla();
+    }
 </script>
 <?= $this->endSection() ?>
