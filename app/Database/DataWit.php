@@ -89,13 +89,10 @@ class Datawit
     public function leerConsignaWIT($recurso)
     {
         if ($this->conectar()) {
-            $consulta = "SELECT * FROM [DBEASY452].[dbo].[WValue] WHERE ValueWOSAdd LIKE('%".$recurso."'%)";
+            $consulta = "SELECT * FROM [DBEASY452].[dbo].[WValue] WHERE ValueWOSAdd LIKE('%".$recurso."%')";
             $respuesta = sqlsrv_query($this->conexion, $consulta);
             if ($this->consultaExitosa($respuesta)) {
-                $datos = array();
-                while ($fila = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC)) {
-                    $datos[] = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC);
-                }
+                $datos = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC);
                 return $datos;
             }
         }
