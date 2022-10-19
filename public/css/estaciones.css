@@ -377,6 +377,17 @@
   text-align: left;
   padding: 2% 5%;
 }
+.consigna_con {
+  background-color: yellowgreen;
+  color: rgb(45, 45, 45);
+}
+
+.consigna_sin {
+  list-style: none;
+  background-color: rgb(1, 168, 184);
+  color: whitesmoke;
+}
+
 
 #ajustesDisplay {
   font-size: 110%;
