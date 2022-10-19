@@ -849,10 +849,10 @@ function ajustes() {
 }
 //funciones para los ajustes. Muestran los tags con consignas modificables de la estación
 function mostrarAjustesTag(obj) {
-
-  for(var el in document.getElementsByClassName('tagEnLista')){
-    document.getElementsByClassName('tagEnLista')[el].classList.add("consigna_sin") ;
-    document.getElementsByClassName('tagEnLista')[el].classList.remove("consigna_con")
+  var tagsenlista = document.getElementsByClassName('tagEnLista');
+  for(var elem in tagsenlista){
+    tagsenlista[elem].classList.add("consigna_sin") ;
+    tagsenlista[elem].classList.remove("consigna_con");
   }
   obj.classList.add("consigna_con");
 
