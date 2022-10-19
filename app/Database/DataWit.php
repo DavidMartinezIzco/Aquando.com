@@ -99,18 +99,18 @@ class Datawit
     }
 
     //ESTA SIN HACER TODAVIA
-    public function modificarConsignaWit() //habra que meter params (estacion, tag, consigna, valor etc)
+    public function modificarConsignaWit($ref,$valor) //habra que meter params (estacion, tag, consigna, valor etc)
     {
         if ($this->conectar()) {
-            $conConsignas = "";
+            $conConsignas = "UPDATE [DBEASY452].[dbo].[WValue] SET ValueReadData = '".$valor."', ValueWriteStatus = 10 WHERE ValueWOSAdd LIKE('%".$ref."%')";
             $params = array();
             $stmt = sqlsrv_query($this->conexion, $conConsignas, $params);
             if ($this->consultaExitosa($stmt)) {
                 sqlsrv_free_stmt($stmt);
-                return true;
+                return 'update';
             }
         }
-        return false;
+        return 'error';
     }
 
 

@@ -755,12 +755,13 @@ function leerValorConsigna(ref, nombre) {
         opcion: "det",
       },
       success: function (datos) {
-        
         var estado = "desconocido";
         if (datos["ValueWriteStatus"] == 0) {
-          estado = "<span style='color:yellowgreen'>Confirmado <i class='far fa-check-circle'></i></span>";
+          estado =
+            "<span style='color:yellowgreen'>Confirmado <i class='far fa-check-circle'></i></span>";
         } else {
-          estado = "<span style='color:tomato'>Pendiente de comunicar <i class='fas fa-hourglass'></i></span>";
+          estado =
+            "<span style='color:tomato'>Pendiente de comunicar <i class='fas fa-hourglass'></i></span>";
         }
         datosConsig = {
           valor: datos["ValueReadData"].replace(/ /g, ""),
@@ -784,7 +785,7 @@ function leerValorConsigna(ref, nombre) {
           datosConsig["valor"] +
           " ></b></p>";
         ajustes +=
-          "<button id=btnAceptarConsigna>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
+          "<button id=btnAceptarConsigna onclick='modificarConsignas()'>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
         ajustes +=
           "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>";
         zona.innerHTML += ajustes;
@@ -796,14 +797,17 @@ function leerValorConsigna(ref, nombre) {
     });
   });
 }
+function modificarConsignas() {
+  var ref = document.getElementsByClassName("consigna_con")[0].id;
+  var valor = document.getElementById("inputAjustes").value;
 
-function modificarConsignas(ref, valor) {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
       url: "/Aquando.com/A_Ajustes.php",
       data: {
         ref: ref,
+        val: valor,
         opcion: "mod",
       },
       success: function (datos) {
@@ -856,13 +860,12 @@ function mostrarAjustesTag(obj) {
   var datosConsigna = leerValorConsigna(ref, n);
 }
 
-function ciclarMenuAjustes(){
-  var tagsenlista = document.getElementsByClassName('tagEnLista');
-  for(var elem=0;elem<tagsenlista.length;elem++){
-    tagsenlista[elem].classList.add("consigna_sin") ;
+function ciclarMenuAjustes() {
+  var tagsenlista = document.getElementsByClassName("tagEnLista");
+  for (var elem = 0; elem < tagsenlista.length; elem++) {
+    tagsenlista[elem].classList.add("consigna_sin");
     tagsenlista[elem].classList.remove("consigna_con");
   }
   document.getElementById(ref).classList.add("consigna_con");
   document.getElementById(ref).classList.remove("consigna_sin");
 }
-

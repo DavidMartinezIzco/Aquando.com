@@ -22,4 +22,8 @@ if ($opcion == "det") {
 //modifica una consigna
 if ($opcion == "mod") {
     //[coger params]
+    $ref = $_POST['ref'];
+    $val = $_POST['val'];
+    $update = $DW->modificarConsignaWit($ref,$val);
+    echo $update;
 }
