@@ -367,6 +367,19 @@
   list-style: none;
   padding-left: 0%;
   width: 100%;
+  overflow-y: scroll;
+}
+
+#listaTags::-webkit-scrollbar {
+  height: 15px;
+  /* border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px; */
+}
+
+#listaTags::-webkit-scrollbar-thumb {
+  background-color: rgb(1, 168, 184);
+  /* border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px; */
 }
 
 .tagEnLista {
