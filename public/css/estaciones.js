@@ -851,10 +851,10 @@ function ajustes() {
 function mostrarAjustesTag(obj) {
 
   for(var el in document.getElementsByClassName('tagEnLista')){
-    document.getElementsByClassName('tagEnLista')[el].className.add("consigna_sin") ;
-    document.getElementsByClassName('tagEnLista')[el].className.remove("consigna_con")
+    document.getElementsByClassName('tagEnLista')[el].classList.add("consigna_sin") ;
+    document.getElementsByClassName('tagEnLista')[el].classList.remove("consigna_con")
   }
-  obj.className.add("consigna_con");
+  obj.classList.add("consigna_con");
 
   ref = obj.id.toString();
   var n = obj.innerText;
