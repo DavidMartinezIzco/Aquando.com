@@ -745,6 +745,7 @@ function consignasAltBd() {
 }
 
 function leerValorConsigna(ref, nombre) {
+  ciclarMenuAjustes();
   $(document).ready(function () {
     $.ajax({
       type: "POST",
@@ -754,6 +755,7 @@ function leerValorConsigna(ref, nombre) {
         opcion: "det",
       },
       success: function (datos) {
+        
         var estado = "desconocido";
         if (datos["ValueWriteStatus"] == 0) {
           estado = "Confirmado";
@@ -849,22 +851,17 @@ function ajustes() {
 }
 //funciones para los ajustes. Muestran los tags con consignas modificables de la estación
 function mostrarAjustesTag(obj) {
+  ref = obj.id.toString();
+  var n = obj.innerText;
+  var datosConsigna = leerValorConsigna(ref, n);
+}
+
+function ciclarMenuAjustes(){
   var tagsenlista = document.getElementsByClassName('tagEnLista');
   for(var elem in tagsenlista){
     tagsenlista[elem].classList.add("consigna_sin") ;
     tagsenlista[elem].classList.remove("consigna_con");
   }
   obj.classList.add("consigna_con");
-
-  ref = obj.id.toString();
-  var n = obj.innerText;
-  var datosConsigna = leerValorConsigna(ref, n);
 }
 
-
-function editarConsigna(ref,nom){
-
-  var val = document.getElementById('inputAjustes').value;
-
-
-}
