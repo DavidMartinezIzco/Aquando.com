@@ -3,6 +3,8 @@ require '../app/Database/DataWit.php';
 $DW = new Datawit();
 $opcion = $_POST['opcion'];
 
+//NO DEJAR QUE SE MODIFIQUEN LAS CONSIGNAS DE BERROA!!!
+
 //muestra lista de consignas
 if ($opcion == "con") {
     $estacion = $_POST['estacion'];

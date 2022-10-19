@@ -78,7 +78,7 @@ class Datawit
             if ($this->consultaExitosa($respuesta)) {
                 $datos = array();
                 while ($fila = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC)) {
-                    $datos[] = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC);
+                    $datos[] = $fila;
                 }
                 return $datos;
             }
