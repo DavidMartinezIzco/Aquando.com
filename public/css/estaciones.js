@@ -770,8 +770,8 @@ function leerValorConsigna(ref, nombre) {
         var zona = document.getElementById("ajustesDisplay");
         zona.innerHTML = "";
         var ajustes = "";
-        ajustes +=
-          "<h4><b>Modificar consignas</b><i style='font-size:115%' class='far fa-bell'></i></h4><hr>";
+        // ajustes +=
+        //   "<h4><b>Modificar consignas</b><i style='font-size:115%' class='far fa-bell'></i></h4><hr>";
         ajustes +=
           "<p>Valor actual de <b>" +
           datosConsig["nombre"] +
