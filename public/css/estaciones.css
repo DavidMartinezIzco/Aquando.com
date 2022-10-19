@@ -338,6 +338,11 @@
   border-radius: 0;
   border: 2px solid rgb(45,45,45);
 }
+#ajustesDisplay{
+  padding: 2%;
+  margin-left: 22%;
+  color:rgb(45, 45, 45);
+}
 
 #formAjustes {
   width: 100%;
