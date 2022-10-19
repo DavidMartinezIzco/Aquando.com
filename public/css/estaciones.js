@@ -761,7 +761,7 @@ function leerValorConsigna(ref, nombre) {
             "<span style='color:yellowgreen'>Confirmado <i class='far fa-check-circle'></i></span>";
         } else {
           estado =
-            "<span style='color:tomato'>Pendiente de comunicar <i class='fas fa-hourglass'></i></span>";
+            "<span style='color:tomato'>Pendiente de comunicar <i class='far fa-clock'></i></span>";
         }
         datosConsig = {
           valor: datos["ValueReadData"].replace(/ /g, ""),
@@ -772,7 +772,7 @@ function leerValorConsigna(ref, nombre) {
         zona.innerHTML = "";
         var ajustes = "";
         ajustes +=
-          "<h4><b>Modificar consignas</b><i style='font-size:115%' class='far fa-bell'></i></h4><hr>";
+          "<h4><b>Modificar consignas</b></h4><hr>";
         ajustes +=
           "<p>Valor actual de <b>" +
           datosConsig["nombre"] +
@@ -811,12 +811,13 @@ function modificarConsignas() {
         opcion: "mod",
       },
       success: function (datos) {
-        console.log("exito?");
+        // console.log(datos);
+        mostrarAjustesTag(document.getElementById(ref));
       },
       error: function (e) {
         console.log("error");
       },
-      dataType: "json",
+      // dataType: "json",
     });
   });
 }
