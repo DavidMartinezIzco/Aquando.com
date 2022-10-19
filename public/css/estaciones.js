@@ -851,8 +851,8 @@ function ajustes() {
 function mostrarAjustesTag(obj) {
 
   for(var el in document.getElementsByClassName('tagEnLista')){
-    el.className.add("consigna_sin") ;
-    el.className.remove("consigna_con")
+    document.getElementsByClassName('tagEnLista')[el].className.add("consigna_sin") ;
+    document.getElementsByClassName('tagEnLista')[el].className.remove("consigna_con")
   }
   obj.className.add("consigna_con");
 
