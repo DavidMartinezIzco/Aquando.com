@@ -304,9 +304,9 @@
   padding: 1%;
   width: 70%;
   height: 65%;
-  background-color: lightgray;
+  background-color: transparent;
   border-radius: 15px;
-  border: 2px solid gray;
+  border: none;
   position: absolute;
   left: 17%;
   top: 12%;
@@ -323,6 +323,7 @@
   transition: 0.2s;
   color: black;
   font-size: 200%;
+  margin: 0.5% 1%;
 }
 
 #btnAjustesCerrar:hover {
@@ -334,7 +335,8 @@
   width: 100%;
   height: 90%;
   background-color: whitesmoke;
-  border-radius: 10px;
+  border-radius: 0;
+  border: 2px solid rgb(45,45,45);
 }
 
 #formAjustes {
@@ -367,24 +369,21 @@
   list-style: none;
   padding-left: 0%;
   width: 100%;
+  height: 100%;
   overflow-y: scroll;
 }
 
 #listaTags::-webkit-scrollbar {
   height: 15px;
-  /* border-bottom-right-radius: 8px;
-  border-top-right-radius: 8px; */
 }
 
 #listaTags::-webkit-scrollbar-thumb {
   background-color: rgb(1, 168, 184);
-  /* border-bottom-right-radius: 8px;
-  border-top-right-radius: 8px; */
 }
 
 .tagEnLista {
   list-style: none;
-  background-color: rgb(1, 168, 184);
+  background-color: darkseagreen;
   width: 100%;
   text-align: left;
   padding: 2% 5%;
@@ -401,16 +400,8 @@
 
 .consigna_sin {
   list-style: none;
-  background-color: rgb(1, 168, 184);
+  background-color: darkseagreen;
   color: whitesmoke;
-}
-
-#ajustesDisplay {
-  font-size: 110%;
-  width: 80%;
-  float: right;
-  padding: 2% 5%;
-  color: black;
 }
 
 #btnAceptarConsigna {
