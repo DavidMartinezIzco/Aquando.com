@@ -863,5 +863,6 @@ function ciclarMenuAjustes(){
     tagsenlista[elem].classList.remove("consigna_con");
   }
   document.getElementById(ref).classList.add("consigna_con");
+  document.getElementById(ref).classList.remove("consigna_sin");
 }
 
