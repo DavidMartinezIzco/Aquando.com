@@ -758,9 +758,9 @@ function leerValorConsigna(ref, nombre) {
         
         var estado = "desconocido";
         if (datos["ValueWriteStatus"] == 0) {
-          estado = "Confirmado";
+          estado = "<span style='color:yellowgreen'>Confirmado</span>";
         } else {
-          estado = "Pendiente de comunicar";
+          estado = "<span style='color:tomato'>Pendiente de comunicar</span>";
         }
         datosConsig = {
           valor: datos["ValueReadData"].replace(/ /g, ""),
