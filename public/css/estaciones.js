@@ -745,7 +745,7 @@ function consignasAltBd() {
 }
 
 function leerValorConsigna(ref, nombre) {
-  ciclarMenuAjustes();
+  ciclarMenuAjustes(ref);
   $(document).ready(function () {
     $.ajax({
       type: "POST",
@@ -858,10 +858,10 @@ function mostrarAjustesTag(obj) {
 
 function ciclarMenuAjustes(){
   var tagsenlista = document.getElementsByClassName('tagEnLista');
-  for(var elem in tagsenlista){
+  for(var elem=0;elem<tagsenlista.length;elem++){
     tagsenlista[elem].classList.add("consigna_sin") ;
     tagsenlista[elem].classList.remove("consigna_con");
   }
-  obj.classList.add("consigna_con");
+  document.getElementById(ref).classList.add("consigna_con");
 }
 
