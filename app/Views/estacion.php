@@ -24,7 +24,7 @@
     </div>
     <div id="ajustesEstacion">
         <i class="fas fa-times" id="btnAjustesCerrar" onclick="ajustes()"></i>
-        <h1>Ajustes de estación <?php echo $nombreEstacion; ?></h1>
+        <!-- <h1>Ajustes de estación <?php echo $nombreEstacion; ?></h1> -->
         <div id="cuerpoAjustes" class="cuerpoAjustes">
             <form id="formAjustes" action="javascript:void(0);">
                 <div id="ajustesSeleccion">
