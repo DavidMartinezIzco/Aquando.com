@@ -71,7 +71,7 @@ class Datawit
     //LISTA LAS CONSIGNAS DISPONIBLES DE UNA ESTACION DADO SU NOMBRE
     public function consignasEstacion($estacion)
     {
-        if ($this->conectarAux()) {
+        if ($this->conectarAux() && $estacion != "Deposito Berroa") {
             $consulta = "SELECT * FROM Info_lkv where estacion like('%" . $estacion . "%') AND nombre_tag like ('%Consigna%')";
             // $params = array($estacion);
             $respuesta = sqlsrv_query($this->conexion, $consulta);

@@ -802,6 +802,7 @@ function leerValorConsigna(ref, nombre) {
     });
   });
 }
+
 function modificarConsignas() {
   var ref = document.getElementsByClassName("consigna_con")[0].id;
   var valor = document.getElementById("inputAjustes").value;
