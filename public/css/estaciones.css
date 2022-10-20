@@ -336,12 +336,12 @@
   height: 90%;
   background-color: whitesmoke;
   border-radius: 0;
-  border: 2px solid rgb(45,45,45);
+  border: 2px solid rgb(45, 45, 45);
 }
-#ajustesDisplay{
+#ajustesDisplay {
   padding: 2%;
   margin-left: 32%;
-  color:rgb(45, 45, 45);
+  color: rgb(45, 45, 45);
 }
 
 #formAjustes {

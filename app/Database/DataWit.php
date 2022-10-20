@@ -99,10 +99,10 @@ class Datawit
     }
 
     //ESTA SIN HACER TODAVIA
-    public function modificarConsignaWit($ref,$valor) //habra que meter params (estacion, tag, consigna, valor etc)
+    public function modificarConsignaWit($ref, $valor) //habra que meter params (estacion, tag, consigna, valor etc)
     {
         if ($this->conectar()) {
-            $conConsignas = "UPDATE [DBEASY452].[dbo].[WValue] SET ValueReadData = '".$valor."', ValueWriteStatus = 10 WHERE ValueWOSAdd LIKE('%".$ref."%')";
+            $conConsignas = "UPDATE [DBEASY452].[dbo].[WValue] SET ValueReadData = '" . $valor . "', ValueWriteStatus = 10 WHERE ValueWOSAdd LIKE('%" . $ref . "%')";
             $params = array();
             $stmt = sqlsrv_query($this->conexion, $conConsignas, $params);
             if ($this->consultaExitosa($stmt)) {
@@ -112,26 +112,4 @@ class Datawit
         }
         return 'error';
     }
-
-
-    // NO HACE NADA Y NO CREO QUE LA USE (EN ESTA CLASE AL MENOS)
-    // public function cambiosPendientes() //no se si usare una funcion asi
-    // {
-    //     if ($this->conectar()) {
-    //         $result = null; //algo como [nom_consigna,nom_estacion,estado]
-    //         $conConsignas = "super código de búsqueda de cambios pendientes";
-    //         $params = array();
-    //         $stmt = sqlsrv_query($this->conexion, $conConsignas, $params);
-    //         if ($this->consultaExitosa($stmt)) {
-    //             while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-    //                 $result[] = $row; //$row['nombre_columna'] para valores concretos
-    //             }
-    //             sqlsrv_free_stmt($stmt);
-    //             return $result;
-    //         }
-    //     }
-    //     return false;
-    // }
-
-
 }

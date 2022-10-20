@@ -413,8 +413,8 @@ function montarGraficosWidget() {
         yAxis: {
           type: "value",
           nameTextStyle: {
-            fontSize: 0
-          }
+            fontSize: 0,
+          },
         },
         series: [
           {
@@ -605,8 +605,8 @@ function montarGraficosWidget() {
         name: datosAnalog[tag]["nombre_tag"],
         type: "value",
         nameTextStyle: {
-          fontSize: 0
-        }
+          fontSize: 0,
+        },
       },
       series: [
         {
@@ -720,7 +720,6 @@ function controlMobile() {
     }
   }
 }
-
 //experimental y provisional
 function consignasAltBd() {
   $(document).ready(function () {
@@ -790,10 +789,15 @@ function leerValorConsigna(ref, nombre) {
           datosConsig["valor"] +
           " ></b></p>";
         ajustes +=
-          "<button id=btnAceptarConsigna onclick='modificarConsignas()'>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
+          "<button id=btnAceptarConsigna enabled='false' onclick='modificarConsignas()'>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
         ajustes +=
           "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>";
         zona.innerHTML += ajustes;
+        document
+          .getElementById("inputAjustes")
+          .addEventListener("change", (event) => {
+            document.getElementById("btnAceptarConsigna").enabled = "true";
+          });
       },
       error: function (e) {
         console.log("error");
@@ -806,7 +810,6 @@ function leerValorConsigna(ref, nombre) {
 function modificarConsignas() {
   var ref = document.getElementsByClassName("consigna_con")[0].id;
   var valor = document.getElementById("inputAjustes").value;
-
   $(document).ready(function () {
     $.ajax({
       type: "POST",
@@ -816,14 +819,15 @@ function modificarConsignas() {
         val: valor,
         opcion: "mod",
       },
-      success: function (datos) {
-        // console.log(datos);
+      success: function (log) {
         mostrarAjustesTag(document.getElementById(ref));
+        var zona = document.getElementById("ajustesDisplay");
+        zona.innerHTML +=
+          "<p><i class='fas fa-info-circle'></i>La consigna se actualizará en la próxima comunicación</p>";
       },
       error: function (e) {
         console.log("error");
       },
-      // dataType: "json",
     });
   });
 }
@@ -841,9 +845,11 @@ function ajustes() {
       ajustes.style.opacity = "100%";
     }, 200);
     if (listaCon.length < 1) {
-      var selec = document.getElementById('ajustesDisplay');
-      selec.innerHTML += "<h4><b>No hay consignas modificables en esta estación</b><i class='far fa-bell-slash'></i></h4><hr>";
-      selec.innerHTML += "<p><i class='fas fa-info-circle'></i>Solo pueden modificarse consignas de OPC WIT</p>";
+      var selec = document.getElementById("ajustesDisplay");
+      selec.innerHTML +=
+        "<h4><b>No hay consignas modificables en esta estación</b><i class='far fa-bell-slash'></i></h4><hr>";
+      selec.innerHTML +=
+        "<p><i class='fas fa-info-circle'></i>Solo pueden modificarse consignas de OPC WIT</p>";
     } else {
       var selec = document.getElementById("listaTags");
       selec.innerHTML = "";
@@ -862,13 +868,12 @@ function ajustes() {
       document.getElementsByClassName("tagEnLista")[0].click();
     }
   }
-  // mostrarAjustesTag(primero);
 }
-//funciones para los ajustes. Muestran los tags con consignas modificables de la estación
+
 function mostrarAjustesTag(obj) {
   ref = obj.id.toString();
   var n = obj.innerText;
-  var datosConsigna = leerValorConsigna(ref, n);
+  leerValorConsigna(ref, n);
 }
 
 function ciclarMenuAjustes() {
