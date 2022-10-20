@@ -42,7 +42,6 @@
 <script>
     var nestacion = "<?php echo $ultimaConex[0]['nombre_estacion']; ?>";
     var estacion = <?php echo $id_estacion ?>;
-
     function updateEstacion() {
         $(document.getElementById("iconoActu")).addClass("rotante");
         actualizar(estacion);

@@ -8,7 +8,7 @@ class Database
     private $dbname = "aquando_ddbb";
     private $user = "postgres";
     private $password = "123456";
-    private $conexion;
+    private $conexion = false;
     public function __construct()
     {
         if (!function_exists('str_contains')) {
@@ -22,7 +22,10 @@ class Database
     //uso interno
     private function conectar()
     {
-        return $this->conexion = pg_connect("host=$this->host dbname=$this->dbname user=$this->user password=$this->password");
+        if(!$this->conexion){
+            return $this->conexion = pg_connect("host=$this->host dbname=$this->dbname user=$this->user password=$this->password");
+        }
+        return $this->conexion;
     }
     //comprueba si una consulta a BD tiene respuesta
     //uso interno

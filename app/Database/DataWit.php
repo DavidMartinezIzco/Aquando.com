@@ -11,12 +11,9 @@
 class Datawit
 {
     private $nombre_server = "tcp:172.16.4.2,1433";
-    private $conexion;
+    private $conexion = false;
     private $info_server;
     //dbname, uid, pwd, puerto, direccion...
-
-
-
     public function __construct()
     {
     }
@@ -24,13 +21,16 @@ class Datawit
     //AQUI ESTÁN LOS VALORES DE LAS CONSIGNAS
     private function conectar()
     {
-        $this->info_server = array("Database" => "DBEASY452", "Uid" => "sa", "PWD" => "dateando", "Encrypt" => false);
-        $stmt = sqlsrv_connect($this->nombre_server, $this->info_server);
-        if ($this->consultaExitosa($stmt)) {
-            return $this->conexion = $stmt;
-        } else {
-            return false;
+        if (!$this->conexion) {
+            $this->info_server = array("Database" => "DBEASY452", "Uid" => "sa", "PWD" => "dateando", "Encrypt" => false);
+            $stmt = sqlsrv_connect($this->nombre_server, $this->info_server);
+            if ($this->consultaExitosa($stmt)) {
+                return $this->conexion = $stmt;
+            } else {
+                return false;
+            }
         }
+        return $this->conexion;
     }
     //CONEXION AUXILIAR A Conversion_Aquando
     //AQUI ESTAN EL NEXO ENTRE LAS ESTACIONES Y LAS REFERENCIAS A TAGS EN DBEASY
@@ -44,7 +44,6 @@ class Datawit
             return false;
         }
     }
-
     //COMPRUEBA LOS RESULTADOS
     //SE USA ANTES DE DEVOLVER LA INFO
     private function consultaExitosa($stmt)
@@ -56,7 +55,6 @@ class Datawit
             return false;
         }
     }
-
     //TESTEO DE LA CONEXION
     //YA NO SE USA
     public function estadoConex()
@@ -67,7 +65,6 @@ class Datawit
             return "conectado";
         }
     }
-
     //LISTA LAS CONSIGNAS DISPONIBLES DE UNA ESTACION DADO SU NOMBRE
     public function consignasEstacion($estacion)
     {
@@ -84,7 +81,6 @@ class Datawit
             }
         }
     }
-
     //LEE LOS VALORES DE UN TAG DADA SU REFERENCIA
     public function leerConsignaWIT($recurso)
     {
@@ -97,7 +93,6 @@ class Datawit
             }
         }
     }
-
     //ESTA SIN HACER TODAVIA
     public function modificarConsignaWit($ref, $valor) //habra que meter params (estacion, tag, consigna, valor etc)
     {

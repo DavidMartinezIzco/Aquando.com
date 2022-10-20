@@ -789,14 +789,14 @@ function leerValorConsigna(ref, nombre) {
           datosConsig["valor"] +
           " ></b></p>";
         ajustes +=
-          "<button id=btnAceptarConsigna enabled='false' onclick='modificarConsignas()'>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
+          "<button id=btnAceptarConsigna enabled=false onclick='modificarConsignas()'>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
         ajustes +=
           "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>";
         zona.innerHTML += ajustes;
         document
           .getElementById("inputAjustes")
           .addEventListener("change", (event) => {
-            document.getElementById("btnAceptarConsigna").enabled = "true";
+            document.getElementById("btnAceptarConsigna").enabled = true;
           });
       },
       error: function (e) {
