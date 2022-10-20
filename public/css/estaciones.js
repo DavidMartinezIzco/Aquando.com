@@ -771,8 +771,7 @@ function leerValorConsigna(ref, nombre) {
         var zona = document.getElementById("ajustesDisplay");
         zona.innerHTML = "";
         var ajustes = "";
-        ajustes +=
-          "<h4><b>Modificar consignas</b></h4><hr>";
+        ajustes += "<h4><b>Modificar consignas</b></h4><hr>";
         ajustes +=
           "<p>Valor actual de <b>" +
           datosConsig["nombre"] +
@@ -834,23 +833,27 @@ function ajustes() {
     setTimeout(function () {
       ajustes.style.opacity = "100%";
     }, 200);
-    var selec = document.getElementById("listaTags");
-    selec.innerHTML = "";
-    var lista = "";
-    var i = 0;
-    var primero;
-    for (var index = 0; index < listaCon.length; index++) {
-      lista +=
-        "<li class=tagEnLista onclick='mostrarAjustesTag(this)' id=" +
-        listaCon[index]["NW"] +
-        "." +
-        listaCon[index]["RW"] +
-        " >" +
-        listaCon[index]["NT"] +
-        "</li>";
+    if (listaCon.length < 1) {
+      var selec = document.getElementById('ajustesDisplay');
+      selec.innerHTML = "<h4><b>No hay consignas modificables en esta estación</b><i class='far fa-bell-slash'></i></h4><hr>";
+      selec.innerHTML = "<p><i class='fas fa-info-circle'></i>Solo pueden modificarse consignas de OPC WIT</p>";
+    } else {
+      var selec = document.getElementById("listaTags");
+      selec.innerHTML = "";
+      var lista = "";
+      for (var index = 0; index < listaCon.length; index++) {
+        lista +=
+          "<li class=tagEnLista onclick='mostrarAjustesTag(this)' id=" +
+          listaCon[index]["NW"] +
+          "." +
+          listaCon[index]["RW"] +
+          " >" +
+          listaCon[index]["NT"] +
+          "</li>";
+      }
+      selec.innerHTML += lista;
+      document.getElementsByClassName("tagEnLista")[0].click();
     }
-    selec.innerHTML += lista;
-    document.getElementsByClassName("tagEnLista")[0].click();
   }
   // mostrarAjustesTag(primero);
 }
