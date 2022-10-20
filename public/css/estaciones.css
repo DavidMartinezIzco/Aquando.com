@@ -37,6 +37,7 @@
 #seccionInfo {
   /* border-radius: 10px; */
   float: right;
+  background-color: white;
   width: 60%;
   height: 100%;
   padding: 2.5% 1.5%;
@@ -174,6 +175,7 @@
   text-align: center;
   color: rgb(85, 85, 85);
   width: 100%;
+  background-color: whitesmoke;
   font-size: 90%;
   padding: 0%;
   margin: 0px;
@@ -194,12 +196,13 @@
 }
 
 .contador {
-  height: calc(100% / 3 * 2);
+  height: 60%;
   text-align: center;
   color: white;
   width: 100%;
   font-size: 90%;
   vertical-align: center;
+  background-color: whitesmoke;
   font-size: 100%;
 }
 
@@ -661,6 +664,7 @@
   }
   .widAnaInfo {
     width: 100%;
+    background-color: whitesmoke;
   }
   .widAnaGraf {
     width: 0%;
@@ -671,8 +675,10 @@
     border-radius: 0px;
     height: 20%;
   }
+
   .widAnaInfoSec {
     height: 80%;
+    background-color: whitesmoke;
   }
 
   .contador {

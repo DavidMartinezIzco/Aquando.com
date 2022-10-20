@@ -337,7 +337,7 @@ if (isset($_GET['log'])) {
             <i class="fas fa-arrow-right"></i>
         </button>
     </div>
-    <div id="contenido" style="padding-top: 3.8%; padding-left:0%; color:lightgrey;" onclick="cerrarMenuEsp();">
+    <div id="contenido" style="padding-top: 3.8%; padding-left:0%; color:lightgrey;height:1000px;" onclick="cerrarMenuEsp();">
         <?php $this->renderSection('content'); ?>
         <?php
         if (!isset($_SESSION['nombre']) && $_SESSION['mensajeDesc'] == true) {
