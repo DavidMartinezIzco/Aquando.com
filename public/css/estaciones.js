@@ -385,7 +385,7 @@ function montarGraficosWidget() {
           right: "4%",
           top: "12%",
           bottom: "2%",
-          containLabel: true,
+          containLabel: false,
         },
         tooltip: {
           trigger: "axis",
@@ -399,7 +399,7 @@ function montarGraficosWidget() {
             offset: 0,
             type: "line",
             label: {
-              formatter: "fecha y hora: {value}",
+              formatter: "fecha: {value}",
               fontStyle: "bold",
             },
           },
@@ -412,6 +412,9 @@ function montarGraficosWidget() {
         },
         yAxis: {
           type: "value",
+          nameTextStyle: {
+            fontSize: 0
+          }
         },
         series: [
           {
@@ -601,6 +604,9 @@ function montarGraficosWidget() {
       yAxis: {
         name: datosAnalog[tag]["nombre_tag"],
         type: "value",
+        nameTextStyle: {
+          fontSize: 0
+        }
       },
       series: [
         {
