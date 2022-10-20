@@ -44,6 +44,8 @@
     var estacion = <?php echo $id_estacion ?>;
     function updateEstacion() {
         $(document.getElementById("iconoActu")).addClass("rotante");
+        sessionStorage.setItem('param_id') = null;
+        sessionStorage.setItem('data') = null;
         actualizar(estacion);
         setTimeout(function() {
             document.getElementById("iconoActu").classList.remove("rotante");

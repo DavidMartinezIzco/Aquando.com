@@ -12,24 +12,32 @@ var listaCon = Array();
 sessionStorage.setItem("tagViejo", null);
 //actualizar la info de la seccion estacion
 function actualizar(id_estacion) {
-  $(document).ready(function () {
-    $.ajax({
-      type: "POST",
-      url: "/Aquando.com/A_Estacion.php",
-      data: {
-        opcion: "actualizar",
-        estacion: id_estacion,
-        tipo: "todos",
-      },
-      success: function (datos) {
-        filtrarDatos(datos);
-      },
-      error: function () {
-        console.log("error");
-      },
-      dataType: "json",
+
+  if(sessionStorage.getItem('param_id') == id_estacion){
+    datos = sessionStorage.getItem('data');
+  }else{
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/Aquando.com/A_Estacion.php",
+        data: {
+          opcion: "actualizar",
+          estacion: id_estacion,
+          tipo: "todos",
+        },
+        success: function (datos) {
+          filtrarDatos(datos);
+          sessionStorage.setItem('param_id') = id_estacion;
+          sessionStorage.setItem('data') = datos;
+        },
+        error: function () {
+          console.log("error");
+        },
+        dataType: "json",
+      });
     });
-  });
+  }
+ 
 }
 //obiene los trends de los ultimos 7 dias de los tags analógicos
 function trendsTags() {

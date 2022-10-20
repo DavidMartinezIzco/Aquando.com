@@ -18,7 +18,7 @@ class Usuario
         $this->nombre = $nombre;
         $this->contrasena = $contrasena;
         // $this->hash = password_hash($contrasena, PASSWORD_DEFAULT, array("cost" => 14));
-        
+
         //falta: cambiar a nueva BD
         $this->DB = new Database($this->nombre, $this->contrasena);
     }
@@ -82,7 +82,6 @@ class Usuario
 
     public function ultimasConexiones()
     {
-
         $estaciones = $this->estacionesUsuario;
         if ($estaciones != false) {
             $ultimasConexiones = array();
@@ -124,8 +123,6 @@ class Usuario
         $id = $this->DB->obtenerIdUsuario($nombre);
         return $id[0]['id_usuario'];
     }
-
-
 
     /**
      * Get the value of contrasena
