@@ -14,8 +14,6 @@ class Inicio extends BaseController
     private $sesion;
     public function __construct()
     {
-        
-        
         $this->sesion = \Config\Services::session();
         $this->sesion->start();
     }

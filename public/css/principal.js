@@ -222,37 +222,45 @@ function cargarAjustes() {
   var sel = document.getElementById("tagSel");
   sel.innerHTML = "";
   var arrEstaciones = JSON.stringify(estacionesUsu);
-  $(document).ready(function () {
-    $.ajax({
-      type: "POST",
-      url: "/Aquando.com/A_Principal.php",
-      data: {
-        opcion: "ajustes",
-        arrEstaciones: arrEstaciones,
-      },
-      success: function (tagsAnalog) {
-        listaTags = tagsAnalog;
-        sessionStorage.setItem("listaTags", JSON.stringify(listaTags));
-        for (var deposito in tagsAnalog) {
-          sel.innerHTML +=
-            "<optgroup label = '" +
-            tagsAnalog[deposito][0]["nombre_estacion"] +
-            "'>";
-          for (var tag in tagsAnalog[deposito]) {
-            var n_tag = tagsAnalog[deposito][tag]["nombre_tag"];
-            var id_tag = tagsAnalog[deposito][tag]["id_tag"];
+  if (sessionStorage.getItem("mapas_arrEstaciones") == arrEstaciones) {
+    listaTags = JSON.parse(sessionStorage.getItem("mapas_listaTags"));
+    sel.innerHTML = sessionStorage.getItem("mapas_sel");
+  } else {
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/Aquando.com/A_Principal.php",
+        data: {
+          opcion: "ajustes",
+          arrEstaciones: arrEstaciones,
+        },
+        success: function (tagsAnalog) {
+          listaTags = tagsAnalog;
+          sessionStorage.setItem("listaTags", JSON.stringify(listaTags));
+          for (var deposito in tagsAnalog) {
             sel.innerHTML +=
-              "<option value=" + id_tag + ">" + n_tag + "</option>";
+              "<optgroup label = '" +
+              tagsAnalog[deposito][0]["nombre_estacion"] +
+              "'>";
+            for (var tag in tagsAnalog[deposito]) {
+              var n_tag = tagsAnalog[deposito][tag]["nombre_tag"];
+              var id_tag = tagsAnalog[deposito][tag]["id_tag"];
+              sel.innerHTML +=
+                "<option value=" + id_tag + ">" + n_tag + "</option>";
+            }
+            sel.innerHTML += "</optgroup>";
           }
-          sel.innerHTML += "</optgroup>";
-        }
-      },
-      error: function () {
-        console.log("error de ajustes");
-      },
-      dataType: "json",
+          sessionStorage.setItem("mapas_arrEstaciones", arrEstaciones);
+          sessionStorage.setItem("mapas_listaTags", JSON.stringify(listaTags));
+          sessionStorage.setItem("mapas_sel", sel.innerHTML);
+        },
+        error: function () {
+          console.log("error de ajustes");
+        },
+        dataType: "json",
+      });
     });
-  });
+  }
 }
 //despliega u oculta la ventana de ajustes de los widgets de inicio
 function ajustes() {
@@ -326,6 +334,8 @@ function confirmarAjustesWidget(wid) {
       success: function () {
         document.getElementById("seccionAjustes").innerHTML +=
           "<br><div id='ajustesRespuesta'>widget configurado con éxito</div>";
+        sessionStorage.setItem("feed_usu", null);
+        sessionStorage.setItem("mapas_arrEstaciones", null);
         feedPrincipalCustom();
       },
       error: function () {
@@ -342,21 +352,27 @@ function getEventTarget(e) {
 }
 //llama a AJAX para obtener los datos de inicio
 function feedPrincipalCustom() {
-  $(document).ready(function () {
-    $.ajax({
-      type: "POST",
-      url: "/Aquando.com/A_Principal.php",
-      data: { opcion: "feed", usu: usu },
-      success: function (feedAna) {
-        renderPrincipalCustom(feedAna);
-      },
-      error: function (e) {
-        //console.log('error feed principal analog');
-        console.log(e);
-      },
-      dataType: "json",
+  if (usu == sessionStorage.getItem("feed_usu")) {
+    renderPrincipalCustom(JSON.parse(sessionStorage.getItem("feed_feedAna")));
+  } else {
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/Aquando.com/A_Principal.php",
+        data: { opcion: "feed", usu: usu },
+        success: function (feedAna) {
+          sessionStorage.setItem("feed_usu", usu);
+          sessionStorage.setItem("feed_feedAna", JSON.stringify(feedAna));
+          renderPrincipalCustom(feedAna);
+        },
+        error: function (e) {
+          //console.log('error feed principal analog');
+          console.log(e);
+        },
+        dataType: "json",
+      });
     });
-  });
+  }
 }
 //crea los widgets para las señales analogicas definidas en inicio
 function renderPrincipalCustom(feed) {

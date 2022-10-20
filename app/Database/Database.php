@@ -147,9 +147,9 @@ class Database
     //se usa en varios sitios
     public function mostrarEstacionesCliente($nombre, $pwd)
     {
-        if ($_SESSION['mostrarEstacionesCliente_nombre'] == $nombre && $_SESSION['mostrarEstacionesCliente_pwd'] == $pwd) {
-            return $estacionesArr = $_SESSION['mostrarEstacionesCliente_result'];
-        }
+        // if ($_SESSION['mostrarEstacionesCliente_nombre'] == $nombre && $_SESSION['mostrarEstacionesCliente_pwd'] == $pwd) {
+        //     return $estacionesArr = $_SESSION['mostrarEstacionesCliente_result'];
+        // }
         if ($this->conectar()) {
             $consulta = "SELECT estaciones.nombre_estacion, estaciones.id_estacion, estaciones.latitud, estaciones.longitud 
             FROM usuarios INNER JOIN usuario_estacion ON usuarios.id_usuario = usuario_estacion.id_usuario 
@@ -158,9 +158,9 @@ class Database
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $estacionesArr = pg_fetch_all($resultado);
-                $_SESSION['mostrarEstacionesCliente_nombre'] = $nombre;
-                $_SESSION['mostrarEstacionesCliente_pwd'] = $pwd;
-                $_SESSION['mostrarEstacionesCliente_result'] = $estacionesArr;
+                // $_SESSION['mostrarEstacionesCliente_nombre'] = $nombre;
+                // $_SESSION['mostrarEstacionesCliente_pwd'] = $pwd;
+                // $_SESSION['mostrarEstacionesCliente_result'] = $estacionesArr;
                 return $estacionesArr;
             } else {
                 return false;

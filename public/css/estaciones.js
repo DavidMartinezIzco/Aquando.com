@@ -14,7 +14,8 @@ sessionStorage.setItem("tagViejo", null);
 function actualizar(id_estacion) {
 
   if(sessionStorage.getItem('param_id') == id_estacion){
-    datos = sessionStorage.getItem('data');
+    var datos = JSON.parse(sessionStorage.getItem('data'));
+    filtrarDatos(datos);
   }else{
     $(document).ready(function () {
       $.ajax({
@@ -27,8 +28,8 @@ function actualizar(id_estacion) {
         },
         success: function (datos) {
           filtrarDatos(datos);
-          sessionStorage.setItem('param_id') = id_estacion;
-          sessionStorage.setItem('data') = datos;
+          sessionStorage.setItem('param_id', id_estacion)
+          sessionStorage.setItem('data',JSON.stringify(datos));
         },
         error: function () {
           console.log("error");
@@ -44,6 +45,13 @@ function trendsTags() {
   var listaTags = datosAnalog.concat(tagsAcumulados);
   var arrTags = JSON.stringify(listaTags);
   var id_estacion = estacion;
+
+  if(id_estacion == sessionStorage.getItem('trend_id') && arrTags == JSON.parse(sessionStorage.getItem('trend_arrTags'))){
+    montarWidgetsAnalogicos();
+        todoTrends = JSON.parse(sessionStorage.getItem('trend_todoTrends'));
+        montarWidgetsDigi();
+  }else{
+
   $(document).ready(function () {
     $.ajax({
       type: "POST",
@@ -58,6 +66,9 @@ function trendsTags() {
         montarWidgetsAnalogicos();
         todoTrends = trends;
         montarWidgetsDigi();
+        sessionStorage.setItem('trend_id', id_estacion);
+        sessionStorage.setItem('trend_arrTags', JSON.stringify(arrTags));
+        sessionStorage.setItem('trend_todoTrends',JSON.stringify(trends));
       },
       error: function () {
         console.log("error en las trends");
@@ -65,9 +76,12 @@ function trendsTags() {
       dataType: "json",
     });
   });
+  }
+
 }
 //divide los ultimos datos de la estacion según el tipo de señal
 function filtrarDatos(datos) {
+  
   var tagsBombas = Array();
   for (var indexDato in datos) {
     if (!datos[indexDato]["nombre_tag"].includes("Comunicacion")) {
