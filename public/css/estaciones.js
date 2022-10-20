@@ -841,8 +841,8 @@ function ajustes() {
     }, 200);
     if (listaCon.length < 1) {
       var selec = document.getElementById('ajustesDisplay');
-      selec.innerHTML = "<h4><b>No hay consignas modificables en esta estación</b><i class='far fa-bell-slash'></i></h4><hr>";
-      selec.innerHTML = "<p><i class='fas fa-info-circle'></i>Solo pueden modificarse consignas de OPC WIT</p>";
+      selec.innerHTML += "<h4><b>No hay consignas modificables en esta estación</b><i class='far fa-bell-slash'></i></h4><hr>";
+      selec.innerHTML += "<p><i class='fas fa-info-circle'></i>Solo pueden modificarse consignas de OPC WIT</p>";
     } else {
       var selec = document.getElementById("listaTags");
       selec.innerHTML = "";
