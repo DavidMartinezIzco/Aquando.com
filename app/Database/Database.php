@@ -9,6 +9,7 @@ class Database
     private $user = "postgres";
     private $password = "123456";
     private $conexion = false;
+
     public function __construct()
     {
         if (!function_exists('str_contains')) {
@@ -22,7 +23,7 @@ class Database
     //uso interno
     private function conectar()
     {
-        if(!$this->conexion){
+        if (!$this->conexion) {
             return $this->conexion = pg_connect("host=$this->host dbname=$this->dbname user=$this->user password=$this->password");
         }
         return $this->conexion;
@@ -146,6 +147,9 @@ class Database
     //se usa en varios sitios
     public function mostrarEstacionesCliente($nombre, $pwd)
     {
+        if ($_SESSION['mostrarEstacionesCliente_nombre'] == $nombre && $_SESSION['mostrarEstacionesCliente_pwd'] == $pwd) {
+            return $estacionesArr = $_SESSION['mostrarEstacionesCliente_result'];
+        }
         if ($this->conectar()) {
             $consulta = "SELECT estaciones.nombre_estacion, estaciones.id_estacion, estaciones.latitud, estaciones.longitud 
             FROM usuarios INNER JOIN usuario_estacion ON usuarios.id_usuario = usuario_estacion.id_usuario 
@@ -154,6 +158,9 @@ class Database
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $estacionesArr = pg_fetch_all($resultado);
+                $_SESSION['mostrarEstacionesCliente_nombre'] = $nombre;
+                $_SESSION['mostrarEstacionesCliente_pwd'] = $pwd;
+                $_SESSION['mostrarEstacionesCliente_result'] = $estacionesArr;
                 return $estacionesArr;
             } else {
                 return false;
@@ -164,6 +171,9 @@ class Database
     //la devuelve como texto plano
     public function obtenerFotoEstacion($id_estacion)
     {
+        if($_SESSION['obtenerFotoEstacion_id_estacion']==$id_estacion){
+            return $foto = $_SESSION['obtenerFotoEstacion_result'];
+        }
         if ($this->conectar()) {
             $consulta = "SELECT foto as foto
             FROM estaciones
@@ -171,6 +181,8 @@ class Database
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $foto = pg_fetch_all($resultado)[0]['foto'];
+                $_SESSION['obtenerFotoEstacion_id_estacion'] = $id_estacion;
+                $_SESSION['obtenerFotoEstacion_result'] = $foto;
                 return $foto;
             } else {
                 return false;
@@ -181,8 +193,10 @@ class Database
     //se usa en varias cosas
     public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido, $fechaInicio, $fechaFin)
     {
+        if ($_SESSION['obtenerAlarmasUsuario_id'] == $id_usuario && $_SESSION['obtenerAlarmasUsuario_orden'] == $orden && $_SESSION['obtenerAlarmasUsuario_sentido'] == $sentido && $_SESSION['obtenerAlarmasUsuario_fechaini'] == $fechaInicio && $_SESSION['obtenerAlarmasUsuario_fechafin'] = $fechaFin) {
+            return $alarmas = $_SESSION['obtenerAlarmasUsuario_alarmas'];
+        }
         if ($this->conectar()) {
-
             $prioridad = 'alarmas.fecha_origen';
             if ($orden != null) {
                 $prioridad = 'alarmas.fecha_origen';
@@ -220,16 +234,13 @@ class Database
                     }
                 }
             }
-
             $conAlarmas = "SELECT 
             estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
             FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
             WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . "AND alarmas.fecha_origen::date > current_date::date - interval '30 days'";
-
             //obtener fechas de inicio y fin
             //comprobar cuales están definidas
             //filtrar
-
             if ($fechaInicio != null) {
                 $ini = strtotime($fechaInicio);
                 $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) <= " . $ini;
@@ -248,10 +259,15 @@ class Database
             } else {
                 $conAlarmas .= " ORDER BY $prioridad DESC";
             }
-
             $resulAlarmas = pg_query($conAlarmas);
             if ($this->consultaExitosa($resulAlarmas)) {
                 $alarmas = pg_fetch_all($resulAlarmas);
+                $_SESSION['obtenerAlarmasUsuario_id'] = $id_usuario;
+                $_SESSION['obtenerAlarmasUsuario_orden'] = $orden;
+                $_SESSION['obtenerAlarmasUsuario_sentido'] = $sentido;
+                $_SESSION['obtenerAlarmasUsuario_fechaini'] = $fechaInicio;
+                $_SESSION['obtenerAlarmasUsuario_fechafin'] = $fechaFin;
+                $_SESSION['obtenerAlarmasUsuario_alarmas'] = $alarmas;
                 return $alarmas;
             } else {
                 return false;
@@ -264,6 +280,10 @@ class Database
     //se usa para varias cosas
     public function obtenerAlarmasEstacion($id_estacion, $orden, $sentido, $fechaInicio, $fechaFin)
     {
+        if ($_SESSION['obtenerAlarmasEstacion_id_estacion'] == $id_estacion && $_SESSION['obtenerAlarmasEstacion_orden'] == $orden && $_SESSION['obtenerAlarmasEstacion_sentido'] == $sentido && $_SESSION['obtenerAlarmasEstacion_fechaini'] == $fechaInicio && $_SESSION['obtenerAlarmasEstacion_fechafin'] = $fechaFin) {
+            return $alarmasEstacion = $_SESSION['obtenerAlarmasEstacion_id_estacion'];
+        }
+
         if ($fechaInicio != null) {
             //traducir fecha
         }
@@ -337,6 +357,12 @@ class Database
 
             if ($this->consultaExitosa($resultado)) {
                 $alarmasEstacion = pg_fetch_all($resultado);
+                $_SESSION['obtenerAlarmasEstacion_id_estacion'] = $id_estacion;
+                $_SESSION['obtenerAlarmasEstacion_orden'] = $orden;
+                $_SESSION['obtenerAlarmasEstacion_sentido'] = $sentido;
+                $_SESSION['obtenerAlarmasEstacion_fechafin'] = $fechaInicio;
+                $_SESSION['obtenerAlarmasEstacion_fechafin'] = $fechaFin;
+                $_SESSION['obtenerAlarmasEstacion_alarmas'] = $alarmasEstacion;
                 return $alarmasEstacion;
             }
         } else {
@@ -366,6 +392,10 @@ class Database
     //se usará en la sección de estaciones y probablemente mediante AJAX
     public function datosEstacion($id_estacion, $todos)
     {
+        if ($_SESSION['datosEstacion_id_estacion'] == $id_estacion && $_SESSION['datosEstacion_todos'] == $todos) {
+            return $ultimosDatosEstacionLimpio = $_SESSION['datosEstacion_result'];
+        }
+
         if ($this->conectar()) {
             $tagsEstacion = array();
             $ultimosDatosEstacion = array();
@@ -400,6 +430,9 @@ class Database
                     }
                 }
             }
+            $_SESSION['datosEstacion_id_estacion'] = $id_estacion;
+            $_SESSION['datosEstacion_todos'] = $todos;
+            $_SESSION['datosEstacion_result'] = $ultimosDatosEstacionLimpio;
             return $ultimosDatosEstacionLimpio;
         }
     }
@@ -407,13 +440,17 @@ class Database
     //se usa en graficas y en la sección estacion
     public function tagsEstacion($id_estacion)
     {
+        if ($_SESSION['tagsEstacion_id_estacion'] == $id_estacion) {
+            return $tagsEstacion = $_SESSION['tagsEstacion_result'];
+        }
         if ($this->conectar()) {
             $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = $id_estacion AND tags.historizar = true";
             $resulTags = pg_query($this->conexion, $conTags);
             if ($this->consultaExitosa($resulTags)) {
                 $tagsEstacion = pg_fetch_all($resulTags);
-
                 $_SESSION['tagsEstacion'] = $tagsEstacion;
+                $_SESSION['tagsEstacion_id_estacion'] = $id_estacion;
+                $_SESSION['tagsEstacion_result'] = $tagsEstacion;
                 return $tagsEstacion;
             } else {
                 return false;
@@ -426,13 +463,17 @@ class Database
     //se usa en varios puntos
     public function todosTagsEstacion($id_estacion)
     {
+        if ($_SESSION['todosTagsEstacion_id_estacion'] == $id_estacion) {
+            return $tagsEstacion = $_SESSION['todosTagsEstacion_result'];
+        }
         if ($this->conectar()) {
             $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = " . $id_estacion . " AND tags.nombre_tag NOT LIKE('%Alarma%');";
             $resulTags = pg_query($this->conexion, $conTags);
             if ($this->consultaExitosa($resulTags)) {
                 $tagsEstacion = pg_fetch_all($resulTags);
-
                 $_SESSION['tagsEstacion'] = $tagsEstacion;
+                $_SESSION['todosTagsEstacion_id_estacion'] = $id_estacion;
+                $_SESSION['todosTagsEstacion_result'] = $tagsEstacion;
                 return $tagsEstacion;
             } else {
                 return false;
@@ -443,6 +484,9 @@ class Database
     //obtiene los tags analogicos historizables de un grupo de estaciones
     public function tagsAnalogHisto($estaciones)
     {
+        if ($_SESSION['tagsAnalogHisto_estaciones'] == $estaciones) {
+            return $tagsAnalogsHisto = $_SESSION['tagsAnalogHisto_result'];
+        }
         $tagsAnalogsHisto = array();
         if ($this->conectar()) {
             foreach ($estaciones as $index) {
@@ -458,6 +502,8 @@ class Database
                     $tagsAnalogsHisto[$index->nombre_estacion] = $tagsAnalog;
                 }
             }
+            $_SESSION['tagsAnalogHisto_estaciones'] = $estaciones;
+            $_SESSION['tagsAnalogHisto_result'] = $tagsAnalogsHisto;
             return $tagsAnalogsHisto;
         }
         return false;
@@ -725,11 +771,17 @@ class Database
     //se usa en varios sitios
     public function obtenerNombreEstacion($id_estacion)
     {
+        if ($id_estacion == $_SESSION['obtenerNombreEstacion_id_estacion']) {
+            return $estacion = $_SESSION['obtenerNombreEstacion_result'];
+        }
+
         if ($this->conectar()) {
             $consulta = "SELECT nombre_estacion FROM estaciones WHERE id_estacion = " . $id_estacion;
             $resul = pg_query($consulta);
             if ($this->consultaExitosa($resul)) {
                 $estacion = pg_fetch_all($resul);
+                $_SESSION['obtenerNombreEstacion_id_estacion'] = $id_estacion;
+                $_SESSION['obtenerNombreEstacion_result'] = $estacion;
                 return $estacion;
             } else {
                 return false;
@@ -796,6 +848,9 @@ class Database
     //hasta que no tengamos comunicación en TR hay que sumar dias al intervalo
     public function tagTrend($id_tag, $id_estacion)
     {
+        if ($_SESSION['tagTrend_id_tag'] == $id_tag && $_SESSION['tagTrend_id_estacion'] == $id_estacion) {
+            return $datosTrendTag = $_SESSION['tagTrend_result'];
+        }
         if ($this->conectar()) {
             $conTrend = "SELECT MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
@@ -804,6 +859,9 @@ class Database
             $resTrend = pg_query($this->conexion, $conTrend);
             if ($this->consultaExitosa(($resTrend))) {
                 $datosTrendTag = pg_fetch_all($resTrend);
+                $_SESSION['tagTrend_id_tag'] = $id_tag;
+                $_SESSION['tagTrend_id_estacion'] = $id_estacion;
+                $_SESSION['tagTrend_result'] = $datosTrendTag;
                 return ($datosTrendTag);
             }
         }
@@ -930,6 +988,9 @@ class Database
     //busca tags digitales con alarma en un periodo de 48h
     public function feedPrincipalDigital($estaciones)
     {
+        if ($_SESSION['feedPrincipalDigital_estaciones'] == $estaciones) {
+            return $feed = $_SESSION['feedPrincipalDigital_result'];
+        }
         if ($this->conectar()) {
             //recorrer estaciones y sacar tags digitales
             //ver si esa estación tiene alarmas activas recientes de tags digitales y coger la mas reciente
@@ -952,7 +1013,6 @@ class Database
                         AND NOT valor_alarma = '' 
                         ORDER BY fecha_origen DESC";
                         //WHERE estado IN(1,3) AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days' 
-
                         $resAlarmas = pg_query($this->conexion, $conAlarma);
                         if ($this->consultaExitosa($resAlarmas)) {
                             $alarmasTagDigi = pg_fetch_all($resAlarmas);
@@ -964,6 +1024,8 @@ class Database
                     return false;
                 }
             }
+            $_SESSION['feedPrincipalDigital_estaciones'] = $estaciones;
+            $_SESSION['feedPrincipalDigital_result'] = $feed;
             return $feed;
         } else {
             return false;
@@ -1025,6 +1087,9 @@ class Database
     //usuario en su configuracion
     public function feedPrincipalCustom($id_usuario)
     {
+        if ($id_usuario == $_SESSION['feedPrincipalCustom_id_usuario']) {
+            return $infoTag = $_SESSION['feedPrincipalCustom_result'];
+        }
         if ($this->conectar()) {
             $configuracionWidgetsUsuario = array();
             $config = $this->obtenerConfigInicio($id_usuario);
@@ -1160,6 +1225,8 @@ class Database
                     $infoTag[$widget] = ["unidad" => $ultvalor['unidad'], "widget" => $widget, "nombre" => $ultvalor['nombre_tag'], "estacion" => $ultvalor['nombre_estacion'], "ultimo_valor" => $ultvalor, "trend_dia" => $trendDia, "agreg_semana" => $agregSemana];
                 }
             }
+            $_SESSION['feedPrincipalCustom_id_usuario'] = $id_usuario;
+            $_SESSION['feedPrincipalCustom_result'] = $infoTag;
             return $infoTag;
         }
     }

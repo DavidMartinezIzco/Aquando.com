@@ -813,7 +813,7 @@ function modificarConsignas() {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
-      url: "/Aquando.com/A_Ajustes.php",
+      url: "/Aquando.com/A_Ajustes.php",  
       data: {
         ref: ref,
         val: valor,
