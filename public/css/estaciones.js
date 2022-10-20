@@ -393,7 +393,7 @@ function montarGraficosWidget() {
           right: "4%",
           top: "12%",
           bottom: "2%",
-          containLabel: false,
+          containLabel: true,
         },
         tooltip: {
           trigger: "axis",
