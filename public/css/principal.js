@@ -80,7 +80,7 @@ function mapas() {
 function actualizar() {
   var datos = {};
   datos["nombre"] = sessionStorage.getItem("nousu");
-  // datos["pwd"] = sessionStorage.getItem("pwd");
+  datos["pwd"] = sessionStorage.getItem("pwd");
   var arrdatos = JSON.stringify(datos);
   $(document).ready(function () {
     $.ajax({
@@ -95,8 +95,9 @@ function actualizar() {
         feedPrincipalCustom();
         renderFeedDigi();
       },
-      error: function () {
+      error: function (){
         console.log("refresh error");
+        feedPrincipalCustom();
       },
       dataType: "json",
     });

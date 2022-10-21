@@ -444,7 +444,7 @@ class Database
             return $tagsEstacion = $_SESSION['tagsEstacion_result'];
         }
         if ($this->conectar()) {
-            $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = $id_estacion AND tags.historizar = true";
+            $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = $id_estacion AND tags.historizar = true AND tags.nombre_tag NOT LIKE('%Bomba%')";
             $resulTags = pg_query($this->conexion, $conTags);
             if ($this->consultaExitosa($resulTags)) {
                 $tagsEstacion = pg_fetch_all($resulTags);
@@ -1001,7 +1001,6 @@ class Database
                 $conTagsDigi = "SELECT tags.id_tag, tags.nombre_tag 
                 FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag 
                 WHERE estacion_tag.id_estacion = $id_estacion AND tags.type_tag = 1";
-                echo $conTagsDigi;
                 $resTagsDigi = pg_query($this->conexion, $conTagsDigi);
                 if ($this->consultaExitosa($resTagsDigi)) {
                     $tagsDigiEstacion = pg_fetch_all($resTagsDigi);
@@ -1018,14 +1017,14 @@ class Database
                             $alarmasTagDigi = pg_fetch_all($resAlarmas);
                             $alarmasTagDigi[0]['nombre'] = $tag['nombre_tag'];
                             $feed[$estacion['nombre_estacion']][$id] = $alarmasTagDigi[0];
+                            $_SESSION['feedPrincipalDigital_estaciones'] = $estaciones;
+                            $_SESSION['feedPrincipalDigital_result'] = $feed;
                         }
                     }
                 } else {
                     return false;
                 }
             }
-            $_SESSION['feedPrincipalDigital_estaciones'] = $estaciones;
-            $_SESSION['feedPrincipalDigital_result'] = $feed;
             return $feed;
         } else {
             return false;
