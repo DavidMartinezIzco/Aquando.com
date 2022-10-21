@@ -171,7 +171,7 @@ class Database
     //la devuelve como texto plano
     public function obtenerFotoEstacion($id_estacion)
     {
-        if($_SESSION['obtenerFotoEstacion_id_estacion']==$id_estacion){
+        if ($_SESSION['obtenerFotoEstacion_id_estacion'] == $id_estacion) {
             return $foto = $_SESSION['obtenerFotoEstacion_result'];
         }
         if ($this->conectar()) {

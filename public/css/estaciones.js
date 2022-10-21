@@ -12,11 +12,10 @@ var listaCon = Array();
 sessionStorage.setItem("tagViejo", null);
 //actualizar la info de la seccion estacion
 function actualizar(id_estacion) {
-
-  if(sessionStorage.getItem('param_id') == id_estacion){
-    var datos = JSON.parse(sessionStorage.getItem('data'));
+  if (sessionStorage.getItem("param_id") == id_estacion) {
+    var datos = JSON.parse(sessionStorage.getItem("data"));
     filtrarDatos(datos);
-  }else{
+  } else {
     $(document).ready(function () {
       $.ajax({
         type: "POST",
@@ -28,8 +27,8 @@ function actualizar(id_estacion) {
         },
         success: function (datos) {
           filtrarDatos(datos);
-          sessionStorage.setItem('param_id', id_estacion)
-          sessionStorage.setItem('data',JSON.stringify(datos));
+          sessionStorage.setItem("param_id", id_estacion);
+          sessionStorage.setItem("data", JSON.stringify(datos));
         },
         error: function () {
           console.log("error");
@@ -38,7 +37,6 @@ function actualizar(id_estacion) {
       });
     });
   }
- 
 }
 //obiene los trends de los ultimos 7 dias de los tags analógicos
 function trendsTags() {
@@ -46,42 +44,42 @@ function trendsTags() {
   var arrTags = JSON.stringify(listaTags);
   var id_estacion = estacion;
 
-  if(id_estacion == sessionStorage.getItem('trend_id') && arrTags == JSON.parse(sessionStorage.getItem('trend_arrTags'))){
+  if (
+    id_estacion == sessionStorage.getItem("trend_id") &&
+    arrTags == JSON.parse(sessionStorage.getItem("trend_arrTags"))
+  ) {
     montarWidgetsAnalogicos();
-        todoTrends = JSON.parse(sessionStorage.getItem('trend_todoTrends'));
-        montarWidgetsDigi();
-  }else{
-
-  $(document).ready(function () {
-    $.ajax({
-      type: "POST",
-      data: {
-        opcion: "trends",
-        estacion: id_estacion,
-        arrTags: arrTags,
-        tipo: "todos",
-      },
-      url: "/Aquando.com/A_Estacion.php",
-      success: function (trends) {
-        montarWidgetsAnalogicos();
-        todoTrends = trends;
-        montarWidgetsDigi();
-        sessionStorage.setItem('trend_id', id_estacion);
-        sessionStorage.setItem('trend_arrTags', JSON.stringify(arrTags));
-        sessionStorage.setItem('trend_todoTrends',JSON.stringify(trends));
-      },
-      error: function () {
-        console.log("error en las trends");
-      },
-      dataType: "json",
+    todoTrends = JSON.parse(sessionStorage.getItem("trend_todoTrends"));
+    montarWidgetsDigi();
+  } else {
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        data: {
+          opcion: "trends",
+          estacion: id_estacion,
+          arrTags: arrTags,
+          tipo: "todos",
+        },
+        url: "/Aquando.com/A_Estacion.php",
+        success: function (trends) {
+          montarWidgetsAnalogicos();
+          todoTrends = trends;
+          montarWidgetsDigi();
+          sessionStorage.setItem("trend_id", id_estacion);
+          sessionStorage.setItem("trend_arrTags", JSON.stringify(arrTags));
+          sessionStorage.setItem("trend_todoTrends", JSON.stringify(trends));
+        },
+        error: function () {
+          console.log("error en las trends");
+        },
+        dataType: "json",
+      });
     });
-  });
   }
-
 }
 //divide los ultimos datos de la estacion según el tipo de señal
 function filtrarDatos(datos) {
-  
   var tagsBombas = Array();
   for (var indexDato in datos) {
     if (!datos[indexDato]["nombre_tag"].includes("Comunicacion")) {
@@ -835,7 +833,7 @@ function modificarConsignas() {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
-      url: "/Aquando.com/A_Ajustes.php",  
+      url: "/Aquando.com/A_Ajustes.php",
       data: {
         ref: ref,
         val: valor,

@@ -95,7 +95,7 @@ function actualizar() {
         feedPrincipalCustom();
         renderFeedDigi();
       },
-      error: function (){
+      error: function () {
         console.log("refresh error");
         feedPrincipalCustom();
       },
