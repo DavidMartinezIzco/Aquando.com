@@ -51,20 +51,13 @@ if ($opcion == 'foto') {
 
 //tagtrend 2.0
 //sacar todos los trends desde la mmisma consulta en vez de varias en batería
-if($opcion == 't_trend'){
+if ($opcion == 't_trend') {
     $datosAnalog = json_decode($_POST['arrTags']);
     $datosTrends = $DB->tagsTrends($datosAnalog);
-    // $infoTrends = [];
-    // foreach($datosAnalog as $a => $b){
-    //     if($b->id_tag != null){
-    //         $infoTrends[$b->id_tag] = [];
-    //     }
-    // }
-    // for($i= 0;$i<$datosAnalog;$i++){
-
-    // }
-
-
-    echo json_encode($datosTrends);
-
+    $arr = array();
+    foreach ($datosTrends as $key => $item) {
+        $arr[$item['id']][$key] = $item;
+    }
+    ksort($arr, SORT_NUMERIC);
+    echo json_encode($arr);
 }
