@@ -78,6 +78,30 @@ function trendsTags() {
     });
   }
 }
+
+function tremdsTagsv2() {
+  var listaTags = datosAnalog.concat(tagsAcumulados);
+  var arrTags = JSON.stringify(listaTags);
+    $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      data: {
+        opcion: "t_trend",
+        arrTags: arrTags,
+        tipo: "todos",
+      },
+      url: "/Aquando.com/A_Estacion.php",
+      success: function (trends) {
+        console.log(trends);
+      },
+      error: function () {
+        console.log("error en las trendsv2");
+      },
+      dataType: "json",
+    });
+  });
+}
+
 //divide los ultimos datos de la estacion según el tipo de señal
 function filtrarDatos(datos) {
   var tagsBombas = Array();
