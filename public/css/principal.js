@@ -651,7 +651,7 @@ function crearWidgetsChartsCustom(feed) {
     var horas_dia = [];
     for (var index in trend_dia) {
       datos_dia.push(trend_dia[index]["valor"]);
-      horas_dia.push(trend_dia[index]["fecha"]);
+      horas_dia.push(trend_dia[index]["fecha"].substring(10));
     }
     optDia = {
       legend: {
@@ -786,6 +786,7 @@ function crearWidgetsChartsCustom(feed) {
         },
         tooltip: {
           trigger: "axis",
+          valueFormatter: (value) => parseFloat(value).toFixed(2),
           textStyle: {
             fontStyle: "bold",
             fontSize: 14,
@@ -886,6 +887,7 @@ function crearWidgetsChartsCustom(feed) {
         },
         tooltip: {
           trigger: "axis",
+          valueFormatter: (value) => parseFloat(value).toFixed(2),
           textStyle: {
             fontStyle: "bold",
             fontSize: 18,

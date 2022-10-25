@@ -1006,12 +1006,20 @@ class Database
                     $tagsDigiEstacion = pg_fetch_all($resTagsDigi);
                     foreach ($tagsDigiEstacion as $index => $tag) {
                         $id = $tag['id_tag'];
+                        // CRITERIO ORIGINAL
+                        // $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
+                        // FROM alarmas 
+                        // WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '3 days' 
+                        // AND NOT valor_alarma = '' 
+                        // ORDER BY fecha_origen DESC";
+                        //WHERE estado IN(1,3) AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days' 
+
+                        //CRITERIO NUEVO
                         $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
                         FROM alarmas 
-                        WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '3 days' 
-                        AND NOT valor_alarma = '' 
+                        WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '7 days' 
                         ORDER BY fecha_origen DESC";
-                        //WHERE estado IN(1,3) AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days' 
+
                         $resAlarmas = pg_query($this->conexion, $conAlarma);
                         if ($this->consultaExitosa($resAlarmas)) {
                             $alarmasTagDigi = pg_fetch_all($resAlarmas);
@@ -1135,8 +1143,12 @@ class Database
                 $n_tag = $this->obtenerNombreTag($tag);
                 if (strpos($n_tag, 'Acumulado') !== false) {
                     $conTrendDia = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '7 days' AND datos_historicos.fecha::date <= current_date::date ORDER BY fecha desc";
+                    //$conTrendDia = "SELECT MAX(datos_historicos.valor_acu),MAX(datos_historicos.valor_float),MAX(datos_historicos.valor_int),datos_historicos.fecha::date FROM datos_historicos WHERE datos_historicos.id_tag =".$tag. " AND datos_historicos.fecha::date > current_date::date - interval '7 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
                 } else {
-                    $conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 days' AND datos_historicos.fecha::date <= current_date::date ORDER BY fecha desc";
+                    //trend original
+                    //$conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 days' AND datos_historicos.fecha::date <= current_date::date ORDER BY fecha desc";
+                    //trend modificada
+                    $conTrendDia = "WITH t as (SELECT to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS fecha, AVG(valor_float) as valor_float, AVG(valor_acu) as valor_acu, AVG(valor_int) as valor_int FROM datos_historicos WHERE id_tag = ".$tag." AND datos_historicos.fecha::date >= current_date::date - interval '1 days' AND datos_historicos.fecha::date <= current_date::date GROUP BY fecha),contiguous_ts_list as (select fecha from generate_series((select min(fecha) from t),(select max(fecha) from t),interval '1 hour') fecha) SELECT * from contiguous_ts_list left outer join t using(fecha) ORDER BY fecha DESC";
                 }
                 $resTrendDia = pg_query($this->conexion, $conTrendDia);
                 if ($this->consultaExitosa($resTrendDia)) {

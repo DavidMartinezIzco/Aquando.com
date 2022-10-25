@@ -358,6 +358,7 @@ function cerrarMenuEsp() {
     cerrarMenu();
     $("#menuIzq").trigger('widthChange');
 }
+
 function cerrarBanner(e) {
     e.parentElement.style.display = 'none';
 }
