@@ -874,21 +874,30 @@ class Database
         $conAux = "";
         if($this->conectar()){
             $conAux = "(";
+            $a = 0;
             foreach ($datosAnalog as $indexTag => $datosTag) {
                 if ($indexTag != null && $datosTag != null) {
                     $tag = $datosTag->id_tag;
-                    $conAux .= " $tag, ";
+                    if($a == 0){   
+                        $conAux .= " $tag ";
+                        $a++;
+                    }
+                    else{
+                        $conAux .= " ,$tag ";
+                    }
                 }
             }
             $conAux .= ")";
-            $conTrends = "SELECT MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
+            $conTrends = "SELECT datos_historicos.id_tag, MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
             from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-            where datos_historicos.fecha::date > current_date::date - interval '7 days' AND datos_historicos.id_tag IN $conAux GROUP BY datos_historicos.fecha::date LIMIT 7";
+            where datos_historicos.fecha::date > current_date::date - interval '7 days' AND datos_historicos.id_tag IN $conAux GROUP BY datos_historicos.id_tag, datos_historicos.fecha::date";
             
             $resTrends = pg_query($this->conexion, $conTrends);
             if($this->consultaExitosa($resTrends)){
-                return $datosTrendsTags = pg_fetch_all($resTrends);
+                $datosTrendsTags = pg_fetch_all($resTrends);
+                return $datosTrendsTags;
             }
+            return $conTrends;
         }
         return false;
     }

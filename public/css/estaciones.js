@@ -79,7 +79,7 @@ function trendsTags() {
   }
 }
 
-function tremdsTagsv2() {
+function trendsTagsv2() {
   var listaTags = datosAnalog.concat(tagsAcumulados);
   var arrTags = JSON.stringify(listaTags);
     $(document).ready(function () {
@@ -94,8 +94,8 @@ function tremdsTagsv2() {
       success: function (trends) {
         console.log(trends);
       },
-      error: function () {
-        console.log("error en las trendsv2");
+      error: function (e) {
+        console.log(e);
       },
       dataType: "json",
     });
