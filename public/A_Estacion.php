@@ -55,9 +55,30 @@ if ($opcion == 't_trend') {
     $datosAnalog = json_decode($_POST['arrTags']);
     $datosTrends = $DB->tagsTrends($datosAnalog);
     $arr = array();
+    $arrTrends = array();
     foreach ($datosTrends as $key => $item) {
-        $arr[$item['id']][$key] = $item;
+        $arr[$item['id_tag']][$key] = $item;
     }
     ksort($arr, SORT_NUMERIC);
-    echo json_encode($arr);
+    foreach ($arr as $a => $b) {
+            // if (!array_key_exists($a, $arrTrends)) {
+            //     $arrTrends[$a] = ['fecha' => [], 'max' => []];
+            // }
+        foreach ($b as $c => $d) {
+            $arrTrends[$a]['fecha'][] .= $d['fecha'];
+            if ($d['acu'] != null) {
+                $arrTrends[$a]['max'][] .= $d['acu'];
+                break;
+            }
+            if ($d['int'] != null) {
+                $arrTrends[$a]['max'][] .= $d['int'];
+                break;
+            }
+            if ($d['float'] != null) {
+                $arrTrends[$a]['max'][] .= $d['float'];
+                break;
+            }
+        } //PLAN B PASAR ARR AL JS Y APAÑARLO ALLI
+    }
+    echo json_encode($arrTrends);
 }
