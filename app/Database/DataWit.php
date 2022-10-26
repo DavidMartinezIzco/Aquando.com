@@ -120,7 +120,7 @@ class Datawit
     public function leerPlaningsEstacion($estacion)
     {
         if ($this->conectarAux() && $estacion != "Deposito Berroa") {
-            $conPlan = "";
+            $conPlan = "SELECT * FROM Info_lkv where estacion like('%" . $estacion . "%') AND nombre_tag like ('%inLink%')";
             $resPlan = sqlsrv_query($this->conexionAux, $conPlan);
             if ($this->consultaExitosa($resPlan)) {
                 $plannings = array();
@@ -137,7 +137,7 @@ class Datawit
     public function leerValorPlanning($recurso)
     {
         if ($this->conectar()) {
-            $conLecPlan = "";
+            $conLecPlan = "SELECT * FROM [DBEASY452].[dbo].[WValue] WHERE ValueWOSAdd LIKE('%" . $recurso . "%')";
             $respuesta = sqlsrv_query($this->conexion, $conLecPlan);
             if ($this->consultaExitosa($respuesta)) {
                 $datos = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC);
