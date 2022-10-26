@@ -83,7 +83,7 @@ function trendsTags() {
 function trendsTagsv2() {
   var listaTags = datosAnalog.concat(tagsAcumulados);
   var arrTags = JSON.stringify(listaTags);
-    $(document).ready(function () {
+  $(document).ready(function () {
     $.ajax({
       type: "POST",
       data: {
@@ -93,7 +93,25 @@ function trendsTagsv2() {
       },
       url: "/Aquando.com/A_Estacion.php",
       success: function (trends) {
-        console.log(trends);
+        // console.log(trends);
+        var arrTrends = [];
+        for (var a in trends) {
+          arrTrends[a]["fecha"] = [];
+          arrTrends[a]["max"] = [];
+          for (var b in a) {
+            arrTrends[a]["fecha"].push(trends[a][b]["fecha"]);
+            if (trends[a][b]["acu"] != null) {
+              arrTrends[a]["max"].push(trends[a][b]["acu"]);
+            }
+            if (trends[a][b]["float"] != null) {
+              arrTrends[a]["max"].push(trends[a][b]["float"]);
+            }
+            if (trends[a][b]["int"] != null) {
+              arrTrends[a]["max"].push(trends[a][b]["int"]);
+            }
+          }
+        }
+        console.log(arrTrends);
       },
       error: function (e) {
         console.log(e);
@@ -102,7 +120,6 @@ function trendsTagsv2() {
     });
   });
 }
-
 
 function filtrarDatos(datos) {
   var tagsBombas = Array();
@@ -874,7 +891,7 @@ function modificarConsignas() {
   });
 }
 
-function planningsAltBd(){
+function planningsAltBd() {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
@@ -893,7 +910,6 @@ function planningsAltBd(){
     });
   });
 }
-
 
 function ajustes() {
   var ajustes = document.getElementById("ajustesEstacion");
