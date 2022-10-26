@@ -60,25 +60,5 @@ if ($opcion == 't_trend') {
         $arr[$item['id_tag']][$key] = $item;
     }
     ksort($arr, SORT_NUMERIC);
-    foreach ($arr as $a => $b) {
-            // if (!array_key_exists($a, $arrTrends)) {
-            //     $arrTrends[$a] = ['fecha' => [], 'max' => []];
-            // }
-        foreach ($b as $c => $d) {
-            $arrTrends[$a]['fecha'][] .= $d['fecha'];
-            if ($d['acu'] != null) {
-                $arrTrends[$a]['max'][] .= $d['acu'];
-                break;
-            }
-            if ($d['int'] != null) {
-                $arrTrends[$a]['max'][] .= $d['int'];
-                break;
-            }
-            if ($d['float'] != null) {
-                $arrTrends[$a]['max'][] .= $d['float'];
-                break;
-            }
-        } //PLAN B PASAR ARR AL JS Y APAÑARLO ALLI
-    }
-    echo json_encode($arrTrends);
+    echo json_encode($arr);
 }

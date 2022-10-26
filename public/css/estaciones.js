@@ -39,15 +39,51 @@ function actualizar(id_estacion) {
   }
 }
 
-function trendsTags() {
+// function trendsTags() {
+//   var listaTags = datosAnalog.concat(tagsAcumulados);
+//   var arrTags = JSON.stringify(listaTags);
+//   var id_estacion = estacion;
+
+//   if (
+//     id_estacion == sessionStorage.getItem("trend_id") &&
+//     arrTags == JSON.parse(sessionStorage.getItem("trend_arrTags"))
+//   ) {
+//     montarWidgetsAnalogicos();
+//     todoTrends = JSON.parse(sessionStorage.getItem("trend_todoTrends"));
+//     montarWidgetsDigi();
+//   } else {
+//     $(document).ready(function () {
+//       $.ajax({
+//         type: "POST",
+//         data: {
+//           opcion: "trends",
+//           estacion: id_estacion,
+//           arrTags: arrTags,
+//           tipo: "todos",
+//         },
+//         url: "/Aquando.com/A_Estacion.php",
+//         success: function (trends) {
+//           montarWidgetsAnalogicos();
+//           todoTrends = trends;
+//           montarWidgetsDigi();
+//           sessionStorage.setItem("trend_id", id_estacion);
+//           sessionStorage.setItem("trend_arrTags", JSON.stringify(arrTags));
+//           sessionStorage.setItem("trend_todoTrends", JSON.stringify(trends));
+//         },
+//         error: function () {
+//           console.log("error en las trends");
+//         },
+//         dataType: "json",
+//       });
+//     });
+//   }
+// }
+
+//experimental
+function trendsTagsv2() {
   var listaTags = datosAnalog.concat(tagsAcumulados);
   var arrTags = JSON.stringify(listaTags);
-  var id_estacion = estacion;
-
-  if (
-    id_estacion == sessionStorage.getItem("trend_id") &&
-    arrTags == JSON.parse(sessionStorage.getItem("trend_arrTags"))
-  ) {
+  if (arrTags == JSON.parse(sessionStorage.getItem("trend_arrTags"))) {
     montarWidgetsAnalogicos();
     todoTrends = JSON.parse(sessionStorage.getItem("trend_todoTrends"));
     montarWidgetsDigi();
@@ -56,69 +92,42 @@ function trendsTags() {
       $.ajax({
         type: "POST",
         data: {
-          opcion: "trends",
-          estacion: id_estacion,
+          opcion: "t_trend",
           arrTags: arrTags,
           tipo: "todos",
         },
         url: "/Aquando.com/A_Estacion.php",
         success: function (trends) {
+          var arrTrends = [];
+          for (var a in trends) {
+            arrTrends[a] = { fecha: [], max: [] };
+            for (var b in trends[a]) {
+              arrTrends[a]["fecha"].push(trends[a][b]["fecha"]);
+              if (trends[a][b]["acu"] != null) {
+                arrTrends[a]["max"].push(trends[a][b]["acu"]);
+              }
+              if (trends[a][b]["float"] != null) {
+                arrTrends[a]["max"].push(trends[a][b]["float"]);
+              }
+              if (trends[a][b]["int"] != null) {
+                arrTrends[a]["max"].push(trends[a][b]["int"]);
+              }
+            }
+          }
           montarWidgetsAnalogicos();
-          todoTrends = trends;
+          todoTrends = arrTrends;
           montarWidgetsDigi();
-          sessionStorage.setItem("trend_id", id_estacion);
           sessionStorage.setItem("trend_arrTags", JSON.stringify(arrTags));
-          sessionStorage.setItem("trend_todoTrends", JSON.stringify(trends));
+          sessionStorage.setItem("trend_todoTrends", JSON.stringify(arrTrends));
+          // console.log(arrTrends);
         },
         error: function () {
-          console.log("error en las trends");
+          console.log('error');
         },
         dataType: "json",
       });
     });
   }
-}
-
-//experimental
-function trendsTagsv2() {
-  var listaTags = datosAnalog.concat(tagsAcumulados);
-  var arrTags = JSON.stringify(listaTags);
-  $(document).ready(function () {
-    $.ajax({
-      type: "POST",
-      data: {
-        opcion: "t_trend",
-        arrTags: arrTags,
-        tipo: "todos",
-      },
-      url: "/Aquando.com/A_Estacion.php",
-      success: function (trends) {
-        // console.log(trends);
-        var arrTrends = [];
-        for (var a in trends) {
-          arrTrends[a]["fecha"] = [];
-          arrTrends[a]["max"] = [];
-          for (var b in a) {
-            arrTrends[a]["fecha"].push(trends[a][b]["fecha"]);
-            if (trends[a][b]["acu"] != null) {
-              arrTrends[a]["max"].push(trends[a][b]["acu"]);
-            }
-            if (trends[a][b]["float"] != null) {
-              arrTrends[a]["max"].push(trends[a][b]["float"]);
-            }
-            if (trends[a][b]["int"] != null) {
-              arrTrends[a]["max"].push(trends[a][b]["int"]);
-            }
-          }
-        }
-        console.log(arrTrends);
-      },
-      error: function (e) {
-        console.log(e);
-      },
-      dataType: "json",
-    });
-  });
 }
 
 function filtrarDatos(datos) {
@@ -185,7 +194,7 @@ function filtrarDatos(datos) {
     }
   }
   todoDato["bombas"] = bombas;
-  trendsTags();
+  trendsTagsv2();
   consignasAltBd();
 }
 
