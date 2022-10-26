@@ -7,7 +7,6 @@ $(document).keypress(function (e) {
   }
 });
 
-
 //abre o cierra el menu lateral
 function abrirCerrar() {
   if (document.getElementById("menuIzq").style.width == "15%") {

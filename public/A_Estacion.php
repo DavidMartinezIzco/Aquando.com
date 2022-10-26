@@ -47,8 +47,6 @@ if ($opcion == 'foto') {
     $foto = $DB->obtenerFotoEstacion($id_estacion);
     echo $foto;
 }
-
-
 //tagtrend 2.0
 //sacar todos los trends desde la mmisma consulta en vez de varias en batería
 if ($opcion == 't_trend') {

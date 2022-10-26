@@ -541,9 +541,10 @@ function ajustesPresets(modo) {
     con.style.display = "block";
     if (modo == "cargar") {
       con.innerHTML = "";
-      var pre = document.getElementById("selPresets").options[
-        document.getElementById("selPresets").selectedIndex
-      ].value;
+      var pre =
+        document.getElementById("selPresets").options[
+          document.getElementById("selPresets").selectedIndex
+        ].value;
       var msg =
         "<h3>Cargar Preset</h3><p>¿quieres cargar <b>" + pre + "</b>?</p>";
       var btns =
@@ -661,9 +662,10 @@ function cargarPreset() {
   document.getElementById("selPresets").disabled = true;
   limpiar();
   document.getElementsByName("btnControlAplicar")[0].innerHTML = "cargando...";
-  n_preset = document.getElementById("selPresets").options[
-    document.getElementById("selPresets").selectedIndex
-  ].value;
+  n_preset =
+    document.getElementById("selPresets").options[
+      document.getElementById("selPresets").selectedIndex
+    ].value;
   if (n_preset.includes(nombre_estacion_activa)) {
     leerPresets("cargar");
   } else {
@@ -675,9 +677,10 @@ function cargarPreset() {
 //a traves de AJAX busca en la config de usuario un preset y lo elimina
 function borrarPreset() {
   ajustesPresets(null);
-  var n_preset = document.getElementById("selPresets").options[
-    document.getElementById("selPresets").selectedIndex
-  ].value;
+  var n_preset =
+    document.getElementById("selPresets").options[
+      document.getElementById("selPresets").selectedIndex
+    ].value;
   var datos = {};
   datos["nombre"] = usu;
   // datos["pwd"] = pwd;
