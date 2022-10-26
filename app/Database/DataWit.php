@@ -120,7 +120,7 @@ class Datawit
     public function leerPlaningsEstacion($estacion)
     {
         if ($this->conectarAux() && $estacion != "Deposito Berroa") {
-            $conPlan = "SELECT * FROM Info_lkv where estacion like('%" . $estacion . "%') AND nombre_tag like ('%inLink%')";
+            $conPlan = "SELECT * FROM Info_lkv where estacion like('%" . $estacion . "%') AND Nombre_variable_wit like ('%inLink%')";
             $resPlan = sqlsrv_query($this->conexionAux, $conPlan);
             if ($this->consultaExitosa($resPlan)) {
                 $plannings = array();
