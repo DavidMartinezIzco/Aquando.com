@@ -12,6 +12,7 @@ class Datawit
 {
     private $nombre_server = "tcp:172.16.4.2,1433";
     private $conexion = false;
+    private $conexionAux = false;
     private $info_server;
     //dbname, uid, pwd, puerto, direccion...
     public function __construct()
@@ -36,13 +37,16 @@ class Datawit
     //AQUI ESTAN EL NEXO ENTRE LAS ESTACIONES Y LAS REFERENCIAS A TAGS EN DBEASY
     private function conectarAux()
     {
-        $this->info_server = array("Database" => "Conversion_Aquando", "Uid" => "sa", "PWD" => "dateando", "Encrypt" => false);
-        $stmt = sqlsrv_connect($this->nombre_server, $this->info_server);
-        if ($this->consultaExitosa($stmt)) {
-            return $this->conexion = $stmt;
-        } else {
-            return false;
+        if (!$this->conexionAux) {
+            $this->info_server = array("Database" => "Conversion_Aquando", "Uid" => "sa", "PWD" => "dateando", "Encrypt" => false);
+            $stmt = sqlsrv_connect($this->nombre_server, $this->info_server);
+            if ($this->consultaExitosa($stmt)) {
+                return $this->conexionAux = $stmt;
+            } else {
+                return false;
+            }
         }
+        return $this->conexionAux;
     }
     //COMPRUEBA LOS RESULTADOS
     //SE USA ANTES DE DEVOLVER LA INFO
@@ -71,15 +75,17 @@ class Datawit
         if ($this->conectarAux() && $estacion != "Deposito Berroa") {
             $consulta = "SELECT * FROM Info_lkv where estacion like('%" . $estacion . "%') AND nombre_tag like ('%Consigna%')";
             // $params = array($estacion);
-            $respuesta = sqlsrv_query($this->conexion, $consulta);
+            $respuesta = sqlsrv_query($this->conexionAux, $consulta);
             if ($this->consultaExitosa($respuesta)) {
                 $datos = array();
                 while ($fila = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC)) {
                     $datos[] = $fila;
                 }
+                sqlsrv_free_stmt($respuesta);
                 return $datos;
             }
         }
+        return false;
     }
     //LEE LOS VALORES DE UN TAG DADA SU REFERENCIA
     public function leerConsignaWIT($recurso)
@@ -89,9 +95,11 @@ class Datawit
             $respuesta = sqlsrv_query($this->conexion, $consulta);
             if ($this->consultaExitosa($respuesta)) {
                 $datos = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC);
+                sqlsrv_free_stmt($respuesta);
                 return $datos;
             }
         }
+        return false;
     }
     //ESTA SIN HACER TODAVIA
     public function modificarConsignaWit($ref, $valor) //habra que meter params (estacion, tag, consigna, valor etc)
@@ -102,9 +110,57 @@ class Datawit
             $stmt = sqlsrv_query($this->conexion, $conConsignas, $params);
             if ($this->consultaExitosa($stmt)) {
                 sqlsrv_free_stmt($stmt);
-                return 'update';
+                return 'updated';
             }
         }
         return 'error';
+    }
+    //EXPERIMENTAL
+    //LISTAR PLANNINGS EN UNA ESTACION
+    public function leerPlaningsEstacion($estacion)
+    {
+        if ($this->conectarAux() && $estacion != "Deposito Berroa") {
+            $conPlan = "";
+            $resPlan = sqlsrv_query($this->conexionAux, $conPlan);
+            if ($this->consultaExitosa($resPlan)) {
+                $plannings = array();
+                while ($fila = sqlsrv_fetch_array($resPlan, SQLSRV_FETCH_ASSOC)) {
+                    $plannings[] = $fila;
+                }
+                return $plannings;
+            }
+        }
+        return false;
+    }
+    //EXPERIMENTAL
+    //LEER VALOR DE PLANNING ESPECIFICO
+    public function leerValorPlanning($recurso)
+    {
+        if ($this->conectar()) {
+            $conLecPlan = "";
+            $respuesta = sqlsrv_query($this->conexion, $conLecPlan);
+            if ($this->consultaExitosa($respuesta)) {
+                $datos = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC);
+                sqlsrv_free_stmt($respuesta);
+                return $datos;
+            }
+        }
+        return false;
+    }
+    //EXPERIMENTAL
+    //MODIFICAR VALOR DE PLANNING
+    public function modificarPlanning($ref, $plan)
+    {
+        if ($this->conectar()) {
+            $conModPlan = "";
+            $stmt = sqlsrv_query($this->conexion, $conModPlan);
+            if ($this->consultaExitosa($stmt)) {
+                sqlsrv_free_stmt($stmt);
+                return "updated planning";
+            }else{
+                return "update planning error";
+            }
+        }
+        return false;
     }
 }

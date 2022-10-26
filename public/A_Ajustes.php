@@ -2,9 +2,6 @@
 require '../app/Database/DataWit.php';
 $DW = new Datawit();
 $opcion = $_POST['opcion'];
-
-//NO DEJAR QUE SE MODIFIQUEN LAS CONSIGNAS DE BERROA!!!
-
 //muestra lista de consignas
 if ($opcion == "con") {
     $estacion = $_POST['estacion'];
@@ -26,4 +23,23 @@ if ($opcion == "mod") {
     $val = $_POST['val'];
     $update = $DW->modificarConsignaWit($ref, $val);
     echo $update;
+}
+
+if ($opcion == "lisPlan") {
+    $estacion = $_POST['estacion'];
+    $listPlan = $DW->leerPlaningsEstacion($estacion);
+    echo json_encode($listPlan);
+}
+
+if ($opcion == "dataPlan") {
+    $recurso = $_POST['recurso'];
+    $dataPlan = $DW->leerValorPlanning($recurso);
+    echo json_encode(($dataPlan));
+}
+
+if ($opcion == "modPlan") {
+    $ref = $_POST['ref'];
+    $nPlan = $_POST['val'];
+    $estatus = $DW->modificarPlanning($ref, $nPlan);
+    echo $status;
 }

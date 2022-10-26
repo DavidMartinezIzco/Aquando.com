@@ -10,7 +10,7 @@ var tagsAcumulados = Array();
 var listaCon = Array();
 
 sessionStorage.setItem("tagViejo", null);
-//actualizar la info de la seccion estacion
+
 function actualizar(id_estacion) {
   if (sessionStorage.getItem("param_id") == id_estacion) {
     var datos = JSON.parse(sessionStorage.getItem("data"));
@@ -38,7 +38,7 @@ function actualizar(id_estacion) {
     });
   }
 }
-//obiene los trends de los ultimos 7 dias de los tags analógicos
+
 function trendsTags() {
   var listaTags = datosAnalog.concat(tagsAcumulados);
   var arrTags = JSON.stringify(listaTags);
@@ -79,6 +79,7 @@ function trendsTags() {
   }
 }
 
+//experimental
 function trendsTagsv2() {
   var listaTags = datosAnalog.concat(tagsAcumulados);
   var arrTags = JSON.stringify(listaTags);
@@ -102,7 +103,7 @@ function trendsTagsv2() {
   });
 }
 
-//divide los ultimos datos de la estacion según el tipo de señal
+
 function filtrarDatos(datos) {
   var tagsBombas = Array();
   for (var indexDato in datos) {
@@ -170,7 +171,7 @@ function filtrarDatos(datos) {
   trendsTags();
   consignasAltBd();
 }
-//montar widgets de tags digitales
+
 function montarWidgetsDigi() {
   var seccionDigital = document.getElementById("seccionInf");
   var widg = "";
@@ -262,7 +263,7 @@ function montarWidgetsDigi() {
     seccionDigital.innerHTML += widg;
   }
 }
-//montar widgets analógicos
+
 function montarWidgetsAnalogicos() {
   var seccionAnalog = document.getElementById("estacionDer");
   var seccionAcu = document.getElementById("estacionCentro");
@@ -401,9 +402,7 @@ function montarWidgetsAnalogicos() {
   montarGraficosWidget();
   controlMobile();
 }
-//render de los graficos
-//hay que hacer el captador con resize
-//wid de deposito?
+
 function montarGraficosWidget() {
   for (var tag in tagsAcumulados) {
     var nombreDato = tagsAcumulados[tag]["nombre_tag"].replace(/\s+/g, "");
@@ -695,7 +694,7 @@ function montarGraficosWidget() {
     }
   });
 }
-//muestra en caso de tenerla, la imagen correspondiente a la estacion
+
 function fotoEstacion(id_estacion) {
   $(document).ready(function () {
     $.ajax({
@@ -722,8 +721,7 @@ function fotoEstacion(id_estacion) {
     });
   });
 }
-//funcion que establece a los widgets un control para alternar los trends y la info
-//solo se ejecuta si la pantalla es menor a 600px
+
 function controlMobile() {
   if (screen.width < 600) {
     var a = document.getElementsByClassName("widAnaInfo");
@@ -764,7 +762,7 @@ function controlMobile() {
     }
   }
 }
-//experimental y provisional
+
 function consignasAltBd() {
   $(document).ready(function () {
     $.ajax({
@@ -875,6 +873,27 @@ function modificarConsignas() {
     });
   });
 }
+
+function planningsAltBd(){
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      url: "/Aquando.com/A_Ajustes.php",
+      data: {
+        estacion: nestacion,
+        opcion: "lisPlan",
+      },
+      success: function (datos) {
+        console.log(datos);
+      },
+      error: function (e) {
+        console.log("error");
+      },
+      dataType: "json",
+    });
+  });
+}
+
 
 function ajustes() {
   var ajustes = document.getElementById("ajustesEstacion");
