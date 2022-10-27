@@ -120,6 +120,7 @@ function pantalla() {
     document.getElementsByClassName("btnHerrGraf")[0].disabled = "true";
     document.getElementById("btnGrafRap").disabled = "true";
     document.getElementById("btnGrafPer").disabled = "true";
+
     var defectoAncho = 550;
     var zoom = 100;
     var relAncho = (zoom * ancho) / defectoAncho;
@@ -127,8 +128,19 @@ function pantalla() {
     document.body.style.width = window.innerWidth;
     document.getElementById("menuIzq").style.height =
       2 * window.innerHeight + "px";
-    document.body.style.zoom = relAncho + "%";
+    //  document.getElementById('conPrincipal').style.height = ((altoVen - document.getElementById('cabeceraPrincipal').style.height) * (200 - relAncho)) +'px';
+    if (document.getElementById("conPrincipal") != undefined) {
+      document.getElementById("conPrincipal").style.height =
+        3 * window.innerHeight + "px";
+    }
+    for (var c of document.body.children) {
+      if (c.tagName != "SCRIPT") {
+        c.style.zoom = relAncho + "%";
+      }
+    }
+    //document.body.style.zoom = relAncho + "%";
     var defAltoVen = 949;
+
     if (document.getElementById("alarmasSur") != undefined) {
       var relAlto = window.innerHeight / defAltoVen;
       var alAl = 150 * relAlto + "px";

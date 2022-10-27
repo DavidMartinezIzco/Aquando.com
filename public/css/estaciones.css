@@ -580,14 +580,14 @@
     transition: 0.2s;
     display: none;
     padding: 1%;
-    width: 60%;
-    height: 33%;
+    width: 80%;
+    height: 40%;
     background-color: transparent;
     border-radius: 15px;
     border: none;
     position: absolute;
-    left: 17%;
-    top: 12%;
+    left: 10%;
+    top: 22%;
   }
 
   #estacionIzq {
