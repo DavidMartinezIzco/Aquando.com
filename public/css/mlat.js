@@ -128,16 +128,17 @@ function pantalla() {
     document.body.style.width = window.innerWidth;
     document.getElementById("menuIzq").style.height =
       2 * window.innerHeight + "px";
-    //  document.getElementById('conPrincipal').style.height = ((altoVen - document.getElementById('cabeceraPrincipal').style.height) * (200 - relAncho)) +'px';
-    if (document.getElementById("conPrincipal") != undefined) {
-      document.getElementById("conPrincipal").style.height =
-        3 * window.innerHeight + "px";
-    }
+    
     for (var c of document.body.children) {
-      if (c.tagName != "SCRIPT") {
+      if (c.tagName != "SCRIPT" ) {
         c.style.zoom = relAncho + "%";
       }
     }
+    if(document.getElementById('seccion').innerText == 'Informes'){
+      document.body.style.zoom = relAncho + "%";
+    }
+
+    document.getElementById('contenido').style.zoom = '100%';
     //document.body.style.zoom = relAncho + "%";
     var defAltoVen = 949;
 

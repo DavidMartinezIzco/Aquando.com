@@ -367,8 +367,14 @@
 /*movil*/
 
 @media only screen and (max-width: 600px) {
+  #conPrincipal{
+    margin-top: 30%;
+  }
   #prinIzq {
+    /* overflow-y: scroll; */
+    height: 60%;
     max-height: unset;
+    
   }
   #prinDer {
     max-height: unset;
