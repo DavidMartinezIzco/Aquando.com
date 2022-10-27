@@ -576,6 +576,20 @@
   #conPrincipal {
     overflow-y: scroll;
   }
+  #ajustesEstacion {
+    transition: 0.2s;
+    display: none;
+    padding: 1%;
+    width: 60%;
+    height: 33%;
+    background-color: transparent;
+    border-radius: 15px;
+    border: none;
+    position: absolute;
+    left: 17%;
+    top: 12%;
+  }
+
   #estacionIzq {
     left: unset;
     position: unset;

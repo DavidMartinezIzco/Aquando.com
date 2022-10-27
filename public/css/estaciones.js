@@ -39,46 +39,6 @@ function actualizar(id_estacion) {
   }
 }
 
-// function trendsTags() {
-//   var listaTags = datosAnalog.concat(tagsAcumulados);
-//   var arrTags = JSON.stringify(listaTags);
-//   var id_estacion = estacion;
-
-//   if (
-//     id_estacion == sessionStorage.getItem("trend_id") &&
-//     arrTags == JSON.parse(sessionStorage.getItem("trend_arrTags"))
-//   ) {
-//     montarWidgetsAnalogicos();
-//     todoTrends = JSON.parse(sessionStorage.getItem("trend_todoTrends"));
-//     montarWidgetsDigi();
-//   } else {
-//     $(document).ready(function () {
-//       $.ajax({
-//         type: "POST",
-//         data: {
-//           opcion: "trends",
-//           estacion: id_estacion,
-//           arrTags: arrTags,
-//           tipo: "todos",
-//         },
-//         url: "/Aquando.com/A_Estacion.php",
-//         success: function (trends) {
-//           montarWidgetsAnalogicos();
-//           todoTrends = trends;
-//           montarWidgetsDigi();
-//           sessionStorage.setItem("trend_id", id_estacion);
-//           sessionStorage.setItem("trend_arrTags", JSON.stringify(arrTags));
-//           sessionStorage.setItem("trend_todoTrends", JSON.stringify(trends));
-//         },
-//         error: function () {
-//           console.log("error en las trends");
-//         },
-//         dataType: "json",
-//       });
-//     });
-//   }
-// }
-
 //experimental
 function trendsTagsv2() {
   var listaTags = datosAnalog.concat(tagsAcumulados);
@@ -122,7 +82,7 @@ function trendsTagsv2() {
           // console.log(arrTrends);
         },
         error: function () {
-          console.log('error');
+          console.log("error");
         },
         dataType: "json",
       });

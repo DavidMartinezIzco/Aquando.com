@@ -869,20 +869,20 @@ class Database
 
     //tagstrend v2
     //hacer todo de uns consulta en vez de una por cada tag
-    public function tagsTrends($datosAnalog){
+    public function tagsTrends($datosAnalog)
+    {
         $conTrends = "";
         $conAux = "";
-        if($this->conectar()){
+        if ($this->conectar()) {
             $conAux = "(";
             $a = 0;
             foreach ($datosAnalog as $indexTag => $datosTag) {
                 if ($indexTag != null && $datosTag != null) {
                     $tag = $datosTag->id_tag;
-                    if($a == 0){   
+                    if ($a == 0) {
                         $conAux .= " $tag ";
                         $a++;
-                    }
-                    else{
+                    } else {
                         $conAux .= " ,$tag ";
                     }
                 }
@@ -891,9 +891,9 @@ class Database
             $conTrends = "SELECT datos_historicos.id_tag, MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
             from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
             where datos_historicos.fecha::date > current_date::date - interval '7 days' AND datos_historicos.id_tag IN $conAux GROUP BY datos_historicos.id_tag, datos_historicos.fecha::date";
-            
+
             $resTrends = pg_query($this->conexion, $conTrends);
-            if($this->consultaExitosa($resTrends)){
+            if ($this->consultaExitosa($resTrends)) {
                 $datosTrendsTags = pg_fetch_all($resTrends);
                 return $datosTrendsTags;
             }
@@ -1186,7 +1186,7 @@ class Database
                     //trend original
                     //$conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 days' AND datos_historicos.fecha::date <= current_date::date ORDER BY fecha desc";
                     //trend modificada
-                    $conTrendDia = "WITH t as (SELECT to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS fecha, AVG(valor_float) as valor_float, AVG(valor_acu) as valor_acu, AVG(valor_int) as valor_int FROM datos_historicos WHERE id_tag = ".$tag." AND datos_historicos.fecha::date >= current_date::date - interval '1 days' AND datos_historicos.fecha::date <= current_date::date GROUP BY fecha),contiguous_ts_list as (select fecha from generate_series((select min(fecha) from t),(select max(fecha) from t),interval '1 hour') fecha) SELECT * from contiguous_ts_list left outer join t using(fecha) ORDER BY fecha DESC";
+                    $conTrendDia = "WITH t as (SELECT to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS fecha, AVG(valor_float) as valor_float, AVG(valor_acu) as valor_acu, AVG(valor_int) as valor_int FROM datos_historicos WHERE id_tag = " . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 days' AND datos_historicos.fecha::date <= current_date::date GROUP BY fecha),contiguous_ts_list as (select fecha from generate_series((select min(fecha) from t),(select max(fecha) from t),interval '1 hour') fecha) SELECT * from contiguous_ts_list left outer join t using(fecha) ORDER BY fecha DESC";
                 }
                 $resTrendDia = pg_query($this->conexion, $conTrendDia);
                 if ($this->consultaExitosa($resTrendDia)) {
