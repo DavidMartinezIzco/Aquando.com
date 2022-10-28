@@ -1,26 +1,29 @@
 <?php
-require '../app/Database/Database.php';
+require_once '../app/Database/Database.php';
+require_once '../app/Models/Validador.php';
 $db = new Database();
+$vlr = new Validador();
 //declaraciones de variables
 //actualiza el listado de alarmas con la configuracion establecida por el usuario
 
 if ($_POST['funcion'] == "actualizar") {
     $nombre = $_POST['nombre'];
-    // $pwd = $_POST['pwd'];
     $emp = $_POST['emp'];
     $orden = $_POST['orden'];
     $sentido = $_POST['sentido'];
     $fechaIni = $_POST['fechaInicio'];
     $fechaFin = $_POST['fechaFin'];
-    $idusu = $db->obtenerIdUsuario($nombre, $emp);
-    $alarmas = $db->obtenerAlarmasUsuario($idusu, $orden, $sentido, $fechaIni, $fechaFin);
-    $alarmasLimpio = array();
-    foreach ($alarmas as $estacion => $alarmas) {
-        if ($alarmas != false) {
-            $alarmasLimpio[$estacion] = $alarmas;
+    //EXPERIMENTAL: VALIDAR FECHAS DE LOS INPUTS
+    if ($vlr->valFecha($fechaFin) && $vlr->valFecha($fechaIni)) {
+        $idusu = $db->obtenerIdUsuario($nombre, $emp);
+        $alarmas = $db->obtenerAlarmasUsuario($idusu, $orden, $sentido, $fechaIni, $fechaFin);
+        $alarmasLimpio = array();
+        foreach ($alarmas as $estacion => $alarmas) {
+            if ($alarmas != false) {
+                $alarmasLimpio[$estacion] = $alarmas;
+            }
         }
-    }
-    echo "<tr>        
+        echo "<tr>        
         <th onclick=reordenar('estacion')>Estacion</th>
         <th onclick=reordenar('senal')>Indicador </th>
         <th onclick=reordenar('valor')>Valor de la Indicador</th>
@@ -29,56 +32,59 @@ if ($_POST['funcion'] == "actualizar") {
         <th onclick=reordenar('reconusu')>Reconocida por</th>
         <th onclick=reordenar('reconfecha')>Fecha de reconocimiento</th>
         </tr>";
-    foreach ($alarmasLimpio as $index => $alarma) {
-        switch ($alarma['estado']) {
-            case 1:
-                echo "<tr class='activaNo' >";
-                break;
-            case 2:
-                echo "<tr class='restNo'>";
-                break;
-            case 3:
-                echo "<tr class='activaSi'>";
-                break;
-            case 4:
-                echo "<tr class='restSi'>";
-                break;
-            default:
-                break;
-        }
-        foreach ($alarma as $dato => $valor) {
-            if ($dato != 'estado' && $dato != 'id_alarmas') {
-                switch ($dato) {
-                    case 'valor_alarma':
-                        echo "<td>";
-                        echo $valor;
-                        //aqui hay que cambiar el filtro de alarmas
-                        //
-                        if (preg_match('~[0-9]+~', $alarma['valor_alarma'])) {
-                            echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma(' . $alarma['id_alarmas'] . ')"></i>';
-                        }
-                        echo "</td>";
-                        break;
-                    case 'ack_por':
-                        if ($valor == null) {
+        foreach ($alarmasLimpio as $index => $alarma) {
+            switch ($alarma['estado']) {
+                case 1:
+                    echo "<tr class='activaNo' >";
+                    break;
+                case 2:
+                    echo "<tr class='restNo'>";
+                    break;
+                case 3:
+                    echo "<tr class='activaSi'>";
+                    break;
+                case 4:
+                    echo "<tr class='restSi'>";
+                    break;
+                default:
+                    break;
+            }
+            foreach ($alarma as $dato => $valor) {
+                if ($dato != 'estado' && $dato != 'id_alarmas') {
+                    switch ($dato) {
+                        case 'valor_alarma':
                             echo "<td>";
-                            echo '<i class="fas fa-eye" onclick="reconocer(' . $alarma['id_alarmas'] . ')"></i>';
+                            echo $valor;
+                            //aqui hay que cambiar el filtro de alarmas
+                            //
+                            if (preg_match('~[0-9]+~', $alarma['valor_alarma'])) {
+                                echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma(' . $alarma['id_alarmas'] . ')"></i>';
+                            }
                             echo "</td>";
-                        } else {
+                            break;
+                        case 'ack_por':
+                            if ($valor == null) {
+                                echo "<td>";
+                                echo '<i class="fas fa-eye" onclick="reconocer(' . $alarma['id_alarmas'] . ')"></i>';
+                                echo "</td>";
+                            } else {
+                                echo "<td>";
+                                echo $valor;
+                                echo "</td>";
+                            }
+                            break;
+                        default:
                             echo "<td>";
                             echo $valor;
                             echo "</td>";
-                        }
-                        break;
-                    default:
-                        echo "<td>";
-                        echo $valor;
-                        echo "</td>";
-                        break;
+                            break;
+                    }
                 }
             }
+            echo "</tr>";
         }
-        echo "</tr>";
+    } else {
+        echo "fechas no validas";
     }
 }
 //obtiene el listado de alarmas de una estacion concreta

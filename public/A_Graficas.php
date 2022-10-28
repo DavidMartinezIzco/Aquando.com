@@ -1,5 +1,5 @@
 <?php
-require '../app/Database/Database.php';
+require_once '../app/Database/Database.php';
 if (isset($_POST['tag'])) {
     $id_tag = $_POST['tag'];
 }
