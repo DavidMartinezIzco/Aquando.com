@@ -7,6 +7,17 @@ $(document).keypress(function (e) {
   }
 });
 
+document.addEventListener("click", (event) => {
+  if (document.getElementById("menuIzq")) {
+    const clickFuera = document
+      .getElementById("menuIzq")
+      .contains(event.target);
+    if (!clickFuera) {
+      cerrarMenu();
+    }
+  }
+});
+
 //abre o cierra el menu lateral
 function abrirCerrar() {
   if (document.getElementById("menuIzq").style.width == "15%") {
