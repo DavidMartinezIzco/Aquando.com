@@ -421,6 +421,7 @@
   font-size: 110%;
   color: whitesmoke;
   transition: 0.2s;
+  width: min-content;
 }
 
 #btnAceptarConsigna:hover {
@@ -452,12 +453,17 @@
   color: white;
   background-color: tomato;
   transition: 0.2s;
+  width: min-content;
 }
 
 #btnCancelarConsigna:hover {
   color: black;
   border: 1px solid black;
   background-color: whitesmoke;
+}
+
+#inputAjustes{
+  width: 50%;
 }
 
 #btnEditarTag {
@@ -576,6 +582,15 @@
   #conPrincipal {
     overflow-y: scroll;
   }
+  #seccionFoto{
+    display: none;
+    width: 0%;
+    overflow: hidden;
+  }
+  #seccionInfo{
+    width: 100%;
+  }
+
   #ajustesEstacion {
     transition: 0.2s;
     display: none;
@@ -617,17 +632,7 @@
     border-bottom: none;
     border-radius: 0px;
   }
-  /* #seccionInf::-webkit-scrollbar {
-    height: 15px;
-    border-bottom-right-radius: 0px;
-    border-top-right-radius: 0px;
-    background-color: rgb(85, 85, 85);
-  }
-  #seccionInf::-webkit-scrollbar-thumb {
-    background-color: rgb(1, 168, 184);
-    border-bottom-right-radius: 0px;
-    border-top-right-radius: 0px;
-  } */
+
   #seccionInf::-webkit-scrollbar {
     display: none;
   }
@@ -651,17 +656,7 @@
     padding: 0px;
     background-color: lightgray;
   }
-  /* #estacionCentro::-webkit-scrollbar {
-    height: 15px;
-    border-bottom-right-radius: 0px;
-    border-top-right-radius: 0px;
-    background-color: rgb(85, 85, 85);
-  }
-  #estacionCentro::-webkit-scrollbar-thumb {
-    background-color: rgb(1, 168, 184);
-    border-bottom-right-radius: 0px;
-    border-top-right-radius: 0px;
-  } */
+
   #estacionCentro::-webkit-scrollbar {
     display: none;
   }
