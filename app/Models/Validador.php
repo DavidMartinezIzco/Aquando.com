@@ -21,19 +21,23 @@ class Validador
         $this->diccionarioExpecialMin = array(
             ".", ",", "'", "?", "!", " ", "_", "<", ">", "[", "\\", "¿", "¡", ":", "'", '"', "`", "{", "}", "=", "@", "#", "$", ",%", "&", "º"
         );
+        if(!function_exists('str_constains')){
+            function str_tiene($pajar,$aguja){
+                return $aguja !== '' &&mb_strpos($pajar,$aguja) !== false;
+            }
+        }
     }
     public function limpiar($elem)
     {
         $elem =  str_replace(' ', '-', $elem);
         return preg_replace('/[^A-Za-z0-9\-]/', '', $elem);
     }
-
     public function valTextoGen($texto)
     {
         $texto = "" . $texto . "";
         $dic = $this->diccionarioEspecial;
         for ($i = 0; $i < sizeof($dic); $i++) {
-            if (str_contains($texto, $dic[$i])) {
+            if (str_tiene($texto, $dic[$i])) {
                 return false;
             }
         }
@@ -44,7 +48,7 @@ class Validador
         $texto = "" . $texto . "";
         $dic = array_merge($this->diccionarioEspecial, $this->diccionarioNum);
         for ($i = 0; $i < sizeof($dic); $i++) {
-            if (str_contains($texto, $dic[$i])) {
+            if (str_tiene($texto, $dic[$i])) {
                 return false;
             }
         }
@@ -55,7 +59,7 @@ class Validador
         $num = "" . $num . "";
         $dic = array_merge($this->diccionarioTexto, $this->diccionarioEspecial);
         for ($i = 0; $i < sizeof($dic); $i++) {
-            if (str_contains($num, $dic[$i])) {
+            if (str_tiene($num, $dic[$i])) {
                 return false;
             }
         }
@@ -66,7 +70,7 @@ class Validador
         $log = "" . $log . "";
         $dic = $this->diccionarioEspecial;
         for ($i = 0; $i < sizeof($dic); $i++) {
-            if (str_contains($log, $dic[$i])) {
+            if (str_tiene($log, $dic[$i])) {
                 return false;
             }
         }
@@ -78,7 +82,7 @@ class Validador
         $dicExcep = array("5", "6", "7", "8", "9");
         $dic = array_merge($dicExcep, $this->diccionarioTexto, $this->diccionarioEspecial);
         for ($i = 0; $i < sizeof($dic); $i++) {
-            if (str_contains($config, $dic[$i])) {
+            if (str_tiene($config, $dic[$i])) {
                 return false;
             }
         }
@@ -86,13 +90,13 @@ class Validador
     }
     public function valFecha($fecha)
     {
-        $fecha = "" . $fecha . "";
+        $fecha = "" . $fecha . " ";
         $dic = array_merge($this->diccionarioTexto, $this->diccionarioEspecialMin);
         for ($i = 0; $i < sizeof($dic); $i++) {
-            if (str_contains($fecha, $dic[$i])) {
+            if (str_tiene($fecha, $dic[$i])) {
                 return false;
             }
         }
-        return false;
+        return true;
     }
 }

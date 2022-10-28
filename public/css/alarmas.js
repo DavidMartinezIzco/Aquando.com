@@ -131,8 +131,9 @@ function actualizar(reorden) {
         success: function (alarmas) {
           document.getElementById("tablaAlarmas").innerHTML = alarmas;
         },
-        error: function () {
-          console.log("error");
+        error: function (e) {
+          // console.log("error");
+          console.log(e);
         },
       });
     });
@@ -171,8 +172,8 @@ function filtrarPorEstacion() {
         success: function (alarmas) {
           document.getElementById("tablaAlarmas").innerHTML = alarmas;
         },
-        error: function () {
-          console.log("error");
+        error: function (e) {
+          console.log(e);
         },
       });
     });

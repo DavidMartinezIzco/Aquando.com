@@ -2,7 +2,7 @@
 require_once '../app/Database/Database.php';
 require_once "../app/Libraries/koolreport/core/autoload.php";
 require_once '../app/Models/InformeCaudales.php';
-require_once '../app/Models/Validador.php';
+require '../app/Models/Validador.php';
 
 use \koolreport\widgets\koolphp\Table;
 

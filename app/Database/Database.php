@@ -440,17 +440,12 @@ class Database
     //se usa en graficas y en la sección estacion
     public function tagsEstacion($id_estacion)
     {
-        if ($_SESSION['tagsEstacion_id_estacion'] == $id_estacion) {
-            return $tagsEstacion = $_SESSION['tagsEstacion_result'];
-        }
         if ($this->conectar()) {
             $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = $id_estacion AND tags.historizar = true AND tags.nombre_tag NOT LIKE('%Bomba%')";
             $resulTags = pg_query($this->conexion, $conTags);
             if ($this->consultaExitosa($resulTags)) {
                 $tagsEstacion = pg_fetch_all($resulTags);
                 $_SESSION['tagsEstacion'] = $tagsEstacion;
-                $_SESSION['tagsEstacion_id_estacion'] = $id_estacion;
-                $_SESSION['tagsEstacion_result'] = $tagsEstacion;
                 return $tagsEstacion;
             } else {
                 return false;

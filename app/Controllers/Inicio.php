@@ -14,9 +14,10 @@ class Inicio extends BaseController
 {
     private $usuario;
     private $sesion;
-    private $vdr = new Validador();
+    private $vlr;
     public function __construct()
     {
+        $this->vlr = new Validador();
         $this->sesion = \Config\Services::session();
         $this->sesion->start();
     }

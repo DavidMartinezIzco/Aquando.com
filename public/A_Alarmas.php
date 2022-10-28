@@ -1,6 +1,6 @@
 <?php
 require_once '../app/Database/Database.php';
-require_once '../app/Models/Validador.php';
+require '../app/Models/Validador.php';
 $db = new Database();
 $vlr = new Validador();
 //declaraciones de variables
@@ -13,8 +13,9 @@ if ($_POST['funcion'] == "actualizar") {
     $sentido = $_POST['sentido'];
     $fechaIni = $_POST['fechaInicio'];
     $fechaFin = $_POST['fechaFin'];
-    //EXPERIMENTAL: VALIDAR FECHAS DE LOS INPUTS
-    if ($vlr->valFecha($fechaFin) && $vlr->valFecha($fechaIni)) {
+
+    //EXPERIMENTAL: VALIDAR FECHAS DE LOS INPUTS --> algo falla
+    if ($vlr->valFecha($fechaFin)) {
         $idusu = $db->obtenerIdUsuario($nombre, $emp);
         $alarmas = $db->obtenerAlarmasUsuario($idusu, $orden, $sentido, $fechaIni, $fechaFin);
         $alarmasLimpio = array();
@@ -83,8 +84,9 @@ if ($_POST['funcion'] == "actualizar") {
             }
             echo "</tr>";
         }
-    } else {
-        echo "fechas no validas";
+    } 
+    else {
+        echo "<p>fechas no validas</p>";
     }
 }
 //obtiene el listado de alarmas de una estacion concreta
@@ -184,8 +186,6 @@ if ($_POST['funcion'] == "reconocer") {
         echo "fallo al reconocer la alarma";
     }
 }
-
-
 if ($_POST['funcion'] == "detalles") {
     $id = $_POST['id'];
     $detalles = $db->obtenerDetallesAlarma($id);
