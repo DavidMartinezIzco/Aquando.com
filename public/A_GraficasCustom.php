@@ -1,6 +1,9 @@
 <?php
-require '../app/Database/Database.php';
+require_once '../app/Database/Database.php';
+require_once '../app/Models/Validador.php';
+
 $db = new Database();
+$vlr = new Validador();
 $opcion = $_POST['opcion'];
 //obtiene los historicos de un tag en un intervalo de fechas determinado
 if ($opcion == 'tag') {
@@ -10,19 +13,30 @@ if ($opcion == 'tag') {
     $fechaFin = $_POST['fechaFin'];
     $meta = $_POST['meta'];
     $ajustesMeta = explode("/", $meta);
-    $info = $db->historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaIni, $fechaFin);
-    echo json_encode($info);
+
+    //EXPERIMENTAL: VALIDAR FECHAS
+    if ($vlr->valFecha($fechaIni) && $vlr->valFecha($fechaFin)) {
+        $info = $db->historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaIni, $fechaFin);
+        echo json_encode($info);
+    } else {
+        echo json_encode("fechas no validas");
+    }
 }
 //guarda un preset con la configuracion de tags y colores seleccionados
 if ($opcion == 'guardar') {
-
     $datosPreset = json_decode($_POST['arrDatosPreset']);
-    $usuario = $datosPreset->usuario;
-    // $pwd = $datosPreset->pwd;
-    $nombre_preset = $datosPreset->nombre;
-    $id_estacion = $datosPreset->id_estacion;
-    $tags_colores = $datosPreset->tags_colores;
-    $resultado = $db->guardarPreset($usuario, $nombre_preset, $id_estacion, $tags_colores);
+    //EXPERIMENTAL: VALIDAR NOMBRE DEL PRESET
+    if ($vlr->valTextoGen($datosPreset->nombre)) {
+        $usuario = $datosPreset->usuario;
+        // $pwd = $datosPreset->pwd;
+        $nombre_preset = $datosPreset->nombre;
+        $id_estacion = $datosPreset->id_estacion;
+        $tags_colores = $datosPreset->tags_colores;
+        $resultado = $db->guardarPreset($usuario, $nombre_preset, $id_estacion, $tags_colores);
+    } else {
+        $resultado = "nombre del preset no válido";
+    }
+
     echo $resultado;
 }
 //muestra una lista con los presets guardados por el usuario

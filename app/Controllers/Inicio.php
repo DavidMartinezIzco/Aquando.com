@@ -4,14 +4,17 @@ namespace App\Controllers;
 
 require(APPPATH . "Models/Usuario.php");
 require(APPPATH . "Models/Contras.php");
+require(APPPATH . "Models/Validador.php");
 
 use Contras;
 use Usuario;
+use Validador;
 
 class Inicio extends BaseController
 {
     private $usuario;
     private $sesion;
+    private $vdr = new Validador();
     public function __construct()
     {
         $this->sesion = \Config\Services::session();
@@ -59,6 +62,11 @@ class Inicio extends BaseController
         if (isset($_POST["txtNombre"]) && isset($_POST["txtContrasena"])) {
             $nombre = $_POST["txtNombre"];
             $pwd = $_POST["txtContrasena"];
+            //EXPERIMENTAL: VALIDADOR DE INPUTS
+            if((!$this->vlr->valLog($nombre)) || !($this->vlr->valLog($pwd)) ){
+                echo '<script language="javascript">alert("carácteres no válidos")</script>';
+                        return view('inicioSesion');
+            }
             $this->usuario = new Usuario($nombre, $pwd);
             //comrpueba que exista un usuario con ese nombre y en ese caso verifica contraseñas
             if ($this->usuario->existeUsuario() == true) {

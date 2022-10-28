@@ -1,5 +1,5 @@
 <?php
-require '../app/Database/Database.php';
+require_once '../app/Database/Database.php';
 $caso = $_POST['caso'];
 $db = new Database();
 //actualiza el listado del menu sur

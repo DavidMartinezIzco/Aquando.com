@@ -1,5 +1,5 @@
 <?php
-require '../app/Database/Database.php';
+require_once '../app/Database/Database.php';
 $DB = new Database();
 $opcion = $_POST['opcion'];
 $id_estacion = $_POST['estacion'];

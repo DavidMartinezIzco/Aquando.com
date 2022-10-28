@@ -8,9 +8,7 @@ var todoDato = Array();
 var todoTrends = Array();
 var tagsAcumulados = Array();
 var listaCon = Array();
-
 sessionStorage.setItem("tagViejo", null);
-
 function actualizar(id_estacion) {
   if (sessionStorage.getItem("param_id") == id_estacion) {
     var datos = JSON.parse(sessionStorage.getItem("data"));
@@ -38,7 +36,6 @@ function actualizar(id_estacion) {
     });
   }
 }
-
 //experimental
 function trendsTagsv2() {
   var listaTags = datosAnalog.concat(tagsAcumulados);
@@ -89,7 +86,6 @@ function trendsTagsv2() {
     });
   }
 }
-
 function filtrarDatos(datos) {
   var tagsBombas = Array();
   for (var indexDato in datos) {
@@ -157,7 +153,6 @@ function filtrarDatos(datos) {
   trendsTagsv2();
   consignasAltBd();
 }
-
 function montarWidgetsDigi() {
   var seccionDigital = document.getElementById("seccionInf");
   var widg = "";
@@ -249,7 +244,6 @@ function montarWidgetsDigi() {
     seccionDigital.innerHTML += widg;
   }
 }
-
 function montarWidgetsAnalogicos() {
   var seccionAnalog = document.getElementById("estacionDer");
   var seccionAcu = document.getElementById("estacionCentro");
@@ -388,7 +382,6 @@ function montarWidgetsAnalogicos() {
   montarGraficosWidget();
   controlMobile();
 }
-
 function montarGraficosWidget() {
   for (var tag in tagsAcumulados) {
     var nombreDato = tagsAcumulados[tag]["nombre_tag"].replace(/\s+/g, "");
@@ -680,7 +673,6 @@ function montarGraficosWidget() {
     }
   });
 }
-
 function fotoEstacion(id_estacion) {
   $(document).ready(function () {
     $.ajax({
@@ -707,7 +699,6 @@ function fotoEstacion(id_estacion) {
     });
   });
 }
-
 function controlMobile() {
   if (screen.width < 600) {
     var a = document.getElementsByClassName("widAnaInfo");
@@ -748,35 +739,43 @@ function controlMobile() {
     }
   }
 }
-
+//cache de consignas en sesion experimental
 function consignasAltBd() {
-  $(document).ready(function () {
-    $.ajax({
-      type: "POST",
-      url: "/Aquando.com/A_Ajustes.php",
-      data: {
-        estacion: nestacion,
-        opcion: "con",
-      },
-      success: function (datos) {
-        var infoConsig = [];
-        for (var i = 0; i < datos.length; i++) {
-          infoConsig.push({
-            NW: datos[i]["Nombre_WIT"].trim(),
-            RW: datos[i]["Recurso_wit"].trim(),
-            NT: datos[i]["nombre_tag"],
-          });
-        }
-        listaCon = infoConsig;
-      },
-      error: function (e) {
-        console.log("error");
-      },
-      dataType: "json",
+  if (sessionStorage.getItem("consignasAltBd_estacion") == nestacion) {
+    listaCon = JSON.parse(sessionStorage.getItem("consignasAltBd_infoConsig"));
+  } else {
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/Aquando.com/A_Ajustes.php",
+        data: {
+          estacion: nestacion,
+          opcion: "con",
+        },
+        success: function (datos) {
+          var infoConsig = [];
+          for (var i = 0; i < datos.length; i++) {
+            infoConsig.push({
+              NW: datos[i]["Nombre_WIT"].trim(),
+              RW: datos[i]["Recurso_wit"].trim(),
+              NT: datos[i]["nombre_tag"],
+            });
+          }
+          sessionStorage.setItem("consignasALtBd_estacion", nestacion);
+          sessionStorage.setItem(
+            "consignasAltBd_infoConsig",
+            JSON.stringify(infoConsig)
+          );
+          listaCon = infoConsig;
+        },
+        error: function (e) {
+          console.log("error");
+        },
+        dataType: "json",
+      });
     });
-  });
+  }
 }
-
 function leerValorConsigna(ref, nombre) {
   ciclarMenuAjustes(ref);
   $(document).ready(function () {
@@ -834,7 +833,6 @@ function leerValorConsigna(ref, nombre) {
     });
   });
 }
-
 function modificarConsignas() {
   var ref = document.getElementsByClassName("consigna_con")[0].id;
   var valor = document.getElementById("inputAjustes").value;
@@ -859,27 +857,89 @@ function modificarConsignas() {
     });
   });
 }
-
+//hasta que no tengamos SQLSRV apañado, no podré terminar estas funciones
+//experimental 
 function planningsAltBd() {
+  if(sessionStorage.getItem('planningsAltBd_estacion') == nestacion){
+    // trabajar con datos en cache
+  }
+  else{ 
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/Aquando.com/A_Ajustes.php",
+        data: {
+          estacion: nestacion,
+          opcion: "lisPlan",
+        },
+        success: function (datos) {
+          sessionStorage.setItem('planningsAltBd_estacion') = nestacion;
+          console.log(datos);
+        },
+        error: function (e) {
+          console.log(e);
+        // console.log("error");
+        },
+        dataType: "json",
+      });
+    });
+  }
+}
+//experimental. Falta SQLSRV
+function leerConfigPlaning(recurso){
+  var config = array();
+  var wid = "";
+  if(sessionStorage.getItem('leerConfigPlaning_rec') == recurso){
+    config = JSON.parse(sessionStorage.getItem('leerConfigPlaning_config'));
+    wid = sessionStorage.getItem('leerConfigPlanning_wid');
+  }
   $(document).ready(function () {
     $.ajax({
       type: "POST",
       url: "/Aquando.com/A_Ajustes.php",
       data: {
-        estacion: nestacion,
-        opcion: "lisPlan",
+        recurso: recurso,
+        opcion: "dataPlan",
       },
       success: function (datos) {
+        sessionStorage.setItem('leerConfigPlaning_config', JSON.stringify(config));
+        sessionStorage.setItem('leerConfigPlaning_wid', wid);
+        sessionStorage.setItem('leerConfigPlaning_rec') = recurso;
         console.log(datos);
       },
       error: function (e) {
-        console.log("error");
+        console.log(e);
+        // console.log("error");
       },
       dataType: "json",
     });
   });
 }
-
+function modPlanning(ref, config){
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      url: "/Aquando.com/A_Ajustes.php",
+      data: {
+        config:config,
+        ref:ref,
+        opcion: "modPlan",
+      },
+      success: function (out) {
+        if(!out){
+          // Mensaje de Error
+        }else{
+          // Mensaje de OK
+        }
+      },
+      error: function (e) {
+        console.log(e);
+        // console.log("error");
+      },
+      dataType: "json",
+    });
+  });
+}
 function ajustes() {
   var ajustes = document.getElementById("ajustesEstacion");
   if (ajustes.style.display == "block") {
@@ -917,13 +977,11 @@ function ajustes() {
     }
   }
 }
-
 function mostrarAjustesTag(obj) {
   ref = obj.id.toString();
   var n = obj.innerText;
   leerValorConsigna(ref, n);
 }
-
 function ciclarMenuAjustes() {
   var tagsenlista = document.getElementsByClassName("tagEnLista");
   for (var elem = 0; elem < tagsenlista.length; elem++) {
