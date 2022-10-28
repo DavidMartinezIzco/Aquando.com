@@ -7,15 +7,8 @@ $(document).keypress(function (e) {
   }
 });
 
-document.addEventListener("click", (event) => {
-  if (document.getElementById("menuIzq")) {
-    const clickFuera = document
-      .getElementById("menuIzq")
-      .contains(event.target);
-    if (!clickFuera) {
-      cerrarMenu();
-    }
-  }
+document.getElementById("dateandoembed").addEventListener("click", (event) => {
+  cerrarMenu();
 });
 
 //abre o cierra el menu lateral
@@ -139,17 +132,17 @@ function pantalla() {
     document.body.style.width = window.innerWidth;
     document.getElementById("menuIzq").style.height =
       2 * window.innerHeight + "px";
-    
+
     for (var c of document.body.children) {
-      if (c.tagName != "SCRIPT" ) {
+      if (c.tagName != "SCRIPT") {
         c.style.zoom = relAncho + "%";
       }
     }
-    if(document.getElementById('seccion').innerText == 'Informes'){
+    if (document.getElementById("seccion").innerText == "Informes") {
       document.body.style.zoom = relAncho + "%";
     }
 
-    document.getElementById('contenido').style.zoom = '100%';
+    document.getElementById("contenido").style.zoom = "100%";
     //document.body.style.zoom = relAncho + "%";
     var defAltoVen = 949;
 
