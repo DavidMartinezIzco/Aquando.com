@@ -358,6 +358,10 @@ function cerrarMenuEsp() {
     $("#menuIzq").trigger('widthChange');
 }
 
+document.getElementById("dateandoembed").addEventListener("click", (event) => {
+  cerrarMenu();
+});
+
 function cerrarBanner(e) {
     e.parentElement.style.display = 'none';
 }

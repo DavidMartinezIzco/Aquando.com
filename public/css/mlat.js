@@ -7,9 +7,7 @@ $(document).keypress(function (e) {
   }
 });
 
-document.getElementById("dateandoembed").addEventListener("click", (event) => {
-  cerrarMenu();
-});
+
 
 //abre o cierra el menu lateral
 function abrirCerrar() {
