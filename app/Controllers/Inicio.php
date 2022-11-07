@@ -75,7 +75,7 @@ class Inicio extends BaseController
                 $id_usu = $this->usuario->obtenerIdUsuario($nombre);
                 if ($id_usu != null) {
                     $conSys = new Contras($id_usu);
-                    // echo $conSys->hashear($pwd);
+                    //echo $conSys->hashear($pwd);
                     if ($conSys->loginUsuario($pwd)) {
                         $_SESSION['hpwd'] = $conSys->getHash();
                         $_SESSION['estaciones'] = $this->usuario->obtenerEstacionesUsuario($_SESSION['hpwd']);
