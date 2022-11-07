@@ -36,7 +36,6 @@ if ($opcion == 'guardar') {
     // } else {
     //     $resultado = "nombre del preset no válido";
     // }
-
     echo $resultado;
 }
 //muestra una lista con los presets guardados por el usuario
@@ -48,7 +47,7 @@ if ($opcion == 'leerPresets') {
     if ($id_usuario) {
         $presets = $db->leerPresets($id_usuario);
         if ($_POST['para'] == 'mostrar') {
-            $res = "";
+            $res = "<option value='none'>Sin preset</option>";
             foreach ($presets as $index => $datos) {
                 $nombre_preset = substr($datos['configuracion'], 0, strpos($datos['configuracion'], '@'));
                 $res .= "<option value='" . $nombre_preset . "'>" . $nombre_preset . "</option>";

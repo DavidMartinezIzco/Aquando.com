@@ -858,12 +858,11 @@ function modificarConsignas() {
   });
 }
 //hasta que no tengamos SQLSRV apañado, no podré terminar estas funciones
-//experimental 
+//experimental
 function planningsAltBd() {
-  if(sessionStorage.getItem('planningsAltBd_estacion') == nestacion){
+  if (sessionStorage.getItem("planningsAltBd_estacion") == nestacion) {
     // trabajar con datos en cache
-  }
-  else{ 
+  } else {
     $(document).ready(function () {
       $.ajax({
         type: "POST",
@@ -873,12 +872,12 @@ function planningsAltBd() {
           opcion: "lisPlan",
         },
         success: function (datos) {
-          sessionStorage.setItem('planningsAltBd_estacion') = nestacion;
+          sessionStorage.setItem("planningsAltBd_estacion") = nestacion;
           console.log(datos);
         },
         error: function (e) {
-          console.log(e);
-        // console.log("error");
+          // console.log(e);
+          console.log("error");
         },
         dataType: "json",
       });
@@ -886,12 +885,12 @@ function planningsAltBd() {
   }
 }
 //experimental. Falta SQLSRV
-function leerConfigPlaning(recurso){
+function leerConfigPlaning(recurso) {
   var config = array();
   var wid = "";
-  if(sessionStorage.getItem('leerConfigPlaning_rec') == recurso){
-    config = JSON.parse(sessionStorage.getItem('leerConfigPlaning_config'));
-    wid = sessionStorage.getItem('leerConfigPlanning_wid');
+  if (sessionStorage.getItem("leerConfigPlaning_rec") == recurso) {
+    config = JSON.parse(sessionStorage.getItem("leerConfigPlaning_config"));
+    wid = sessionStorage.getItem("leerConfigPlanning_wid");
   }
   $(document).ready(function () {
     $.ajax({
@@ -902,39 +901,42 @@ function leerConfigPlaning(recurso){
         opcion: "dataPlan",
       },
       success: function (datos) {
-        sessionStorage.setItem('leerConfigPlaning_config', JSON.stringify(config));
-        sessionStorage.setItem('leerConfigPlaning_wid', wid);
-        sessionStorage.setItem('leerConfigPlaning_rec') = recurso;
+        sessionStorage.setItem(
+          "leerConfigPlaning_config",
+          JSON.stringify(config)
+        );
+        sessionStorage.setItem("leerConfigPlaning_wid", wid);
+        sessionStorage.setItem("leerConfigPlaning_rec") = recurso;
         console.log(datos);
       },
       error: function (e) {
-        console.log(e);
-        // console.log("error");
+        // console.log(e);
+        console.log("error");
       },
       dataType: "json",
     });
   });
 }
-function modPlanning(ref, config){
+function modPlanning(ref, config) {
   $(document).ready(function () {
     $.ajax({
       type: "POST",
       url: "/Aquando.com/A_Ajustes.php",
       data: {
-        config:config,
-        ref:ref,
+        config: config,
+        ref: ref,
         opcion: "modPlan",
       },
       success: function (out) {
-        if(!out){
+        if (!out) {
           // Mensaje de Error
-        }else{
+        } else {
           // Mensaje de OK
         }
       },
       error: function (e) {
-        console.log(e);
-        // console.log("error");
+        // console.log(e);
+        console.log("error");
       },
       dataType: "json",
     });

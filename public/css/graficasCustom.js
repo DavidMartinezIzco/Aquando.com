@@ -190,7 +190,7 @@ function aplicarCustom() {
       document.getElementsByName("btnControlAplicar")[0].innerHTML = "aplicar";
       document.getElementById("btnControlCustom").disabled = false;
       document.getElementById("selPresets").disabled = false;
-    }, 12000);
+    }, 6000);
   } else {
     document.getElementsByName("btnControlAplicar")[0].innerHTML =
       "¡sin señales!";
@@ -199,7 +199,7 @@ function aplicarCustom() {
       document.getElementsByName("btnControlAplicar")[0].innerHTML = "aplicar";
       document.getElementById("btnControlCustom").disabled = false;
       document.getElementById("selPresets").disabled = false;
-    }, 12000);
+    }, 6000);
     document.getElementById("btnControlCustom").disabled = false;
   }
 }
@@ -220,7 +220,8 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
     success: function (datosTag) {
       prepararTag(datosTag, tag);
       if (ajustesTag.at(-1) == tag) {
-        setTimeout(renderGrafico, nTags * 500);
+        setTimeout(renderGrafico, nTags * 300);
+        // renderGrafico();
       }
     },
     error: function (e) {
@@ -535,16 +536,15 @@ function renderGrafico() {
 // despliega las ventanas de opciones de los presets
 function ajustesPresets(modo) {
   var con = document.getElementById("ajustesPresets");
+  var pre = document.getElementById("selPresets").options[
+    document.getElementById("selPresets").selectedIndex
+  ].value;
   if (con.style.display == "block") {
     con.style.display = "none";
   } else {
     con.style.display = "block";
-    if (modo == "cargar") {
+    if (modo == "cargar" && pre != "none") {
       con.innerHTML = "";
-      var pre =
-        document.getElementById("selPresets").options[
-          document.getElementById("selPresets").selectedIndex
-        ].value;
       var msg =
         "<h3>Cargar Preset</h3><p>¿quieres cargar <b>" + pre + "</b>?</p>";
       var btns =
@@ -573,7 +573,6 @@ function ajustesPresets(modo) {
 function leerPresets(para) {
   var datos = {};
   datos["nombre"] = usu;
-  // datos["pwd"] = pwd;
   if (para == null || para == "mostrar") {
     para = "mostrar";
     var arrdatos = JSON.stringify(datos);
@@ -662,10 +661,9 @@ function cargarPreset() {
   document.getElementById("selPresets").disabled = true;
   limpiar();
   document.getElementsByName("btnControlAplicar")[0].innerHTML = "cargando...";
-  n_preset =
-    document.getElementById("selPresets").options[
-      document.getElementById("selPresets").selectedIndex
-    ].value;
+  n_preset = document.getElementById("selPresets").options[
+    document.getElementById("selPresets").selectedIndex
+  ].value;
   if (n_preset.includes(nombre_estacion_activa)) {
     leerPresets("cargar");
   } else {
@@ -677,10 +675,9 @@ function cargarPreset() {
 //a traves de AJAX busca en la config de usuario un preset y lo elimina
 function borrarPreset() {
   ajustesPresets(null);
-  var n_preset =
-    document.getElementById("selPresets").options[
-      document.getElementById("selPresets").selectedIndex
-    ].value;
+  var n_preset = document.getElementById("selPresets").options[
+    document.getElementById("selPresets").selectedIndex
+  ].value;
   var datos = {};
   datos["nombre"] = usu;
   // datos["pwd"] = pwd;

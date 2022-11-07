@@ -49,7 +49,7 @@ function exportarCSV() {
     }
     datosExp.push(fila.join(";"));
   }
-  console.log(datosExp.join("\n"));
+  // console.log(datosExp.join("\n"));
   descargarArchivoCSV(datosExp.join("\n"), nombre_informe);
 }
 //descarga el archivo CSV

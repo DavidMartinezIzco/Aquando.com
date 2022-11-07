@@ -191,13 +191,12 @@ function renderFeedDigi() {
   divSup += "</div>";
   divInf += "</div>";
   gridWidDigi.innerHTML = divSup + divInf;
-  if(document.getElementById('widSup').innerHTML == ""){
-    document.getElementById('widSup').remove();
+  if (document.getElementById("widSup").innerHTML == "") {
+    document.getElementById("widSup").remove();
   }
-  if(document.getElementById('widInf').innerHTML == ""){
-    document.getElementById('widInf').remove();
+  if (document.getElementById("widInf").innerHTML == "") {
+    document.getElementById("widInf").remove();
   }
-
 }
 //desplaza un widget de un carrusel
 function rotarCarrusel(carr) {
@@ -374,8 +373,8 @@ function feedPrincipalCustom() {
           renderPrincipalCustom(feedAna);
         },
         error: function (e) {
-          //console.log('error feed principal analog');
-          console.log(e);
+          console.log("error feed principal analog");
+          // console.log(e);
         },
         dataType: "json",
       });
