@@ -2,9 +2,11 @@
 require_once '../app/Database/Database.php';
 $caso = $_POST['caso'];
 $db = new Database();
+
 //actualiza el listado del menu sur
 //utiliza la config general
 if ($caso == "general") {
+    $conta = 0;
     $nombre = $_POST['nombre'];
     // $pwd = $_POST['pwd'];
     $id_usuario = $db->obtenerIdUsuario($nombre);
@@ -26,7 +28,6 @@ if ($caso == "general") {
             }
         }
         foreach ($alarmasLimpio as $index => $alarma) {
-
             switch ($alarma['estado']) {
                 case 1:
                     echo "<tr class='activaNo' >";
@@ -55,6 +56,18 @@ if ($caso == "general") {
                 }
             }
             echo "</tr>";
+            $conta++;
+        }
+        for ($conta; $conta < 7; $conta++) {
+            echo "<tr style='background-color:lightgray;color:lightgray;'><td>sin mas alarmas en la estación </td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+        }
+    } else {
+        $i = 0;
+        while ($i < 6) {
+            while ($i <= 6) {
+                $i++;
+                echo "<tr style='background-color:lightgray;color:lightgray;'><td>sin alarmas en la estación </td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+            }
         }
     }
 }

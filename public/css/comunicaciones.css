@@ -151,7 +151,7 @@
 }
 
 #seccionDetalles2 table {
-  height: 100%;
+  height: min-content;
   width: 100%;
 }
 

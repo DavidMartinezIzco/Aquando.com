@@ -21,7 +21,7 @@
 
 #conMapa {
   width: 100%;
-  height: 100%;
+  height: 185%;
   border: 4px solid gray;
   background-color: rgb(85, 85, 85);
   padding: 2%;
@@ -31,6 +31,7 @@
   width: 100%;
   height: 49%;
   border-radius: 10px;
+  display: none;
 }
 
 /* ZONA EN CUADRO DE LOS WID DIGI */

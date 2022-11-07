@@ -1,5 +1,6 @@
 <?php
 require_once '../app/Database/Database.php';
+require '../app/Models/Validador.php';
 $opcion = $_POST['opcion'];
 $db = new Database();
 //calcula el tiempo que lleva una estación sin comunicar

@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="../../css/sur.css">
 <main id="conPrincipal" style="width:100%; border-radius:10px; margin-top:1%;">
     <div id="displayComs">
-        <table id="tablaConex" style="width:100%; height:100%">
+        <table id="tablaConex" style="width:100%;">
         </table>
     </div>
     <table id="alarmasSur">

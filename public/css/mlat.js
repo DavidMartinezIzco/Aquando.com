@@ -6,9 +6,6 @@ $(document).keypress(function (e) {
     abrirCerrar();
   }
 });
-
-
-
 //abre o cierra el menu lateral
 function abrirCerrar() {
   if (document.getElementById("menuIzq").style.width == "15%") {
@@ -18,26 +15,25 @@ function abrirCerrar() {
   }
   $("#menuIzq").trigger("widthChange");
 }
-//despliega la zona de debug
 function desplegar(menu) {
   if (menu == "estaciones") {
     if (
       document.getElementsByClassName("miniEstacion")[0].style.height == 0 ||
-      document.getElementsByClassName("miniEstacion")[0].style.height == "0%"
+      document.getElementsByClassName("miniEstacion")[0].style.height == "0px"
     ) {
-      document.getElementsByClassName("miniEstacion")[0].style.height = "20%";
+      document.getElementsByClassName("miniEstacion")[0].style.height = "15%";
     } else {
-      document.getElementsByClassName("miniEstacion")[0].style.height = "0%";
+      document.getElementsByClassName("miniEstacion")[0].style.height = "0px";
     }
   }
   if (menu == "grafs") {
     if (
       document.getElementsByClassName("miniEstacion")[2].style.height == 0 ||
-      document.getElementsByClassName("miniEstacion")[2].style.height == "0%"
+      document.getElementsByClassName("miniEstacion")[2].style.height == "0px"
     ) {
-      document.getElementsByClassName("miniEstacion")[2].style.height = "15%";
+      document.getElementsByClassName("miniEstacion")[2].style.height = "116px";
     } else {
-      document.getElementsByClassName("miniEstacion")[2].style.height = "0%";
+      document.getElementsByClassName("miniEstacion")[2].style.height = "0px";
     }
   }
 }

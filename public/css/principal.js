@@ -5,7 +5,7 @@ var listaTags = new Array();
 //utiliza OSM y Leaflet.
 function mapas() {
   var ubiIni = [estacionesUsu[0]["latitud"], estacionesUsu[0]["longitud"]];
-  var map = L.map("conMapa").setView(ubiIni, 10);
+  var map = L.map("conMapa").setView(ubiIni, 8);
   L.tileLayer(
     "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}",
     {

@@ -734,6 +734,7 @@ class Database
     {
         if ($this->conectar()) {
             $consulta = "SELECT estaciones.id_estacion, estaciones.nombre_estacion, datos_valores.valor_date, tags.nombre_tag,estaciones.latitud,estaciones.longitud, estaciones.foto  FROM estaciones INNER JOIN estacion_tag ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag INNER JOIN datos_valores ON estacion_tag.id_tag = datos_valores.id_tag WHERE tags.nombre_tag LIKE 'Ultima Comunicacion%' AND estaciones.id_estacion = " . $id_estacion . " ORDER BY estaciones.nombre_estacion DESC";
+            // $consulta = "SELECT estaciones.id_estacion, estaciones.nombre_estacion, datos_valores.valor_date, tags.nombre_tag,estaciones.latitud,estaciones.longitud, estaciones.foto  FROM estaciones INNER JOIN estacion_tag ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag INNER JOIN datos_valores ON estacion_tag.id_tag = datos_valores.id_tag WHERE tags.nombre_tag LIKE 'Ultima Comunicacion%' AND estaciones.id_estacion = " . $id_estacion . " ORDER BY datos_valores.fecha DESC";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $ultimaConexion = pg_fetch_all($resultado);
