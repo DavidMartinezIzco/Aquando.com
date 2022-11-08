@@ -152,3 +152,22 @@ function pantalla() {
     }
   }
 }
+
+function temaAq(a) {
+    var tema = 0;
+    if (
+      sessionStorage.getItem("tema") != undefined &&
+      sessionStorage.getItem("tema") != null
+    ) {
+      tema = sessionStorage.getItem("tema");
+    }
+    if(a=='alt'){
+      if(tema==0){
+        tema = 1;
+      }else{
+        tema = 0;
+      }
+    }
+  sessionStorage.setItem('tema',tema);
+  return tema;
+}
