@@ -1,4 +1,5 @@
 //por algun motivo hay un overflow x de tipo scroll al hacer hover sobre un chart por primera vez
+var estAq = temaAq(null);
 var widsAnalogLista = [];
 var datosDigi = Array();
 var datosAnalog = Array();

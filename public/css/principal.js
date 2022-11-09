@@ -1,5 +1,6 @@
 var feedDigital = new Array();
 var listaTags = new Array();
+var estAq = temaAq(null);
 //con los datos de coordenadas de estaciones, se hace un mapa con las estaciones que le pertenezcan al usuario
 //esas estaciones se listan con pines en el mapa y al hacer click tienen un popup con foto + nombre + ultima conex + enlace
 //utiliza OSM y Leaflet.

@@ -168,6 +168,24 @@ function temaAq(a) {
         tema = 0;
       }
     }
+    var estilos = {
+      fondo: {
+          0: "white",
+          1: "dateando-fondo-oscuro.jpg",
+      },
+      fondoAlt: {
+          0: "white",
+          1: "rgb(85,85,85)",
+      },
+      fuente: {
+          0: "black",
+          1: "whitesmoke",
+      },
+      fuenteAlt: {
+          0: "rgb(45,45,45)",
+          1: "rgb(1, 168, 184)",
+      },
+  };
   sessionStorage.setItem('tema',tema);
-  return tema;
+  return estilos;
 }

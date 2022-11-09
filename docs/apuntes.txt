@@ -68,3 +68,69 @@ Para escribir consignas atacando la base de datos se debe hacer lo siguiente
      supervisor escribe “1” en la columna “ValueWriteStatus” correspondiente.
 
 5.	Cuando la remota esté conectada, se actualizará el valor. Tener cuidado en las diferentes versiones de los elementos.
+
+
+8/11/'22
+Temas Oscuros y Claros
+- Controlar desde PHP?
+    PRO: leer unos y otros archivos css
+    CON: doble tamaño y doble trabajo
+
+- Controlar desde cliente?
+    PRO: mas ligero y rápido
+    CON: elementos comunes entre temas. 
+
+IDEA:
+Para acceder facil a colores en JS sin estirar mucho codigo:
+
+                var estilos = {
+                    fondo: {
+                        0: "white",
+                        1: "dateando-fondo-oscuro.jpg",
+                    },
+                    fondoAlt: {
+                        0: "white",
+                        1: "rgb(85,85,85)",
+                    },
+                    fuente: {
+                        0: "black",
+                        1: "whitesmoke",
+                    },
+                    fuenteAlt: {
+                        0: "rgb(45,45,45)",
+                        1: "rgb(1, 168, 184)",
+                    },
+                };
+
+ELEMENTOS COMUNES EN CLIENTE:
+Sin agrupar ni nada.
+
+    - inicio.css    | L1:* - color de fondo 
+
+    - principal.css | L180: #carrusel |
+                    | L138: .anaIzq   | color de fondo
+                    | L159: .anaDer   |
+
+    - estaciones.css | L37: #seccionInfo > color de fondo
+                                         > color de texto
+                     | L20: #seccionFoto > imagen de fondo
+                     | L543: #digiWidMsg > color de fondo
+                                         > color de texto
+                     | L174 #widAnaInfoSec > color de fondo
+                                           > color de texto
+
+                     | L200: .contador > color de fondo
+                     | L190: .widAnaGraf > color de fondo
+                     
+MIRAR: 
+    Librerias de dashboards para atvise (JS) para mejorar el proyecto de ejemplo
+    
+    SANKEY:
+
+
+
+    Funcionamiento de Fiware
+        - lenguaje del broker
+        - implementacion PHP
+        - conexiones, drivers, Funcionamiento
+        - entornos
