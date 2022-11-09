@@ -1,8 +1,8 @@
 body {
-  background: url('Dateando_Fondo_Limpio_Oscuro.png');
+  /* background: url('Dateando_Fondo_Limpio_Oscuro.png');
     background-size: cover;
     background-attachment: fixed; 
-    color: white;
+    color: white; */
 
     /* background: url('../fondo-animado.gif');
     background-size: cover;
@@ -17,8 +17,8 @@ body {
     background-size: cover;
     background-repeat: no-repeat; */
     
-  /* background-color: whitesmoke;
-  color: black; */
+  background-color: whitesmoke;
+  color: black;
   overflow: hidden;
 }
 
