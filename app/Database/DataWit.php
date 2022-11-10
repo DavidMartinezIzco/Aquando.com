@@ -73,7 +73,7 @@ class Datawit
     public function consignasEstacion($estacion)
     {
         if ($this->conectarAux() && $estacion != "Deposito Berroa") {
-            $consulta = "SELECT * FROM Info_lkv where estacion like('%" . $estacion . "%') AND nombre_tag like ('%Consigna%') AND Nombre_variable_wit LIKE(%.Import%)";
+            $consulta = "SELECT * FROM Info_lkv where estacion like('%" . $estacion . "%') AND nombre_tag like ('%Consigna%') AND Nombre_variable_wit LIKE('%Import%')";
             // $params = array($estacion);
             $respuesta = sqlsrv_query($this->conexionAux, $consulta);
             if ($this->consultaExitosa($respuesta)) {
@@ -91,7 +91,8 @@ class Datawit
     public function leerConsignaWIT($recurso)
     {
         if ($this->conectar()) {
-            $consulta = "SELECT * FROM [DBEASY452].[dbo].[WValue] WHERE ValueWOSAdd LIKE('%" . $recurso . "%')";
+            $consulta = "SELECT * FROM [DBEASY452].[dbo].[WValue] WHERE ValueWOSAdd LIKE('%" . $recurso . "%') AND ValueWOSAdd LIKE('%InLink%')";
+            // return $consulta;
             $respuesta = sqlsrv_query($this->conexion, $consulta);
             if ($this->consultaExitosa($respuesta)) {
                 $datos = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC);
@@ -105,7 +106,7 @@ class Datawit
     public function modificarConsignaWit($ref, $valor) //habra que meter params (estacion, tag, consigna, valor etc)
     {
         if ($this->conectar()) {
-            $conConsignas = "UPDATE [DBEASY452].[dbo].[WValue] SET ValueReadData = '" . $valor . "', ValueWriteStatus = 10 WHERE ValueWOSAdd LIKE('%" . $ref . ".inLink%')";
+            $conConsignas = "UPDATE [DBEASY452].[dbo].[WValue] SET ValueReadData = '" . $valor . "', ValueWriteStatus = 10 WHERE ValueWOSAdd LIKE('%" . $ref . "InLink%')";
             $params = array();
             $stmt = sqlsrv_query($this->conexion, $conConsignas, $params);
             if ($this->consultaExitosa($stmt)) {

@@ -788,7 +788,9 @@ function leerValorConsigna(ref, nombre) {
         opcion: "det",
       },
       success: function (datos) {
-        var estado = "desconocido";
+        console.log(datos);
+        if(datos != null){
+          var estado = "desconocido";
         if (datos["ValueWriteStatus"] == 0) {
           estado =
             "<span style='color:yellowgreen'>Confirmado <i class='far fa-check-circle'></i></span>";
@@ -826,6 +828,14 @@ function leerValorConsigna(ref, nombre) {
           .addEventListener("change", (event) => {
             document.getElementById("btnAceptarConsigna").enabled = true;
           });
+        }
+        else{
+        var zona = document.getElementById("ajustesDisplay");
+        zona.innerHTML = "";
+        var ajustes = "";
+        ajustes += "<h4><b>Error leyendo los datos de esta consigna</b></h4><hr><p>No parece estar bien configurada</p>";
+        zona.innerHTML = ajustes;
+        }
       },
       error: function (e) {
         console.log("error");
