@@ -17,7 +17,7 @@ function inicioFin() {
     return manana.toJSON().slice(0, 10);
   };
   Date.prototype.setearHasta = function () {
-    var mesant = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000);
+    var mesant = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
     return mesant.toJSON().slice(0, 10);
   };
   $(document).ready(function () {
@@ -112,7 +112,7 @@ function actualizar(reorden) {
     var fechaInicio = document.getElementById("fechaInicio").value;
     var fechaFin = document.getElementById("fechaFin").value;
     var nombre = sessionStorage.getItem("nousu");
-    var pwd = sessionStorage.getItem("pwd");
+
     var emp = sessionStorage.getItem("emp");
     $(document).ready(function () {
       $.ajax({
@@ -121,7 +121,6 @@ function actualizar(reorden) {
         data: {
           funcion: "actualizar",
           nombre: nombre,
-          // pwd: pwd,
           emp: emp,
           sentido: sentido,
           orden: orden,

@@ -234,10 +234,10 @@ class Database
                     }
                 }
             }
-            $conAlarmas = "SELECT 
+            $conAlarmas = "SELECT DISTINCT
             estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
             FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
-            WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . "AND alarmas.fecha_origen::date > current_date::date - interval '7 days'";
+            WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . "";
             //obtener fechas de inicio y fin
             //comprobar cuales están definidas
             //filtrar
@@ -249,7 +249,9 @@ class Database
                 $fin = strtotime($fechaFin);
                 $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) > " . $fin;
             }
-
+            // else{
+            //     $conAlarmas .= "AND alarmas.fecha_origen::date > current_date::date - interval '7 days'";
+            // }
             if ($sentido != null) {
                 if ($sentido == 'ASC') {
                     $conAlarmas .= " ORDER BY $prioridad ASC";
@@ -259,6 +261,7 @@ class Database
             } else {
                 $conAlarmas .= " ORDER BY $prioridad DESC";
             }
+            $conAlarmas .= " LIMIT 500";
             $resulAlarmas = pg_query($conAlarmas);
             if ($this->consultaExitosa($resulAlarmas)) {
                 $alarmas = pg_fetch_all($resulAlarmas);

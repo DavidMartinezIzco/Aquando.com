@@ -341,8 +341,8 @@ if (isset($_GET['log'])) {
         <?php
         if (!isset($_SESSION['nombre']) && $_SESSION['mensajeDesc'] == true) {
             echo '<main id="conPrincipal" style="width:100%;border-radius:10px; margin-top:1%">';
-            echo "<h1 id='txtDesconectado' style='width:30%;margin:25% 40%;color:grey; transition:1.5s;opacity:60%'>Desconectado</h1>";
-            // echo '<iframe style="width:100%;height:100%" id="dateandoembed" src="https://www.dateando.tech/"></iframe>';
+            //echo "<h1 id='txtDesconectado' style='width:30%;margin:25% 40%;color:grey; transition:1.5s;opacity:60%'>Desconectado</h1>";
+            //echo '<iframe style="width:100%;height:100%" id="dateandoembed" src="https://www.dateando.tech/"></iframe>';
             echo "<script>var ua = navigator.userAgent;if (!(ua.match(/Android/i)) && !(ua.match(/iOS/i))) {document.getElementById('contenido').innerHTML +='";
             echo '<div style="z-index:99;background-color: rgb(1, 168, 184);width:100%;color:whitesmoke;padding:1em 3em;position:fixed;bottom:0;left:0"><i class="fas fa-times" style="font-size: 150%" id="btnAyudaCerrar" onclick=cerrarBanner(this)></i><h2>Descarga la app gratuita de Aquando para Android</h2><hr><button style="background-color: yellowgreen;padding:15px;color:whitesmoke;border-radius: 9px;border:2px solid whitesmoke">Aquando<i class="fab fa-android"></i></button></div>';
             echo "';}</script>";
