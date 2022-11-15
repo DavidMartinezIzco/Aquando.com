@@ -6,6 +6,16 @@ $(document).keypress(function (e) {
     abrirCerrar();
   }
 });
+document.addEventListener("click", (evt) => {
+  let targetEl = evt.target; // elem click
+  do {
+    if (targetEl == document.getElementById("menuIzq") || document.getElementById('btnMenuIzq')) {
+      return;
+    }
+    targetEl = targetEl.parentNode;
+  } while (targetEl);
+  cerrarMenu();
+});
 //abre o cierra el menu lateral
 function abrirCerrar() {
   if (document.getElementById("menuIzq").style.width == "15%") {
@@ -152,40 +162,39 @@ function pantalla() {
     }
   }
 }
-
 function temaAq(a) {
-    var tema = 0;
-    if (
-      sessionStorage.getItem("tema") != undefined &&
-      sessionStorage.getItem("tema") != null
-    ) {
-      tema = sessionStorage.getItem("tema");
+  var tema = 0;
+  if (
+    sessionStorage.getItem("tema") != undefined &&
+    sessionStorage.getItem("tema") != null
+  ) {
+    tema = sessionStorage.getItem("tema");
+  }
+  if (a == "alt") {
+    if (tema == 0) {
+      tema = 1;
+    } else {
+      tema = 0;
     }
-    if(a=='alt'){
-      if(tema==0){
-        tema = 1;
-      }else{
-        tema = 0;
-      }
-    }
-    var estilos = {
-      fondo: {
-          0: "white",
-          1: "dateando-fondo-oscuro.jpg",
-      },
-      fondoAlt: {
-          0: "white",
-          1: "rgb(85,85,85)",
-      },
-      fuente: {
-          0: "black",
-          1: "whitesmoke",
-      },
-      fuenteAlt: {
-          0: "rgb(45,45,45)",
-          1: "rgb(1, 168, 184)",
-      },
+  }
+  var estilos = {
+    fondo: {
+      0: "white",
+      1: "dateando-fondo-oscuro.jpg",
+    },
+    fondoAlt: {
+      0: "white",
+      1: "rgb(85,85,85)",
+    },
+    fuente: {
+      0: "black",
+      1: "whitesmoke",
+    },
+    fuenteAlt: {
+      0: "rgb(45,45,45)",
+      1: "rgb(1, 168, 184)",
+    },
   };
-  sessionStorage.setItem('tema',tema);
+  sessionStorage.setItem("tema", tema);
   return estilos;
 }
