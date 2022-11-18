@@ -61,14 +61,14 @@ class Datawit
     }
     //TESTEO DE LA CONEXION
     //YA NO SE USA
-    public function estadoConex()
-    {
-        if (!($this->conectar())) {
-            return "desconectado";
-        } else {
-            return "conectado";
-        }
-    }
+    // public function estadoConex()
+    // {
+    //     if (!($this->conectar())) {
+    //         return "desconectado";
+    //     } else {
+    //         return "conectado";
+    //     }
+    // }
     //LISTA LAS CONSIGNAS DISPONIBLES DE UNA ESTACION DADO SU NOMBRE
     public function consignasEstacion($estacion)
     {

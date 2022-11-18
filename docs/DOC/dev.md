@@ -1,36 +1,351 @@
-<?php
-//algun dia documentaré esta clase entera
-// o igual no
-class Database
-{
-    //cambiar en caso de mover BD
-    private $host = "172.16.5.1";
-    private $dbname = "aquando_ddbb";
-    private $user = "postgres";
-    private $password = "123456";
-    private $conexion = false;
+<div style='background-colorrgb(238,238,228);padding:2em;border:5px solid gray;border-radius:1em;'>
 
-    public function __construct()
+# DOCUMENTACION DE AQUANDO PARA DESARROLLADORES
+
+## Manual básico de desarrollador para Aquando.com
+
+---
+
+### **Contenidos:** :book:
+
+- **General**
+  - Información
+  - Arquitectura general
+  - Dependencias
+- **Controlador**
+  - Inicio.php
+- **Bases de datos**
+  - Database.php
+  - DataWit.php
+- **Modelos**
+  - Contras.php
+  - Usuario.php
+  - Validador.php
+- **Vistas**
+  - Inicio
+  - Estaciones
+  - Alarmas
+  - Graficas
+  - Informes
+  - Comunicaciones
+  - Otros
+- **Lado cliente**
+  - JavaScript
+  - Ajax
+
+---
+
+## GENERAL
+
+### Información básica:
+
+> Aquando es una aplicación API-REST escrita mayormente en PHP y JavaScritpt.
+> Se apoya en la plataforma CodeIgniter para organizarla en un estándar de producción común.
+
+Básicamente, Aquando consiste en un back-end que va a escuchar las distintas peticiones que se realicen desde cliente. Dependiendo de estas, desde el controlador se decide que hacer y como.
+Dependiendo del tipo de petición en ocasiones no será el controlador lo que procese las peticiones sino archivos en PHP también que se comunican con el cliente a traves de AJAX. Estos archivos existen dedicados para cada sección y realizan acciones sencillas en tiempo real funcionando como pequeños controladores para las secciones.
+El resto de acciones (normamente gráficas y estéticas) son realizadas desde el lado cliente con JavaScript siempre que no requieran de archivos del servidor ni de las bases de datos.
+
+### Dependencias:
+
+**SERVIDOR**
+
+- Apache2 en entorno Linux o XAMPP en Windows.
+- Extensiones para PHP 7+
+  - sqlsrv
+  - pgsql
+- CodeIgniter 4
+- KoolReport
+
+**CLIENTE**
+
+- fontAwesome
+- jquery
+- echarts
+- leaflet
+- html2pdf
+- html2canvas
+
+---
+
+## **1. CONTROLADOR**
+
+### **CLASE Inicio.php**
+
+El controlador se llama Inicio.php y se ejecuta despues de BaseController.php y el resto de componentes de codeIgniter.
+
+El controlador es el componente que gestiona las peticiones que llegan desde lado cliente. Pero también se encarga de instanciar la aplicación por primera vez cuando esta empieza a funcionar.
+
+Para funcionar primero implementa las clases sobre las que se apoya para procesar la actividad en el servidor. Estas clases se explican mas en detalle en sus secciones mas adelante. Las clases son Usuario.php. Contras.php y Validador.php que se encuentran bajo la carpeta Models.
+También en el contrusctor de clase, instancian losetos usuario, sesion y vlr (validador).
+
+### FUNCION **index()**
+
+> @returns View
+
+Esta función lo que hace es arrancar la aplicación. También muestra la sección principal en caso de que la sesión exista y muestra el Log-out si la sesión ha expirado.
+
+```php
+    public function index()
     {
-        if (!function_exists('str_contains')) {
-            function str_contains($pajar, $aguja)
-            {
-                return $aguja !== '' && mb_stripos($pajar, $aguja) !== false;
+        $_SESSION['seccion'] = 'inicio';
+        if (isset($_GET['log']) && $_GET['log'] == 'out') {
+            session_unset();
+            $_SESSION['mensajeDesc'] = true;
+            $_SESSION['seccion'] = '';
+            return view('inicio');
+        } else {
+            if (isset($_SESSION['nombre'])) {
+                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
+                $_SESSION['nombre_cliente'] = $this->usuario->getCliente();
+                $datos['estaciones'] = $this->usuario->obtenerEstacionesUsuario($_SESSION['hpwd']);
+                $_SESSION['estaciones'] = $datos['estaciones'];
+                $datos['estacionesUbis'] = $this->usuario->ultimasConexiones();
+                $_SESSION['seccion'] = "prin";
+                return view('principal', $datos);
+            } else {
+                session_unset();
+                $_SESSION['seccion'] = "";
+                $_SESSION['mensajeDesc'] = true;
+                return view('inicio');
             }
         }
     }
-    //conecta con la BD
-    //uso interno
-    private function conectar()
+
+```
+
+### FUNCION **inicioSesion()**
+
+> @returns View
+
+Esta función devuelve la vista de incio de sesión y en caso de que está ya estuviera definida, la destruye.También se encarga de comprobar si las credenciales son correctas y de validarlas.
+
+```php
+        public function inicioSesion()
+            {
+                $_SESSION['seccion'] = "login";
+                if (isset($_SESSION['nombre'])) {
+                    session_unset();
+                }
+                $_SESSION['mensajeDesc'] = false;
+                $nombre = "";
+                $pwd = "";
+                if (isset($_POST["txtNombre"]) && isset($_POST["txtContrasena"])) {
+                    $nombre = $_POST["txtNombre"];
+                    $pwd = $_POST["txtContrasena"];
+                    //EXPERIMENTAL: VALIDADOR DE INPUTS
+                    if((!$this->vlr->valLog($nombre)) || !($this->vlr->valLog($pwd)) ){
+                        echo '<script language="javascript">alert("carácteres no válidos")</script>';
+                                return view('inicioSesion');
+                    }
+                    $this->usuario = new Usuario($nombre, $pwd);
+                    //comrpueba que exista un usuario con ese nombre y en ese caso verifica contraseñas
+                    if ($this->usuario->existeUsuario() == true) {
+                        //mirar contra y eso
+                        $id_usu = $this->usuario->obtenerIdUsuario($nombre);
+                        if ($id_usu != null) {
+                            $conSys = new Contras($id_usu);
+                            //echo $conSys->hashear($pwd);
+                            if ($conSys->loginUsuario($pwd)) {
+                                $_SESSION['hpwd'] = $conSys->getHash();
+                                $_SESSION['estaciones'] = $this->usuario->obtenerEstacionesUsuario($_SESSION['hpwd']);
+                                $_SESSION['nombre'] = $nombre;
+                                $_SESSION['pwd'] = $pwd;
+                                return $this->index();
+                            } else {
+                                echo '<script language="javascript">alert("Contraseña incorrecta")</script>';
+                                return view('inicioSesion');
+                            }
+                        } else {
+                            echo '<script language="javascript">alert("Datos incorrectos")</script>';
+                            return view('inicioSesion');
+                        }
+                    } else {
+                        echo '<script language="javascript">alert("Usuario desconocido")</script>';
+                        return view('inicioSesion');
+                    }
+                } else {
+                    return view('inicioSesion');
+                }
+            }
+```
+
+### FUNCION **estacion()**
+
+> @returns View
+
+Esta fucnión devuelve la vista de estación. Dependiendo de la información adquirida por POST, comprobará si esa estación existe, si pertenece al usuario y en caso afirmativo, devuelve la vista estación con sus datos.
+
+```php
+    public function estacion()
+    {
+        if (isset($_SESSION['nombre'])) {
+            $_SESSION['seccion'] = "estacion";
+            $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
+            foreach ($_SESSION['estaciones'] as $index => $estacion) {
+                if ($estacion["id_estacion"] == $_POST["btnEstacion"]) {
+                    $nombreEstacion = $estacion["nombre_estacion"];
+                    $datos['id_estacion'] = $estacion["id_estacion"];
+                }
+            }
+            $ultimaConex = $usuario->ultimaConexionEstacion($_POST["btnEstacion"]);
+            if ($ultimaConex != false) {
+                $datos['ultimaConex'] = $ultimaConex;
+            } else {
+                $datos['ultimaConex'] = "error";
+            }
+            $datos['nombreEstacion'] = $nombreEstacion;
+            return view('estacion', $datos);
+        } else {
+            return view('inicio');
+        }
+    }
+
+```
+
+### FUNCION **graficas()**
+
+> @returns View
+
+Esta función devuelve la sección de vista rápida o personalizada dependiendo de la información que le llegue por POST.
+
+```php
+
+public function graficas()
+    {
+        if (isset($_SESSION['nombre'])) {
+            $_SESSION['seccion'] = "graficos";
+            $usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
+            $datos['tagsEstaciones'] = $usuario->obtenerTagsEstaciones($usuario->obtenerEstacionesUsuario($_SESSION['hpwd']));
+            if (isset($_POST['btnGraf']) && $_POST['btnGraf'] == 'rapida') {
+                return view('graficas', $datos);
+            } else {
+                return view('graficasCustom', $datos);
+            }
+        } else {
+            return view('inicio');
+        }
+    }
+
+```
+
+### FUNCION **alarmas()**
+
+> @returns View
+
+Esta función devuelve la vista de alarmas con las alarmas pertenecientes a un usuario desde hace un mes\*.
+
+```php
+
+public function alarmas()
+    {
+        if (isset($_SESSION['nombre'])) {
+            $_SESSION['seccion'] = "alarmas";
+            if (isset($_SESSION['alarmas'])) {
+                $datos['alarmas'] = $_SESSION['alarmas'];
+            } else {
+                $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
+                //alarmas desde un mes
+                $estaciones = $this->usuario->obtenerEstacionesUsuario($_SESSION['hpwd']);
+                $datos['estaciones'] = $estaciones;
+            }
+            return view('alarmas', $datos);
+        } else {
+            return view('inicio');
+        }
+    }
+
+```
+
+### FUNCION **informes()**
+
+> @returns View
+
+Esta fucnión devuelve la vista de informes
+
+```php
+
+public function informes()
+    {
+        if (isset($_SESSION['nombre'])) {
+            $_SESSION['seccion'] = "infos";
+            return view('informes');
+        } else {
+            return $this->inicioSesion();
+        }
+    }
+
+```
+
+### FUNCION **comunicaciones()**
+
+> @returns View
+
+Esta funcion devuelve la vista de comunicaciones
+
+```php
+
+public function comunicaciones()
+    {
+        $_SESSION['seccion'] = "coms";
+        if (isset($_SESSION['nombre'])) {
+            return view('comunicaciones');
+        } else {
+            return view('inicio');
+        }
+    }
+
+```
+
+Y con esto hemos cubierto la totalidad del controlador. El funcionamiento de las clases de apoyo se explican mas adelante y el funcionamiento asi como enrutamiento están en la documentación de codeIgniter.
+
+---
+
+## **2. BASES DE DATOS**
+
+IMPORTANTE: Estas clases son provisionales antes de implementar otras tecnologías mas potentes como Apache Spark o Fiware.
+El sistema de bases de datos se compone por dos clases: Database y DataWit.
+Database es la mas grande de las dos y se usa para prácticamente todo. En ella se encuentran las interaciones con PostgreSQL.
+Datawit es una clase que conecta con dos bases de datos en SQL Server para ver y editar consignas asi como plannings de tiempo para algunas estaciones que por limitaciones en las comunicaciones no se podía hacer desde PostgreSQL
+
+## **2.1 CLASE Database.php**
+
+> importante: esta clase se apoya en los drivers de PostgreSQL para PHP (pgsql) no incluidos en apache
+
+Por lo general en Database vamos a hacer consultas a PostgreSQL en función de unos parámetros incluidos en las llamadas a esta clase. Estas llamadas tienen varios origenes incluyendo el Controlador y los archivos de AJAX
+
+Nada mas instanciar la clase, se inician unas constantes con las credenciales y configuración de conexión a la base de datos.
+En el constructor tambien se instancia una funcion que en versiones mas recientes de PHP ya está incluida pero que por limitaciones de Debian, al tener que usar PHP5 necesitamos.
+
+### FUNCION **conectar()**
+
+> @returns Mixed: conexion | bool
+
+Esta función establece la conexión entre la aplicación y la base de datos.
+En ese caso devulve un objeto _SQLSTMT_ de conexion.
+En caso de error, devuelve _false_.
+Su uso es puramente interno y es llamada en casi todas las funciones para comprobar que esta funciona.
+
+```php
+private function conectar()
     {
         if (!$this->conexion) {
             return $this->conexion = pg_connect("host=$this->host dbname=$this->dbname user=$this->user password=$this->password");
         }
         return $this->conexion;
     }
-    //comprueba si una consulta a BD tiene respuesta
-    //uso interno
-    private function consultaExitosa($resultado)
+```
+
+### FUNCION **consultaExitosa()**
+
+> @params SQLSTMT resultado
+
+> @returns bool
+
+Esta es otra funcion interna a la cual se llama cada vez que se produce una consulta a la base de datos y se encarga de comprobar si el objeto _SQLSTMT_ devulto por PostgreSQL es válido y contiene información.
+
+```php
+private function consultaExitosa($resultado)
     {
         $nResuls = pg_num_rows($resultado);
         if ($nResuls != 0 || $nResuls != null) {
@@ -39,9 +354,18 @@ class Database
             return false;
         }
     }
-    //obtiene el nombre de un tag concreto
-    //uso interno
-    private function obtenerNombreTag($id_tag)
+```
+
+### FUNCION **obtenerNombreTag()**
+
+> @params INT id_tag
+
+> @returns Mixed String | Bool
+
+Funcion interna que devulve el nombre de un tag dado su id
+
+```php
+private function obtenerNombreTag($id_tag)
     {
         if ($this->conectar()) {
             $con = "SELECT nombre_tag FROM tags WHERE id_tag = " . $id_tag;
@@ -51,14 +375,24 @@ class Database
             }
         }
     }
-    //obtiene (si existen) las consignas de un tag
-    //uso interno
-    private function obtenerConsignasTag($id_tag)
+
+```
+
+### FUNCION **obtenerConsignasTag()**
+
+> @params INT id_tag
+
+> @returns Mixed Array | Bool
+
+Funcion interna que devulve las consignas de un tag dado su id
+
+```php
+private function obtenerConsignasTag($id_tag)
     {
         $nombre_tag = $this->obtenerNombreTag($id_tag);
         if ($this->conectar()) {
-            $con = "SELECT estaciones.nombre_estacion,tags.nombre_tag,tags.unidad, datos_valores.valor_float 
-            from datos_valores inner join tags on tags.id_tag = datos_valores.id_tag 
+            $con = "SELECT estaciones.nombre_estacion,tags.nombre_tag,tags.unidad, datos_valores.valor_float
+            from datos_valores inner join tags on tags.id_tag = datos_valores.id_tag
             inner join estacion_tag on estacion_tag.id_tag = tags.id_tag
             inner join estaciones on estaciones.id_estacion = estacion_tag.id_estacion
             WHERE tags.nombre_tag LIKE('Consigna " . $nombre_tag . "%') and estaciones.id_estacion = (select id_estacion from estacion_tag where id_tag = " . $id_tag . ")
@@ -70,10 +404,18 @@ class Database
         }
         return false;
     }
-    //obtiene el ID de un usuario dadas sus credenciales en caso de que exista
-    //apaño para algunas secciones
-    public function obtenerIdUsuario($nombre)
-    {
+```
+
+### FUNCION **obtenerIdUsuario()**
+
+> @params String nombre_usuario
+
+> @returns Mixed INT | Bool
+
+Esta es una función pública que devuelve el id_usuario dado un nombre. Tiene un uso muy limitado y es de apoyo a otras funciones.
+
+```php
+{
         if ($this->conectar()) {
             $consulta = "SELECT id_usuario FROM usuarios WHERE nombre ='$nombre'";
             $resultado = pg_query($this->conexion, $consulta);
@@ -86,8 +428,18 @@ class Database
             }
         }
     }
-    //devuelve el nombre de la empresa de un usuario
-    public function obtenerClienteUsuario($nombre_usuario)
+```
+
+### FUNCION obtenerClienteUsuario()
+
+> @params String nombre_usuario
+
+> @returns Mixed String | Bool
+
+Función pública que devuelve el cliente o grupo al que pertenece un usuario dado su nombre. Su uso es limitado y es de apoyo a otras funciones.
+
+```php
+public function obtenerClienteUsuario($nombre_usuario)
     {
         $id_usuario = $this->obtenerIdUsuario($nombre_usuario)[0]['id_usuario'];
         if ($id_usuario) {
@@ -100,9 +452,18 @@ class Database
         }
         return "";
     }
-    //comprueba que un usuario exite en la BD
-    //se usa en el login
-    public function existeUsuario($nombre)
+```
+
+### FUNCION **existeUsusario()**
+
+> @params String nombre
+
+> @returns Bool
+
+Función pública que comprueba la existencia de un usuario dado su nombre. Su uso es limitado y sirve de apoyo a otras funciones.
+
+```php
+public function existeUsuario($nombre)
     {
         if ($this->conectar()) {
             $consulta = "SELECT * FROM public.usuarios WHERE nombre ='$nombre'";
@@ -117,8 +478,19 @@ class Database
             return false;
         }
     }
-    //uso para el constructor de Contras.php
-    public function userData($id_usu)
+```
+
+### FUNCION **userData()**
+
+> @params INT id_usu
+
+> @returns Mixed Array | Bool
+
+Función pública parte del sistema de Log-in que recoge información necesaria para la clase Contras.php dado el id de un usuario.
+Sólo se usa en el contructor de Contras.php
+
+```php
+ public function userData($id_usu)
     {
         $uData = null;
         if ($this->conectar()) {
@@ -131,8 +503,19 @@ class Database
         }
         return false;
     }
-    //actualiza el campo hash de una contraseña que necesite actualizarse
-    public function updateUserData($id_usu, $pwd)
+
+```
+
+### FUNCION **updateUserData()**
+
+> @params INT id_usu, String pwd
+
+> @returns Bool
+
+Función pública de la que se apoya Contras.php cuando debe actualizar el cifrado de un HASH de un usuario especifico.
+
+```php
+public function updateUserData($id_usu, $pwd)
     {
         if ($this->conectar()) {
             $con = "UPDATE usuarios SET usuarios.hash = " . $pwd . " WHERE usuarios.id_usuario = $id_usu";
@@ -143,17 +526,26 @@ class Database
         }
         return false;
     }
-    //obtiene las estacioenes que pertenecen a un usuario
-    //se usa en varios sitios
-    public function mostrarEstacionesCliente($nombre, $pwd)
+```
+
+### FUNCION **mostrarEstacionesCliente()**
+
+> @params String nombre, String pwd
+
+> @returns Mixed Array | Bool
+
+Esta función pública recoge toda la información de las propiedades de todas las estaciones que pertenezcan a un usuario dado su nombre y contraseña cifrada
+
+```php
+public function mostrarEstacionesCliente($nombre, $pwd)
     {
         // if ($_SESSION['mostrarEstacionesCliente_nombre'] == $nombre && $_SESSION['mostrarEstacionesCliente_pwd'] == $pwd) {
         //     return $estacionesArr = $_SESSION['mostrarEstacionesCliente_result'];
         // }
         if ($this->conectar()) {
-            $consulta = "SELECT estaciones.nombre_estacion, estaciones.id_estacion, estaciones.latitud, estaciones.longitud 
-            FROM usuarios INNER JOIN usuario_estacion ON usuarios.id_usuario = usuario_estacion.id_usuario 
-            INNER JOIN estaciones ON usuario_estacion.id_estacion = estaciones.id_estacion 
+            $consulta = "SELECT estaciones.nombre_estacion, estaciones.id_estacion, estaciones.latitud, estaciones.longitud
+            FROM usuarios INNER JOIN usuario_estacion ON usuarios.id_usuario = usuario_estacion.id_usuario
+            INNER JOIN estaciones ON usuario_estacion.id_estacion = estaciones.id_estacion
             WHERE usuarios.nombre ='$nombre' AND usuarios.hash ='$pwd'";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
@@ -167,9 +559,18 @@ class Database
             }
         }
     }
-    //obtiene la foto codificada en base64 de una estacion en concreto
-    //la devuelve como texto plano
-    public function obtenerFotoEstacion($id_estacion)
+```
+
+### FUNCION **obtenerFotoEstacion()**
+
+> @params INT id_usuario
+
+> @returns Mixed String foto | Bool
+
+Esta función pública devulve los datos de imagen cifrados de una estación dada su id. Se usa en la sección principal para los mapas y en las secciones de estación. Si esta estacion no tiene foto, devuelve false
+
+```php
+public function obtenerFotoEstacion($id_estacion)
     {
         if ($_SESSION['obtenerFotoEstacion_id_estacion'] == $id_estacion) {
             return $foto = $_SESSION['obtenerFotoEstacion_result'];
@@ -189,9 +590,18 @@ class Database
             }
         }
     }
-    //obtiene las alarmas en general de un usuario
-    //se usa en varias cosas
-    public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido, $fechaInicio, $fechaFin)
+```
+
+### FUNCION **obtenerAlarmasUsuario()**
+
+> @params INT id_usuario, String orden, String sentido, TS fechaInicio, TS fechaFin
+
+> @returns Mixed Array | Bool
+
+Esta función pública sirve para para extraer las alarmas de las estaciones pertenecientes a un usuario dado su id, sobre unas fechas dados sus TimeStamps en un orden y sentido dados en los parámetros. Se usa en la sección de alarmas.
+
+```php
+public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido, $fechaInicio, $fechaFin)
     {
         if ($_SESSION['obtenerAlarmasUsuario_id'] == $id_usuario && $_SESSION['obtenerAlarmasUsuario_orden'] == $orden && $_SESSION['obtenerAlarmasUsuario_sentido'] == $sentido && $_SESSION['obtenerAlarmasUsuario_fechaini'] == $fechaInicio && $_SESSION['obtenerAlarmasUsuario_fechafin'] = $fechaFin) {
             return $alarmas = $_SESSION['obtenerAlarmasUsuario_alarmas'];
@@ -235,7 +645,7 @@ class Database
                 }
             }
             $conAlarmas = "SELECT DISTINCT
-            estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+            estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack
             FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
             WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . "";
             //obtener fechas de inicio y fin
@@ -279,9 +689,19 @@ class Database
             return false;
         }
     }
-    //obtiene las alarmas de una estación en concreto
-    //se usa para varias cosas
-    public function obtenerAlarmasEstacion($id_estacion, $orden, $sentido, $fechaInicio, $fechaFin)
+
+```
+
+### FUNCION **obtenerAlarmasEstacion()**
+
+> @params INT id_estacion, String orden, String sentido, TS fechaInicio, TS fechaFin
+
+> @returns Mixed Array | Bool
+
+Esta función pública extrae las alarmas de una estacion dado su id, sobre unas fechas dados sus TimeStamps en un orden y sentido dados en los parámetros. Se usa en la sección de alarmas.
+
+```php
+public function obtenerAlarmasEstacion($id_estacion, $orden, $sentido, $fechaInicio, $fechaFin)
     {
         if ($_SESSION['obtenerAlarmasEstacion_id_estacion'] == $id_estacion && $_SESSION['obtenerAlarmasEstacion_orden'] == $orden && $_SESSION['obtenerAlarmasEstacion_sentido'] == $sentido && $_SESSION['obtenerAlarmasEstacion_fechaini'] == $fechaInicio && $_SESSION['obtenerAlarmasEstacion_fechafin'] = $fechaFin) {
             return $alarmasEstacion = $_SESSION['obtenerAlarmasEstacion_id_estacion'];
@@ -331,7 +751,7 @@ class Database
 
         if ($this->conectar()) {
 
-            $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+            $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack
         FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
         WHERE estacion_tag.id_estacion = '$id_estacion'";
 
@@ -372,9 +792,18 @@ class Database
             return false;
         }
     }
-    //obtiene los historicos de 24h de un tag propio de una alarma
-    //obtner el nombre de la señal tambien?
-    function obtenerDetallesAlarma($id_alarma)
+```
+
+### FUNCION **obtenerDetallesAlarma()**
+
+> @params INT id_alarma
+
+> @returns Mixed Array | Bool
+
+Esta función pública extrae los datos históricos del tag vinculado a una alarma dada su id, para mostrar durante un margen de un dia la tendencia de sus datos. Se usa en la sección de alarmas
+
+```php
+function obtenerDetallesAlarma($id_alarma)
     {
         if ($this->conectar()) {
             $consulta_id = "SELECT id_tag, fecha_origen from alarmas where id_alarmas = " . $id_alarma . " limit 1";
@@ -391,9 +820,18 @@ class Database
         }
         return false;
     }
-    //obtiene la ultima información conocida de una estación concreta
-    //se usará en la sección de estaciones y probablemente mediante AJAX
-    public function datosEstacion($id_estacion, $todos)
+```
+
+### FUNCION **datosEstacion()**
+
+> @params INT id_estacion, Bool todos
+
+> @returns Array
+
+Esta función pública obtiene la última información conocida de una estación dado su id. Se usa en las secciones de estación.
+
+```php
+public function datosEstacion($id_estacion, $todos)
     {
         if ($_SESSION['datosEstacion_id_estacion'] == $id_estacion && $_SESSION['datosEstacion_todos'] == $todos) {
             return $ultimosDatosEstacionLimpio = $_SESSION['datosEstacion_result'];
@@ -409,7 +847,7 @@ class Database
             }
             foreach ($tagsEstacion as $index => $tag) {
                 $conUltimoValorTag = "SELECT tags.nombre_tag, tags.unidad, tags.r_max, tags.r_min,
-            datos_valores.id_tag, datos_valores.fecha, datos_valores.valor_bool, datos_valores.valor_int, datos_valores.valor_float, datos_valores.valor_acu, datos_valores.valor_string, datos_valores.valor_date 
+            datos_valores.id_tag, datos_valores.fecha, datos_valores.valor_bool, datos_valores.valor_int, datos_valores.valor_float, datos_valores.valor_acu, datos_valores.valor_string, datos_valores.valor_date
             FROM datos_valores INNER JOIN tags ON datos_valores.id_tag = tags.id_tag
             INNER JOIN estacion_tag ON estacion_tag.id_tag = tags.id_tag
             WHERE tags.id_tag = " . $tag['id_tag'] . " AND estacion_tag.id_estacion = " . $id_estacion . "";
@@ -439,9 +877,18 @@ class Database
             return $ultimosDatosEstacionLimpio;
         }
     }
-    //obtiene los tags historizables de una estacion concreta
-    //se usa en graficas y en la sección estacion
-    public function tagsEstacion($id_estacion)
+```
+
+### FUNCION **tagsEstacion()**
+
+> @params INT id_estacion
+
+> @returns Mixed Array | Bool
+
+Esta función obtiene los tags historizables de una estación dado su id. Se usa en las gráficas y secciones de estación.
+
+```php
+public function tagsEstacion($id_estacion)
     {
         if ($this->conectar()) {
             $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = $id_estacion AND tags.historizar = true AND tags.nombre_tag NOT LIKE('%Bomba%')";
@@ -456,9 +903,17 @@ class Database
             return false;
         }
     }
+```
 
-    //saca los tags de una estacion del tipo que sean
-    //se usa en varios puntos
+### FUNCION **todosTagsEstacion()**
+
+> @params INT id_estacion
+
+> @returns Mixed Array | Bool
+
+Esta función obtiene los tags de una estación dado su id. Se usa en las gráficas, sección principal y secciones de estación.
+
+```php
     public function todosTagsEstacion($id_estacion)
     {
         if ($_SESSION['todosTagsEstacion_id_estacion'] == $id_estacion) {
@@ -479,8 +934,18 @@ class Database
             return false;
         }
     }
-    //obtiene los tags analogicos historizables de un grupo de estaciones
-    public function tagsAnalogHisto($estaciones)
+```
+
+### FUNCION **tagsAnalogHisto()**
+
+> @params Array estaciones
+
+> @returns Mixed Array | Bool
+
+Esta función obtiene los tags analógicos historizables de un grupo de estaciones dados los id de las estaciones.
+
+```php
+public function tagsAnalogHisto($estaciones)
     {
         if ($_SESSION['tagsAnalogHisto_estaciones'] == $estaciones) {
             return $tagsAnalogsHisto = $_SESSION['tagsAnalogHisto_result'];
@@ -506,8 +971,18 @@ class Database
         }
         return false;
     }
-    //para las fechas vamos a necesitar un traductor de Date() a TimeStamp()
-    public function historicosEstacion($id_estacion, $fechaIni, $fechaFin)
+```
+
+### FUNCION **historicosEstacion()**
+
+> @params INT id_estacion, TS fechaIni, TS fechaFin
+
+> @returns Mixed Array | Bool
+
+Esta función obtiene los datos históricos de todos los tags historizables de una estación dado el id de la estación entre unas fechas comprendidas entre los TimeStamps de fechaIni y fechaFin.
+
+```php
+public function historicosEstacion($id_estacion, $fechaIni, $fechaFin)
     {
         if ($this->conectar()) {
             $tagsEstacion = $this->tagsEstacion($id_estacion);
@@ -537,16 +1012,24 @@ class Database
             return false;
         }
     }
-    //obtiene los historicos de un tag de una estación
-    //se usa en graficas->vista rápida
+```
 
-    public function historicosTagEstacion($id_estacion, $id_tag)
+### FUNCION **historicosTagEstacion()**
+
+> @params INT id_tag
+
+> @returns Mixed Array | Bool
+
+Esta función obtiene los datos_historicos de los ultimos 7 dias en un agregado 5 minutal de un tag dado su id. Se usa en graficas > vista rápida
+
+```php
+public function historicosTagEstacion($id_estacion, $id_tag)
     {
         if ($this->conectar()) {
-            $conHistoTagEst = "WITH t as 
+            $conHistoTagEst = "WITH t as
             (
-             SELECT 
-                to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS ts, 
+             SELECT
+                to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS ts,
                 AVG(valor_float) AS dob, AVG(valor_acu) AS acu, AVG(valor_int) AS ent
              FROM datos_historicos
              WHERE id_tag = " . $id_tag . " AND fecha::date > current_date::date - interval '7 days'  AND fecha::date < current_date::date
@@ -556,12 +1039,12 @@ class Database
             (
              select ts from generate_series(
               (select min(ts) from t),
-              (select max(ts) from t), 
+              (select max(ts) from t),
               interval '5 minutes'
              ) ts
             )
-            select * 
-            from contiguous_ts_list 
+            select *
+            from contiguous_ts_list
             left outer join t using (ts)
             order by ts;";
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
@@ -588,14 +1071,23 @@ class Database
             return false;
         }
     }
-    //funcion para AJAX, obtiene los historicos de un tag de una estación en un periodo determinado
-    //se usa en graficas-> vista personalizada
-    public function historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaInicio, $fechaFin)
-    {
+```
+
+### FUNCION **historicosTagEstacionCustom()**
+
+> @params INT id_estacion, INT id_tag, Array ajustesMeta, TS fechaInicio, TS fechaFin
+
+> @returns Mixed Array | Bool
+
+Esta fucnión pública obtiene los datos historicos en agregados 5 minutales de un tag dado su id entre unas fechas dados los TimeStamps con una configuración dada en ajustesMeta de una estacion dada su id.
+Se usa en gráficas > vista personalizada.
+
+```php
+{
         if ($this->conectar()) {
             $seriesTagCustom = array();
             $metaCustom = array();
-            //obtener el metadata del TAG 
+            //obtener el metadata del TAG
             $meta = $this->metaTag($id_tag, $id_estacion);
             // filtrar metadata
             foreach ($ajustesMeta as $index => $tipo) {
@@ -614,11 +1106,11 @@ class Database
             $ini = strtotime($fechaInicio);
             $fin = strtotime($fechaFin);
             //EXPERIMENTO 8
-            //GENERA SERIES PARA ALINEAR LAS LINEAS DE TIEMPO A 5mins 
-            $conHistoTagEst = "WITH t as 
+            //GENERA SERIES PARA ALINEAR LAS LINEAS DE TIEMPO A 5mins
+            $conHistoTagEst = "WITH t as
             (
-             SELECT 
-                to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS ts, 
+             SELECT
+                to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS ts,
                 AVG(valor_float) AS dob, AVG(valor_acu) AS acu, AVG(valor_int) AS ent
              FROM datos_historicos
              WHERE id_tag = " . $id_tag . " AND cast(extract(epoch from fecha) as integer) < " . $ini . " AND cast(extract(epoch from fecha) as integer) > " . $fin . "
@@ -628,12 +1120,12 @@ class Database
             (
              select ts from generate_series(
               (select min(ts) from t),
-              (select max(ts) from t), 
+              (select max(ts) from t),
               interval '5 minutes'
              ) ts
             )
-            select * 
-            from contiguous_ts_list 
+            select *
+            from contiguous_ts_list
             left outer join t using (ts)
             order by ts;";
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
@@ -667,9 +1159,18 @@ class Database
         //pasar por caja de cambios el $seriesTagCustom['tag']
         return $seriesTagCustom;
     }
-    //secuencia para pasar una alarma de un usuario a estado ACK e incluir nombre del usuario y la fecha de ACK
-    //se usa en la sección de alarmas
-    public function reconocerAlarma($id_alarma, $usuario, $hora)
+```
+
+### FUNCION **reconocerAlarma()**
+
+> @params INT id_alarma, String usuario, TS hora
+
+> @returns Bool
+
+Esta función pública se usa en alarmas y sirve para reconocer una alarma dada su id por un usuario dado su nombre a una hora dada su TS.
+
+```php
+public function reconocerAlarma($id_alarma, $usuario, $hora)
     {
         if ($this->conectar()) {
             $conDatosAlarma = "SELECT estado FROM alarmas WHERE id_alarmas = $id_alarma";
@@ -695,12 +1196,22 @@ class Database
             return false;
         }
     }
-    //proceso para AJAX para obetener las ultimas alarmas de un usuario y mostrarlas en el menu SUR
-    //se usa en casi todas partes y en todo momento
-    public function alarmasSur($id_usuario)
+```
+
+### FUNCION **alarmasSur()**
+
+> @params INT id_usuario
+
+> @returns Mixed Array | Bool
+
+Esta función pública se usa en el menú sur en las secciones distintas a las de estación.
+Extrae las ultimas 7 alarmas de las estaciones que pertenezcan a un usuario dado su id.
+
+```php
+public function alarmasSur($id_usuario)
     {
         if ($this->conectar()) {
-            $conAlarmas = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+            $conAlarmas = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack
         FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
         WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . " ORDER BY alarmas.fecha_origen DESC limit 7";
             $resulAlarmas = pg_query($conAlarmas);
@@ -714,12 +1225,22 @@ class Database
             return false;
         }
     }
-    //proceso para AJAX para obtener las alarmas del Menu SUR
-    //se usa en las secciones de estacion
-    public function alarmasEstacionSur($id_estacion)
+```
+
+### FUNCION **alarmasEstacionSur()**
+
+> @params INT id_estacion
+
+> @returns Mixed Array | Bool
+
+Esta función pública se usa en el menú sur en las secciones de estación.
+Extrae las ultimas 7 alarmas de las estaciones que pertenezcan a una estación dada su id.
+
+```php
+public function alarmasEstacionSur($id_estacion)
     {
         if ($this->conectar()) {
-            $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack 
+            $consulta = "SELECT estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack
         FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
         WHERE estacion_tag.id_estacion = '$id_estacion' ORDER BY alarmas.fecha_origen DESC LIMIT 7";
             $resultado = pg_query($this->conexion, $consulta);
@@ -731,9 +1252,19 @@ class Database
             return false;
         }
     }
-    //secuencia para sacar las ultimas conexiones de las estaciones
-    //se usa en comunicaciones
-    public function ultimaComunicacionEstacion($id_estacion)
+```
+
+### FUNCION **ultimaComunicacionEstacion()**
+
+> @params INT id_estacion
+
+> @returns String
+
+Esta función pública obtiene la fecha de la última comunicación de una estación dada su id.
+Se usa en la sección principal, estaciones y comunicaciones
+
+```php
+public function ultimaComunicacionEstacion($id_estacion)
     {
         if ($this->conectar()) {
             $consulta = "SELECT estaciones.id_estacion, estaciones.nombre_estacion, datos_valores.valor_date, tags.nombre_tag,estaciones.latitud,estaciones.longitud, estaciones.foto  FROM estaciones INNER JOIN estacion_tag ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag INNER JOIN datos_valores ON estacion_tag.id_tag = datos_valores.id_tag WHERE tags.nombre_tag LIKE 'Ultima Comunicacion%' AND estaciones.id_estacion = " . $id_estacion . " ORDER BY estaciones.nombre_estacion DESC";
@@ -749,26 +1280,26 @@ class Database
             return false;
         }
     }
-    //obtiene la calidad de los ultimos datos de una estacion
-    //se usa en comunicaciones
-    public function calidadTagsEstacion($id_estacion)
-    {
-        if ($this->conectar()) {
-            $conCalidad = "SELECT datos_valores.calidad, tags.nombre_tag FROM estaciones INNER JOIN estacion_tag ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag INNER JOIN datos_valores ON estacion_tag.id_tag = datos_valores.id_tag WHERE estaciones.id_estacion = " . $id_estacion . " ORDER BY tags.nombre_tag DESC";
-            $resCalidad = pg_query($this->conexion, $conCalidad);
-            if ($this->consultaExitosa($resCalidad)) {
-                $calidadTags = pg_fetch_all($resCalidad);
-                return $calidadTags;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-    //adivina que hace
-    //se usa en varios sitios
-    public function obtenerNombreEstacion($id_estacion)
+```
+
+### FUNCION **calidadTagsEstacion()** --> OBSOLETO
+
+> @params INT id_estacion
+
+> @returns Array
+
+Esta función está obsoleta y ya no se usa.
+
+### FUNCION **obtenerNombreEstacion()**
+
+> @params INT id_estacion
+
+> @returns Mixed String | Bool
+
+Esta función pública obtiene el nombre de una estación dada su id.
+
+```php
+public function obtenerNombreEstacion($id_estacion)
     {
         if ($id_estacion == $_SESSION['obtenerNombreEstacion_id_estacion']) {
             return $estacion = $_SESSION['obtenerNombreEstacion_result'];
@@ -789,8 +1320,17 @@ class Database
             return false;
         }
     }
-    //obtiene los metadatos de un tag de una estacion
-    //se usa en las graficas
+```
+
+### FUNCION **metaTag()**
+
+> @params INT id_tag, INT id_estacion
+
+> @returns Mixed Array | Bool
+
+Esta función pública obtiene los metadatos calculados de un tag dado su id de una estacion dada su id. Se usa en ambas vistas de gráficas.
+
+```php
     public function metaTag($id_tag, $id_estacion)
     {
         //si tiene consignas pues las consignas(igual en un futuro)
@@ -843,32 +1383,28 @@ class Database
             return false;
         }
     }
-    //obtiene los 7 ultimos maximos valores de un tag de una estación
-    //hasta que no tengamos comunicación en TR hay que sumar dias al intervalo
-    public function tagTrend($id_tag, $id_estacion)
-    {
-        if ($_SESSION['tagTrend_id_tag'] == $id_tag && $_SESSION['tagTrend_id_estacion'] == $id_estacion) {
-            return $datosTrendTag = $_SESSION['tagTrend_result'];
-        }
-        if ($this->conectar()) {
-            $conTrend = "SELECT MAX(datos_historicos.valor_acu) as acu, MAX(datos_historicos.valor_int) as int, MAX(datos_historicos.valor_float) as float, datos_historicos.fecha::date
-        from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-        where datos_historicos.id_tag = " . $id_tag . " and estacion_tag.id_estacion = " . $id_estacion . "
-        and datos_historicos.fecha::date > current_date::date - interval '7 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
-            $resTrend = pg_query($this->conexion, $conTrend);
-            if ($this->consultaExitosa(($resTrend))) {
-                $datosTrendTag = pg_fetch_all($resTrend);
-                $_SESSION['tagTrend_id_tag'] = $id_tag;
-                $_SESSION['tagTrend_id_estacion'] = $id_estacion;
-                $_SESSION['tagTrend_result'] = $datosTrendTag;
-                return ($datosTrendTag);
-            }
-        }
-    }
+```
 
-    //tagstrend v2
-    //hacer todo de uns consulta en vez de una por cada tag
-    public function tagsTrends($datosAnalog)
+### FUNCION **tagTrend()** --> OBSOLETO
+
+> @params INT id_tag, INT id_estacion
+
+> @returns Mixed Array | Bool
+
+Esta función pública obtiene un trend (7 maximos valores de 7 días) de un tag dado su id de una estacion dada su id.
+Esta función es obsoleta y ya no se usa por motivos de optimización. En su lugar se usa **tagsTrends()**.
+
+### FUNCION **tagsTrends()**
+
+> @params Array datosAnalog
+
+> @returns Mixed Array | Bool
+
+Esta fucnión pública obtiene los trends (7 maximos valores de 7 días) de varios tags dados sus ids de una estacion dada su id. Se usa en las secciones de estación.
+Sustituye a **tagTrend()**.
+
+```php
+public function tagsTrends($datosAnalog)
     {
         $conTrends = "";
         $conAux = "";
@@ -900,9 +1436,18 @@ class Database
         }
         return false;
     }
+```
 
-    //obtiene los informes de un tipo de señal de un grupo de estaciones de un usuario en concreto
-    public function informeSeñalEstacion($id_estacion, $señal, $fechaIni, $fechaFin)
+### FUNCION **informeSeñalEstacion()**
+
+> @params INT, id_estacion, String señal, TS fechaIni, TS fechaFin
+
+> @returns Array
+
+Esta función pública obtiene los informes dado su tipo, de los tags de una estacion dado su id comprendido entre unas fechas definidas sus TS.
+
+```php
+public function informeSeñalEstacion($id_estacion, $señal, $fechaIni, $fechaFin)
     {
         $ini = strtotime($fechaIni);
         $fin = strtotime($fechaFin);
@@ -919,8 +1464,8 @@ class Database
                     foreach ($tagscaudales as $index => $tag) {
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
-                        GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha desc";
+                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . "
+                        GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
                             if ($tag['unidad'] != null) {
@@ -946,7 +1491,7 @@ class Database
                     foreach ($tagscaudales as $index => $tag) {
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . "
                         GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
@@ -964,7 +1509,7 @@ class Database
             if ($señal == 'acu') {
                 $tagscaudales = array();
                 $informeTags = array();
-                $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad 
+                $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad
                 FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
                 WHERE id_estacion = " . $id_estacion . " AND tags.nombre_tag LIKE('Acumulado%') AND tags.nombre_tag LIKE('%Dia')";
                 $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
@@ -973,7 +1518,7 @@ class Database
                     foreach ($tagscaudales as $index => $tag) {
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_acu) as valor, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . "
                         GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
@@ -993,7 +1538,7 @@ class Database
                 $informeTags = array();
                 $conTagsCaudales = "SELECT tags.nombre_tag, tags.id_tag, tags.unidad
                 FROM tags INNER JOIN estacion_tag ON tags.id_tag = estacion_tag.id_tag
-                WHERE id_estacion = " . $id_estacion . " 
+                WHERE id_estacion = " . $id_estacion . "
                 AND tags.nombre_tag LIKE('Cloro%')
                 OR tags.nombre_tag LIKE('Turbidez%')";
                 $resTagsCaudales = pg_query($this->conexion, $conTagsCaudales);
@@ -1002,7 +1547,7 @@ class Database
                     foreach ($tagscaudales as $index => $tag) {
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . "
                         GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha::date desc";
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
@@ -1019,9 +1564,19 @@ class Database
             }
         }
     }
-    //obtiene toda la informacion de las señales digitales de inicio
-    //busca tags digitales con alarma en un periodo de 48h
-    public function feedPrincipalDigital($estaciones)
+```
+
+### FUNCION **feedPrincipalDigital()** --> en Desuso
+
+> @params Array estaciones
+
+> @returns Mixed Array | Bool
+
+Está función pública devolvía las 4 alertas de tags digitales mas recientes pertenecientes a un grupo de estaciones dados sus id.
+Su utilidad era tan escasa que se eliminó el feed digital de la sección de inicio dejando en desuso esta función.
+
+```php
+public function feedPrincipalDigital($estaciones)
     {
         if ($_SESSION['feedPrincipalDigital_estaciones'] == $estaciones) {
             return $feed = $_SESSION['feedPrincipalDigital_result'];
@@ -1033,8 +1588,8 @@ class Database
             $feed = array();
             foreach ($estaciones as $index => $estacion) {
                 $id_estacion = $estacion['id_estacion'];
-                $conTagsDigi = "SELECT tags.id_tag, tags.nombre_tag 
-                FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag 
+                $conTagsDigi = "SELECT tags.id_tag, tags.nombre_tag
+                FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag
                 WHERE estacion_tag.id_estacion = $id_estacion AND tags.type_tag = 1";
                 $resTagsDigi = pg_query($this->conexion, $conTagsDigi);
                 if ($this->consultaExitosa($resTagsDigi)) {
@@ -1042,17 +1597,17 @@ class Database
                     foreach ($tagsDigiEstacion as $index => $tag) {
                         $id = $tag['id_tag'];
                         // CRITERIO ORIGINAL
-                        // $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
-                        // FROM alarmas 
-                        // WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '3 days' 
-                        // AND NOT valor_alarma = '' 
+                        // $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma
+                        // FROM alarmas
+                        // WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '3 days'
+                        // AND NOT valor_alarma = ''
                         // ORDER BY fecha_origen DESC";
-                        //WHERE estado IN(1,3) AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days' 
+                        //WHERE estado IN(1,3) AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days'
 
                         //CRITERIO NUEVO
-                        $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
-                        FROM alarmas 
-                        WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '7 days' 
+                        $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma
+                        FROM alarmas
+                        WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '7 days'
                         ORDER BY fecha_origen DESC";
 
                         $resAlarmas = pg_query($this->conexion, $conAlarma);
@@ -1073,9 +1628,18 @@ class Database
             return false;
         }
     }
-    //función para guardar la configuracion de usuario en los ajustes de inicio
-    //Ejemplo de codigo de config --> "w1:126-w2:260-w3:261-w4:167";
-    public function confirmarWidget($wid, $tag, $id_usuario)
+```
+
+### FUNCION **confirmarWidget()**
+
+> @params String wid, INT tag, INT id_usuario
+
+> @returns Bool
+
+Esta función pública pertenece a los ajustes de la sección principal y establece un feed analógico para un widget concreto.
+
+```php
+public function confirmarWidget($wid, $tag, $id_usuario)
     {
         $configBD = "";
         $configuracionWidgetsUsuario = array();
@@ -1111,23 +1675,18 @@ class Database
         }
         return false;
     }
-    //obtiene la configuracion de widgets de un usuario
-    //es una funcion para feedPrincipalCustom
-    private function obtenerConfigInicio($id_usuario)
-    {
-        if ($this->conectar()) {
-            $consulta = "SELECT configuracion_inicio FROM usuarios WHERE id_usuario = " . $id_usuario . "";
-            $res = pg_query($this->conexion, $consulta);
-            if ($this->consultaExitosa($res)) {
-                $config = pg_fetch_all($res)[0];
-                return $config;
-            }
-        }
-        return false;
-    }
-    //obtiene el ultimo dato, el trend diario y los agregados semanales de los widgets definidos por el 
-    //usuario en su configuracion
-    public function feedPrincipalCustom($id_usuario)
+```
+
+### FUNCION **feedPrincipalCustom()**
+
+> @params INT id_usuario
+
+> @returns Array
+
+Esta función pública se usa en la sección principal y extrae los feeds de los tags definidos en la configuracion de un usuario concreto según su id.
+
+```php
+ public function feedPrincipalCustom($id_usuario)
     {
         if ($id_usuario == $_SESSION['feedPrincipalCustom_id_usuario']) {
             return $infoTag = $_SESSION['feedPrincipalCustom_result'];
@@ -1151,7 +1710,7 @@ class Database
                 $tag = intval($tag);
                 $consignas_tag = $this->obtenerConsignasTag($tag);
                 //ultimo valor del tag
-                $conUltimoValor = "SELECT tags.unidad,tags.r_min,tags.r_max,estaciones.nombre_estacion, tags.nombre_tag, datos_valores.valor_acu, datos_valores.valor_float,datos_valores.valor_int,datos_valores.id_tag,datos_valores.fecha 
+                $conUltimoValor = "SELECT tags.unidad,tags.r_min,tags.r_max,estaciones.nombre_estacion, tags.nombre_tag, datos_valores.valor_acu, datos_valores.valor_float,datos_valores.valor_int,datos_valores.id_tag,datos_valores.fecha
                 FROM datos_valores inner join tags on tags.id_tag = datos_valores.id_tag
                 inner join estacion_tag on tags.id_tag = estacion_tag.id_tag
                 inner join estaciones on estaciones.id_estacion = estacion_tag.id_estacion
@@ -1276,8 +1835,18 @@ class Database
             return $infoTag;
         }
     }
-    //funcion para la seccion de graficosCustom. Borra un preset seleccionado del usuario
-    public function borrarPreset($n_preset, $id_usuario)
+```
+
+### FUNCION **borrarPreset()**
+
+> @params String n_preset, INT id_usuario
+
+> @returns Bool
+
+Función pública perteneciente a gráficas > vista personalizada que borra un preset dado su nombre guardado en la config de un usuario dado su id.
+
+```php
+public function borrarPreset($n_preset, $id_usuario)
     {
         if ($this->conectar()) {
             $sec = "DELETE FROM graficas WHERE id_usuario = " . $id_usuario[0]['id_usuario'] . " AND configuracion LIKE('" . $n_preset . "%')";
@@ -1287,8 +1856,18 @@ class Database
             return false;
         }
     }
-    //obtiene la lista de presets guardada de un usuario
-    public function leerPresets($id_usuario)
+```
+
+### FUNCION **leerPresets()**
+
+> @params INT id_usuario
+
+> @returns Mixed Array | Bool
+
+Función publica perteneciente a la sección de gráficas > vista personalizada que busca los presets guardados en la configuración de un usuario dado su id.
+
+```php
+public function leerPresets($id_usuario)
     {
         if ($this->conectar()) {
             $conPresets = "SELECT configuracion FROM graficas WHERE id_usuario = " . $id_usuario[0]['id_usuario'] . "";
@@ -1300,10 +1879,18 @@ class Database
         }
         return false;
     }
-    // guarda un preset nuevo para un usuario
-    //ejemplo de codigo --> nombre@6?/1:12#fffff-23#gggg-45#kkkkk/2:xxxxxx/3:xxxxx
-    //estructura de config --> nombre@id_estacion?/tag:color-tag:color-tag:color-
-    public function guardarPreset($usuario, $nombre, $estacion, $tags_colores)
+```
+
+### FUNCION **guardarPreset()**
+
+> @params String usuario, String nombre, String estacion, Array tags_colores
+
+> @returns Bool
+
+Función publica perteneciente a la sección de gráficas > vista personalizada que guarda un preset según su nombre y los tags incluidos con sus colores a un usuario dado su id.
+
+```php
+public function guardarPreset($usuario, $nombre, $estacion, $tags_colores)
     {
         $codigo = $nombre . "@" . $estacion . "?";
         foreach ($tags_colores as $tag => $color) {
@@ -1320,4 +1907,342 @@ class Database
         }
         return false;
     }
-}
+```
+
+---
+
+## **2.2 CLASE DataWit.php**
+
+> importante: esta clase se apoya en los drivers de SQLServer para PHP (sqlsrv) no incluidos en apache.
+
+> Los contenidos de esta clase son provisionales y están sujetos a posibles cambios.
+
+Esta clase contiene las funciones para acceder a las tablas en bases de datos de SQL Server, dónde se encuentran las configuraciones, datos y funciones de las consignas y los plannings de las señales provenientes de WIT. Al no compartir la arquitectura con Aquando_ddbb, también tiene una conexión auxiliar a otra base de datos con la información necesaria para relacionar la información de Aquando con la del entorno WIT.
+
+La clase instancia al principio las variables y constantes necesarias para establecer conexiones al servidor de SQLServer. La función de constructor se encuentra vacía y la clase no requiere de ningún parámetro.
+
+### FUNCION **conectar()**
+
+> @params Void
+
+> @returns Mixed Sqlstmt | Bool
+
+Función privada que conecta con _DBEASY452_. Se apoya en las constantes de conexión definidas en la clase. Esta base de datos es la que tiene la información útil de las consignas.
+
+```php
+private function conectar()
+    {
+        if (!$this->conexion) {
+            $this->info_server = array("Database" => "DBEASY452", "Uid" => "sa", "PWD" => "dateando", "Encrypt" => false);
+            $stmt = sqlsrv_connect($this->nombre_server, $this->info_server);
+            if ($this->consultaExitosa($stmt)) {
+                return $this->conexion = $stmt;
+            } else {
+                return false;
+            }
+        }
+        return $this->conexion;
+    }
+```
+
+### FUNCION **conectarAux()**
+
+> @params Void
+
+> @returns Mixed Sqlstmt | Bool
+
+Función privada que establece una conexión auxiliar con _Conversion_Aquando_. Está base de datos tiene las relaciones entre el entorno de Aquando y el de WIT
+
+```php
+private function conectarAux()
+    {
+        if (!$this->conexionAux) {
+            $this->info_server = array("Database" => "Conversion_Aquando", "Uid" => "sa", "PWD" => "dateando", "Encrypt" => false);
+            $stmt = sqlsrv_connect($this->nombre_server, $this->info_server);
+            if ($this->consultaExitosa($stmt)) {
+                return $this->conexionAux = $stmt;
+            } else {
+                return false;
+            }
+        }
+        return $this->conexionAux;
+    }
+```
+
+### FUNCION **consultaExitosa()**
+
+> @params Sqlstmt
+
+> @returns Bool
+
+Función privada que comprueba los resultados de una consulta.
+
+```php
+private function consultaExitosa($stmt)
+    {
+        if ($stmt) {
+            return true;
+        } else {
+            print_r(sqlsrv_errors()); //provisional
+            return false;
+        }
+    }
+```
+
+### FUNCION **consignasEstacion()**
+
+> @params String estacion
+
+> @returns Mixed Array | Bool
+
+Función pública que obtinene las consignas que existen en una estación dada su nombre.
+Se usa en las secciones de estacion > ajustes
+
+```php
+    public function consignasEstacion($estacion)
+    {
+        if ($this->conectarAux() && $estacion != "Deposito Berroa") {
+            $consulta = "SELECT * FROM Info_lkv where estacion like('%" . $estacion . "%') AND nombre_tag like ('%Consigna%') AND Nombre_variable_wit LIKE('%Import%')";
+            // $params = array($estacion);
+            $respuesta = sqlsrv_query($this->conexionAux, $consulta);
+            if ($this->consultaExitosa($respuesta)) {
+                $datos = array();
+                while ($fila = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC)) {
+                    $datos[] = $fila;
+                }
+                sqlsrv_free_stmt($respuesta);
+                return $datos;
+            }
+        }
+        return false;
+    }
+```
+
+### FUNCION **leerConsignaWit()**
+
+> @params String recurso
+
+> @returns Mixed Array | Bool
+
+Función pública que obtiene los valores de una consigna determinada dada su identificación dentro del entorno WIT.
+Se usa en las secciones de estacion > ajustes
+
+```php
+    public function leerConsignaWIT($recurso)
+    {
+        if ($this->conectar()) {
+            $consulta = "SELECT * FROM [DBEASY452].[dbo].[WValue] WHERE ValueWOSAdd LIKE('%" . $recurso . "%') AND ValueWOSAdd LIKE('%InLink%')";
+            // return $consulta;
+            $respuesta = sqlsrv_query($this->conexion, $consulta);
+            if ($this->consultaExitosa($respuesta)) {
+                $datos = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC);
+                sqlsrv_free_stmt($respuesta);
+                return $datos;
+            }
+        }
+        return false;
+    }
+```
+
+### FUNCION **modificarConsignaWit()**
+
+> @params String ref, Float valor
+
+> @returns String
+
+Función pública que modifica el valor de una consigna WIT dada su referencia dentro del entorno WIT por un valor dado en los parámetros.
+
+```php
+    public function modificarConsignaWit($ref, $valor) //habra que meter params (estacion, tag, consigna, valor etc)
+    {
+        if ($this->conectar()) {
+            $conConsignas = "UPDATE [DBEASY452].[dbo].[WValue] SET ValueReadData = '" . $valor . "', ValueWriteStatus = 10 WHERE ValueWOSAdd LIKE('%" . $ref . "InLink%')";
+            $params = array();
+            $stmt = sqlsrv_query($this->conexion, $conConsignas, $params);
+            if ($this->consultaExitosa($stmt)) {
+                sqlsrv_free_stmt($stmt);
+                return 'updated';
+            }
+        }
+        return 'error';
+    }
+```
+
+### FUNCION **leerPlanningsEstacion()** --> WIP
+
+> @params ?
+
+> @returns ?
+
+_Está función aun no está implementada y su código no es definitivo._
+Esta función pública se encarga de listar todos los plannnings existentes de una estación determinada.
+
+```php
+//Código no disponible
+```
+
+### FUNCION **leerValorPlanning()** --> WIP
+
+> @params ?
+
+> @returns ?
+
+_Está función aun no está implementada y su código no es definitivo._
+Esta función pública se encarga de leer el valor de un planning dada su referencia.
+
+```php
+//Código no disponible
+```
+
+### FUNCION **modificarPlanning()** --> WIP
+
+> @params ?
+
+> @returns ?
+
+_Está función aun no está implementada y su código no es definitivo._
+Esta función pública se encarga de modificar el valor de un planning determinado por una configuración nueva determinada.
+
+```php
+//Código no disponible
+```
+
+---
+
+## **3. MODELOS**
+
+Los modelos son clases de PHP situadas bajo el directorio _App/Models_ sobre las cuales se apoyan tanto el controlador, como los archivos en Ajax para funcionar. Estas incluyen funciones especiales y conforman los objetos con los que se trabaja en Aquando.
+Son tres:
+
+- Contras.php: la clase que trabaja las contraseñas y cifrados.
+- Usuario.php: la clase que trabaja los objetos usuario y las sesiones.
+- Validador.php: la clase que proteje el back-end de imputs erróneos o maliciosos.
+
+## **3.1 CLASE Contras.php**
+
+Esta clase se encarga de todo lo relacionado con contraseñas y cifrados de los usuarios.
+Al necesitar hacer peticiones que en ocasiones mandan información comprometida, la aplicación se encarga de cifrarla en función de unas claves únicas en cada sesión, para cada usuario que además cambian con el tiempo.
+
+> El único sentido de esta clase es la mantener la seguridad de las contraseñas y que en caso de que alguien las robe, no sirvan de nada.
+
+La clase comienza instanciando las constantes y variables en las que se apoyarán el resto de fucniones. Estas son:
+
+- HASH
+- COST
+- uData
+- db
+- hash
+
+El constructor también crea un objeto _Database_ y pide un id de usuario sobre el cual empezar a trabajar.
+
+### FUNCION **save()**
+
+> @params Void
+
+> @returns Void
+
+Fucnion pública que se encarga de guardar datos de usuario apoyandose en otras funciones de la clase.
+
+```php
+public function save()
+    {
+        $this->db->updateUserData($this->uData[0]['id_usuario'], $this->uData[0]['id_usuario']['password']);
+    }
+```
+
+### FUNCION **loginUsuario()**
+
+> @params String password
+
+> @returns Bool
+
+Función pública que se usa en el controlador en la parte de log-in. Compara el hash del usuario definido en las constantes con una contraseña dada en los parametros cifrandola según debería.
+
+```php
+ public function loginUsuario($password)
+    {
+        if (password_verify($password, $this->uData[0]['hash'])) {
+            $this->hash = $this->uData[0]['hash'];
+            if (password_needs_rehash($this->uData[0]['hash'], self::HASH, ['cost' => self::COST])) {
+                $this->setPassword($password);
+                $this->save();
+            }
+            //volver a controlador-->exito
+            return true;
+        }
+        //volver a controlador-->error
+        return false;
+    }
+```
+
+### FUNCION **setPassword()**
+
+> @params String password
+
+> @returns Void
+
+Función pública que cifra la contraseña en uData según los parámetros preestablecidos.
+
+```php
+public function setPassword($password)
+    {
+        $this->uData[0]['hash'] = password_hash($password, self::HASH, ['cost' => self::COST]);
+    }
+```
+
+### FUNCION **hashear()**
+
+> @params String pwd
+
+> @returns String
+
+Función pública que se usa como debug. Devuelve el hash de cualquier texto.
+
+```php
+public function hashear($pwd)
+    {
+        return password_hash($pwd, self::HASH, ['cost' => self::COST]);
+    }
+```
+
+### FUNCION **getHash()**
+
+> @params Void
+
+> @returns String
+
+Función getter estándar de la propiedad _hash_ de la clase.
+
+## **3.2 CLASE Usuario.php**
+
+Esta es la clase que define el objeto usuario usado en el controlador y en los archivos Ajax.
+Contiene las distintas acciones que puede hacer un usuario en Aquando, aunque no todas.
+
+> depende de Database.php
+
+La clase al instanciarse importa la clase _Database.php_ y define las propiedades del usuario.
+Estas son:
+
+- nombre
+- contrasena
+- cliente (ya no se usa)
+- estacionesUsuario
+- DB
+
+En su constructor se solicitan por lo menos el nombre y la contrasena para instanciar el objeto _Usuario_. También instancia el objeto Database.
+
+--> funciones
+
+## **3.3 CLASE Validador.php**
+
+Resumen
+
+> aclaraciones
+
+--> Primeros pasos, constantes y propiedades
+
+--> Constructor
+
+--> funciones
+
+---
