@@ -87,6 +87,9 @@ function exportCSV() {
       if (datosCSV[b]["valores"][c] != null){
         codcsv +=
           datosCSV[b]["fechas"][c] + ";" + datosCSV[b]["valores"][c] + ";\n";
+      }else{
+        codcsv +=
+          datosCSV[b]["fechas"][c] + ";" + "---" + ";\n";
       }        
     }
   }
