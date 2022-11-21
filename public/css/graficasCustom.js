@@ -71,7 +71,7 @@ function exportCSV() {
     hoy.getFullYear() + "-" + (hoy.getMonth() + 1) + "-" + hoy.getDate();
   var nombre_informe = "historicos " + fechaHoy;
   var checkTags = document.querySelectorAll("input[name=checkTag]:checked");
-  for (var a in checkTags) {
+  for (var a = 0; a < checkTags.length; a++) {
     var nDatos = {
       nombre: checkTags[a].parentElement.innerText,
       fechas: datosTagCustom["fechas"][a],
@@ -80,14 +80,15 @@ function exportCSV() {
     datosCSV.push(nDatos);
   }
   var codcsv = "";
-  for(b in datosCSV){
+  for (b in datosCSV) {
     codcsv += datosCSV[b].nombre + ":" + "\n";
     codcsv += "fechas:;Valor:\n";
-    for(var c in datosCSV[b]["fechas"]){
-      codcsv += datosCSV[b]["fechas"][c] + ";" + datosCSV[b]["valores"][c] + ";\n";
+    for (var c in datosCSV[b]["fechas"]) {
+      codcsv +=
+        datosCSV[b]["fechas"][c] + ";" + datosCSV[b]["valores"][c] + ";\n";
     }
   }
-  descargarArchivoCSV(codcsv,nombre_informe);
+  descargarArchivoCSV(codcsv, nombre_informe);
 }
 function descargarArchivoCSV(csv, archivo) {
   var archivo_csv, link_descarga;
