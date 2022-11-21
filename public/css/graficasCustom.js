@@ -61,7 +61,50 @@ function imprimir() {
   };
   var exp_informe = new html2pdf(informe, opt);
   exp_informe.getPdf(true).then((pdf) => {});
+  exportCSV();
 }
+function exportCSV() {
+  var datosCSV = [];
+  //nDatos = {"nom":"","val":[], "fec":[]}
+  var hoy = new Date();
+  var fechaHoy =
+    hoy.getFullYear() + "-" + (hoy.getMonth() + 1) + "-" + hoy.getDate();
+  var nombre_informe = "historicos " + fechaHoy;
+  var checkTags = document.querySelectorAll("input[name=checkTag]:checked");
+  for (var a in checkTags) {
+    var nDatos = {
+      nombre: checkTags[a].parentElement.innerText,
+      fechas: datosTagCustom["fechas"][a],
+      valores: datosTagCustom["serie"][a],
+    };
+    datosCSV.push(nDatos);
+  }
+  var codcsv = "";
+  for(b in datosCSV){
+    codcsv += datosCSV[b].nombre + ":" + "\n";
+    codcsv += "fechas:;Valor:\n";
+    for(var c in datosCSV[b]["fechas"]){
+      codcsv += datosCSV[b]["fechas"][c] + ";" + datosCSV[b]["valores"][c] + ";\n";
+    }
+  }
+  descargarArchivoCSV(codcsv,nombre_informe);
+}
+function descargarArchivoCSV(csv, archivo) {
+  var archivo_csv, link_descarga;
+  archivo_csv = new Blob([csv], { type: "text/csv" });
+  link_descarga = document.createElement("a");
+  link_descarga.setAttribute("target", "_blank");
+  link_descarga.setAttribute(
+    "href",
+    "data:text/csv;charset=utf-8," + encodeURIComponent(archivo_csv)
+  );
+  link_descarga.download = archivo;
+  link_descarga.href = window.URL.createObjectURL(archivo_csv);
+  link_descarga.style.display = "none";
+  document.body.appendChild(link_descarga);
+  link_descarga.click();
+}
+
 //establece los valores por defecto de los inputs de fecha
 //traduce y establece la fecha actual como predeterminado
 function inicioFin() {
@@ -536,9 +579,10 @@ function renderGrafico() {
 // despliega las ventanas de opciones de los presets
 function ajustesPresets(modo) {
   var con = document.getElementById("ajustesPresets");
-  var pre = document.getElementById("selPresets").options[
-    document.getElementById("selPresets").selectedIndex
-  ].value;
+  var pre =
+    document.getElementById("selPresets").options[
+      document.getElementById("selPresets").selectedIndex
+    ].value;
   if (con.style.display == "block") {
     con.style.display = "none";
   } else {
@@ -661,9 +705,10 @@ function cargarPreset() {
   document.getElementById("selPresets").disabled = true;
   limpiar();
   document.getElementsByName("btnControlAplicar")[0].innerHTML = "cargando...";
-  n_preset = document.getElementById("selPresets").options[
-    document.getElementById("selPresets").selectedIndex
-  ].value;
+  n_preset =
+    document.getElementById("selPresets").options[
+      document.getElementById("selPresets").selectedIndex
+    ].value;
   if (n_preset.includes(nombre_estacion_activa)) {
     leerPresets("cargar");
   } else {
@@ -675,9 +720,10 @@ function cargarPreset() {
 //a traves de AJAX busca en la config de usuario un preset y lo elimina
 function borrarPreset() {
   ajustesPresets(null);
-  var n_preset = document.getElementById("selPresets").options[
-    document.getElementById("selPresets").selectedIndex
-  ].value;
+  var n_preset =
+    document.getElementById("selPresets").options[
+      document.getElementById("selPresets").selectedIndex
+    ].value;
   var datos = {};
   datos["nombre"] = usu;
   // datos["pwd"] = pwd;
