@@ -32,9 +32,10 @@ class InformeCaudales extends \koolreport\KoolReport
         );
     }
 
-    function setup()
+    protected function setup()
     {
-        $this->datosInforme
-            ->pipe($this->datosInforme);
+        
+        $this->datosInforme->pipe($this->datosInforme);
+        // $this->datosInforme->pipe(new Sort(array("fecha"=>"desc")));
     }
 }
