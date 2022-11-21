@@ -75,7 +75,7 @@ function exportCSV() {
     var nDatos = {
       nombre: checkTags[a].parentElement.innerText,
       fechas: datosTagCustom["fechas"][a],
-      valores: datosTagCustom["serie"][a],
+      valores: datosTagCustom["serie"][a].data,
     };
     datosCSV.push(nDatos);
   }
@@ -83,9 +83,11 @@ function exportCSV() {
   for (b in datosCSV) {
     codcsv += datosCSV[b].nombre + ":" + "\n";
     codcsv += "fechas:;Valor:\n";
-    for (var c in datosCSV[b]["fechas"]) {
-      codcsv +=
-        datosCSV[b]["fechas"][c] + ";" + datosCSV[b]["valores"][c] + ";\n";
+    for (var c = 0; c < datosCSV[b]["fechas"].length; c++) {
+      if (datosCSV[b]["valores"][c] != null){
+        codcsv +=
+          datosCSV[b]["fechas"][c] + ";" + datosCSV[b]["valores"][c] + ";\n";
+      }        
     }
   }
   descargarArchivoCSV(codcsv, nombre_informe);
