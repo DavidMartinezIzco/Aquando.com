@@ -26,6 +26,7 @@ $nombres = json_decode(($_POST['arrNombres']));
         foreach ($estaciones as $index => $estacion) {
             // $informesDep[] = $estacion;
             $informeDep = $db->informeSeñalEstacion($estacion, 'cau', $fechaIni, $fechaFin);
+            // $informeDep = array_sort($informeDep, "fecha", SORT_DESC);
             if ($informeDep != null && !empty($informeDep)) {
                 $informesDep[$estacion] = $informeDep;
                 foreach ($informeDep as $señal => $info) {
@@ -35,11 +36,15 @@ $nombres = json_decode(($_POST['arrNombres']));
                 }
             }
         }
+        
         //crea obj KR y configs en su archivo aparte (Models)
         $informe = new InformeCaudales($informeTabla);
         $informe->run()->render();
         $table = Table::create(array(
             "dataSource" => $informeTabla,
+            "sorting" => array(
+                "fecha"=>"desc"
+            ),
             "columns" => array(
                 "fecha" => array(
                     "cssStyle" => "text-align:left"
@@ -77,6 +82,7 @@ $nombres = json_decode(($_POST['arrNombres']));
                     }
                 )
             ),
+            // "options"=>array("order"=>array(array(0,"desc"))),
             "showHeader" => false,
             "cssClass" => array(
                 "table" => "table table-hover table-bordered",
@@ -107,6 +113,9 @@ $nombres = json_decode(($_POST['arrNombres']));
         $informe->run()->render();
         $table = Table::create(array(
             "dataSource" => $informeTabla,
+            "sorting" => array(
+                "fecha"=>"desc"
+            ),
             "columns" => array(
                 "fecha" => array(
                     "cssStyle" => "text-align:center"
@@ -171,6 +180,9 @@ $nombres = json_decode(($_POST['arrNombres']));
         $informe->run()->render();
         $table = Table::create(array(
             "dataSource" => $informeTabla,
+            "sorting" => array(
+                "fecha"=>"desc"
+            ),
             "columns" => array(
                 // "estacion"=>array(
                 //     "cssStyle"=>"font-weight:bold;text-align:center"
@@ -230,6 +242,9 @@ $nombres = json_decode(($_POST['arrNombres']));
         $informe->run()->render();
         $table = Table::create(array(
             "dataSource" => $informeTabla,
+            "sorting" => array(
+                "fecha"=>"desc"
+            ),
             "columns" => array(
                 "fecha" => array(
                     "cssStyle" => "text-align:center"

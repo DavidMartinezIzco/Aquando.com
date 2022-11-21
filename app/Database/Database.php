@@ -986,12 +986,17 @@ class Database
                             if ($tag['unidad'] != null) {
                                 $nombretag = $tag['nombre_tag'] . " (" . $tag['unidad'] . ")";
                                 $informeTags[$nombretag] = pg_fetch_all($resAgregTag);
+                                // $informeTags[$nombretag] = array_sort(pg_fetch_all($resAgregTag),"fecha",SORT_DESC);
                             } else {
                                 $informeTags[$tag['nombre_tag']] = pg_fetch_all($resAgregTag);
+                                // $informeTags[$tag['nombre_tag']] = array_sort(pg_fetch_all($resAgregTag),"fecha",SORT_DESC);
                             }
                         }
                     }
                 }
+                
+                // echo json_encode($informeTags);
+                // $informeTags = array_sort($informeTags, "fecha",SORT_DESC);
                 return $informeTags;
             }
             if ($señal == 'acu') {
