@@ -35,7 +35,7 @@ function ayudaNext() {
       break;
     case 3:
       document.getElementById("conAyuda").innerHTML =
-        '<i class="fas fa-times" id="btnAyudaCerrar" onclick="ayuda()"></i><h3>Ayuda:</h3><p id="txtAyuda">Hacer "click" en una alarma en el resumen inferior te llevará a más detalles de esta</p><button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()"><i class="fas fa-arrow-right"></i></button>';
+        '<i class="fas fa-times" id="btnAyudaCerrar" onclick="ayuda()"></i><h3>Ayuda:</h3><p id="txtAyuda">Puedes personalizar las señales mostradas en la pantalla de inicio desde el botón de ajustes</p><button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()"><i class="fas fa-arrow-right"></i></button>';
       break;
     case 4:
       document.getElementById("conAyuda").innerHTML =
@@ -47,11 +47,23 @@ function ayudaNext() {
       break;
     case 6:
       document.getElementById("conAyuda").innerHTML =
-        '<i class="fas fa-times" id="btnAyudaCerrar" onclick="ayuda()"></i><h3>Ayuda:</h3><p id="txtAyuda">La sección de inicio representa la información mas relevante según niveles de alarmas de las estaciones</p><br><button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()"><i class="fas fa-arrow-right"></i></button>';
+        '<i class="fas fa-times" id="btnAyudaCerrar" onclick="ayuda()"></i><h3>Ayuda:</h3><p id="txtAyuda">Puedes guardar la configuración de las gráficas en la vista personalizada</p><br><button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()"><i class="fas fa-arrow-right"></i></button>';
       break;
     case 7:
       document.getElementById("conAyuda").innerHTML =
         '<i class="fas fa-times" id="btnAyudaCerrar" onclick="ayuda()"></i><h3>Ayuda:</h3><p id="txtAyuda">Puedes reajustar la anchura de los gráficos depués de cerrar menús con tan sólo mover el ratón por encima ("click" no necesario)</p><br><button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()"><i class="fas fa-arrow-right"></i></button>';
+      break;
+    case 8:
+      document.getElementById("conAyuda").innerHTML =
+        '<i class="fas fa-times" id="btnAyudaCerrar" onclick="ayuda()"></i><h3>Ayuda:</h3><p id="txtAyuda">Algunas estaciones pueden modificar sus consignas (se actualizarán al comunicar la estación).</p><br><button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()"><i class="fas fa-arrow-right"></i></button>';
+      break;
+    case 9:
+      document.getElementById("conAyuda").innerHTML =
+        '<i class="fas fa-times" id="btnAyudaCerrar" onclick="ayuda()"></i><h3>Ayuda:</h3><p id="txtAyuda">Descarga la App de Aquando para poder ver tus estaciones desde tu dispositivo (Android v5+).</p><br><button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()"><i class="fas fa-arrow-right"></i></button>';
+      break;
+    case 10:
+      document.getElementById("conAyuda").innerHTML =
+        '<i class="fas fa-times" id="btnAyudaCerrar" onclick="ayuda()"></i><h3>Ayuda:</h3><p id="txtAyuda">Dependiendo de tu resolución es posible que tengas que ajustar el zoom de la página para que se muestre correctamente.</p><br><button id="btnAyudaNext" name="ayudaNext" onclick="ayudaNext()"><i class="fas fa-arrow-right"></i></button>';
       break;
     default:
       tip = 1;
