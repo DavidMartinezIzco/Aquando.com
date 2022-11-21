@@ -661,7 +661,7 @@ function montarGraficosWidget() {
     optionGauge && gauge.setOption(optionGauge, true);
     optionChart && grafTrend.setOption(optionChart, true);
     document.getElementsByClassName("btnOpci")[0].style.display = "block";
-    document.getElementsByClassName("btnOpci")[1].style.display = "block";
+    document.getElementsByClassName("btnOpci")[1].style.display = "none";
   }
   $("#menuIzq").bind("widthChange", function () {
     if (widsAnalogLista != undefined) {
