@@ -917,10 +917,11 @@ class Database
                 if ($this->consultaExitosa($resTagsCaudales)) {
                     $tagscaudales = pg_fetch_all($resTagsCaudales);
                     foreach ($tagscaudales as $index => $tag) {
-                        $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
-                        from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
-                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
-                        GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha desc";
+                        $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date 
+                        from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag 
+                        where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . " AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
+                        GROUP BY datos_historicos.fecha::date"; //ORDER BY datos_historicos.id_datos desc";
+                        
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
                             if ($tag['unidad'] != null) {
@@ -947,7 +948,7 @@ class Database
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                         where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
-                        GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha desc";
+                        GROUP BY datos_historicos.fecha::date";// ORDER BY datos_historicos.fecha desc";
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
                             if ($tag['unidad'] != null) {
@@ -974,7 +975,7 @@ class Database
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_acu) as valor, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                         where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
-                        GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha desc";
+                        GROUP BY datos_historicos.fecha::date";// ORDER BY datos_historicos.fecha desc";
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
                             if ($tag['unidad'] != null) {
@@ -1003,7 +1004,7 @@ class Database
                         $conAgregTag = "SELECT MAX(datos_historicos.valor_float) as maximo, MIN(datos_historicos.valor_float) as minimo, cast(AVG(datos_historicos.valor_float) as numeric(10,2)) as media, datos_historicos.fecha::date
                         from datos_historicos inner join estacion_tag on datos_historicos.id_tag = estacion_tag.id_tag
                         where datos_historicos.id_tag = " . $tag['id_tag'] . " and estacion_tag.id_estacion = " . $id_estacion . "AND cast(extract(epoch from datos_historicos.fecha) as integer) <= " . $ini . " AND cast(extract(epoch from datos_historicos.fecha) as integer) > " . $fin . " 
-                        GROUP BY datos_historicos.fecha::date ORDER BY datos_historicos.fecha desc";
+                        GROUP BY datos_historicos.fecha::date";// ORDER BY datos_historicos.fecha desc";
                         $resAgregTag = pg_query($this->conexion, $conAgregTag);
                         if ($this->consultaExitosa($resAgregTag)) {
                             if ($tag['unidad'] != null) {

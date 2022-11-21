@@ -7,14 +7,14 @@ require '../app/Models/Validador.php';
 use \koolreport\widgets\koolphp\Table;
 
 $db = new Database();
-$vlr = new Validador();
+// $vlr = new Validador();
 $opcion = $_POST['opcion'];
 $fechaIni = $_POST['fechaIni'];
 $fechaFin = $_POST['fechaFin'];
 $nombres = json_decode(($_POST['arrNombres']));
 
 //EXPERIMENTAL: VALIDA INPUTS DE FECHAS
-if ($vlr->valFecha($fechaFin) && $vlr->valFecha($fechaIni)) {
+// if ($vlr->valFecha($fechaFin) && $vlr->valFecha($fechaIni)) {
 
     //busca los datos de maximos minimos medias y metadados de las estaciones seleccionadas de los tags relacionados con caudales
     //despues crea un objeto tabla de Koolreport
@@ -270,4 +270,4 @@ if ($vlr->valFecha($fechaFin) && $vlr->valFecha($fechaIni)) {
             ),
         ));
     }
-}
+// }
