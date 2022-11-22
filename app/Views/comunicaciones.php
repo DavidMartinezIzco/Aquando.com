@@ -9,7 +9,7 @@
         <table id="tablaConex" style="width:100%;">
         </table>
     </div>
-    <div style= 'overflow:hidden'>
+    <div style='overflow:hidden'>
         <button class="btn me-2 btn-block" id="btnAlSur" title="ocultar/mostrar menú" onclick="menuSur()">☰</button>
         <table id="alarmasSur">
         </table>
@@ -34,7 +34,6 @@
             tiempoFuera("volver")
         });
     }
-
     function actu() {
         usu = sessionStorage.getItem('usu');
         pwd = sessionStorage.getItem('pwd');

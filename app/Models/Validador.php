@@ -21,9 +21,10 @@ class Validador
         $this->diccionarioExpecialMin = array(
             ",", "'", "?", "!", " ", "_", "<", ">", "[", "\\", "¿", "¡", ":", "'", '"', "`", "{", "}", "=", "@", "#", "$", ",%", "&", "º"
         );
-        if(!function_exists('str_constains')){
-            function str_tiene($pajar,$aguja){
-                return $aguja !== '' &&mb_strpos($pajar,$aguja) !== false;
+        if (!function_exists('str_constains')) {
+            function str_tiene($pajar, $aguja)
+            {
+                return $aguja !== '' && mb_strpos($pajar, $aguja) !== false;
             }
         }
     }
@@ -99,5 +100,4 @@ class Validador
         }
         return true;
     }
-    
 }

@@ -33,7 +33,7 @@
             <div style="border: 4px dashed rgb(1, 168, 184);" class="digiDer"></div>
         </div>
     </div>
-    <div style= 'overflow:hidden;width:100%'>
+    <div style='overflow:hidden;width:100%'>
         <button class="btn me-2 btn-block" id="btnAlSur" title="ocultar/mostrar menú" onclick="menuSur()">☰</button>
         <table id="alarmasSur">
         </table>

@@ -7,18 +7,13 @@ use \koolreport\processes\DateTimeFormat;
 use \koolreport\processes\CopyColumn;
 use \koolreport\clients\Bootstrap;
 
-
-
 class InformeCaudales extends \koolreport\KoolReport
 {
-
     private $datosInforme;
     public function __construct($datosInforme)
     {
         $this->datosInforme = $datosInforme;
     }
-
-
     public function settings()
     {
         return array(
@@ -31,10 +26,9 @@ class InformeCaudales extends \koolreport\KoolReport
             )
         );
     }
-
     protected function setup()
     {
-        
+
         $this->datosInforme->pipe($this->datosInforme);
         // $this->datosInforme->pipe(new Sort(array("fecha"=>"desc")));
     }

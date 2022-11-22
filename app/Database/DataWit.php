@@ -158,7 +158,7 @@ class Datawit
             if ($this->consultaExitosa($stmt)) {
                 sqlsrv_free_stmt($stmt);
                 return "updated planning";
-            }else{
+            } else {
                 return "update planning error";
             }
         }

@@ -111,7 +111,7 @@
         <div id="ajustesPresets">
         </div>
     </div>
-    <div style= 'overflow:hidden'>
+    <div style='overflow:hidden'>
         <button class="btn me-2 btn-block" id="btnAlSur" title="ocultar/mostrar menú" onclick="menuSur()">☰</button>
         <table id="alarmasSur">
         </table>
@@ -148,6 +148,7 @@
             tiempoFuera("volver")
         });
     }
+
     function iniciar() {
         if (document.getElementById("opciones")) {
             var estacion = document.getElementById("opciones").value;

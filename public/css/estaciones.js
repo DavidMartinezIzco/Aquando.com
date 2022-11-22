@@ -789,52 +789,52 @@ function leerValorConsigna(ref, nombre) {
       },
       success: function (datos) {
         console.log(datos);
-        if(datos != null){
+        if (datos != null) {
           var estado = "desconocido";
-        if (datos["ValueWriteStatus"] == 0) {
-          estado =
-            "<span style='color:yellowgreen'>Confirmado <i class='far fa-check-circle'></i></span>";
-        } else {
-          estado =
-            "<span style='color:tomato'>Pendiente de comunicar <i class='far fa-clock'></i></span>";
+          if (datos["ValueWriteStatus"] == 0) {
+            estado =
+              "<span style='color:yellowgreen'>Confirmado <i class='far fa-check-circle'></i></span>";
+          } else {
+            estado =
+              "<span style='color:tomato'>Pendiente de comunicar <i class='far fa-clock'></i></span>";
+          }
+          datosConsig = {
+            valor: datos["ValueReadData"].replace(/ /g, ""),
+            estado: estado,
+            nombre: nombre,
+          };
+          var zona = document.getElementById("ajustesDisplay");
+          zona.innerHTML = "";
+          var ajustes = "";
+          ajustes += "<h4><b>Modificar consignas</b></h4><hr>";
+          ajustes +=
+            "<p>Valor actual de <b>" +
+            datosConsig["nombre"] +
+            "</b>: " +
+            datosConsig["valor"] +
+            " </p>";
+          ajustes += "<p>Estado: <b>" + datosConsig["estado"] + "</b></p><hr>";
+          ajustes +=
+            "<p><b>Nuevo valor: <input type='number' id='inputAjustes' value=" +
+            datosConsig["valor"] +
+            " ></b></p>";
+          ajustes +=
+            "<button id=btnAceptarConsigna enabled=false onclick='modificarConsignas()'>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
+          ajustes +=
+            "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>";
+          zona.innerHTML += ajustes;
+          document
+            .getElementById("inputAjustes")
+            .addEventListener("change", (event) => {
+              document.getElementById("btnAceptarConsigna").enabled = true;
+            });
         }
-        datosConsig = {
-          valor: datos["ValueReadData"].replace(/ /g, ""),
-          estado: estado,
-          nombre: nombre,
-        };
-        var zona = document.getElementById("ajustesDisplay");
-        zona.innerHTML = "";
-        var ajustes = "";
-        ajustes += "<h4><b>Modificar consignas</b></h4><hr>";
-        ajustes +=
-          "<p>Valor actual de <b>" +
-          datosConsig["nombre"] +
-          "</b>: " +
-          datosConsig["valor"] +
-          " </p>";
-        ajustes += "<p>Estado: <b>" + datosConsig["estado"] + "</b></p><hr>";
-        ajustes +=
-          "<p><b>Nuevo valor: <input type='number' id='inputAjustes' value=" +
-          datosConsig["valor"] +
-          " ></b></p>";
-        ajustes +=
-          "<button id=btnAceptarConsigna enabled=false onclick='modificarConsignas()'>Aceptar <i id='iconoAceptarConsigna' onclick='' class='fas fa-check'></i></button>";
-        ajustes +=
-          "<button onclick='ajustes()' id=btnCancelarConsigna>Cancelar <i id='iconoCancelarConsigna' class='fas fa-backspace'></i></button>";
-        zona.innerHTML += ajustes;
-        document
-          .getElementById("inputAjustes")
-          .addEventListener("change", (event) => {
-            document.getElementById("btnAceptarConsigna").enabled = true;
-          });
-        }
-        else{
-        var zona = document.getElementById("ajustesDisplay");
-        zona.innerHTML = "";
-        var ajustes = "";
-        ajustes += "<h4><b>Error leyendo los datos de esta consigna</b></h4><hr><p>No parece estar bien configurada</p>";
-        zona.innerHTML = ajustes;
+        else {
+          var zona = document.getElementById("ajustesDisplay");
+          zona.innerHTML = "";
+          var ajustes = "";
+          ajustes += "<h4><b>Error leyendo los datos de esta consigna</b></h4><hr><p>No parece estar bien configurada</p>";
+          zona.innerHTML = ajustes;
         }
       },
       error: function (e) {

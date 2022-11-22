@@ -116,6 +116,7 @@
 #btnControl:hover {
   opacity: 100%;
 }
+
 /*zona inferior*/
 
 #zonaAlarmas {
@@ -178,6 +179,7 @@
   from {
     background-color: tomato;
   }
+
   to {
     background-color: rgb(241, 68, 37);
   }
@@ -231,6 +233,7 @@ table tr td i:hover {
   #alarmasSur {
     display: none;
   }
+
   .btnOp {
     display: none;
   }

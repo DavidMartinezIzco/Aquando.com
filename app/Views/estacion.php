@@ -36,13 +36,11 @@
             </form>
         </div>
     </div>
-
-    <div style= 'overflow:hidden'>
+    <div style='overflow:hidden'>
         <button class="btn me-2 btn-block" id="btnAlSur" title="ocultar/mostrar menú" onclick="menuSur()">☰</button>
         <table id="alarmasSur">
         </table>
     </div>
-
 </main>
 <script>
     var nestacion = "<?php echo $ultimaConex[0]['nombre_estacion']; ?>";

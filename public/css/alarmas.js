@@ -42,7 +42,7 @@ function imprimir() {
     jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
   };
   var exp_informe = new html2pdf(informe, opt);
-  exp_informe.getPdf(true).then((pdf) => {});
+  exp_informe.getPdf(true).then((pdf) => { });
 }
 //crea un objeto csv de la tabla de alarmas
 function exportarCSV() {

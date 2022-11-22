@@ -64,9 +64,9 @@ class Inicio extends BaseController
             $nombre = $_POST["txtNombre"];
             $pwd = $_POST["txtContrasena"];
             //EXPERIMENTAL: VALIDADOR DE INPUTS
-            if((!$this->vlr->valLog($nombre)) || !($this->vlr->valLog($pwd)) ){
+            if ((!$this->vlr->valLog($nombre)) || !($this->vlr->valLog($pwd))) {
                 echo '<script language="javascript">alert("carácteres no válidos")</script>';
-                        return view('inicioSesion');
+                return view('inicioSesion');
             }
             $this->usuario = new Usuario($nombre, $pwd);
             //comrpueba que exista un usuario con ese nombre y en ese caso verifica contraseñas

@@ -994,7 +994,7 @@ class Database
                         }
                     }
                 }
-                
+
                 // echo json_encode($informeTags);
                 // $informeTags = array_sort($informeTags, "fecha",SORT_DESC);
                 return $informeTags;
@@ -1079,15 +1079,6 @@ class Database
                     $tagsDigiEstacion = pg_fetch_all($resTagsDigi);
                     foreach ($tagsDigiEstacion as $index => $tag) {
                         $id = $tag['id_tag'];
-                        // CRITERIO ORIGINAL
-                        // $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
-                        // FROM alarmas 
-                        // WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '3 days' 
-                        // AND NOT valor_alarma = '' 
-                        // ORDER BY fecha_origen DESC";
-                        //WHERE estado IN(1,3) AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days' 
-
-                        //CRITERIO NUEVO
                         $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma 
                         FROM alarmas 
                         WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '7 days' 

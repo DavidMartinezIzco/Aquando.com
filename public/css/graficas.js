@@ -117,9 +117,9 @@ function renderGrafico(datosR) {
   for (var tindex in tagsAct[0]) {
     if (
       tagsAct[0][tindex]["id_tag"] ==
-        document.getElementById("opcionesTag").value ||
+      document.getElementById("opcionesTag").value ||
       tagsAct[0][tindex]["id_tag"] ==
-        document.getElementById("compararSel").value
+      document.getElementById("compararSel").value
     ) {
       nombreDato = tagsAct[0][tindex]["nombre_tag"];
     }
@@ -499,7 +499,7 @@ function imprimir() {
     jsPDF: { unit: "px", format: [an, al], orientation: "l" },
   };
   var exp_informe = new html2pdf(informe, opt);
-  exp_informe.getPdf(true).then((pdf) => {});
+  exp_informe.getPdf(true).then((pdf) => { });
 }
 //descarga la captura del grafico
 function guardar(uri, filename) {
