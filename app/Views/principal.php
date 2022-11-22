@@ -33,8 +33,11 @@
             <div style="border: 4px dashed rgb(1, 168, 184);" class="digiDer"></div>
         </div>
     </div>
-    <table id="alarmasSur">
-    </table>
+    <div style= 'overflow:hidden;width:100%'>
+        <button class="btn me-2 btn-block" id="btnAlSur" title="ocultar/mostrar menú" onclick="menuSur()">☰</button>
+        <table id="alarmasSur">
+        </table>
+    </div>
     <div id="ajustesSeccion">
         <div id="seccionSel">
             <ul id="widList" style="list-style: none; padding-left: 0;width:100%;height:100%">

@@ -34,5 +34,15 @@ function actualizarSur(entorno, nombre, pwd, estacion) {
   }
 }
 function menuSur(){
-
+    var menu = document.getElementById('alarmasSur');
+    var btn = document.getElementById('btnAlSur');
+    if(btn.style.bottom == '0px'){
+      
+      menu.style.bottom = '0px';
+      btn.style.bottom = '180px';
+    }else{
+      
+      menu.style.bottom = '-220px';
+      btn.style.bottom = '0px';
+    }
 }

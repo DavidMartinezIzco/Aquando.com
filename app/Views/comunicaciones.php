@@ -9,8 +9,11 @@
         <table id="tablaConex" style="width:100%;">
         </table>
     </div>
-    <table id="alarmasSur">
-    </table>
+    <div style= 'overflow:hidden'>
+        <button class="btn me-2 btn-block" id="btnAlSur" title="ocultar/mostrar menú" onclick="menuSur()">☰</button>
+        <table id="alarmasSur">
+        </table>
+    </div>
 </main>
 <script>
     window.onload = function() {

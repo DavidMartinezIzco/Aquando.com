@@ -1,3 +1,19 @@
+#btnAlSur{
+  position: fixed;
+  bottom: 180px;
+  right: 0%;
+  padding: 0.5em 1em;
+  background-color: rgb(1, 168, 184);
+  color: whitesmoke;
+  border-radius: 0px;
+  z-index: 99;
+  transition:0.2s;
+}
+#btnAlSur:hover{
+  background-color: grey;
+}
+
+
 #alarmasSur {
   border-top: 2px solid rgb(56, 56, 56);
   position: fixed;
@@ -86,6 +102,9 @@
   #alarmasSur {
     display: none;
   }
+  #btnAlSur{
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -98,5 +117,8 @@
   }
   #alarmasSur tr {
     opacity: 100%;
+  }
+  #btnAlSur{
+    display:none;
   }
 }

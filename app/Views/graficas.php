@@ -43,8 +43,11 @@
             </div>
         </div>
     </div>
-    <table id="alarmasSur">
-    </table>
+    <div style='overflow:hidden'>
+        <button class="btn me-2 btn-block" id="btnAlSur" title="ocultar/mostrar menú" onclick="menuSur()">☰</button>
+        <table id="alarmasSur">
+        </table>
+    </div>
 </main>
 <script>
     window.onload = function() {
@@ -64,6 +67,7 @@
             tiempoFuera("volver")
         });
     }
+
     function iniciar() {
         if (document.getElementById("opciones")) {
             var estacion = document.getElementById("opciones").value;
