@@ -33,3 +33,6 @@ function actualizarSur(entorno, nombre, pwd, estacion) {
     }
   }
 }
+function menuSur(){
+
+}

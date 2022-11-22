@@ -36,8 +36,13 @@
             </form>
         </div>
     </div>
-    <table id="alarmasSur">
-    </table>
+
+    <div>
+        <button class="btn me-2 btn-block" id="btnAlSur" title="ocultar/mostrar menú" onclick="menuSur()">☰</button>
+        <table id="alarmasSur">
+        </table>
+    </div>
+
 </main>
 <script>
     var nestacion = "<?php echo $ultimaConex[0]['nombre_estacion']; ?>";
@@ -46,8 +51,8 @@
     // sessionStorage.setItem('data',null);
     function updateEstacion() {
         $(document.getElementById("iconoActu")).addClass("rotante");
-        sessionStorage.setItem('param_id',null);
-        sessionStorage.setItem('data',null);
+        sessionStorage.setItem('param_id', null);
+        sessionStorage.setItem('data', null);
         actualizar(estacion);
         setTimeout(function() {
             document.getElementById("iconoActu").classList.remove("rotante");
