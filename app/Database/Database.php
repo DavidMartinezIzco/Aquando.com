@@ -497,7 +497,7 @@ class Database
             return $tagsEstacion = $_SESSION['todosTagsEstacion_result'];
         }
         if ($this->conectar()) {
-            $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = " . $id_estacion . " AND tags.nombre_tag NOT LIKE('%Alarma%');";
+            $conTags = "SELECT tags.id_tag, tags.nombre_tag FROM estacion_tag INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag WHERE estacion_tag.id_estacion = " . $id_estacion . "AND tags.disbaled = 'False' AND tags.nombre_tag NOT LIKE('%Alarma%') ;";
             $resulTags = pg_query($this->conexion, $conTags);
             if ($this->consultaExitosa($resulTags)) {
                 $tagsEstacion = pg_fetch_all($resulTags);
