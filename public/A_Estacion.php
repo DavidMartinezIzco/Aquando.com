@@ -16,6 +16,11 @@ if ($opcion == 'actualizar' && $tipo == 'todos') {
         echo $e;
     }
 }
+
+if($opcion == 'pruebaATV'){
+    return "Conectados por HTTP a Aquando desde Atvise";
+}
+
 //obtiene los trends de las estaciones (valores de los ultimos 7 dias)
 if ($opcion == 'trends') {
     $datosAnalog = json_decode($_POST['arrTags']);
