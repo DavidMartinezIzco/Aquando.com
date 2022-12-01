@@ -17,10 +17,6 @@ if ($opcion == 'actualizar' && $tipo == 'todos') {
     }
 }
 
-if($opcion == 'pruebaATV'){
-    return "Conectados por HTTP a Aquando desde Atvise";
-}
-
 //obtiene los trends de las estaciones (valores de los ultimos 7 dias)
 if ($opcion == 'trends') {
     $datosAnalog = json_decode($_POST['arrTags']);
@@ -51,6 +47,7 @@ if ($opcion == 'trends') {
 if ($opcion == 'foto') {
     $foto = $DB->obtenerFotoEstacion($id_estacion);
     echo $foto;
+    return true;
 }
 //tagtrend 2.0
 //sacar todos los trends desde la mmisma consulta en vez de varias en batería
@@ -64,4 +61,12 @@ if ($opcion == 't_trend') {
     }
     ksort($arr, SORT_NUMERIC);
     echo json_encode($arr);
+    return true;
 }
+
+// if ($opcion == "") {
+//     echo "Conectados a Aquando.com";
+//     echo "\n si ves esto es porque los parametros fallan";
+//     echo "\nOpcion = " . $opcion;
+//     return true;
+// }
