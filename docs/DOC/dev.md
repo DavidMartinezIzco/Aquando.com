@@ -1,8 +1,8 @@
-<div style='background-colorrgb(238,238,228);padding:2em;border:5px solid gray;border-radius:1em;'>
+<div style='padding:1em;border:3px solid gray;border-radius:1em;'>
 
-# DOCUMENTACION DE AQUANDO PARA DESARROLLADORES
+# DOCUMENTACIÓN DE AQUANDO PARA DESARROLLADORES
 
-## Manual básico de desarrollador para Aquando.com
+## Manual básico de desarrollador para <span style='color:darkblue;'><b>Aquando</b></span>
 
 ---
 
@@ -35,15 +35,15 @@
 
 ---
 
-## GENERAL
+# GENERAL
 
 ### Información básica:
 
-> Aquando es una aplicación API-REST escrita mayormente en PHP y JavaScritpt.
+> <span style='color:darkblue;'><b>Aquando</b></span> es una aplicación API-REST escrita mayormente en <span style='color:purple'><b>PHP</b></span> y <span style='color:gold'><b>JS</b></span>.
 > Se apoya en la plataforma CodeIgniter para organizarla en un estándar de producción común.
 
-Básicamente, Aquando consiste en un back-end que va a escuchar las distintas peticiones que se realicen desde cliente. Dependiendo de estas, desde el controlador se decide que hacer y como.
-Dependiendo del tipo de petición en ocasiones no será el controlador lo que procese las peticiones sino archivos en PHP también que se comunican con el cliente a traves de AJAX. Estos archivos existen dedicados para cada sección y realizan acciones sencillas en tiempo real funcionando como pequeños controladores para las secciones.
+Básicamente, <span style='color:darkblue;'><b>Aquando</b></span> consiste en un back-end que va a escuchar las distintas peticiones que se realicen desde cliente. Dependiendo de estas, desde el controlador se decide que hacer y como.
+Dependiendo del tipo de petición en ocasiones no será el controlador lo que procese las peticiones sino archivos en <span style='color:purple'><b>PHP</b></span> también que se comunican con el cliente a traves de <span style='color:red'><b>AJAX</b></span>. Estos archivos existen dedicados para cada sección y realizan acciones sencillas en tiempo real funcionando como pequeños controladores para las secciones.
 El resto de acciones (normamente gráficas y estéticas) son realizadas desde el lado cliente con JavaScript siempre que no requieran de archivos del servidor ni de las bases de datos.
 
 ### Dependencias:
@@ -51,7 +51,7 @@ El resto de acciones (normamente gráficas y estéticas) son realizadas desde el
 **SERVIDOR**
 
 - Apache2 en entorno Linux o XAMPP en Windows.
-- Extensiones para PHP 7+
+- Extensiones para <span style='color:purple'><b>PHP</b></span> 7+
   - sqlsrv
   - pgsql
 - CodeIgniter 4
@@ -68,7 +68,7 @@ El resto de acciones (normamente gráficas y estéticas) son realizadas desde el
 
 ---
 
-## **1. CONTROLADOR**
+# **1. CONTROLADOR**
 
 ### **CLASE Inicio.php**
 
@@ -79,9 +79,9 @@ El controlador es el componente que gestiona las peticiones que llegan desde lad
 Para funcionar primero implementa las clases sobre las que se apoya para procesar la actividad en el servidor. Estas clases se explican mas en detalle en sus secciones mas adelante. Las clases son Usuario.php. Contras.php y Validador.php que se encuentran bajo la carpeta Models.
 También en el contrusctor de clase, instancian losetos usuario, sesion y vlr (validador).
 
-### FUNCION **index()**
+### FUNCIÓN **index()**
 
-> @returns View
+> <span style='color:green'>@returns</span> View
 
 Esta función lo que hace es arrancar la aplicación. También muestra la sección principal en caso de que la sesión exista y muestra el Log-out si la sesión ha expirado.
 
@@ -111,12 +111,11 @@ Esta función lo que hace es arrancar la aplicación. También muestra la secci�
             }
         }
     }
-
 ```
 
-### FUNCION **inicioSesion()**
+### FUNCIÓN **inicioSesion()**
 
-> @returns View
+> <span style='color:green'>@returns</span> View
 
 Esta función devuelve la vista de incio de sesión y en caso de que está ya estuviera definida, la destruye.También se encarga de comprobar si las credenciales son correctas y de validarlas.
 
@@ -133,19 +132,15 @@ Esta función devuelve la vista de incio de sesión y en caso de que está ya es
                 if (isset($_POST["txtNombre"]) && isset($_POST["txtContrasena"])) {
                     $nombre = $_POST["txtNombre"];
                     $pwd = $_POST["txtContrasena"];
-                    //EXPERIMENTAL: VALIDADOR DE INPUTS
                     if((!$this->vlr->valLog($nombre)) || !($this->vlr->valLog($pwd)) ){
                         echo '<script language="javascript">alert("carácteres no válidos")</script>';
                                 return view('inicioSesion');
                     }
                     $this->usuario = new Usuario($nombre, $pwd);
-                    //comrpueba que exista un usuario con ese nombre y en ese caso verifica contraseñas
                     if ($this->usuario->existeUsuario() == true) {
-                        //mirar contra y eso
                         $id_usu = $this->usuario->obtenerIdUsuario($nombre);
                         if ($id_usu != null) {
                             $conSys = new Contras($id_usu);
-                            //echo $conSys->hashear($pwd);
                             if ($conSys->loginUsuario($pwd)) {
                                 $_SESSION['hpwd'] = $conSys->getHash();
                                 $_SESSION['estaciones'] = $this->usuario->obtenerEstacionesUsuario($_SESSION['hpwd']);
@@ -170,9 +165,9 @@ Esta función devuelve la vista de incio de sesión y en caso de que está ya es
             }
 ```
 
-### FUNCION **estacion()**
+### FUNCIÓN **estacion()**
 
-> @returns View
+> <span style='color:green'>@returns</span> View
 
 Esta fucnión devuelve la vista de estación. Dependiendo de la información adquirida por POST, comprobará si esa estación existe, si pertenece al usuario y en caso afirmativo, devuelve la vista estación con sus datos.
 
@@ -203,9 +198,9 @@ Esta fucnión devuelve la vista de estación. Dependiendo de la información adq
 
 ```
 
-### FUNCION **graficas()**
+### FUNCIÓN **graficas()**
 
-> @returns View
+> <span style='color:green'>@returns</span> View
 
 Esta función devuelve la sección de vista rápida o personalizada dependiendo de la información que le llegue por POST.
 
@@ -229,9 +224,9 @@ public function graficas()
 
 ```
 
-### FUNCION **alarmas()**
+### FUNCIÓN **alarmas()**
 
-> @returns View
+> <span style='color:green'>@returns</span> View
 
 Esta función devuelve la vista de alarmas con las alarmas pertenecientes a un usuario desde hace un mes\*.
 
@@ -245,7 +240,6 @@ public function alarmas()
                 $datos['alarmas'] = $_SESSION['alarmas'];
             } else {
                 $this->usuario = new Usuario($_SESSION['nombre'], $_SESSION['pwd']);
-                //alarmas desde un mes
                 $estaciones = $this->usuario->obtenerEstacionesUsuario($_SESSION['hpwd']);
                 $datos['estaciones'] = $estaciones;
             }
@@ -257,9 +251,9 @@ public function alarmas()
 
 ```
 
-### FUNCION **informes()**
+### FUNCIÓN **informes()**
 
-> @returns View
+> <span style='color:green'>@returns</span> View
 
 Esta fucnión devuelve la vista de informes
 
@@ -277,9 +271,9 @@ public function informes()
 
 ```
 
-### FUNCION **comunicaciones()**
+### FUNCIÓN **comunicaciones()**
 
-> @returns View
+> <span style='color:green'>@returns</span> View
 
 Esta funcion devuelve la vista de comunicaciones
 
@@ -301,25 +295,25 @@ Y con esto hemos cubierto la totalidad del controlador. El funcionamiento de las
 
 ---
 
-## **2. BASES DE DATOS**
+# **2. BASES DE DATOS**
 
-IMPORTANTE: Estas clases son provisionales antes de implementar otras tecnologías mas potentes como Apache Spark o Fiware.
+**IMPORTANTE**: Estas clases son provisionales antes de implementar otras tecnologías mas potentes como Apache Spark o Fiware.
 El sistema de bases de datos se compone por dos clases: Database y DataWit.
 Database es la mas grande de las dos y se usa para prácticamente todo. En ella se encuentran las interaciones con PostgreSQL.
-Datawit es una clase que conecta con dos bases de datos en SQL Server para ver y editar consignas asi como plannings de tiempo para algunas estaciones que por limitaciones en las comunicaciones no se podía hacer desde PostgreSQL
+DataWit es una clase que conecta con dos bases de datos en SQL Server para ver y editar consignas asi como plannings de tiempo para algunas estaciones que por limitaciones en las comunicaciones no se podía hacer desde PostgreSQL
 
 ## **2.1 CLASE Database.php**
 
-> importante: esta clase se apoya en los drivers de PostgreSQL para PHP (pgsql) no incluidos en apache
+> importante: esta clase se apoya en los drivers de PostgreSQL para <span style='color:purple'><b>PHP</b></span> (pgsql) no incluidos en apache
 
-Por lo general en Database vamos a hacer consultas a PostgreSQL en función de unos parámetros incluidos en las llamadas a esta clase. Estas llamadas tienen varios origenes incluyendo el Controlador y los archivos de AJAX
+Por lo general en Database vamos a hacer consultas a PostgreSQL en función de unos parámetros incluidos en las llamadas a esta clase. Estas llamadas tienen varios origenes incluyendo el Controlador y los archivos de <span style='color:red'><b>AJAX</b></span>
 
 Nada mas instanciar la clase, se inician unas constantes con las credenciales y configuración de conexión a la base de datos.
-En el constructor tambien se instancia una funcion que en versiones mas recientes de PHP ya está incluida pero que por limitaciones de Debian, al tener que usar PHP5 necesitamos.
+En el constructor tambien se instancia una funcion que en versiones mas recientes de <span style='color:purple'><b>PHP</b></span> ya está incluida pero que por limitaciones de Debian, al tener que usar PHP5 necesitamos.
 
-### FUNCION **conectar()**
+### FUNCIÓN **conectar()**
 
-> @returns Mixed: conexion | bool
+> <span style='color:green'>@returns</span> Mixed: conexion | bool
 
 Esta función establece la conexión entre la aplicación y la base de datos.
 En ese caso devulve un objeto _SQLSTMT_ de conexion.
@@ -336,11 +330,11 @@ private function conectar()
     }
 ```
 
-### FUNCION **consultaExitosa()**
+### FUNCIÓN **consultaExitosa()**
 
-> @params SQLSTMT resultado
+> <span style='color:green'>@params</span> SQLSTMT resultado
 
-> @returns bool
+> <span style='color:green'>@returns</span> bool
 
 Esta es otra funcion interna a la cual se llama cada vez que se produce una consulta a la base de datos y se encarga de comprobar si el objeto _SQLSTMT_ devulto por PostgreSQL es válido y contiene información.
 
@@ -356,11 +350,11 @@ private function consultaExitosa($resultado)
     }
 ```
 
-### FUNCION **obtenerNombreTag()**
+### FUNCIÓN **obtenerNombreTag()**
 
-> @params INT id_tag
+> <span style='color:green'>@params</span> <b>INT</b> id_tag
 
-> @returns Mixed String | Bool
+> <span style='color:green'>@returns</span> Mixed <b>String</b> | <b>Bool</b>
 
 Funcion interna que devulve el nombre de un tag dado su id
 
@@ -378,11 +372,11 @@ private function obtenerNombreTag($id_tag)
 
 ```
 
-### FUNCION **obtenerConsignasTag()**
+### FUNCIÓN **obtenerConsignasTag()**
 
-> @params INT id_tag
+> <span style='color:green'>@params</span> <b>INT</b> id_tag
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Funcion interna que devulve las consignas de un tag dado su id
 
@@ -406,11 +400,11 @@ private function obtenerConsignasTag($id_tag)
     }
 ```
 
-### FUNCION **obtenerIdUsuario()**
+### FUNCIÓN **obtenerIdUsuario()**
 
-> @params String nombre_usuario
+> <span style='color:green'>@params</span> <b>String</b> nombre_usuario
 
-> @returns Mixed INT | Bool
+> <span style='color:green'>@returns</span> Mixed <b>INT</b> | <b>Bool</b>
 
 Esta es una función pública que devuelve el id_usuario dado un nombre. Tiene un uso muy limitado y es de apoyo a otras funciones.
 
@@ -430,11 +424,11 @@ Esta es una función pública que devuelve el id_usuario dado un nombre. Tiene u
     }
 ```
 
-### FUNCION obtenerClienteUsuario()
+### FUNCIÓN obtenerClienteUsuario()
 
-> @params String nombre_usuario
+> <span style='color:green'>@params</span> <b>String</b> nombre_usuario
 
-> @returns Mixed String | Bool
+> <span style='color:green'>@returns</span> Mixed <b>String</b> | <b>Bool</b>
 
 Función pública que devuelve el cliente o grupo al que pertenece un usuario dado su nombre. Su uso es limitado y es de apoyo a otras funciones.
 
@@ -454,11 +448,11 @@ public function obtenerClienteUsuario($nombre_usuario)
     }
 ```
 
-### FUNCION **existeUsusario()**
+### FUNCIÓN **existeUsusario()**
 
-> @params String nombre
+> <span style='color:green'>@params</span> <b>String</b> nombre
 
-> @returns Bool
+> <span style='color:green'>@returns</span> <b>Bool</b>
 
 Función pública que comprueba la existencia de un usuario dado su nombre. Su uso es limitado y sirve de apoyo a otras funciones.
 
@@ -480,11 +474,11 @@ public function existeUsuario($nombre)
     }
 ```
 
-### FUNCION **userData()**
+### FUNCIÓN **userData()**
 
-> @params INT id_usu
+> <span style='color:green'>@params</span> <b>INT</b> id_usu
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Función pública parte del sistema de Log-in que recoge información necesaria para la clase Contras.php dado el id de un usuario.
 Sólo se usa en el contructor de Contras.php
@@ -506,11 +500,11 @@ Sólo se usa en el contructor de Contras.php
 
 ```
 
-### FUNCION **updateUserData()**
+### FUNCIÓN **updateUserData()**
 
-> @params INT id_usu, String pwd
+> <span style='color:green'>@params</span> <b>INT</b> id_usu, <b>String</b> pwd
 
-> @returns Bool
+> <span style='color:green'>@returns</span> <b>Bool</b>
 
 Función pública de la que se apoya Contras.php cuando debe actualizar el cifrado de un HASH de un usuario especifico.
 
@@ -528,20 +522,17 @@ public function updateUserData($id_usu, $pwd)
     }
 ```
 
-### FUNCION **mostrarEstacionesCliente()**
+### FUNCIÓN **mostrarEstacionesCliente()**
 
-> @params String nombre, String pwd
+> <span style='color:green'>@params</span> <b>String</b> nombre, <b>String</b> pwd
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función pública recoge toda la información de las propiedades de todas las estaciones que pertenezcan a un usuario dado su nombre y contraseña cifrada
 
 ```php
 public function mostrarEstacionesCliente($nombre, $pwd)
     {
-        // if ($_SESSION['mostrarEstacionesCliente_nombre'] == $nombre && $_SESSION['mostrarEstacionesCliente_pwd'] == $pwd) {
-        //     return $estacionesArr = $_SESSION['mostrarEstacionesCliente_result'];
-        // }
         if ($this->conectar()) {
             $consulta = "SELECT estaciones.nombre_estacion, estaciones.id_estacion, estaciones.latitud, estaciones.longitud
             FROM usuarios INNER JOIN usuario_estacion ON usuarios.id_usuario = usuario_estacion.id_usuario
@@ -550,9 +541,6 @@ public function mostrarEstacionesCliente($nombre, $pwd)
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $estacionesArr = pg_fetch_all($resultado);
-                // $_SESSION['mostrarEstacionesCliente_nombre'] = $nombre;
-                // $_SESSION['mostrarEstacionesCliente_pwd'] = $pwd;
-                // $_SESSION['mostrarEstacionesCliente_result'] = $estacionesArr;
                 return $estacionesArr;
             } else {
                 return false;
@@ -561,11 +549,11 @@ public function mostrarEstacionesCliente($nombre, $pwd)
     }
 ```
 
-### FUNCION **obtenerFotoEstacion()**
+### FUNCIÓN **obtenerFotoEstacion()**
 
-> @params INT id_usuario
+> <span style='color:green'>@params</span> <b>INT</b> id_usuario
 
-> @returns Mixed String foto | Bool
+> <span style='color:green'>@returns</span> Mixed <b>String</b> foto | <b>Bool</b>
 
 Esta función pública devulve los datos de imagen cifrados de una estación dada su id. Se usa en la sección principal para los mapas y en las secciones de estación. Si esta estacion no tiene foto, devuelve false
 
@@ -592,11 +580,11 @@ public function obtenerFotoEstacion($id_estacion)
     }
 ```
 
-### FUNCION **obtenerAlarmasUsuario()**
+### FUNCIÓN **obtenerAlarmasUsuario()**
 
-> @params INT id_usuario, String orden, String sentido, TS fechaInicio, TS fechaFin
+> <span style='color:green'>@params</span> <b>INT</b> id_usuario, <b>String</b> orden, <b>String</b> sentido, <b>TS</b> fechaInicio, <b>TS</b> fechaFin
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función pública sirve para para extraer las alarmas de las estaciones pertenecientes a un usuario dado su id, sobre unas fechas dados sus TimeStamps en un orden y sentido dados en los parámetros. Se usa en la sección de alarmas.
 
@@ -648,9 +636,6 @@ public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido, $fechaInici
             estaciones.nombre_estacion, tags.nombre_tag, alarmas.id_alarmas, alarmas.valor_alarma, alarmas.fecha_origen, alarmas.fecha_restauracion, alarmas.estado, alarmas.ack_por, alarmas.fecha_ack
             FROM alarmas INNER JOIN estacion_tag ON alarmas.id_tag = estacion_tag.id_tag INNER JOIN usuario_estacion ON usuario_estacion.id_estacion = estacion_tag.id_estacion INNER JOIN estaciones ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON alarmas.id_tag = tags.id_tag
             WHERE usuario_estacion.id_usuario = " . $id_usuario[0]['id_usuario'] . "";
-            //obtener fechas de inicio y fin
-            //comprobar cuales están definidas
-            //filtrar
             if ($fechaInicio != null) {
                 $ini = strtotime($fechaInicio);
                 $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) <= " . $ini;
@@ -659,9 +644,6 @@ public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido, $fechaInici
                 $fin = strtotime($fechaFin);
                 $conAlarmas .= " AND cast(extract(epoch from alarmas.fecha_origen) as integer) > " . $fin;
             }
-            // else{
-            //     $conAlarmas .= "AND alarmas.fecha_origen::date > current_date::date - interval '7 days'";
-            // }
             if ($sentido != null) {
                 if ($sentido == 'ASC') {
                     $conAlarmas .= " ORDER BY $prioridad ASC";
@@ -692,11 +674,11 @@ public function obtenerAlarmasUsuario($id_usuario, $orden, $sentido, $fechaInici
 
 ```
 
-### FUNCION **obtenerAlarmasEstacion()**
+### FUNCIÓN **obtenerAlarmasEstacion()**
 
-> @params INT id_estacion, String orden, String sentido, TS fechaInicio, TS fechaFin
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion, <b>String</b> orden, <b>String</b> sentido, <b>TS</b> fechaInicio, <b>TS</b> fechaFin
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función pública extrae las alarmas de una estacion dado su id, sobre unas fechas dados sus TimeStamps en un orden y sentido dados en los parámetros. Se usa en la sección de alarmas.
 
@@ -706,12 +688,9 @@ public function obtenerAlarmasEstacion($id_estacion, $orden, $sentido, $fechaIni
         if ($_SESSION['obtenerAlarmasEstacion_id_estacion'] == $id_estacion && $_SESSION['obtenerAlarmasEstacion_orden'] == $orden && $_SESSION['obtenerAlarmasEstacion_sentido'] == $sentido && $_SESSION['obtenerAlarmasEstacion_fechaini'] == $fechaInicio && $_SESSION['obtenerAlarmasEstacion_fechafin'] = $fechaFin) {
             return $alarmasEstacion = $_SESSION['obtenerAlarmasEstacion_id_estacion'];
         }
-
         if ($fechaInicio != null) {
-            //traducir fecha
         }
         if ($fechaFin != null) {
-            //traducir fecha
         }
 
         $prioridad = 'alarmas.fecha_origen';
@@ -794,11 +773,11 @@ public function obtenerAlarmasEstacion($id_estacion, $orden, $sentido, $fechaIni
     }
 ```
 
-### FUNCION **obtenerDetallesAlarma()**
+### FUNCIÓN **obtenerDetallesAlarma()**
 
-> @params INT id_alarma
+> <span style='color:green'>@params</span> <b>INT</b> id_alarma
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función pública extrae los datos históricos del tag vinculado a una alarma dada su id, para mostrar durante un margen de un dia la tendencia de sus datos. Se usa en la sección de alarmas
 
@@ -822,11 +801,11 @@ function obtenerDetallesAlarma($id_alarma)
     }
 ```
 
-### FUNCION **datosEstacion()**
+### FUNCIÓN **datosEstacion()**
 
-> @params INT id_estacion, Bool todos
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion, <b>Bool todos</b>
 
-> @returns Array
+> <span style='color:green'>@returns</span> <b>Array</b>
 
 Esta función pública obtiene la última información conocida de una estación dado su id. Se usa en las secciones de estación.
 
@@ -879,11 +858,11 @@ public function datosEstacion($id_estacion, $todos)
     }
 ```
 
-### FUNCION **tagsEstacion()**
+### FUNCIÓN **tagsEstacion()**
 
-> @params INT id_estacion
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función obtiene los tags historizables de una estación dado su id. Se usa en las gráficas y secciones de estación.
 
@@ -905,11 +884,11 @@ public function tagsEstacion($id_estacion)
     }
 ```
 
-### FUNCION **todosTagsEstacion()**
+### FUNCIÓN **todosTagsEstacion()**
 
-> @params INT id_estacion
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función obtiene los tags de una estación dado su id. Se usa en las gráficas, sección principal y secciones de estación.
 
@@ -936,11 +915,11 @@ Esta función obtiene los tags de una estación dado su id. Se usa en las gráfi
     }
 ```
 
-### FUNCION **tagsAnalogHisto()**
+### FUNCIÓN **tagsAnalogHisto()**
 
-> @params Array estaciones
+> <span style='color:green'>@params</span> <b>Array</b> estaciones
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función obtiene los tags analógicos historizables de un grupo de estaciones dados los id de las estaciones.
 
@@ -973,11 +952,11 @@ public function tagsAnalogHisto($estaciones)
     }
 ```
 
-### FUNCION **historicosEstacion()**
+### FUNCIÓN **historicosEstacion()**
 
-> @params INT id_estacion, TS fechaIni, TS fechaFin
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion, <b>TS</b> fechaIni, <b>TS</b> fechaFin
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función obtiene los datos históricos de todos los tags historizables de una estación dado el id de la estación entre unas fechas comprendidas entre los TimeStamps de fechaIni y fechaFin.
 
@@ -1014,11 +993,11 @@ public function historicosEstacion($id_estacion, $fechaIni, $fechaFin)
     }
 ```
 
-### FUNCION **historicosTagEstacion()**
+### FUNCIÓN **historicosTagEstacion()**
 
-> @params INT id_tag
+> <span style='color:green'>@params</span> <b>INT</b> id_tag
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función obtiene los datos_historicos de los ultimos 7 dias en un agregado 5 minutal de un tag dado su id. Se usa en graficas > vista rápida
 
@@ -1061,7 +1040,6 @@ public function historicosTagEstacion($id_estacion, $id_tag)
                         }
                     }
                 }
-                //devolver array unico con las "series" y el "meta" del tag
                 $seriesTag['tag'] = $datosHisto;
                 return $seriesTag;
             } else {
@@ -1073,11 +1051,11 @@ public function historicosTagEstacion($id_estacion, $id_tag)
     }
 ```
 
-### FUNCION **historicosTagEstacionCustom()**
+### FUNCIÓN **historicosTagEstacionCustom()**
 
-> @params INT id_estacion, INT id_tag, Array ajustesMeta, TS fechaInicio, TS fechaFin
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion, <b>INT</b> id_tag, <b>Array</b> ajustesMeta, <b>TS</b> fechaInicio, <b>TS</b> fechaFin
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta fucnión pública obtiene los datos historicos en agregados 5 minutales de un tag dado su id entre unas fechas dados los TimeStamps con una configuración dada en ajustesMeta de una estacion dada su id.
 Se usa en gráficas > vista personalizada.
@@ -1087,9 +1065,7 @@ Se usa en gráficas > vista personalizada.
         if ($this->conectar()) {
             $seriesTagCustom = array();
             $metaCustom = array();
-            //obtener el metadata del TAG
             $meta = $this->metaTag($id_tag, $id_estacion);
-            // filtrar metadata
             foreach ($ajustesMeta as $index => $tipo) {
                 if ($tipo == "maxGen") {
                     $metaCustom['max'] = $meta['max'];
@@ -1102,11 +1078,8 @@ Se usa en gráficas > vista personalizada.
                 }
             }
             $seriesTagCustom['meta'] = $metaCustom;
-            //traducir fechas(?)
             $ini = strtotime($fechaInicio);
             $fin = strtotime($fechaFin);
-            //EXPERIMENTO 8
-            //GENERA SERIES PARA ALINEAR LAS LINEAS DE TIEMPO A 5mins
             $conHistoTagEst = "WITH t as
             (
              SELECT
@@ -1139,7 +1112,6 @@ Se usa en gráficas > vista personalizada.
                             $datosHisto[$index]['valor'] = number_format($valor, 2);
                             $ultVal = number_format($valor, 2);
                         }
-                        //rellena huecos vacios con el ultimo valor (proto)
                         if ($valor == null && $factor != "ts") {
                             $datosHisto[$index]['valor'] = $ultVal;
                         }
@@ -1148,7 +1120,6 @@ Se usa en gráficas > vista personalizada.
                         }
                     }
                 }
-                //devolver array unico con las "series" y el "meta" del tag
                 $seriesTagCustom['tag'] = $datosHisto;
             } else {
                 return false;
@@ -1156,18 +1127,17 @@ Se usa en gráficas > vista personalizada.
         } else {
             return false;
         }
-        //pasar por caja de cambios el $seriesTagCustom['tag']
         return $seriesTagCustom;
     }
 ```
 
-### FUNCION **reconocerAlarma()**
+### FUNCIÓN **reconocerAlarma()**
 
-> @params INT id_alarma, String usuario, TS hora
+> <span style='color:green'>@params</span> <b>INT</b> id_alarma, <b>String</b> usuario, <b>TS</b> hora
 
-> @returns Bool
+> <span style='color:green'>@returns</span> <b>Bool</b>
 
-Esta función pública se usa en alarmas y sirve para reconocer una alarma dada su id por un usuario dado su nombre a una hora dada su TS.
+Esta función pública se usa en alarmas y sirve para reconocer una alarma dada su id por un usuario dado su nombre a una hora dada su <b>TS</b>.
 
 ```php
 public function reconocerAlarma($id_alarma, $usuario, $hora)
@@ -1198,11 +1168,11 @@ public function reconocerAlarma($id_alarma, $usuario, $hora)
     }
 ```
 
-### FUNCION **alarmasSur()**
+### FUNCIÓN **alarmasSur()**
 
-> @params INT id_usuario
+> <span style='color:green'>@params</span> <b>INT</b> id_usuario
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función pública se usa en el menú sur en las secciones distintas a las de estación.
 Extrae las ultimas 7 alarmas de las estaciones que pertenezcan a un usuario dado su id.
@@ -1227,11 +1197,11 @@ public function alarmasSur($id_usuario)
     }
 ```
 
-### FUNCION **alarmasEstacionSur()**
+### FUNCIÓN **alarmasEstacionSur()**
 
-> @params INT id_estacion
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función pública se usa en el menú sur en las secciones de estación.
 Extrae las ultimas 7 alarmas de las estaciones que pertenezcan a una estación dada su id.
@@ -1254,11 +1224,11 @@ public function alarmasEstacionSur($id_estacion)
     }
 ```
 
-### FUNCION **ultimaComunicacionEstacion()**
+### FUNCIÓN **ultimaComunicacionEstacion()**
 
-> @params INT id_estacion
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion
 
-> @returns String
+> <span style='color:green'>@returns</span> <b>String</b>
 
 Esta función pública obtiene la fecha de la última comunicación de una estación dada su id.
 Se usa en la sección principal, estaciones y comunicaciones
@@ -1268,7 +1238,6 @@ public function ultimaComunicacionEstacion($id_estacion)
     {
         if ($this->conectar()) {
             $consulta = "SELECT estaciones.id_estacion, estaciones.nombre_estacion, datos_valores.valor_date, tags.nombre_tag,estaciones.latitud,estaciones.longitud, estaciones.foto  FROM estaciones INNER JOIN estacion_tag ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag INNER JOIN datos_valores ON estacion_tag.id_tag = datos_valores.id_tag WHERE tags.nombre_tag LIKE 'Ultima Comunicacion%' AND estaciones.id_estacion = " . $id_estacion . " ORDER BY estaciones.nombre_estacion DESC";
-            // $consulta = "SELECT estaciones.id_estacion, estaciones.nombre_estacion, datos_valores.valor_date, tags.nombre_tag,estaciones.latitud,estaciones.longitud, estaciones.foto  FROM estaciones INNER JOIN estacion_tag ON estaciones.id_estacion = estacion_tag.id_estacion INNER JOIN tags ON tags.id_tag = estacion_tag.id_tag INNER JOIN datos_valores ON estacion_tag.id_tag = datos_valores.id_tag WHERE tags.nombre_tag LIKE 'Ultima Comunicacion%' AND estaciones.id_estacion = " . $id_estacion . " ORDER BY datos_valores.fecha DESC";
             $resultado = pg_query($this->conexion, $consulta);
             if ($this->consultaExitosa($resultado)) {
                 $ultimaConexion = pg_fetch_all($resultado);
@@ -1282,19 +1251,19 @@ public function ultimaComunicacionEstacion($id_estacion)
     }
 ```
 
-### FUNCION **calidadTagsEstacion()** --> OBSOLETO
+### FUNCIÓN **calidadTagsEstacion()** --> OBSOLETO
 
-> @params INT id_estacion
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion
 
-> @returns Array
+> <span style='color:green'>@returns</span> <b>Array</b>
 
 Esta función está obsoleta y ya no se usa.
 
-### FUNCION **obtenerNombreEstacion()**
+### FUNCIÓN **obtenerNombreEstacion()**
 
-> @params INT id_estacion
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion
 
-> @returns Mixed String | Bool
+> <span style='color:green'>@returns</span> Mixed <b>String</b> | <b>Bool</b>
 
 Esta función pública obtiene el nombre de una estación dada su id.
 
@@ -1322,23 +1291,22 @@ public function obtenerNombreEstacion($id_estacion)
     }
 ```
 
-### FUNCION **metaTag()**
+### FUNCIÓN **metaTag()**
 
-> @params INT id_tag, INT id_estacion
+> <span style='color:green'>@params</span> <b>INT</b> id_tag, <b>INT</b> id_estacion
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función pública obtiene los metadatos calculados de un tag dado su id de una estacion dada su id. Se usa en ambas vistas de gráficas.
 
 ```php
     public function metaTag($id_tag, $id_estacion)
     {
-        //si tiene consignas pues las consignas(igual en un futuro)
         if ($this->conectar()) {
             $metaDatos = array();
-            $conmaxval = "SELECT MAX(datos_historicos.valor_int), CAST(MAX(datos_historicos.valor_float)*100 AS INT), MAX(datos_historicos.valor_acu) FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . "";
-            $conminval = "SELECT MIN(datos_historicos.valor_int),CAST(MIN(datos_historicos.valor_float)*100 AS INT), MIN(datos_historicos.valor_acu) FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . "";
-            $conmedia = "SELECT AVG(datos_historicos.valor_int),CAST(AVG(datos_historicos.valor_float)*100 AS INT), AVG(datos_historicos.valor_acu) FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . "";
+            $conmaxval = "SELECT MAX(datos_historicos.valor_int), CAST(MAX(datos_historicos.valor_float)*100 AS <b>INT</b>), MAX(datos_historicos.valor_acu) FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . "";
+            $conminval = "SELECT MIN(datos_historicos.valor_int),CAST(MIN(datos_historicos.valor_float)*100 AS <b>INT</b>), MIN(datos_historicos.valor_acu) FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . "";
+            $conmedia = "SELECT AVG(datos_historicos.valor_int),CAST(AVG(datos_historicos.valor_float)*100 AS <b>INT</b>), AVG(datos_historicos.valor_acu) FROM datos_historicos INNER JOIN estacion_tag ON estacion_tag.id_tag = datos_historicos.id_tag WHERE datos_historicos.id_tag = " . $id_tag . " AND estacion_tag.id_estacion = " . $id_estacion . "";
             $resulmaxval = pg_query($this->conexion, $conmaxval);
             $resulminval = pg_query($this->conexion, $conminval);
             $resulmedia = pg_query($this->conexion, $conmedia);
@@ -1385,20 +1353,20 @@ Esta función pública obtiene los metadatos calculados de un tag dado su id de 
     }
 ```
 
-### FUNCION **tagTrend()** --> OBSOLETO
+### FUNCIÓN **tagTrend()** --> OBSOLETO
 
-> @params INT id_tag, INT id_estacion
+> <span style='color:green'>@params</span> <b>INT</b> id_tag, <b>INT</b> id_estacion
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta función pública obtiene un trend (7 maximos valores de 7 días) de un tag dado su id de una estacion dada su id.
 Esta función es obsoleta y ya no se usa por motivos de optimización. En su lugar se usa **tagsTrends()**.
 
-### FUNCION **tagsTrends()**
+### FUNCIÓN **tagsTrends()**
 
-> @params Array datosAnalog
+> <span style='color:green'>@params</span> <b>Array</b> datosAnalog
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Esta fucnión pública obtiene los trends (7 maximos valores de 7 días) de varios tags dados sus ids de una estacion dada su id. Se usa en las secciones de estación.
 Sustituye a **tagTrend()**.
@@ -1438,13 +1406,13 @@ public function tagsTrends($datosAnalog)
     }
 ```
 
-### FUNCION **informeSeñalEstacion()**
+### FUNCIÓN **informeSeñalEstacion()**
 
-> @params INT, id_estacion, String señal, TS fechaIni, TS fechaFin
+> <span style='color:green'>@params</span> <b>INT</b>, id_estacion, <b>String</b> señal, <b>TS</b> fechaIni, <b>TS</b> fechaFin
 
-> @returns Array
+> <span style='color:green'>@returns</span> <b>Array</b>
 
-Esta función pública obtiene los informes dado su tipo, de los tags de una estacion dado su id comprendido entre unas fechas definidas sus TS.
+Esta función pública obtiene los informes dado su tipo, de los tags de una estacion dado su id comprendido entre unas fechas definidas sus <b>TS</b>.
 
 ```php
 public function informeSeñalEstacion($id_estacion, $señal, $fechaIni, $fechaFin)
@@ -1566,11 +1534,11 @@ public function informeSeñalEstacion($id_estacion, $señal, $fechaIni, $fechaFi
     }
 ```
 
-### FUNCION **feedPrincipalDigital()** --> en Desuso
+### FUNCIÓN **feedPrincipalDigital()** --> en Desuso
 
-> @params Array estaciones
+> <span style='color:green'>@params</span> <b>Array</b> estaciones
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Está función pública devolvía las 4 alertas de tags digitales mas recientes pertenecientes a un grupo de estaciones dados sus id.
 Su utilidad era tan escasa que se eliminó el feed digital de la sección de inicio dejando en desuso esta función.
@@ -1582,9 +1550,6 @@ public function feedPrincipalDigital($estaciones)
             return $feed = $_SESSION['feedPrincipalDigital_result'];
         }
         if ($this->conectar()) {
-            //recorrer estaciones y sacar tags digitales
-            //ver si esa estación tiene alarmas activas recientes de tags digitales y coger la mas reciente
-            //guardarlas en un array
             $feed = array();
             foreach ($estaciones as $index => $estacion) {
                 $id_estacion = $estacion['id_estacion'];
@@ -1596,15 +1561,6 @@ public function feedPrincipalDigital($estaciones)
                     $tagsDigiEstacion = pg_fetch_all($resTagsDigi);
                     foreach ($tagsDigiEstacion as $index => $tag) {
                         $id = $tag['id_tag'];
-                        // CRITERIO ORIGINAL
-                        // $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma
-                        // FROM alarmas
-                        // WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '3 days'
-                        // AND NOT valor_alarma = ''
-                        // ORDER BY fecha_origen DESC";
-                        //WHERE estado IN(1,3) AND id_tag = " . $id . " AND fecha_origen::date > current_date::date - interval '3 days'
-
-                        //CRITERIO NUEVO
                         $conAlarma = "SELECT fecha_origen, id_tag, valor_alarma
                         FROM alarmas
                         WHERE id_tag = " . $id . " AND estado IN(1,3) AND fecha_origen::date > current_date::date - interval '7 days'
@@ -1630,11 +1586,11 @@ public function feedPrincipalDigital($estaciones)
     }
 ```
 
-### FUNCION **confirmarWidget()**
+### FUNCIÓN **confirmarWidget()**
 
-> @params String wid, INT tag, INT id_usuario
+> <span style='color:green'>@params</span> <b>String</b> wid, <b>INT</b> tag, <b>INT</b> id_usuario
 
-> @returns Bool
+> <span style='color:green'>@returns</span> <b>Bool</b>
 
 Esta función pública pertenece a los ajustes de la sección principal y establece un feed analógico para un widget concreto.
 
@@ -1677,11 +1633,11 @@ public function confirmarWidget($wid, $tag, $id_usuario)
     }
 ```
 
-### FUNCION **feedPrincipalCustom()**
+### FUNCIÓN **feedPrincipalCustom()**
 
-> @params INT id_usuario
+> <span style='color:green'>@params</span> <b>INT</b> id_usuario
 
-> @returns Array
+> <span style='color:green'>@returns</span> <b>Array</b>
 
 Esta función pública se usa en la sección principal y extrae los feeds de los tags definidos en la configuracion de un usuario concreto según su id.
 
@@ -1709,7 +1665,6 @@ Esta función pública se usa en la sección principal y extrae los feeds de los
             foreach ($configuracionWidgetsUsuario as $widget => $tag) {
                 $tag = intval($tag);
                 $consignas_tag = $this->obtenerConsignasTag($tag);
-                //ultimo valor del tag
                 $conUltimoValor = "SELECT tags.unidad,tags.r_min,tags.r_max,estaciones.nombre_estacion, tags.nombre_tag, datos_valores.valor_acu, datos_valores.valor_float,datos_valores.valor_int,datos_valores.id_tag,datos_valores.fecha
                 FROM datos_valores inner join tags on tags.id_tag = datos_valores.id_tag
                 inner join estacion_tag on tags.id_tag = estacion_tag.id_tag
@@ -1732,16 +1687,11 @@ Esta función pública se usa en la sección principal y extrae los feeds de los
                 } else {
                     $ultvalor = false;
                 }
-                //trend diario (o semanal si es acumulado) del tag
                 $conTrendDia = "";
                 $n_tag = $this->obtenerNombreTag($tag);
                 if (strpos($n_tag, 'Acumulado') !== false) {
                     $conTrendDia = "SELECT datos_historicos.fecha, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '7 days' AND datos_historicos.fecha::date <= current_date::date ORDER BY fecha desc";
-                    //$conTrendDia = "SELECT MAX(datos_historicos.valor_acu),MAX(datos_historicos.valor_float),MAX(datos_historicos.valor_int),datos_historicos.fecha::date FROM datos_historicos WHERE datos_historicos.id_tag =".$tag. " AND datos_historicos.fecha::date > current_date::date - interval '7 days' GROUP BY datos_historicos.fecha::date LIMIT 7";
                 } else {
-                    //trend original
-                    //$conTrendDia = "SELECT datos_historicos.fecha::time, datos_historicos.valor_acu, datos_historicos.valor_float, valor_int FROM datos_historicos WHERE id_tag=" . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 days' AND datos_historicos.fecha::date <= current_date::date ORDER BY fecha desc";
-                    //trend modificada
                     $conTrendDia = "WITH t as (SELECT to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS fecha, AVG(valor_float) as valor_float, AVG(valor_acu) as valor_acu, AVG(valor_int) as valor_int FROM datos_historicos WHERE id_tag = " . $tag . " AND datos_historicos.fecha::date >= current_date::date - interval '1 days' AND datos_historicos.fecha::date <= current_date::date GROUP BY fecha),contiguous_ts_list as (select fecha from generate_series((select min(fecha) from t),(select max(fecha) from t),interval '1 hour') fecha) SELECT * from contiguous_ts_list left outer join t using(fecha) ORDER BY fecha DESC";
                 }
                 $resTrendDia = pg_query($this->conexion, $conTrendDia);
@@ -1767,7 +1717,6 @@ Esta función pública se usa en la sección principal y extrae los feeds de los
                 } else {
                     $trendDia = false;
                 }
-                //trend semanal de agregados (o solo maximos y 2 semanas si es acumulado) del tag
                 $conAgregSemanal = "";
                 if (strpos($n_tag, 'Acumulado') !== false) {
                     $conAgregSemanal = "SELECT MAX(datos_historicos.valor_acu) as max_acu, MAX(datos_historicos.valor_int) as max_int, MAX(datos_historicos.valor_float) as max_float,datos_historicos.fecha::date
@@ -1837,11 +1786,11 @@ Esta función pública se usa en la sección principal y extrae los feeds de los
     }
 ```
 
-### FUNCION **borrarPreset()**
+### FUNCIÓN **borrarPreset()**
 
-> @params String n_preset, INT id_usuario
+> <span style='color:green'>@params</span> <b>String</b> n_preset, <b>INT</b> id_usuario
 
-> @returns Bool
+> <span style='color:green'>@returns</span> <b>Bool</b>
 
 Función pública perteneciente a gráficas > vista personalizada que borra un preset dado su nombre guardado en la config de un usuario dado su id.
 
@@ -1858,11 +1807,11 @@ public function borrarPreset($n_preset, $id_usuario)
     }
 ```
 
-### FUNCION **leerPresets()**
+### FUNCIÓN **leerPresets()**
 
-> @params INT id_usuario
+> <span style='color:green'>@params</span> <b>INT</b> id_usuario
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Función publica perteneciente a la sección de gráficas > vista personalizada que busca los presets guardados en la configuración de un usuario dado su id.
 
@@ -1881,11 +1830,11 @@ public function leerPresets($id_usuario)
     }
 ```
 
-### FUNCION **guardarPreset()**
+### FUNCIÓN **guardarPreset()**
 
-> @params String usuario, String nombre, String estacion, Array tags_colores
+> <span style='color:green'>@params</span> <b>String</b> usuario, <b>String</b> nombre, <b>String</b> estacion, <b>Array</b> tags_colores
 
-> @returns Bool
+> <span style='color:green'>@returns</span> <b>Bool</b>
 
 Función publica perteneciente a la sección de gráficas > vista personalizada que guarda un preset según su nombre y los tags incluidos con sus colores a un usuario dado su id.
 
@@ -1900,7 +1849,7 @@ public function guardarPreset($usuario, $nombre, $estacion, $tags_colores)
         }
         $id_usuario = $this->obtenerIdUsuario($usuario);
         if ($id_usuario) {
-            $secu = "INSERT INTO graficas(id_usuario, configuracion)
+            $secu = "INSERT <b>INT</b>O graficas(id_usuario, configuracion)
             VALUES (" . $id_usuario[0]['id_usuario'] . ", '" . $codigo . "')";
             pg_query($this->conexion, $secu);
             return true;
@@ -1913,19 +1862,19 @@ public function guardarPreset($usuario, $nombre, $estacion, $tags_colores)
 
 ## **2.2 CLASE DataWit.php**
 
-> importante: esta clase se apoya en los drivers de SQLServer para PHP (sqlsrv) no incluidos en apache.
+> importante: esta clase se apoya en los drivers de SQLServer para <span style='color:purple'><b>PHP</b></span> (sqlsrv) no incluidos en apache.
 
 > Los contenidos de esta clase son provisionales y están sujetos a posibles cambios.
 
-Esta clase contiene las funciones para acceder a las tablas en bases de datos de SQL Server, dónde se encuentran las configuraciones, datos y funciones de las consignas y los plannings de las señales provenientes de WIT. Al no compartir la arquitectura con Aquando_ddbb, también tiene una conexión auxiliar a otra base de datos con la información necesaria para relacionar la información de Aquando con la del entorno WIT.
+Esta clase contiene las funciones para acceder a las tablas en bases de datos de SQL Server, dónde se encuentran las configuraciones, datos y funciones de las consignas y los plannings de las señales provenientes de WIT. Al no compartir la arquitectura con <span style='color:darkblue;'><b>Aquando</b></span>\_ddbb, también tiene una conexión auxiliar a otra base de datos con la información necesaria para relacionar la información de <span style='color:darkblue;'><b>Aquando</b></span> con la del entorno WIT.
 
 La clase instancia al principio las variables y constantes necesarias para establecer conexiones al servidor de SQLServer. La función de constructor se encuentra vacía y la clase no requiere de ningún parámetro.
 
-### FUNCION **conectar()**
+### FUNCIÓN **conectar()**
 
-> @params Void
+> <span style='color:green'>@params</span> Void
 
-> @returns Mixed Sqlstmt | Bool
+> <span style='color:green'>@returns</span> Mixed Sqlstmt | <b>Bool</b>
 
 Función privada que conecta con _DBEASY452_. Se apoya en las constantes de conexión definidas en la clase. Esta base de datos es la que tiene la información útil de las consignas.
 
@@ -1945,19 +1894,19 @@ private function conectar()
     }
 ```
 
-### FUNCION **conectarAux()**
+### FUNCIÓN **conectarAux()**
 
-> @params Void
+> <span style='color:green'>@params</span> Void
 
-> @returns Mixed Sqlstmt | Bool
+> <span style='color:green'>@returns</span> Mixed Sqlstmt | <b>Bool</b>
 
-Función privada que establece una conexión auxiliar con _Conversion_Aquando_. Está base de datos tiene las relaciones entre el entorno de Aquando y el de WIT
+Función privada que establece una conexión auxiliar con _Conversion_<span style='color:darkblue;'><b>Aquando</b></span>\_. Está base de datos tiene las relaciones entre el entorno de <span style='color:darkblue;'><b>Aquando</b></span> y el de WIT
 
 ```php
 private function conectarAux()
     {
         if (!$this->conexionAux) {
-            $this->info_server = array("Database" => "Conversion_Aquando", "Uid" => "sa", "PWD" => "dateando", "Encrypt" => false);
+            $this->info_server = array("Database" => "Conversion_<span style='color:darkblue;'><b>Aquando</b></span>", "Uid" => "sa", "PWD" => "dateando", "Encrypt" => false);
             $stmt = sqlsrv_connect($this->nombre_server, $this->info_server);
             if ($this->consultaExitosa($stmt)) {
                 return $this->conexionAux = $stmt;
@@ -1969,11 +1918,11 @@ private function conectarAux()
     }
 ```
 
-### FUNCION **consultaExitosa()**
+### FUNCIÓN **consultaExitosa()**
 
-> @params Sqlstmt
+> <span style='color:green'>@params</span> Sqlstmt
 
-> @returns Bool
+> <span style='color:green'>@returns</span> <b>Bool</b>
 
 Función privada que comprueba los resultados de una consulta.
 
@@ -1983,17 +1932,17 @@ private function consultaExitosa($stmt)
         if ($stmt) {
             return true;
         } else {
-            print_r(sqlsrv_errors()); //provisional
+            print_r(sqlsrv_errors());
             return false;
         }
     }
 ```
 
-### FUNCION **consignasEstacion()**
+### FUNCIÓN **consignasEstacion()**
 
-> @params String estacion
+> <span style='color:green'>@params</span> <b>String</b> estacion
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Función pública que obtinene las consignas que existen en una estación dada su nombre.
 Se usa en las secciones de estacion > ajustes
@@ -2003,7 +1952,6 @@ Se usa en las secciones de estacion > ajustes
     {
         if ($this->conectarAux() && $estacion != "Deposito Berroa") {
             $consulta = "SELECT * FROM Info_lkv where estacion like('%" . $estacion . "%') AND nombre_tag like ('%Consigna%') AND Nombre_variable_wit LIKE('%Import%')";
-            // $params = array($estacion);
             $respuesta = sqlsrv_query($this->conexionAux, $consulta);
             if ($this->consultaExitosa($respuesta)) {
                 $datos = array();
@@ -2018,11 +1966,11 @@ Se usa en las secciones de estacion > ajustes
     }
 ```
 
-### FUNCION **leerConsignaWit()**
+### FUNCIÓN **leerConsignaWit()**
 
-> @params String recurso
+> <span style='color:green'>@params</span> <b>String</b> recurso
 
-> @returns Mixed Array | Bool
+> <span style='color:green'>@returns</span> Mixed <b>Array</b> | <b>Bool</b>
 
 Función pública que obtiene los valores de una consigna determinada dada su identificación dentro del entorno WIT.
 Se usa en las secciones de estacion > ajustes
@@ -2032,7 +1980,6 @@ Se usa en las secciones de estacion > ajustes
     {
         if ($this->conectar()) {
             $consulta = "SELECT * FROM [DBEASY452].[dbo].[WValue] WHERE ValueWOSAdd LIKE('%" . $recurso . "%') AND ValueWOSAdd LIKE('%InLink%')";
-            // return $consulta;
             $respuesta = sqlsrv_query($this->conexion, $consulta);
             if ($this->consultaExitosa($respuesta)) {
                 $datos = sqlsrv_fetch_array($respuesta, SQLSRV_FETCH_ASSOC);
@@ -2044,16 +1991,16 @@ Se usa en las secciones de estacion > ajustes
     }
 ```
 
-### FUNCION **modificarConsignaWit()**
+### FUNCIÓN **modificarConsignaWit()**
 
-> @params String ref, Float valor
+> <span style='color:green'>@params</span> <b>String</b> ref, Float valor
 
-> @returns String
+> <span style='color:green'>@returns</span> <b>String</b>
 
 Función pública que modifica el valor de una consigna WIT dada su referencia dentro del entorno WIT por un valor dado en los parámetros.
 
 ```php
-    public function modificarConsignaWit($ref, $valor) //habra que meter params (estacion, tag, consigna, valor etc)
+    public function modificarConsignaWit($ref, $valor)
     {
         if ($this->conectar()) {
             $conConsignas = "UPDATE [DBEASY452].[dbo].[WValue] SET ValueReadData = '" . $valor . "', ValueWriteStatus = 10 WHERE ValueWOSAdd LIKE('%" . $ref . "InLink%')";
@@ -2068,11 +2015,11 @@ Función pública que modifica el valor de una consigna WIT dada su referencia d
     }
 ```
 
-### FUNCION **leerPlanningsEstacion()** --> WIP
+### FUNCIÓN **leerPlanningsEstacion()** --> WIP
 
-> @params ?
+> <span style='color:green'>@params</span> ?
 
-> @returns ?
+> <span style='color:green'>@returns</span> ?
 
 _Está función aun no está implementada y su código no es definitivo._
 Esta función pública se encarga de listar todos los plannnings existentes de una estación determinada.
@@ -2081,11 +2028,11 @@ Esta función pública se encarga de listar todos los plannnings existentes de u
 //Código no disponible
 ```
 
-### FUNCION **leerValorPlanning()** --> WIP
+### FUNCIÓN **leerValorPlanning()** --> WIP
 
-> @params ?
+> <span style='color:green'>@params</span> ?
 
-> @returns ?
+> <span style='color:green'>@returns</span> ?
 
 _Está función aun no está implementada y su código no es definitivo._
 Esta función pública se encarga de leer el valor de un planning dada su referencia.
@@ -2094,11 +2041,11 @@ Esta función pública se encarga de leer el valor de un planning dada su refere
 //Código no disponible
 ```
 
-### FUNCION **modificarPlanning()** --> WIP
+### FUNCIÓN **modificarPlanning()** --> WIP
 
-> @params ?
+> <span style='color:green'>@params</span> ?
 
-> @returns ?
+> <span style='color:green'>@returns</span> ?
 
 _Está función aun no está implementada y su código no es definitivo._
 Esta función pública se encarga de modificar el valor de un planning determinado por una configuración nueva determinada.
@@ -2109,9 +2056,9 @@ Esta función pública se encarga de modificar el valor de un planning determina
 
 ---
 
-## **3. MODELOS**
+# **3. MODELOS**
 
-Los modelos son clases de PHP situadas bajo el directorio _App/Models_ sobre las cuales se apoyan tanto el controlador, como los archivos en Ajax para funcionar. Estas incluyen funciones especiales y conforman los objetos con los que se trabaja en Aquando.
+Los modelos son clases de <span style='color:purple'><b>PHP</b></span> situadas bajo el directorio _App/Models_ sobre las cuales se apoyan tanto el controlador, como los archivos en Ajax para funcionar. Estas incluyen funciones especiales y conforman los objetos con los que se trabaja en <span style='color:darkblue;'><b>Aquando</b></span>.
 Son tres:
 
 - Contras.php: la clase que trabaja las contraseñas y cifrados.
@@ -2135,11 +2082,11 @@ La clase comienza instanciando las constantes y variables en las que se apoyará
 
 El constructor también crea un objeto _Database_ y pide un id de usuario sobre el cual empezar a trabajar.
 
-### FUNCION **save()**
+### FUNCIÓN **save()**
 
-> @params Void
+> <span style='color:green'>@params</span> Void
 
-> @returns Void
+> <span style='color:green'>@returns</span> Void
 
 Fucnion pública que se encarga de guardar datos de usuario apoyandose en otras funciones de la clase.
 
@@ -2150,11 +2097,11 @@ public function save()
     }
 ```
 
-### FUNCION **loginUsuario()**
+### FUNCIÓN **loginUsuario()**
 
-> @params String password
+> <span style='color:green'>@params</span> <b>String</b> password
 
-> @returns Bool
+> <span style='color:green'>@returns</span> <b>Bool</b>
 
 Función pública que se usa en el controlador en la parte de log-in. Compara el hash del usuario definido en las constantes con una contraseña dada en los parametros cifrandola según debería.
 
@@ -2167,19 +2114,17 @@ Función pública que se usa en el controlador en la parte de log-in. Compara el
                 $this->setPassword($password);
                 $this->save();
             }
-            //volver a controlador-->exito
             return true;
         }
-        //volver a controlador-->error
         return false;
     }
 ```
 
-### FUNCION **setPassword()**
+### FUNCIÓN **setPassword()**
 
-> @params String password
+> <span style='color:green'>@params</span> <b>String</b> password
 
-> @returns Void
+> <span style='color:green'>@returns</span> Void
 
 Función pública que cifra la contraseña en uData según los parámetros preestablecidos.
 
@@ -2190,11 +2135,11 @@ public function setPassword($password)
     }
 ```
 
-### FUNCION **hashear()**
+### FUNCIÓN **hashear()**
 
-> @params String pwd
+> <span style='color:green'>@params</span> <b>String</b> pwd
 
-> @returns String
+> <span style='color:green'>@returns</span> <b>String</b>
 
 Función pública que se usa como debug. Devuelve el hash de cualquier texto.
 
@@ -2205,18 +2150,18 @@ public function hashear($pwd)
     }
 ```
 
-### FUNCION **getHash()**
+### FUNCIÓN **getHash()**
 
-> @params Void
+> <span style='color:green'>@params</span> Void
 
-> @returns String
+> <span style='color:green'>@returns</span> <b>String</b>
 
 Función getter estándar de la propiedad _hash_ de la clase.
 
 ## **3.2 CLASE Usuario.php**
 
 Esta es la clase que define el objeto usuario usado en el controlador y en los archivos Ajax.
-Contiene las distintas acciones que puede hacer un usuario en Aquando, aunque no todas.
+Contiene las distintas acciones que puede hacer un usuario en <span style='color:darkblue;'><b>Aquando</b></span>, aunque no todas.
 
 > depende de Database.php
 
@@ -2235,14 +2180,1950 @@ En su constructor se solicitan por lo menos el nombre y la contrasena para insta
 
 ## **3.3 CLASE Validador.php**
 
-Resumen
+Esta clase se usa cuando hay imputs que tenga que introducir el usuario (generalmente los de texto) y se encarga de que no contengan contenidos perjudiciales para el funcionamiento de la aplicación.
 
-> aclaraciones
+> De momento funciona solamente si la llama el controlador pero el objetivo es que funciones también con las de <span style='color:red'><b>AJAX</b></span>.
 
---> Primeros pasos, constantes y propiedades
+> El código de esta clase no es definitivo y está sujeto a cambios.
 
---> Constructor
+> Todas las funciones son públicas
 
---> funciones
+Esta clase instancia varios diccionarios con elementos que no pueden introducirse en los imputs.
+Está el diccionario de texto, el diccionario de números, el de carácteres especiales y otro de carácteres especiales menos estricto.
+
+> En el constructor se incluye la función **str_tiene()** (viene a ser un **str_contains()** pero que como algunas clases usan esta función generaba problemas y tuve que cambiarle el nombre). No requiere de parámetros para ser instanciada.
+
+### FUNCIÓN **limpiar()**
+
+> <span style='color:green'>@params</span> <b>String</b> elem
+
+> <span style='color:green'>@returns</span> <b>String</b>
+
+Esta función elimina los carácteres las habituales.
+
+```php
+public function limpiar($elem)
+    {
+        $elem =  str_replace(' ', '-', $elem);
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $elem);
+    }
+```
+
+### FUNCIÓN **valTextoGen()**
+
+> <span style='color:green'>@params</span> <b>String</b> elem
+
+> <span style='color:green'>@returns</span> <b>Bool</b>
+
+Comprueba que el input es un texto genérico válido (inluyendo números).
+
+```php
+    public function valTextoGen($texto)
+    {
+        $texto = "" . $texto . "";
+        $dic = $this->diccionarioEspecial;
+        for ($i = 0; $i < sizeof($dic); $i++) {
+            if (str_tiene($texto, $dic[$i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+```
+
+### FUNCIÓN **valTextoLimpio()**
+
+> <span style='color:green'>@params</span> <b>String</b> texto
+
+> <span style='color:green'>@returns</span> <b>Bool</b>
+
+Valida que el input es texto estrictamente.
+
+```php
+    public function valTextoLimpio($texto)
+    {
+        $texto = "" . $texto . "";
+        $dic = array_merge($this->diccionarioEspecial, $this->diccionarioNum);
+        for ($i = 0; $i < sizeof($dic); $i++) {
+            if (str_tiene($texto, $dic[$i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+```
+
+### FUNCIÓN **valNum()**
+
+> <span style='color:green'>@params</span> <b>String</b> num
+
+> <span style='color:green'>@returns</span> <b>Bool</b>
+
+Comprueba que el input se trata de un número válido
+
+```php
+public function valconfig($config)
+    {
+        $config = "" . $config . "";
+        $dicExcep = array("5", "6", "7", "8", "9");
+        $dic = array_merge($dicExcep, $this->diccionarioTexto, $this->diccionarioEspecial);
+        for ($i = 0; $i < sizeof($dic); $i++) {
+            if (str_tiene($config, $dic[$i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+```
+
+### FUNCIÓN **valFecha()**
+
+> <span style='color:green'>@params</span> <b>String</b> fecha
+
+> <span style='color:green'>@returns</span> <b>Bool</b>
+
+Comprueba que el input es una fecha válida.
+No se fija en el formato.
+
+```php
+public function valFecha($fecha)
+    {
+        $fecha = "" . $fecha . " ";
+        $dic = array_merge($this->diccionarioTexto, $this->diccionarioEspecialMin);
+        for ($i = 0; $i < sizeof($dic); $i++) {
+            if (str_tiene($fecha, $dic[$i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+```
 
 ---
+
+# **4. Vistas / Secciones**
+
+Las vistas son archivos .php que contienen el código html de las secciones. Responden a la información de contexto enviada del controlador. También suelen incorporar una paqueña porción del <span style='color:gold'><b>JS</b></span> que las acompaña.
+
+### 4.1 VISTA inicio.php
+
+Esta sección es la principal de la aplicación. Inluye todas las dependencias de código comunes del resto de secciones.
+
+Contiene el display principal incluyendo los menús de navegación, tips de alarma y banners. Es la que se muestra al iniciar la aplicación y también es la sección que se muestra cuando un usuario inicia sesión lo que significa qie inicio.php es el **display y sección desconectado.**
+
+> En ella aparecen el resto de secciones y la sección de alarmas sur.
+
+> Tiene varios archivos <span style='color:gold'><b>JS</b></span> dedicados: ayuda.js, desconectado.js, mlat.js, reloj.js y una vez iniciada sesión, sur.js
+
+> Tiene algunos archivos <span style='color:red'><b>AJAX</b></span> dedicados: A_reloj.php, A_Sur.php
+
+### 4.2 VISTA principal.php
+
+Esta vista nace de inicio.php y crea la sección principal una vez se inicia sesión. Tiene dependencias propias únicas y convierte una gran cantidad de información del controlador a <span style='color:gold'><b>JS</b></span>.
+
+### 4.3 VISTA inicioSesion.php
+
+Esta sección nace de inicio.php es la que tiene el formulario de ingreso de sesión.
+
+### 4.4 VISTA estacion.php
+
+Esta sección nace de inicio.php y recibe información de contexto del controlador para mostrar la vista de una estación concreta.
+Esta vista tiene dependencias propias.
+También declara parte de la información del controlador en Js para poder trabajar con ella.
+
+> Tiene un archivo js dedicado: estaciones.js
+
+> Tiene varios archivos <span style='color:red'><b>AJAX</b></span> dedicados: A_Estacion.php, A_Ajustes.php
+
+### 4.5 VISTA graficas.php
+
+Esta vista nace de inicio.php y compone la sección de vista rápida de las gráficas.
+Esta vista tiene dependencias propias.
+Esta vista también convierte información del controlador a <span style='color:gold'><b>JS</b></span> en el codigo que incluye.
+
+> Tiene un archivo js dedicado: graficas.js
+
+> Tiene un archivo <span style='color:red'><b>AJAX</b></span> dedicado: A_Graficas.php
+
+### 4.6 VISTA graficasCustom.php
+
+Esta vista nace de incio.php y compone la sección de vista personalizada dentro de las gráficas.
+Esta vista tiene dependencias propias.
+Esta vista también convierte información del controlador a <span style='color:gold'><b>JS</b></span> en el codigo que incluye.
+
+> Tiene un archivo js dedicado: graficasCustom.js
+
+> Tiene un archivo <span style='color:red'><b>AJAX</b></span> dedicado: A_GraficasCustom.php
+
+### 4.7 VISTA alarmas.php
+
+Esta vista nace de inicio.php y crea la sección del explorador de alarmas.
+No tiene dependencias especiales.
+Requiere de convertir información del controlador a <span style='color:gold'><b>JS</b></span> y tiene su archivo dedicado.
+
+> Tiene un archivo js dedicado: alarmas.js
+
+> Tiene un archivo <span style='color:red'><b>AJAX</b></span> dedicado: A_Alarmas.php
+
+### 4.8 VISTA informes.php
+
+Esta vista nace de inicio.php y crea la sección de generación de informes.
+No tiene dependencias especiales.
+Convierte una escasa cantidad de información del controlador a <span style='color:gold'><b>JS</b></span> pero si que tiene archivos dedicados.
+
+> Tiene un archivo js dedicado: informes.js
+
+> Tiene un archivo <span style='color:red'><b>AJAX</b></span> dedicado: A_Informes.php
+
+### 4.8 VISTA comunicaciones.php
+
+Esta vista nace de inicio.php y crea la sección de comunicaciones.
+No tiene apenas dependencias pero si que convierte información del controlador a <span style='color:gold'><b>JS</b></span>.
+
+> Tiene un archivo js dedicado: comunicaciones.js
+
+> Tiene un archivo <span style='color:red'><b>AJAX</b></span> dedicado: A_Conexiones.php
+
+---
+
+# **5. LADO CLIENTE**
+
+Con lado cliente incluyo todos los archivos en JavaScript y <span style='color:red'><b>AJAX</b></span>. Básicamente todo lo que se ejecuta desde fuera del servidor o dependiendo de las acciones del cliente.
+
+## 5.1 JavaScript
+
+Existen multitud de archivos <span style='color:gold'><b>JS</b></span> que se encargan de controlar todos los eventos nacidos de la interfaz y la interacción del cliente pero también tienen funciones que comunican con <span style='color:red'><b>AJAX</b></span> para llevar a cabo operaciones con el servidor en tiempo real.
+
+> En este documento solo se resaltan estas funciones de peticiones por <span style='color:red'><b>AJAX</b></span> al ser las verdaderamente importantes.
+
+### 5.1.1 **alarmas.js**
+
+#### 5.1.1.1 FUNCIÓN **actualizar()**
+
+> <span style='color:green'>@params</span> <b>String</b> reorden
+
+> <span style='color:green'>@returns</span> <b>HTML</b>
+
+Esta función hace una llamada a Servidor (A_Alarmas.php) a través de Ajax para actualizar la información en pantalla con la misma configuración que estuviese aplicada por el usuario en el momento de que se ejecute.
+
+Petición:
+
+```js
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Alarmas.php",
+        data: {
+          funcion: "actualizar",
+          nombre: nombre,
+          emp: emp,
+          sentido: sentido,
+          orden: orden,
+          fechaInicio: fechaInicio,
+          fechaFin: fechaFin,
+        },
+        success: function (alarmas) {
+          document.getElementById("tablaAlarmas").inner<b>HTML</b> = alarmas;
+        },
+        error: function (e) {
+          console.log("error");
+
+        },
+      });
+    });
+```
+
+#### 5.1.1.2 FUNCIÓN **filtrarPorEstacion()**
+
+> <span style='color:green'>@params</span> Void
+
+> <span style='color:green'>@returns</span> <b>HTML</b>
+
+Esta función hace una llamada a Servidor (A_Alarmas.php) a través de Ajax para extraer sólo las alarmas de una estación en particular.
+
+Petición:
+
+```js
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Alarmas.php",
+        data: {
+          funcion: "estacion",
+          sentido: sentido,
+          orden: orden,
+          estacion: id_estacion,
+          fechaInicio: fechaInicio,
+          fechaFin: fechaFin,
+        },
+        success: function (alarmas) {
+          document.getElementById("tablaAlarmas").inner<b>HTML</b> = alarmas;
+        },
+        error: function (e) {
+          console.log("error");
+        },
+      });
+    });
+```
+
+#### 5.1.1.3 FUNCIÓN **reconocer()**
+
+> <span style='color:green'>@params</span> <b>INT</b> id_alarma
+
+> <span style='color:green'>@returns</span> Void
+
+Esta función hace una llamada a Servidor (A_Alarmas.php) a través de Ajax para reconocerla a la fecha actual con el usuario que esté logueado en ese momento.
+
+Petición:
+
+```js
+$(document).ready(function () {
+  $.ajax({
+    type: "POST",
+    url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Alarmas.php",
+    data: {
+      funcion: "reconocer",
+      alarma: id_alarma,
+      nombre: sessionStorage.getItem("nousu"),
+    },
+    success: function () {
+      actualizar(null);
+    },
+    error: function () {
+      console.log("error en la update");
+    },
+  });
+});
+```
+
+#### 5.1.1.4 FUNCIÓN **detallesAlarma()**
+
+> <span style='color:green'>@params</span> <b>INT</b> id
+
+> <span style='color:green'>@returns</span> <span style='color:gold'><b>JS</b></span>ON
+
+Esta función hace una llamada a Servidor (A_Alarmas.php) a través de Ajax para extraer los datos historicos de 12h en adelante y atrás de una señal perteneciente a una alarma.
+
+Petición:
+
+```js
+$(document).ready(function () {
+  $.ajax({
+    type: "POST",
+    url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Alarmas.php",
+    data: { funcion: "detalles", id: id },
+    success: function (det) {
+      var nombre_estacion = det[0]["nombre_estacion"];
+      var nombre_tag = det[0]["nombre_tag"];
+      var fechas = [];
+      var vals = [];
+      for (var i = 0; i < det.length; i++) {
+        for (var cosa in det[i]) {
+          if (cosa == "fecha") {
+            fechas.push(det[i][cosa]);
+          } else {
+            if (
+              det[i][cosa] != null &&
+              cosa != "nombre_estacion" &&
+              cosa != "nombre_tag"
+            ) {
+              vals.push(det[i][cosa]);
+            }
+          }
+        }
+      }
+      var det_p = [fechas, vals, nombre_estacion, nombre_tag];
+      popDetalles(det_p);
+    },
+    error: function (e) {
+      console.log("error en los detalles");
+    },
+    dataType: "json",
+  });
+});
+```
+
+## 5.1.2 **comunicaciones.js**
+
+#### 5.1.2.1 FUNCIÓN **actualizarConexiones()**
+
+> <span style='color:green'>@params</span> Void
+
+> <span style='color:green'>@returns</span> <b>HTML</b>
+
+Esta función hace una petición a servidor por Ajax a través de A_Conexiones.php para actualizar la información en pantalla de la sección Comunicaciones
+
+```js
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Conexiones.php",
+      data: {
+        nombre: nombre,
+        pwd: pwd,
+        opcion: "conex",
+      },
+      success: function (conex) {
+        document.getElementById("tablaConex").inner<b>HTML</b> = conex;
+      },
+      error: function () {
+        console.log("error");
+      },
+    });
+```
+
+#### 5.1.2.2 FUNCIÓN **nombrarEstacion()**
+
+> <span style='color:green'>@params</span> <b>INT</b> estacion
+
+> <span style='color:green'>@returns</span> <b>HTML</b>
+
+Esta función hace una petición a servidor por Ajax a través de A_Conexiones.php para extraer el nombre de una estación dado solo su id.
+
+```js
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Conexiones.php",
+      data: {
+        estacion: estacion,
+        opcion: "nom",
+      },
+      success: function (est) {
+        document.getElementById("calidadSenales").inner<b>HTML</b> =
+          '<h4 id="calidadSenales"> Calidad de señal: ' + est + "</h4>";
+      },
+      error: function () {
+        console.log("error");
+      },
+    });
+  });
+```
+
+## 5.1.3 **estaciones.js**
+
+#### 5.1.3.1 FUNCIÓN **actualizar()**
+
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion
+
+> <span style='color:green'>@returns</span> <span style='color:gold'><b>JS</b></span>ON
+
+Esta función hace una petición a servidor por Ajax a través de A_Estacion.php y extrae toda la información necesaria para actualizar los widgets de la sección.
+
+```js
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Estacion.php",
+        data: {
+          opcion: "actualizar",
+          estacion: id_estacion,
+          tipo: "todos",
+        },
+        success: function (datos) {
+          filtrarDatos(datos);
+          sessionStorage.setItem("param_id", id_estacion);
+          sessionStorage.setItem("data", <span style='color:gold'><b>JS</b></span>ON.stringify(datos));
+        },
+        error: function () {
+          console.log("error");
+        },
+        dataType: "json",
+      });
+    });
+```
+
+#### 5.1.3.2 FUNCIÓN **trendTagsV2()**
+
+> <span style='color:green'>@params</span> Void
+
+> <span style='color:green'>@returns</span> <span style='color:gold'><b>JS</b></span>ON
+
+Esta función hace una petición a servidor por Ajax a través de A_Estacion.php y extrae los trends de las señales de la estación.
+
+```js
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        data: {
+          opcion: "t_trend",
+          arrTags: arrTags,
+          tipo: "todos",
+        },
+        url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Estacion.php",
+        success: function (trends) {
+          var arrTrends = [];
+          for (var a in trends) {
+            arrTrends[a] = { fecha: [], max: [] };
+            for (var b in trends[a]) {
+              arrTrends[a]["fecha"].push(trends[a][b]["fecha"]);
+              if (trends[a][b]["acu"] != null) {
+                arrTrends[a]["max"].push(trends[a][b]["acu"]);
+              }
+              if (trends[a][b]["float"] != null) {
+                arrTrends[a]["max"].push(trends[a][b]["float"]);
+              }
+              if (trends[a][b]["int"] != null) {
+                arrTrends[a]["max"].push(trends[a][b]["int"]);
+              }
+            }
+          }
+          montarWidgetsAnalogicos();
+          todoTrends = arrTrends;
+          montarWidgetsDigi();
+          sessionStorage.setItem("trend_arrTags", <span style='color:gold'><b>JS</b></span>ON.stringify(arrTags));
+          sessionStorage.setItem("trend_todoTrends", <span style='color:gold'><b>JS</b></span>ON.stringify(arrTrends));
+
+        },
+        error: function () {
+          console.log("error");
+        },
+        dataType: "json",
+      });
+```
+
+#### 5.1.3.3 FUNCIÓN **fotoEstacion()**
+
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion
+
+> <span style='color:green'>@returns</span> <b>HTML</b>
+
+Esta función hace una petición a servidor por Ajax a través de A_Estacion.php y extrae la foto en Base64 perteneciente a una estación
+
+```js
+$(document).ready(function () {
+  $.ajax({
+    type: "POST",
+    data: {
+      opcion: "foto",
+      estacion: id_estacion,
+    },
+    url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Estacion.php?",
+    success: function (foto) {
+      var ima;
+      if (foto != "") {
+        ima =
+          'linear-gradient(to left, rgba(255,255,255,0.99),rgba(255,255,255,0)),url("data:image/jpg;base64,' +
+          foto +
+          '")';
+        document.getElementById("seccionFoto").style.backgroundImage = ima;
+        document.getElementById("seccionFoto").style.backgroundSize = "cover";
+      }
+    },
+    error: function () {
+      console.log("error");
+    },
+  });
+});
+```
+
+> aun faltaría añadir las peticiones a A_Ajustes.php pero el código es provisional y está sujeto a cambios.
+
+## 5.1.4 **graficas.js**
+
+#### 5.1.4.1 FUNCIÓN **metaDatostag()**
+
+> <span style='color:green'>@params</span> <b>INT</b> id_tag, <b>INT</b> id_estacion
+
+> <span style='color:green'>@returns</span> <span style='color:gold'><b>JS</b></span>ON
+
+Esta función hace una petición a servidor por Ajax a través de A_Graficas.php y obtiene los calculados de una señal en función de una serie de parámetros y dados el id de la señal y la estación.
+
+```js
+$.ajax({
+  type: "POST",
+  url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Graficas.php",
+  data: {
+    opcion: "meta",
+    tag: id_tag,
+    estacion: id_estacion,
+  },
+  success: function (meta) {
+    datosM["max"] = meta["max"];
+    datosM["min"] = meta["min"];
+    datosM["avg"] = meta["avg"];
+    $.ajax({
+      type: "POST",
+      url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Graficas.php",
+      data: {
+        estacion: id_estacion,
+        tag: id_tag,
+        opcion: "render",
+      },
+      success: function (histo) {
+        datosR = histo;
+        renderGrafico(datosR);
+      },
+      error: function (e) {
+        console.log(e);
+      },
+      dataType: "json",
+    });
+  },
+  error: function (e) {
+    console.log(e);
+  },
+  dataType: "json",
+});
+```
+
+#### 5.1.4.2 FUNCIÓN **tagsEstacion()**
+
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion
+
+> <span style='color:green'>@returns</span> <b>HTML</b>
+
+Esta función hace una petición a servidor por Ajax a través de A_Graficas.php para extraer una lista de los tags disponibles según una estación dado su id.
+
+```js
+$(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Graficas.php",
+      data: { estacion: id_estacion, opcion: "tags" },
+      success: function (tags) {
+        document.getElementById("opcionesTag").inner<b>HTML</b> = "";
+        document.getElementById("compararSel").inner<b>HTML</b> =
+          "<option value='nada' selected>Nada</option>";
+        var e = 0;
+        sessionStorage.setItem("tagsAct", <span style='color:gold'><b>JS</b></span>ON.stringify(tags));
+        for (var tag in tags) {
+          if (e == 0) {
+            document.getElementById("opcionesTag").inner<b>HTML</b> +=
+              "<option value=" +
+              tags[tag]["id_tag"] +
+              " selected>" +
+              tags[tag]["nombre_tag"] +
+              "</option>";
+          } else {
+            document.getElementById("opcionesTag").inner<b>HTML</b> +=
+              "<option value=" +
+              tags[tag]["id_tag"] +
+              ">" +
+              tags[tag]["nombre_tag"] +
+              "</option>";
+          }
+          document.getElementById("compararSel").inner<b>HTML</b> +=
+            "<option value=" +
+            tags[tag]["id_tag"] +
+            ">" +
+            tags[tag]["nombre_tag"] +
+            "</option>";
+          e++;
+        }
+        aplicarOpciones();
+      },
+      error: function () {
+        console.log("error");
+      },
+      dataType: "json",
+    });
+  });
+```
+
+## 5.1.5 **graficasCustom.js**
+
+#### 5.1.5.1 FUNCIÓN **tagsEstacionCustom()**
+
+> <span style='color:green'>@params</span> <b>INT</b> id_estacion
+
+> <span style='color:green'>@returns</span> <b>HTML</b>
+
+Esta función hace una petición a servidor por Ajax a través de A_GraficasCustom.php para extraer una lista de los tags disponibles según una estación dado su id.
+
+```js
+$.ajax({
+      type: "POST",
+      url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Graficas.php",
+      data: { estacion: id_estacion, opcion: "tags" },
+      success: function (tags) {
+        document.getElementById("opcionesTag").inner<b>HTML</b> = "";
+        var e = 0;
+        sessionStorage.setItem("tagsAct", <span style='color:gold'><b>JS</b></span>ON.stringify(tags));
+        for (var tag in tags) {
+          if (e == 0) {
+
+            document.getElementById("opcionesTag").inner<b>HTML</b> +=
+              '<li><input type="checkbox" name="checkTag" style="visibility: hidden;" value="' +
+              tags[tag]["id_tag"] +
+              '" id = ' +
+              tags[tag]["id_tag"] +
+              '><label for = "' +
+              tags[tag]["id_tag"] +
+              '" style="box-sizing: none"> ' +
+              tags[tag]["nombre_tag"] +
+              ' </label> <label> <i class= "fas fa-palette"> </i><input type="color" class="form-control-color" id="color' +
+              tags[tag]["id_tag"] +
+              '" style="visibility:hidden" title="color" name="colorDato" list="coloresTagGraf"></label></li>';
+          } else {
+            document.getElementById("opcionesTag").inner<b>HTML</b> +=
+              '<li> <input type = "checkbox" name="checkTag" style = "visibility: hidden;" value="' +
+              tags[tag]["id_tag"] +
+              '" id = ' +
+              tags[tag]["id_tag"] +
+              ' ><label for = "' +
+              tags[tag]["id_tag"] +
+              '" style="box-sizing: none"> ' +
+              tags[tag]["nombre_tag"] +
+              ' </label> <label> <i class= "fas fa-palette"> </i><input type="color" class="form-control-color" id="color' +
+              tags[tag]["id_tag"] +
+              '" style="visibility:hidden" title="color" name="colorDato" list="coloresTagGraf"></label ></li>';
+          }
+          e++;
+        }
+      },
+      error: function () {
+        console.log("error");
+      },
+      dataType: "json",
+    });
+  });
+```
+
+#### 5.1.5.2 FUNCIÓN **infoTags()**
+
+> <span style='color:green'>@params</span> <b>INT</b> estacion, <b>Array</b> ajustesTag, <b>INT</b> tag, <b>Array</b> metas, <b>TS</b> fechaIni, <b>TS</b> fechaFin
+
+> <span style='color:green'>@returns</span> <span style='color:gold'><b>JS</b></span>ON
+
+Esta función hace una petición a servidor por Ajax a través de A_GraficasCustom.php para conseguir los calculados y metadados de un tag.
+
+```js
+$.ajax({
+  type: "POST",
+  url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_GraficasCustom.php",
+  data: {
+    estacion: estacion,
+    id_tag: tag,
+    fechaIni: fechaIni,
+    fechaFin: fechaFin,
+    meta: metas,
+    opcion: "tag",
+  },
+  success: function (datosTag) {
+    prepararTag(datosTag, tag);
+    if (ajustesTag.at(-1) == tag) {
+      setTimeout(renderGrafico, nTags * 300);
+    }
+  },
+  error: function (e) {
+    console.log("error");
+  },
+  dataType: "json",
+});
+```
+
+#### 5.1.5.3 FUNCIÓN **leerPresets()**
+
+> <span style='color:green'>@params</span> <b>String</b> para
+
+> <span style='color:green'>@returns</span> Mixed <span style='color:gold'><b>JS</b></span>ON | <b>HTML</b>
+
+Esta función hace una petición a servidor por Ajax a través de A_GraficasCustom.php para leer los presets guardados por un usuario.
+
+leer presets:
+
+```js
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_GraficasCustom.php",
+        data: {
+          opcion: "leerPresets",
+          para: para,
+          arrdatos: arrdatos,
+        },
+        success: function (presets) {
+          document.getElementById("selPresets").inner<b>HTML</b> = presets;
+        },
+        error: function (e) {
+          console.log("error");
+        },
+      });
+    });
+```
+
+cargar presets:
+
+```js
+$(document).ready(function () {
+  $.ajax({
+    type: "POST",
+    url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_GraficasCustom.php",
+    data: {
+      opcion: "leerPresets",
+      para: para,
+      arrdatos: arrdatos,
+    },
+    success: function (presets) {
+      presets_config = presets;
+      for (var index in presets_config) {
+        if (presets_config[index]["configuracion"].includes(n_preset)) {
+          var config = presets_config[index]["configuracion"];
+          config = config.substring(config.indexOf("@") + 1);
+          var id_est = config.substring(0, config.indexOf("?"));
+          var config_tags = config.substring(config.indexOf("/") + 1);
+          var tagsycolores = config_tags.split("/");
+          var config_tags_colores = new (<b>Array</b>)();
+          for (var index in tagsycolores) {
+            var info = tagsycolores[index].split(":");
+            config_tags_colores[info[0]] = info[1];
+            document.getElementById(info[0]).checked = "true";
+            document.getElementById("color" + info[0]).value = info[1];
+            if (
+              document.getElementById(info[0]).parentNode.style
+                .backgroundColor == "darkgray"
+            ) {
+              document.getElementById(
+                info[0]
+              ).parentNode.style.backgroundColor = "lightgray";
+            } else {
+              document.getElementById(
+                info[0]
+              ).parentNode.style.backgroundColor = "darkgray";
+            }
+            document.getElementById("color" + info[0]).parentNode.style.color =
+              info[1];
+          }
+          aplicarCustom();
+          ajustesPresets(null);
+        }
+      }
+    },
+    error: function (e) {
+      console.log("error");
+    },
+    dataType: "json",
+  });
+});
+```
+
+#### 5.1.5.4 FUNCIÓN **borrarPreset()**
+
+> <span style='color:green'>@params</span> Void
+
+> returns <b>Bool</b>
+
+Esta función hace una petición a servidor por Ajax a través de A_GraficasCustom.php para borrar el preset seleccionado en ese momento.
+
+```js
+$(document).ready(function () {
+  $.ajax({
+    type: "POST",
+    url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_GraficasCustom.php",
+    data: {
+      opcion: "borrar",
+      preset: n_preset,
+      arrdatos: arrdatos,
+    },
+    success: function () {
+      leerPresets("mostrar");
+      setTimeout(ajustesPresets(null), 1000);
+    },
+    error: function (e) {
+      console.log("error");
+    },
+    dataType: "json",
+  });
+});
+```
+
+#### 5.1.5.5 FUNCIÓN **guardarPreset()**
+
+> <span style='color:green'>@params</span> Void
+
+> @return Void
+
+Esta función hace una petición a servidor por Ajax a través de A_GraficasCustom.php para guardar un preset según los ajustes seleccionados en ese momento para el usuario que esté logueado en ese momento.
+
+```js
+$(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_GraficasCustom.php",
+        data: {
+          opcion: "guardar",
+          arrDatosPreset: arrDatosPreset,
+        },
+        success: function (info) {
+          document.getElementById("ajustesPresets").inner<b>HTML</b> +=
+            "preset guardado";
+          leerPresets("mostrar");
+          setTimeout(ajustesPresets(null), 1000);
+        },
+        error: function () {
+          console.log("error en el guardado");
+        },
+        dataType: "json",
+      });
+    });
+```
+
+## 5.1.6 **informes.js**
+
+#### 5.1.6.1 FUNCIÓN **obtenerInforme()**
+
+> <span style='color:green'>@params</span> Void
+
+> <span style='color:green'>@returns</span> <b>HTML</b>
+
+Esta función hace una peticion a servidor por Ajax a través de A_Informes.php para obtener los datos necesarios para crear un informe a traves de Koolreport según las opciones seleccionadas en ese momento por el usuario.
+
+```js
+$.ajax({
+      type: "POST",
+      data: {
+        opcion: opcion,
+        fechaIni: fInicio,
+        fechaFin: fFin,
+        arrEstaciones: arrEstaciones,
+        arrNombres: arrNombres,
+      },
+
+      url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Informes.php",
+      success: function (informe) {
+        reset();
+        var ahora = new Date();
+        var fechahora =
+          "" +
+          ahora.getDate() +
+          "-" +
+          (ahora.getMonth() + 1) +
+          "-" +
+          ahora.getFullYear() +
+          " a las " +
+          ahora.getHours() +
+          ":" +
+          ahora.getMinutes();
+        var cabecera =
+          "<h1 style='color:rgb(1, 168, 184);'>Informe sobre " +
+          tipoInf +
+          "</h1><hr><p style='color:rgb(65, 65, 65);'>Desde: " +
+          fInicio +
+          " hasta: " +
+          fFin +
+          " </p><p style='color:rgb(65, 65, 65);'>Por " +
+          nomusuario +
+          " el " +
+          fechahora +
+          "</p><br>";
+        var pie =
+          '<p style="text-align:center">powered by <img src="../../logo.png" style="height: 3.5em; margin-left: 1%;"></p>';
+        document.getElementById("espacioInforme").inner<b>HTML</b> += cabecera;
+        document.getElementById("espacioInforme").inner<b>HTML</b> += informe;
+        document.getElementById("espacioInforme").inner<b>HTML</b> += pie;
+      },
+      error: function () {
+        console.log("error en los informes");
+      },
+    });
+  });
+```
+
+## 5.1.7 **principal.js**
+
+#### 5.1.7.1 FUNCIÓN **actualizar()**
+
+> <span style='color:green'>@params</span> Void
+
+> <span style='color:green'>@returns</span> <span style='color:gold'><b>JS</b></span>ON
+
+Esta función hace una petición a servidor por Ajax a través de A_Principal.php para actualizar la información de los widgets de la sección principal.
+
+```js
+$(document).ready(function () {
+  $.ajax({
+    type: "POST",
+    url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Principal.php",
+    data: {
+      opcion: "refresh",
+      arrdatos: arrdatos,
+    },
+    success: function (feedDigi) {
+      feedDigital = feedDigi;
+      feedPrincipalCustom();
+      renderFeedDigi();
+    },
+    error: function () {
+      console.log("refresh error");
+      feedPrincipalCustom();
+    },
+    dataType: "json",
+  });
+});
+```
+
+#### 5.1.7.2 FUNCIÓN **cargarAjustes()**
+
+> <span style='color:green'>@params</span> Void
+
+> <span style='color:green'>@returns</span> <b>HTML</b>
+
+Esta función hace una petición a servidor por Ajax a través de A_Principal.php para obtener la lista de tags compatibles con la configuración de la sección (los widgets personalizados por el usuario) principal.
+
+```js
+$(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Principal.php",
+        data: {
+          opcion: "ajustes",
+          arrEstaciones: arrEstaciones,
+        },
+        success: function (tagsAnalog) {
+          listaTags = tagsAnalog;
+          sessionStorage.setItem("listaTags", <span style='color:gold'><b>JS</b></span>ON.stringify(listaTags));
+          for (var deposito in tagsAnalog) {
+            sel.inner<b>HTML</b> +=
+              "<optgroup label = '" +
+              tagsAnalog[deposito][0]["nombre_estacion"] +
+              "'>";
+            for (var tag in tagsAnalog[deposito]) {
+              var n_tag = tagsAnalog[deposito][tag]["nombre_tag"];
+              var id_tag = tagsAnalog[deposito][tag]["id_tag"];
+              sel.inner<b>HTML</b> +=
+                "<option value=" + id_tag + ">" + n_tag + "</option>";
+            }
+            sel.inner<b>HTML</b> += "</optgroup>";
+          }
+          sessionStorage.setItem("mapas_arrEstaciones", arrEstaciones);
+          sessionStorage.setItem("mapas_listaTags", <span style='color:gold'><b>JS</b></span>ON.stringify(listaTags));
+          sessionStorage.setItem("mapas_sel", sel.inner<b>HTML</b>);
+        },
+        error: function () {
+          console.log("error de ajustes");
+        },
+        dataType: "json",
+      });
+    });
+  }
+```
+
+#### 5.1.7.3 FUNCIÓN **confirmarAjusteswidget()**
+
+> <span style='color:green'>@params</span> <b>String</b> wid
+
+> <span style='color:green'>@returns</span> <b>HTML</b>
+
+Esta función hace una petición a servidor por Ajax a través de A_Principal.php para guardar la configuración de un widget en la sección principal una vez configurado por el usuario.
+
+```js
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Principal.php",
+      data: { opcion: "confirmar", wid: widget, tag: tag, usu: usu },
+      success: function () {
+        document.getElementById("seccionAjustes").inner<b>HTML</b> +=
+          "<br><div id='ajustesRespuesta'>widget configurado con éxito</div>";
+        sessionStorage.setItem("feed_usu", null);
+        sessionStorage.setItem("mapas_arrEstaciones", null);
+        feedPrincipalCustom();
+      },
+      error: function () {
+        console.log("error de confirmación");
+      },
+
+    });
+  });
+```
+
+#### 5.1.7.4 FUNCIÓN **feedPrincipalCustom()**
+
+> <span style='color:green'>@params</span> Void
+
+> <span style='color:green'>@returns</span> <span style='color:gold'><b>JS</b></span>ON
+
+Esta función hace una petición a servidor por Ajax a través de A_Principal.php para obtener los datos (analógicos) de los widgets personalizados del usuario.
+
+```js
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Principal.php",
+        data: { opcion: "feed", usu: usu },
+        success: function (feedAna) {
+          sessionStorage.setItem("feed_usu", usu);
+          sessionStorage.setItem("feed_feedAna", <span style='color:gold'><b>JS</b></span>ON.stringify(feedAna));
+          renderPrincipalCustom(feedAna);
+        },
+        error: function (e) {
+          console.log("error feed principal analog");
+
+        },
+        dataType: "json",
+      });
+    });
+```
+
+#### 5.1.7.5 FUNCIÓN **actualizar()** --> obsoleto
+
+> <span style='color:green'>@params</span> Void
+
+> <span style='color:green'>@returns</span> <span style='color:gold'><b>JS</b></span>ON
+
+Esta función hace una petición a servidor por Ajax a través de A_Principal.php para obtener los datos de los widgets digitales del usuario. Esta llamada ya no se realiza dado que la sección de widgets digitales fué eliminada aunque no ha sido eliminada por la posibilidad de reimplementarla en un futuro.
+
+```js
+$(document).ready(function () {
+  $.ajax({
+    type: "POST",
+    url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Principal.php",
+    data: {
+      opcion: "refresh",
+      arrdatos: arrdatos,
+    },
+    success: function (feedDigi) {
+      feedDigital = feedDigi;
+      feedPrincipalCustom();
+      renderFeedDigi();
+    },
+    error: function () {
+      console.log("refresh error");
+      feedPrincipalCustom();
+    },
+    dataType: "json",
+  });
+});
+```
+
+## 5.1.8 **sur.js**
+
+#### 5.1.8.1 FUNCIÓN **actualizarSur()**
+
+> <span style='color:green'>@params</span> <b>String</b> entorno, <b>String</b> nombre, <b>INT</b> estacion
+
+> @return <b>HTML</b>
+
+Esta función hace una petición a servidor por Ajax a través de A_Sur.php para obtener las alarmas del menú sur en algunas secciones. Dependiendo de la sección hace una petición para alarmas generales y en la sección de estación hace una petición distinta para obtener sólo las de la estación seleccionada.
+
+General:
+
+```js
+      $(document).ready(function () {
+        $.ajax({
+          type: "POST",
+          url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Sur.php",
+          data: { caso: "general", nombre: nombre },
+          success: function (alarmas) {
+            document.getElementById("alarmasSur").inner<b>HTML</b> = alarmas;
+          },
+          error: function () {
+            console.log("error");
+          },
+        });
+      });
+```
+
+Particular:
+
+```js
+      $(document).ready(function () {
+        $.ajax({
+          type: "POST",
+          url: "/<span style='color:darkblue;'><b>Aquando</b></span>.com/A_Sur.php",
+          data: { caso: "estacion", estacion: estacion },
+          success: function (alarmas) {
+            document.getElementById("alarmasSur").inner<b>HTML</b> = alarmas;
+          },
+          error: function () {
+            console.log("error");
+          },
+        });
+      });
+```
+
+---
+
+## 5.2 <span style='color:red'><b>AJAX</b></span> (<span style='color:purple'><b>PHP</b></span>)
+
+Los archivos Ajax son mini-controladores dedicados en las secciones, que se encargan de recibir peticiones desde el lado cliente para hacer los procesos que requieran conexiones a bases de datos o tratar con información sensible.
+De esta forma se agrega una capa de seguridad y conseguimos hacer procesos en tiempo real que requieran del servidor sin tener que recargar la página.
+
+Estos archivos Ajax están presentes en casi todas las secciones, como en la sección principal, las vistas de estación, las secciones de gráficas, secciones de alarmas, sección de informes y en menor medida la de comunicaciones.
+
+> Se comunican con el lado cliente a través de peticiones de mótodo POST.
+
+(En órden alfabético)
+
+### 5.2.1 **A_Ajustes()**
+
+> requiere: _DataWit.php_, _Validador.php_
+
+> <span style='color:green'>@params</span>: <b>String</b> opcion
+> Este archivo Ajax está presente en la sección de estaciones.
+> Su uso es gestionar las consignas y plannings de una estación.
+
+Dependiendo del valor de _opcion_ este podrá: listar consignas, leer consignas,modificar consignas, listar plannings (WIP), leer plannings (WIP) y modificar plannings (WIP).
+
+Al tener varias funciones aun en desarrollo, su código está sujeto a cambios y por lo tanto no se muestra en este documento hasta que esté acabado.
+
+```php
+// código no disponible
+```
+
+### 5.2.2 **A_Alarmas.php**
+
+> requiere Database.php, Validador.php
+
+> <span style='color:green'>@params</span> <b>String</b> funcion
+
+Este archivo Ajax aparece sólo en la sección de explorador de alarmas (no en el menu Sur) y se encarga de buscar las alarmas de un cliente en función de una serie de filtros. También es capaz de reconocer las alarmas y en algunos casos también puede extraer detalles de estas. Crea el codigo <b>HTML</b> de la sección.
+
+```php
+<?php
+require_once '../app/Database/Database.php';
+require '../app/Models/Validador.php';
+$db = new Database();
+$vlr = new Validador();
+
+if ($_POST['funcion'] == "actualizar") {
+    $nombre = $_POST['nombre'];
+    $emp = $_POST['emp'];
+    $orden = $_POST['orden'];
+    $sentido = $_POST['sentido'];
+    $fechaIni = $_POST['fechaInicio'];
+    $fechaFin = $_POST['fechaFin'];
+
+    if ($vlr->valFecha($fechaFin)) {
+        $idusu = $db->obtenerIdUsuario($nombre, $emp);
+        $alarmas = $db->obtenerAlarmasUsuario($idusu, $orden, $sentido, $fechaIni, $fechaFin);
+        $alarmasLimpio = array();
+        foreach ($alarmas as $estacion => $alarmas) {
+            if ($alarmas != false) {
+                $alarmasLimpio[$estacion] = $alarmas;
+            }
+        }
+        echo "<tr>
+        <th onclick=reordenar('estacion')>Estacion</th>
+        <th onclick=reordenar('senal')>Indicador </th>
+        <th onclick=reordenar('valor')>Valor de la Indicador</th>
+        <th onclick=reordenar('origenfecha')>Fecha de Origen</th>
+        <th onclick=reordenar('restauracionfecha')>Fecha de Restauracion</th>
+        <th onclick=reordenar('reconusu')>Reconocida por</th>
+        <th onclick=reordenar('reconfecha')>Fecha de reconocimiento</th>
+        </tr>";
+        foreach ($alarmasLimpio as $index => $alarma) {
+            switch ($alarma['estado']) {
+                case 1:
+                    echo "<tr class='activaNo' >";
+                    break;
+                case 2:
+                    echo "<tr class='restNo'>";
+                    break;
+                case 3:
+                    echo "<tr class='activaSi'>";
+                    break;
+                case 4:
+                    echo "<tr class='restSi'>";
+                    break;
+                default:
+                    break;
+            }
+            foreach ($alarma as $dato => $valor) {
+                if ($dato != 'estado' && $dato != 'id_alarmas') {
+                    switch ($dato) {
+                        case 'valor_alarma':
+                            echo "<td>";
+                            echo $valor;
+
+
+                            if (preg_match('~[0-9]+~', $alarma['valor_alarma'])) {
+                                echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma(' . $alarma['id_alarmas'] . ')"></i>';
+                            }
+                            echo "</td>";
+                            break;
+                        case 'ack_por':
+                            if ($valor == null) {
+                                echo "<td>";
+                                echo '<i class="fas fa-eye" onclick="reconocer(' . $alarma['id_alarmas'] . ')"></i>';
+                                echo "</td>";
+                            } else {
+                                echo "<td>";
+                                echo $valor;
+                                echo "</td>";
+                            }
+                            break;
+                        default:
+                            echo "<td>";
+                            echo $valor;
+                            echo "</td>";
+                            break;
+                    }
+                }
+            }
+            echo "</tr>";
+        }
+    }
+    else {
+        echo "<p>fechas no validas</p>";
+    }
+}
+
+if ($_POST['funcion'] == "estacion") {
+    $orden = $_POST['orden'];
+    $sentido = $_POST['sentido'];
+    $fechaIni = $_POST['fechaInicio'];
+    $fechaFin = $_POST['fechaFin'];
+    $id_estacion = $_POST['estacion'];
+    $alarmasEstacion = $db->obtenerAlarmasEstacion($id_estacion, $orden, $sentido, null, null);
+    if ($alarmasEstacion != false) {
+        $alarmasEstacionLimpio = array();
+        foreach ($alarmasEstacion as $alarma => $datos) {
+            if ($alarma != false) {
+                $alarmasEstacionLimpio[$alarma] = $datos;
+            }
+        }
+        echo "<tr>
+            <th onclick=reordenar('estacion')>Estacion</th>
+        <th onclick=reordenar('senal')>Indicador</th>
+        <th onclick=reordenar('valor')>Valor de Indicador</th>
+        <th onclick=reordenar('origenfecha')>Fecha de Origen</th>
+        <th onclick=reordenar('restauracionfecha')>Fecha de Restauracion</th>
+        <th onclick=reordenar('reconusu')>Reconocida por</th>
+        <th onclick=reordenar('reconfecha')>Fecha de reconocimiento</th>
+            </tr>";
+        foreach ($alarmasEstacionLimpio as $alarma) {
+
+            switch ($alarma['estado']) {
+                case 1:
+                    echo "<tr class='activaNo' >";
+
+                    break;
+                case 2:
+                    echo "<tr class='restNo'>";
+
+                    break;
+                case 3:
+                    echo "<tr class='activaSi'>";
+
+                    break;
+                case 4:
+                    echo "<tr class='restSi'>";
+                    break;
+
+                default:
+                    break;
+            }
+            foreach ($alarma as $dato => $valor) {
+                if ($dato != 'estado' && $dato != 'id_alarmas') {
+                    switch ($dato) {
+                        case 'valor_alarma':
+                            echo "<td>";
+                            echo $valor;
+
+                            if (preg_match('~[0-9]+~', $alarma['valor_alarma'])) {
+                                echo '<i class="fas fa-chart-bar" style="opacity:100%;color:rgb(1,168,184)" onclick="detallesAlarma(' . $alarma['id_alarmas'] . ')"></i>';
+                            }
+                            echo "</td>";
+                            break;
+                        case 'ack_por':
+                            if ($valor == null) {
+                                echo "<td>";
+                                echo '<i class="fas fa-eye" onclick="reconocer(' . $alarma['id_alarmas'] . ')"></i>';
+                                echo "</td>";
+                            } else {
+                                echo "<td>";
+                                echo $valor;
+                                echo "</td>";
+                            }
+                            break;
+                        default:
+                            echo "<td>";
+                            echo $valor;
+                            echo "</td>";
+                            break;
+                    }
+                }
+            }
+            echo "</tr>";
+        }
+    }
+}
+
+if ($_POST['funcion'] == "reconocer") {
+    $nombre = $_POST['nombre'];
+    $id_alarma = $_POST['alarma'];
+    $hora = date('Y/m/d H:i:s', time());
+    $recon = $db->reconocerAlarma($id_alarma, $nombre, $hora);
+    if ($recon != false) {
+        echo "bien";
+    } else {
+        echo "fallo al reconocer la alarma";
+    }
+}
+if ($_POST['funcion'] == "detalles") {
+    $id = $_POST['id'];
+    $detalles = $db->obtenerDetallesAlarma($id);
+    if ($detalles != false) {
+        echo json_encode($detalles);
+    } else {
+        echo ' error extrayendo detalles (origen no historizable)';
+    }
+}
+
+```
+
+### 5.2.3 **A_Conexiones.php**
+
+> requiere Database.php, Validador.php
+
+> <span style='color:green'>@params</span> <b>String</b> opcion
+
+Este archivo complementa la sección de comunicaciones y sus funciones son tan solo buscar las ultimas conexiones de las distintas estaciones que tenga un usuario y algunos detalles mas. Crea el <b>HTML</b> de la sección.
+
+```php
+<?php
+require_once '../app/Database/Database.php';
+require '../app/Models/Validador.php';
+$opcion = $_POST['opcion'];
+$db = new Database();
+if ($opcion == 'conex') {
+    $nombre = $_POST['nombre'];
+    $pwd = $_POST['pwd'];
+    $estaciones = $db->mostrarEstacionesCliente($nombre, $pwd);
+    $ultimasConexiones = array();
+    foreach ($estaciones as $estacion) {
+        $ultimasConexiones[$estacion['nombre_estacion']] = $db->ultimaComunicacionEstacion($estacion['id_estacion']);
+    }
+    foreach ($ultimasConexiones as $estacion => $datos) {
+        foreach ($datos[0] as $dato => $valor) {
+            if ($dato == 'valor_date') {
+                if ($valor != null) {
+                    $ultima = new DateTime;
+                    $ultima = DateTime::createFromFormat('Y-m-d H:i:s', $valor);
+                    $ahora = new DateTime("now");
+                    $dif = $ahora->diff($ultima);
+                    $ultimasConexiones[$estacion][0]['estado'] = "correcto";
+                    if ($dif->days >= 1) {
+                        $ultimasConexiones[$estacion][0]['estado'] = "aviso";
+                    }
+                    if ($dif->days >= 2) {
+                        $ultimasConexiones[$estacion][0]['estado'] = "error";
+                    }
+                } else {
+                    $ultimasConexiones[$estacion][0]['estado'] = "aviso";
+                }
+            }
+        }
+    }
+    foreach ($ultimasConexiones as $estacion => $datos) {
+        echo "<tr id='seccionEstacion' name=" . $datos[0]['id_estacion'] . ">";
+        foreach ($datos[0] as $dato => $valor) {
+            if ($dato == 'nombre_estacion') {
+                echo "<td id='secNombre'>";
+                echo $valor;
+                echo "</td>";
+            }
+            if ($dato == 'valor_date') {
+                if ($valor != null) {
+                    echo "<td id='secUltima'>";
+                    echo "Última conexión: " . $valor;
+                    echo "</td>";
+                } else {
+                    echo "<td id='secUltima'>";
+                    echo "Última conexión: desconocida";
+                    echo "</td>";
+                }
+            }
+            if ($dato == 'nombre_tag') {
+            }
+            if ($dato == 'id_estacion') {
+            }
+            if ($dato == 'estado') {
+                if ($valor == "correcto") {
+                    echo "<td id='secEstado'><i class='fas fa-check'></i></td>";
+                }
+                if ($valor == "error") {
+                    echo "<td id='secProblema' class='' style='color:tomato'><i name='alerta' class='fas fa-exclamation-triangle alerta'></i></td>";
+                }
+                if ($valor == "aviso") {
+                    echo "<td id='secProblema'><i name='alerta' class='fas fa-exclamation-triangle alerta'></i></td>";
+                }
+            }
+        }
+        echo "</tr>";
+    }
+}
+
+if ($opcion == 'nom') {
+    $id_estacion = $_POST['estacion'];
+    $estacion = $db->obtenerNombreEstacion($id_estacion);
+    echo ($estacion[0]['nombre_estacion']);
+}
+
+```
+
+### 5.2.4 **A_Estacion.php**
+
+> requiere Database.php
+
+> @ params <b>String</b> opcion, <b>INT</b> id_estacion, <b>String</b> tipo (opcional)
+
+Este archivo se usa en las vistas de estación y dependiendo de la peticion este archivo extrae datos estáticos de estaciones (nombre, ubicación, señales etc) y extrae también valores en tiempo real de estas. Los resultados los devuelve en formato <span style='color:gold'><b>JS</b></span>ON.
+
+```php
+<?php
+require_once '../app/Database/Database.php';
+$DB = new Database();
+$opcion = $_POST['opcion'];
+$id_estacion = $_POST['estacion'];
+$tipo = "";
+if (isset($_POST['tipo'])) {
+    $tipo = $_POST['tipo'];
+}
+if ($opcion == 'actualizar' && $tipo == 'todos') {
+    try {
+        echo json_encode($DB->datosEstacion($id_estacion, true));
+    } catch (Throwable $e) {
+        echo $e;
+    }
+}
+if ($opcion == 'trends') {
+    $datosAnalog = json_decode($_POST['arrTags']);
+    $trendsEstacion = [];
+    foreach ($datosAnalog as $indexTag => $datosTag) {
+        if ($indexTag != null && $datosTag != null) {
+            $tag = $datosTag->id_tag;
+            $trend = $DB->tagTrend($tag, $id_estacion);
+            if ($trend != null || !empty($trend)) {
+                $trendFilt = [];
+                foreach ($trend as $index => $valores) {
+                    foreach ($valores as $nombre => $valor) {
+                        if ($valor != null && $nombre != 'fecha') {
+                            $trendFilt['max'][] = $valor;
+                        }
+                        if ($nombre == 'fecha') {
+                            $trendFilt['fecha'][] = $valor;
+                        }
+                    }
+                }
+                $trendsEstacion[$datosTag->id_tag] = $trendFilt;
+            }
+        }
+    }
+    echo json_encode($trendsEstacion);
+}
+if ($opcion == 'foto') {
+    $foto = $DB->obtenerFotoEstacion($id_estacion);
+    echo $foto;
+}
+if ($opcion == 't_trend') {
+    $datosAnalog = json_decode($_POST['arrTags']);
+    $datosTrends = $DB->tagsTrends($datosAnalog);
+    $arr = array();
+    $arrTrends = array();
+    foreach ($datosTrends as $key => $item) {
+        $arr[$item['id_tag']][$key] = $item;
+    }
+    ksort($arr, SORT_NUMERIC);
+    echo json_encode($arr);
+}
+
+```
+
+### 5.2.5 **A_Graficas.php**
+
+> requiere Database.php
+
+> <span style='color:green'>@params</span> <b>String</b> opcion, <b>INT</b> id_estacion, <b>INT</b> tag (opcional)
+
+Este archivo se usa en la sección de vista rápida en las gráficas. Recolecta las señales disponibles de las distintas estaciones de un usuario y también los valores de estas y sus calculados en función de varios parámetros. Los resultados los devuelve en formato <span style='color:gold'><b>JS</b></span>ON.
+
+```php
+<?php
+require_once '../app/Database/Database.php';
+if (isset($_POST['tag'])) {
+    $id_tag = $_POST['tag'];
+}
+$opcion = $_POST['opcion'];
+$id_estacion = $_POST['estacion'];
+$db = new Database();
+if ($opcion == "render") {
+    $histos = $db->historicosTagEstacion($id_estacion, $id_tag);
+    if ($histos != false) {
+        echo json_encode($histos);
+    } else {
+        echo "error";
+    }
+}
+if ($opcion == "tags") {
+    $tags = $db->tagsEstacion($id_estacion);
+    if ($tags != false) {
+        echo json_encode($tags);
+    } else {
+        echo "error";
+    }
+}
+if ($opcion == "meta") {
+    $metaDatos = $db->metaTag($id_tag, $id_estacion);
+    if ($metaDatos != false) {
+        echo json_encode($metaDatos);
+    } else {
+        echo "error";
+    }
+}
+
+```
+
+### 5.2.6 **A_GraficasCustom.php**
+
+> requiere Database.php, Validador.php
+
+> <span style='color:green'>@params</span> <b>String</b> opcion
+
+Este archivo se usa en las sección de vista personalizada en las gráficas. Recolecta las señales disponibles de las distintas estaciones de un usuario y también los valores de estas y sus calculados en función de varios parámetros. También gestiona los presets de los usuarios siendo capaz de leerlos, aplicarlos y modificarlos. Los resultados los devuelve en formato <span style='color:gold'><b>JS</b></span>ON.
+
+```php
+<?php
+require_once '../app/Database/Database.php';
+require '../app/Models/Validador.php';
+
+$db = new Database();
+$vlr = new Validador();
+$opcion = $_POST['opcion'];
+if ($opcion == 'tag') {
+    $id_estacion = $_POST['estacion'];
+    $id_tag = $_POST['id_tag'];
+    $fechaIni = $_POST['fechaIni'];
+    $fechaFin = $_POST['fechaFin'];
+    $meta = $_POST['meta'];
+    $ajustesMeta = explode("/", $meta);
+    if ($vlr->valFecha($fechaIni) && $vlr->valFecha($fechaFin)) {
+        $info = $db->historicosTagEstacionCustom($id_estacion, $id_tag, $ajustesMeta, $fechaIni, $fechaFin);
+        echo json_encode($info);
+    } else {
+        echo json_encode("fechas no validas");
+    }
+}
+if ($opcion == 'guardar') {
+    $datosPreset = json_decode($_POST['arrDatosPreset']);
+        $usuario = $datosPreset->usuario;
+        $nombre_preset = $datosPreset->nombre;
+        $id_estacion = $datosPreset->id_estacion;
+        $tags_colores = $datosPreset->tags_colores;
+        $resultado = $db->guardarPreset($usuario, $nombre_preset, $id_estacion, $tags_colores);
+    echo $resultado;
+}
+if ($opcion == 'leerPresets') {
+    $datos = json_decode($_POST['arrdatos']);
+    $n_usuario = $datos->nombre;
+    $id_usuario = $db->obtenerIdUsuario($n_usuario);
+    if ($id_usuario) {
+        $presets = $db->leerPresets($id_usuario);
+        if ($_POST['para'] == 'mostrar') {
+            $res = "<option value='none'>Sin preset</option>";
+            foreach ($presets as $index => $datos) {
+                $nombre_preset = substr($datos['configuracion'], 0, strpos($datos['configuracion'], '@'));
+                $res .= "<option value='" . $nombre_preset . "'>" . $nombre_preset . "</option>";
+            }
+            echo $res;
+        }
+        if ($_POST['para'] == 'cargar') {
+            echo json_encode($presets);
+        }
+    }
+}
+if ($opcion == 'borrar') {
+    $datos = json_decode($_POST['arrdatos']);
+    $usuario = $datos->nombre;
+    $id_usuario = $db->obtenerIdUsuario($usuario);
+    if ($id_usuario) {
+        $preset = $_GET['preset'];
+        $db->borrarPreset($preset, $id_usuario);
+    }
+}
+
+```
+
+### 5.2.7 **A_Informes.php**
+
+> requiere Database.php, Koolreport/core/autoload.php, Informecaudales.php, Validador.php
+
+> <span style='color:green'>@params</span> <b>String</b> opcion, <b>TS</b> fechaIni, <b>TS</b> fechaFin, <b>Array</b> nombres
+
+Este archivo se usa en la sección de informes y se encarga de extraer los datos de los informes según una serie de parámetros para despues formatearlos y usar Koolreport y crear el informe.
+
+```php
+<?php
+require_once '../app/Database/Database.php';
+require_once "../app/Libraries/koolreport/core/autoload.php";
+require_once '../app/Models/InformeCaudales.php';
+require '../app/Models/Validador.php';
+use \koolreport\widgets\koolphp\Table;
+$db = new Database();
+$opcion = $_POST['opcion'];
+$fechaIni = $_POST['fechaIni'];
+$fechaFin = $_POST['fechaFin'];
+$nombres = json_decode(($_POST['arrNombres']));
+    if ($opcion == "cau") {
+        $estaciones = json_decode(($_POST['arrEstaciones']));
+        $informesDep = array();
+        $informeDep = array();
+        $informeTabla = array(['estacion', 'señal', 'fecha', 'maximo', 'minimo', 'media']);
+        foreach ($estaciones as $index => $estacion) {
+            $informeDep = $db->informeSeñalEstacion($estacion, 'cau', $fechaIni, $fechaFin);
+            if ($informeDep != null && !empty($informeDep)) {
+                $informesDep[$estacion] = $informeDep;
+                foreach ($informeDep as $señal => $info) {
+                    foreach ($info as $index => $datos) {
+                        $informeTabla[] = [$nombres[$estacion], $señal, $datos['fecha'], $datos['maximo'], $datos['minimo'], $datos['media']];
+                    }
+                }
+            }
+        }
+        $informe = new InformeCaudales($informeTabla);
+        $informe->run()->render();
+        $table = Table::create(array(
+            "dataSource" => $informeTabla,
+            "sorting" => array(
+                "fecha"=>"desc"
+            ),
+            "columns" => array(
+                "fecha" => array(
+                    "cssStyle" => "text-align:left"
+                ),
+                "maximo" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+                "minimo" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+                "media" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+            ),
+            "grouping" => array(
+                "estacion" => array(
+                    "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
+                ),
+                "señal" => array(
+                    "calculate" => array(
+                        "{max}" => array("max", "maximo"),
+                        "{med}" => array("avg", "media"),
+                        "{min}" => array("min", "minimo")
+                    ),
+                    "top" => "<td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Maximo:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
+                    "bottom" => function ($val) {
+                        $fila = "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de " . $val['{señal}'] . ":</b></td>
+                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Maximo: " . $val['{max}'] . "</td>
+                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Minimo: " . $val['{min}'] . "</td>
+                   <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: " . number_format($val['{med}'], 2) . "</td>";
+                        return $fila;
+                    }
+                )
+            ),
+            "showHeader" => false,
+            "cssClass" => array(
+                "table" => "table table-hover table-bordered",
+            ),
+        ));
+    }
+    if ($opcion == "niv") {
+        $estaciones = json_decode(($_POST['arrEstaciones']));
+        $informesDep = array();
+        $informeDep = array();
+        $informeTabla = array(['estacion', 'señal', 'fecha', 'maximo', 'minimo', 'media']);
+        foreach ($estaciones as $index => $estacion) {
+            // $informesDep[] = $estacion;
+            $informeDep = $db->informeSeñalEstacion($estacion, 'niv', $fechaIni, $fechaFin);
+            if ($informeDep != null && !empty($informeDep)) {
+                $informesDep[$estacion] = $informeDep;
+                foreach ($informeDep as $señal => $info) {
+                    foreach ($info as $index => $datos) {
+                        $informeTabla[] = [$nombres[$estacion], $señal, $datos['fecha'], $datos['maximo'], $datos['minimo'], $datos['media']];
+                    }
+                }
+            }
+        }
+        $informe = new InformeCaudales($informeTabla);
+        $informe->run()->render();
+        $table = Table::create(array(
+            "dataSource" => $informeTabla,
+            "sorting" => array(
+                "fecha"=>"desc"
+            ),
+            "columns" => array(
+                "fecha" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+                "maximo" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+                "minimo" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+                "media" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+            ),
+            "grouping" => array(
+                "estacion" => array(
+                    "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
+                ),
+                "señal" => array(
+                    "calculate" => array(
+                        "{max}" => array("max", "maximo"),
+                        "{med}" => array("avg", "media"),
+                        "{min}" => array("min", "minimo")
+                    ),
+                    "top" => "<td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Maximo:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
+                    "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Maximo: {max}</td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Minimo: {min}</td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: {med}</td>",
+                )
+            ),
+            "showHeader" => false,
+            "cssClass" => array(
+                "table" => "table table-hover table-bordered",
+            ),
+        ));
+    }
+    if ($opcion == "acu") {
+        $estaciones = json_decode(($_POST['arrEstaciones']));
+        $informesDep = array();
+        $informeDep = array();
+        $informeTabla = array(['estacion', 'señal', 'fecha', 'valor']);
+        foreach ($estaciones as $index => $estacion) {
+            $informeDep = $db->informeSeñalEstacion($estacion, 'acu', $fechaIni, $fechaFin);
+            if ($informeDep != null && !empty($informeDep)) {
+                $informesDep[$estacion] = $informeDep;
+                foreach ($informeDep as $señal => $info) {
+                    foreach ($info as $index => $datos) {
+                        $informeTabla[] = [$nombres[$estacion], $señal, $datos['fecha'], $datos['valor']];
+                    }
+                }
+            }
+        }
+        $informe = new InformeCaudales($informeTabla);
+        $informe->run()->render();
+        $table = Table::create(array(
+            "dataSource" => $informeTabla,
+            "sorting" => array(
+                "fecha"=>"desc"
+            ),
+            "columns" => array(
+
+                "fecha" => array(
+                    "cssStyle" => "text-align:left"
+                ),
+                "valor" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+            ),
+            "grouping" => array(
+                "estacion" => array(
+                    "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
+                ),
+                "señal" => array(
+                    "calculate" => array(
+                        "{maxi}" => array("sum", "valor"),
+                    ),
+                    "top" => "<td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:left'><b>{señal}:</b></td>
+                            <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>acumulado:</b></td>",
+
+                    "bottom" => "<td  style='background-color:grey;font-size:100%;color:white;'><b>Total de {señal}:</b></td>
+                            <td style='background-color:grey;font-size:100%;color:white;text-align:center'><b>{maxi}</b></td>",
+                )
+            ),
+            "showHeader" => false,
+            "cssClass" => array(
+                "table" => "table table-hover table-bordered",
+            ),
+        ));
+    }
+    if ($opcion == "clo") {
+        $estaciones = json_decode(($_POST['arrEstaciones']));
+        $informesDep = array();
+        $informeDep = array();
+        $informeTabla = array(['estacion', 'señal', 'fecha', 'maximo', 'minimo', 'media']);
+        foreach ($estaciones as $index => $estacion) {
+            $informeDep = $db->informeSeñalEstacion($estacion, 'clo', $fechaIni, $fechaFin);
+            if ($informeDep != null && !empty($informeDep)) {
+                $informesDep[$estacion] = $informeDep;
+                foreach ($informeDep as $señal => $info) {
+                    foreach ($info as $index => $datos) {
+                        $informeTabla[] = [$nombres[$estacion], $señal, $datos['fecha'], $datos['maximo'], $datos['minimo'], $datos['media']];
+                    }
+                }
+            }
+        }
+        $informe = new InformeCaudales($informeTabla);
+        $informe->run()->render();
+        $table = Table::create(array(
+            "dataSource" => $informeTabla,
+            "sorting" => array(
+                "fecha"=>"desc"
+            ),
+            "columns" => array(
+                "fecha" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+                "maximo" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+                "minimo" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+                "media" => array(
+                    "cssStyle" => "text-align:center"
+                ),
+            ),
+            "grouping" => array(
+                "estacion" => array(
+                    "top" => "<td colspan=4 style='background-color:rgb(39,45,79);font-size:120%;color:whitesmoke;'><b>{estacion}:</b></td>",
+                ),
+                "señal" => array(
+                    "calculate" => array(
+                        "{max}" => array("max", "maximo"),
+                        "{med}" => array("avg", "media"),
+                        "{min}" => array("min", "minimo")
+                    ),
+                    "top" => "<td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);'><b>{señal}:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Maximo:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Minimo:</b></td>
+                <td style='background-color:rgb(1, 168, 184);font-size:100%;color:rgba(56, 56, 56);text-align:center'><b>Media:</b></td>",
+                    "bottom" => "<td style='background-color:grey;font-size:100%;color:white;'><b>Resumen de {señal}:</b></td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Maximo: {max}</td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Minimo: {min}</td>
+                <td style='background-color:grey;font-size:100%;color:white;text-align:center'> Media: {med}</td>",
+                )
+            ),
+            "showHeader" => false,
+            "cssClass" => array(
+                "table" => "table table-hover table-bordered",
+            ),
+        ));
+    }
+```
+
+### 5.2.8 **A_Principal.php**
+
+> requiere Database.php
+
+> <span style='color:green'>@params</span> <b>String</b> opcion
+
+Este es el archivo que acompaña a la vista principal.php y gestiona los feeds de las señales que lee como las configuradas por el usuario. También puede leer las configuraciones y modificarlas. Los resultados los devuelve en formato <span style='color:gold'><b>JS</b></span>ON.
+
+### 5.2.9 **A_Reloj.php** --> obsoleta
+
+> requiere Void
+
+> <span style='color:green'>@params</span> Void
+
+Esta sección se cargaba desde el inicio y comprobaba el estado de la sesión en servidor para calcular tiempos fuera de la página. Ya no está en uso y depende del cliente.
+
+### 5.2.10 **A_Sur.php**
+
+> requiere Database.php
+
+> <span style='color:green'>@params</span> <b>String</b> caso
+
+Este archivo es el que gestiona el menú sur de alarmas. Dependiendo de la sección en la que se encuentre, extrae las alarmas que aparecen en el menú sur creando el código <b>HTML</b>.
