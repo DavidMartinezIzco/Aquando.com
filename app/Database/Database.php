@@ -578,7 +578,7 @@ class Database
             $conHistoTagEst = "WITH t as 
             (
              SELECT 
-                to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS ts, 
+             (to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP) - interval '2 hours' AS ts, 
                 AVG(valor_float) AS dob, AVG(valor_acu) AS acu, AVG(valor_int) AS ent
              FROM datos_historicos
              WHERE id_tag = " . $id_tag . " AND fecha::date > current_date::date - interval '7 days'  AND fecha::date < current_date::date
@@ -650,7 +650,7 @@ class Database
             $conHistoTagEst = "WITH t as 
                 (
                 SELECT 
-                    to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS ts, 
+                (to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP) - interval '2 hours' AS ts, 
                     AVG(valor_float) AS dob, AVG(valor_acu) AS acu, AVG(valor_int) AS ent
                 FROM datos_historicos
                 WHERE id_tag = " . $id_tag . " AND cast(extract(epoch from fecha) as integer) < " . $ini . " AND cast(extract(epoch from fecha) as integer) > " . $fin . "
