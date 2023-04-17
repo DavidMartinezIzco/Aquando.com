@@ -137,6 +137,7 @@ function tagsEstacionCustom(id_estacion) {
       url: "/Aquando.com/A_Graficas.php",
       data: { estacion: id_estacion, opcion: "tags" },
       success: function (tags) {
+        console.log(tags);
         document.getElementById("opcionesTag").innerHTML = "";
         var e = 0;
         sessionStorage.setItem("tagsAct", JSON.stringify(tags));
