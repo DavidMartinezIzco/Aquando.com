@@ -224,7 +224,7 @@ function aplicarCustom() {
     //crear linea con fechas entre ambas
     var fechaInicio = document.getElementById("fechaInicio").value;
     var fechaFin = document.getElementById("fechaFin").value;
-
+    
     for (var ajusteTag in ajustesTag) {
       infoTags(
         id_estacion,
@@ -235,6 +235,8 @@ function aplicarCustom() {
         fechaFin
       );
     }
+
+
     setTimeout(function () {
       document.getElementsByName("btnControlAplicar")[0].innerHTML = "aplicar";
       document.getElementById("btnControlCustom").disabled = false;
@@ -254,6 +256,7 @@ function aplicarCustom() {
 }
 //consigue los metadata de un tag
 function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
+  console.log(estacion,ajustesTag,tag,metas,fechaIni,fechaFin);
   var nTags = ajustesTag.length;
   $.ajax({
     type: "POST",
@@ -267,7 +270,8 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
       opcion: "tag",
     },
     success: function (datosTag) {
-      prepararTag(datosTag, tag);
+      console.log(datosTag);
+      prepararTag(datosTag, tag,estacion);
       if (ajustesTag.at(-1) == tag) {
         setTimeout(renderGrafico, nTags * 300);
         // renderGrafico();
@@ -282,7 +286,20 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
 //crea el objeto series con la info de un tag en concreto
 //junta en los series los historicos con los metadatos
 //es un caos pero hace lo que promete
-function prepararTag(info, tag) {
+function prepararTag(info, tag,estacion) {
+  console.log(tag);
+  // if(tag == 362){
+    var ult = 0;
+    for(var a in info["tag"]){
+      if(info["tag"][a]["valor"] != null){
+        ult = info["tag"][a]["valor"];
+      }
+      else{
+        info["tag"][a]["valor"] = ult;
+      }
+    }
+  // }
+
   var fechasTag = [];
   var nombreDato = "Info " + tag;
   var tagsAct = JSON.parse("[" + sessionStorage.getItem("tagsAct") + "]");
@@ -311,7 +328,13 @@ function prepararTag(info, tag) {
   ejesYTagCustom.push(eje);
   serie["name"] = nombreDato;
   serie["symbol"] = "none";
-  serie["connectNulls"] = true;
+  console.log(estacion);
+  if(estacion == 17 || estacion == "17"){
+    serie["connectNulls"] = false;
+
+  }else{
+    serie["connectNulls"] = true;
+  }
   serie["type"] = "line";
   serie["smooth"] = true;
   serie["sampling"] = "lttb";

@@ -648,30 +648,32 @@ class Database
             //EXPERIMENTO 8
             //GENERA SERIES PARA ALINEAR LAS LINEAS DE TIEMPO A 5mins 
             $conHistoTagEst = "WITH t as 
-            (
-             SELECT 
-                to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS ts, 
-                AVG(valor_float) AS dob, AVG(valor_acu) AS acu, AVG(valor_int) AS ent
-             FROM datos_historicos
-             WHERE id_tag = " . $id_tag . " AND cast(extract(epoch from fecha) as integer) < " . $ini . " AND cast(extract(epoch from fecha) as integer) > " . $fin . "
-             GROUP BY ts
-            ),
-            contiguous_ts_list as
-            (
-             select ts from generate_series(
-              (select min(ts) from t),
-              (select max(ts) from t), 
-              interval '5 minutes'
-             ) ts
-            )
-            select * 
-            from contiguous_ts_list 
-            left outer join t using (ts)
-            order by ts;";
+                (
+                SELECT 
+                    to_timestamp(round((extract(epoch from fecha)) / 10) * 10)::TIMESTAMP AS ts, 
+                    AVG(valor_float) AS dob, AVG(valor_acu) AS acu, AVG(valor_int) AS ent
+                FROM datos_historicos
+                WHERE id_tag = " . $id_tag . " AND cast(extract(epoch from fecha) as integer) < " . $ini . " AND cast(extract(epoch from fecha) as integer) > " . $fin . "
+                GROUP BY ts
+                ),
+                contiguous_ts_list as
+                (
+                select ts from generate_series(
+                (select min(ts) from t),
+                (select max(ts) from t), 
+                interval '5 minutes'
+                ) ts
+                )
+                select * 
+                from contiguous_ts_list 
+                left outer join t using (ts)
+                order by ts;";
+
             $resulHistoTagEst = pg_query($this->conexion, $conHistoTagEst);
             if ($this->consultaExitosa($resulHistoTagEst)) {
                 $datosHistoTagEst = pg_fetch_all($resulHistoTagEst);
                 $datosHisto = array();
+                
                 foreach ($datosHistoTagEst as $index => $dato) {
                     $ultVal = null;
                     foreach ($dato as $factor => $valor) {
@@ -688,6 +690,7 @@ class Database
                         }
                     }
                 }
+                
                 //devolver array unico con las "series" y el "meta" del tag
                 $seriesTagCustom['tag'] = $datosHisto;
             } else {

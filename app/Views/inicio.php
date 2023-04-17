@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    
     <title>Aquando</title>
     <meta name="description" content="Aquando: powered by Dateando">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
