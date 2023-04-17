@@ -84,13 +84,12 @@ function exportCSV() {
     codcsv += datosCSV[b].nombre + ":" + "\n";
     codcsv += "fechas:;Valor:\n";
     for (var c = 0; c < datosCSV[b]["fechas"].length; c++) {
-      if (datosCSV[b]["valores"][c] != null){
+      if (datosCSV[b]["valores"][c] != null) {
         codcsv +=
           datosCSV[b]["fechas"][c] + ";" + datosCSV[b]["valores"][c] + ";\n";
-      }else{
-        codcsv +=
-          datosCSV[b]["fechas"][c] + ";" + "---" + ";\n";
-      }        
+      } else {
+        codcsv += datosCSV[b]["fechas"][c] + ";" + "---" + ";\n";
+      }
     }
   }
   descargarArchivoCSV(codcsv, nombre_informe);
@@ -137,7 +136,6 @@ function tagsEstacionCustom(id_estacion) {
       url: "/Aquando.com/A_Graficas.php",
       data: { estacion: id_estacion, opcion: "tags" },
       success: function (tags) {
-        console.log(tags);
         document.getElementById("opcionesTag").innerHTML = "";
         var e = 0;
         sessionStorage.setItem("tagsAct", JSON.stringify(tags));
@@ -225,7 +223,7 @@ function aplicarCustom() {
     //crear linea con fechas entre ambas
     var fechaInicio = document.getElementById("fechaInicio").value;
     var fechaFin = document.getElementById("fechaFin").value;
-    
+
     for (var ajusteTag in ajustesTag) {
       infoTags(
         id_estacion,
@@ -236,7 +234,6 @@ function aplicarCustom() {
         fechaFin
       );
     }
-
 
     setTimeout(function () {
       document.getElementsByName("btnControlAplicar")[0].innerHTML = "aplicar";
@@ -257,7 +254,6 @@ function aplicarCustom() {
 }
 //consigue los metadata de un tag
 function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
-  console.log(estacion,ajustesTag,tag,metas,fechaIni,fechaFin);
   var nTags = ajustesTag.length;
   $.ajax({
     type: "POST",
@@ -271,8 +267,7 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
       opcion: "tag",
     },
     success: function (datosTag) {
-      console.log(datosTag);
-      prepararTag(datosTag, tag,estacion);
+      prepararTag(datosTag, tag, estacion);
       if (ajustesTag.at(-1) == tag) {
         setTimeout(renderGrafico, nTags * 300);
         // renderGrafico();
@@ -287,18 +282,16 @@ function infoTags(estacion, ajustesTag, tag, metas, fechaIni, fechaFin) {
 //crea el objeto series con la info de un tag en concreto
 //junta en los series los historicos con los metadatos
 //es un caos pero hace lo que promete
-function prepararTag(info, tag,estacion) {
-  console.log(tag);
+function prepararTag(info, tag, estacion) {
   // if(tag == 362){
-    var ult = 0;
-    for(var a in info["tag"]){
-      if(info["tag"][a]["valor"] != null){
-        ult = info["tag"][a]["valor"];
-      }
-      else{
-        info["tag"][a]["valor"] = ult;
-      }
+  var ult = 0;
+  for (var a in info["tag"]) {
+    if (info["tag"][a]["valor"] != null) {
+      ult = info["tag"][a]["valor"];
+    } else {
+      info["tag"][a]["valor"] = ult;
     }
+  }
   // }
 
   var fechasTag = [];
@@ -329,11 +322,10 @@ function prepararTag(info, tag,estacion) {
   ejesYTagCustom.push(eje);
   serie["name"] = nombreDato;
   serie["symbol"] = "none";
-  console.log(estacion);
-  if(estacion == 17 || estacion == "17"){
-    serie["connectNulls"] = false;
 
-  }else{
+  if (estacion == 17 || estacion == "17") {
+    serie["connectNulls"] = false;
+  } else {
     serie["connectNulls"] = true;
   }
   serie["type"] = "line";

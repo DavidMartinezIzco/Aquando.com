@@ -42,7 +42,7 @@ function imprimir() {
     jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
   };
   var exp_informe = new html2pdf(informe, opt);
-  exp_informe.getPdf(true).then((pdf) => { });
+  exp_informe.getPdf(true).then((pdf) => {});
 }
 //crea un objeto csv de la tabla de alarmas
 function exportarCSV() {
@@ -61,7 +61,7 @@ function exportarCSV() {
     }
     datosExp.push(fila.join(";"));
   }
-  console.log(datosExp.join("\n"));
+
   descargarArchivoCSV(datosExp.join("\n"), nombre_informe);
 }
 //descarga el objeto CSV
@@ -132,7 +132,6 @@ function actualizar(reorden) {
         },
         error: function (e) {
           console.log("error");
-          // console.log(e);
         },
       });
     });
@@ -172,7 +171,6 @@ function filtrarPorEstacion() {
           document.getElementById("tablaAlarmas").innerHTML = alarmas;
         },
         error: function (e) {
-          // console.log(e);
           console.log("error");
         },
       });

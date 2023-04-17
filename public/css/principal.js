@@ -375,7 +375,6 @@ function feedPrincipalCustom() {
         },
         error: function (e) {
           console.log("error feed principal analog");
-          // console.log(e);
         },
         dataType: "json",
       });

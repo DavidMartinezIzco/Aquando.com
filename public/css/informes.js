@@ -49,7 +49,6 @@ function exportarCSV() {
     }
     datosExp.push(fila.join(";"));
   }
-  // console.log(datosExp.join("\n"));
   descargarArchivoCSV(datosExp.join("\n"), nombre_informe);
 }
 //descarga el archivo CSV
@@ -85,7 +84,7 @@ function pasarAPDF() {
     jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
   };
   var exp_informe = new html2pdf(informe, opt);
-  exp_informe.getPdf(true).then((pdf) => { });
+  exp_informe.getPdf(true).then((pdf) => {});
 }
 //elimina los ajustes
 function reset() {

@@ -77,7 +77,6 @@ function trendsTagsv2() {
           montarWidgetsDigi();
           sessionStorage.setItem("trend_arrTags", JSON.stringify(arrTags));
           sessionStorage.setItem("trend_todoTrends", JSON.stringify(arrTrends));
-          // console.log(arrTrends);
         },
         error: function () {
           console.log("error");
@@ -884,10 +883,8 @@ function planningsAltBd() {
         },
         success: function (datos) {
           sessionStorage.setItem("planningsAltBd_estacion") = nestacion;
-          console.log(datos);
         },
         error: function (e) {
-          // console.log(e);
           console.log("error");
         },
         dataType: "json",
@@ -918,10 +915,8 @@ function leerConfigPlaning(recurso) {
         );
         sessionStorage.setItem("leerConfigPlaning_wid", wid);
         sessionStorage.setItem("leerConfigPlaning_rec") = recurso;
-        console.log(datos);
       },
       error: function (e) {
-        // console.log(e);
         console.log("error");
       },
       dataType: "json",
@@ -946,7 +941,6 @@ function modPlanning(ref, config) {
         }
       },
       error: function (e) {
-        // console.log(e);
         console.log("error");
       },
       dataType: "json",
